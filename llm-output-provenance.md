@@ -6,9 +6,6 @@ permalink: /llm-output-provenance/
 
 [← All patterns](../)
 
-# LLM Output Provenance
-
-
 **Example (Zeeguu):** When the system generates example sentences with a given word to be used in exercises, it stores which model and prompt version produced each result. When a prompt is improved, the system can identify and regenerate stale outputs without reprocessing everything. 
 
 **Forces:** LLM-generated data that enters persistent storage becomes a long-lived asset, but models and prompts improve over time. Without knowing how a piece of data was generated, you cannot selectively regenerate it when better models or prompts become available. Prompts evolve more frequently than model versions and can have a larger impact on output quality.

@@ -6,9 +6,6 @@ permalink: /llm-checking-llm/
 
 [← All patterns](../)
 
-# LLM-Checking-LLM
-
-
 **Example (Zeeguu):** After generating contextual example sentences for vocabulary words, a second LLM call reviews the examples for accuracy, naturalness, and appropriate difficulty level.
 
 **Forces:** LLMs are imprecise generators, but verification of specific properties (e.g., grammatical correctness) is a more constrained task than open-ended generation (e.g., text simplification). A second, focused LLM call can catch errors that the first, more complex call introduced.

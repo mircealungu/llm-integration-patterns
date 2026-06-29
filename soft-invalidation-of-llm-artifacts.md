@@ -6,9 +6,6 @@ permalink: /soft-invalidation-of-llm-artifacts/
 
 [← All patterns](../)
 
-# Soft Invalidation of LLM Artifacts
-
-
 **Example (Zeeguu):** When the prompt that generates audio lesson scripts was improved, the ~900 stored `audio_lesson_meaning` rows produced under the previous prompt were neither regenerated eagerly nor deleted. Instead, each affected row received a `deprecated_at` timestamp, and the cache-lookup helper (`AudioLessonMeaning.find()`) was gated to skip deprecated rows. New daily lessons request a fresh row and trigger regeneration under the new prompt; existing daily lessons that already reference a deprecated row keep playing their old audio without breaking.
 
 **Forces:** When a prompt or model improves, the obvious responses each have a serious drawback:

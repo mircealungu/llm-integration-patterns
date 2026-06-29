@@ -53,7 +53,9 @@ def main():
         num = os.path.basename(path)[:2]
 
         if num == "00":
-            home_body = strip_working_notes(text)
+            # The cayman hero shows the title, so drop the body's leading H1.
+            home_body = re.sub(r"^\s*# .+$", "", strip_working_notes(text),
+                               count=1, flags=re.M).lstrip()
             continue
 
         splits = bool(re.search(r"^## ", text, re.M)) and \
@@ -70,7 +72,7 @@ def main():
                 s = slug(name)
                 page = (front_matter(name, f"/{s}/")
                         + "\n[← All patterns](../)\n\n"
-                        + f"# {name}\n{body.rstrip()}\n\n"
+                        + f"{body.strip()}\n\n"
                         + "[← All patterns](../)\n")
                 open(os.path.join(ROOT, f"{s}.md"), "w", encoding="utf-8").write(page)
                 pats.append((name, s))
@@ -80,7 +82,7 @@ def main():
             body = re.sub(r"^# .+$", "", text, count=1, flags=re.M).strip()
             page = (front_matter(ctitle, f"/{s}/")
                     + "\n[← All patterns](../)\n\n"
-                    + f"# {ctitle}\n\n{body}\n\n"
+                    + f"{body}\n\n"
                     + "[← All patterns](../)\n")
             open(os.path.join(ROOT, f"{s}.md"), "w", encoding="utf-8").write(page)
             catalogue.append((ctitle, [], s))

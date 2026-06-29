@@ -6,9 +6,6 @@ permalink: /prompt-amortization/
 
 [← All patterns](../)
 
-# Prompt Amortization
-
-
 **Example (Zeeguu):** A prompt that verifies whether a word-translation pair is correct requires substantial instructions (explaining what constitutes a valid translation, edge cases, output format). The actual input — a word and its translation — is tiny. Instead of sending one request per word pair, we pack dozens of pairs into a single prompt. Similarly, when generating example sentences for words users will study, we batch the generation for all words in one call. This pattern combines naturally with pre-computation: because results are computed offline, we have the luxury of batching. Article simplification generates all CEFR-level variants (A1, A2, B1, B2) in one call, with the prompt instructing the model to output a JSON object keyed by level. This reduces four API calls to one, cutting cost by ~75%.
 
 **Forces:** Many LLM tasks involve a large instructional preamble (the system prompt explaining the task) and a small variable input. Sending individual requests wastes the prompt overhead, both in cost and latency.

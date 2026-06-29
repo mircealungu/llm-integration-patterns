@@ -6,9 +6,6 @@ permalink: /multiplexed-dispatch/
 
 [← All patterns](../)
 
-# Multiplexed Dispatch
-
-
 **Example (Zeeguu):** Real-time translations are dispatched to multiple translation providers in parallel. The first response is used, and the rest are saved for when the user asks for alternatives. 
 
 **Forces:** Multiple LLM providers offer similar capabilities but with varying latency. When speed matters for user experience, relying on a single provider creates a bottleneck.
