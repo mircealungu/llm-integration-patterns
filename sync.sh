@@ -1,7 +1,9 @@
 #!/bin/bash
-# Sync the AI Patterns content from the Obsidian vault into this repo and push.
-# Mirrors the mircealungu.com publish pattern: vault is the editing surface,
-# this repo (outside iCloud) is the git source of truth + GitHub Pages site.
+# Publish the AI Patterns paper: pull chapter sources from the Obsidian vault,
+# build the multi-page Jekyll site, commit, and push.
+#
+# Vault is the editing surface; this repo (outside iCloud) is the git source of
+# truth + GitHub Pages site (served at patterns.mircealungu.com once DNS is set).
 
 cd "$(dirname "$0")"
 [ -f ~/.local_envvars.sh ] && source ~/.local_envvars.sh
@@ -11,64 +13,37 @@ if [ -z "$AIPAT_VAULT" ] || [ -z "$AIPAT_REPO" ]; then
     exit 1
 fi
 
-# Pull the chapter Markdown from the vault. Repo-only files are excluded so
-# --delete does not wipe them, and the stale Google-Doc export is left behind.
+# Chapter sources live in _src/ (underscore = ignored by Jekyll). The stale
+# Google-Doc export is left behind in the vault.
+mkdir -p "$AIPAT_REPO/_src"
 rsync -a --delete \
-    --exclude='.git/' \
-    --exclude='.gitignore' \
+    --exclude='.DS_Store' \
     --exclude='.obsidian' \
     --exclude='sync.sh' \
-    --exclude='README.md' \
-    --exclude='_config.yml' \
-    --exclude='index.md' \
     --exclude='(Design_)*' \
-    "$AIPAT_VAULT" "$AIPAT_REPO"
+    "$AIPAT_VAULT" "$AIPAT_REPO/_src/"
 
-# Build the single-page GitHub Pages document from the numbered chapters.
-{
-    echo "---"
-    echo "title: Architectural Patterns for Integrating LLMs into User-Facing Applications"
-    echo "---"
-    echo
-    for f in [0-9]*.md; do
-        cat "$f"
-        echo
-        echo
-    done
-} > index.md
+# Explode chapters into a home page + one page per pattern.
+python3 build.py
 
-# Stage any new untracked files.
-NEW_FILES=$(git ls-files --others --exclude-standard)
-if [ -n "$NEW_FILES" ]; then
-    if [ "$1" = "--non-interactive" ]; then
-        git add -A
-    else
-        echo "New untracked files:"
-        echo "$NEW_FILES"
-        echo ""
-        read -p "Add and commit these new files? (y/n) " answer
-        [ "$answer" != "y" ] && exit 0
-        git add -A
-    fi
-fi
-
-# Anything to commit?
-if git diff --quiet HEAD && git diff --quiet --cached HEAD; then
+# Commit + push.
+if [ -z "$(git status --porcelain)" ]; then
     echo "No changes to commit."
     exit 0
 fi
 
 if [ "$1" = "--non-interactive" ]; then
-    git commit -aqm "update patterns"
+    git add -A
+    git commit -qm "update patterns"
     git push --quiet
     echo "Pushed."
 else
-    echo ""
-    git --no-pager diff --stat HEAD
+    git add -A
+    git --no-pager diff --cached --stat
     echo ""
     read -p "Commit all and push? (y/n) " answer
     [ "$answer" != "y" ] && exit 0
-    git commit -aqm "update patterns"
+    git commit -qm "update patterns"
     git push
     echo "Pushed."
 fi
