@@ -4,7 +4,9 @@ title: "Hybrid Classical+LLM Pipeline"
 permalink: /hybrid-classical-llm-pipeline/
 ---
 
+
 [← All patterns](../)
+
 
 **Example (Zeeguu)**: Multi-word expression (MWE) detection uses Stanza's dependency parser to identify candidate phrases (fast, high recall), then sends candidates to an LLM to filter out false positives based on semantic analysis (slower, high precision). This achieves better F1 than either approach alone, at a fraction of the cost of LLM-only detection.    
 
@@ -14,4 +16,7 @@ permalink: /hybrid-classical-llm-pipeline/
 
 **Tradeoff**: Requires maintaining two systems, but the cost savings from not sending every input to the LLM typically justify the complexity.
 
-[← All patterns](../)
+
+
+---
+[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHybrid+Classical%2BLLM+Pipeline%5D+&labels=feedback%2Chybrid-pipeline&body=%2A%2ARe%3A%2A%2A+Hybrid+Classical%2BLLM+Pipeline%0A%2A%2ASection%3A%2A%2A+Hybrid+Pipeline+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fhybrid-classical-llm-pipeline%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

@@ -4,7 +4,9 @@ title: "Related Work"
 permalink: /related-work/
 ---
 
+
 [← All patterns](../)
+
 
 To our knowledge, no peer-reviewed work presents a catalog of architectural patterns for integrating LLMs as components into existing production systems, grounded in real deployment experience and described using the standard pattern format (context, forces, solution, consequences). Our patterns addressing lifecycle management (Wizard of Oz, LLM as Fallback), cost optimization (Pre-computation, Prompt Amortization, Multiplexed Dispatch), quality assurance (LLM-Checking-LLM, Validation Tracking), and data management (Provenance) appear to be novel contributions.
 
@@ -28,4 +30,7 @@ A recent **systematic literature review on software architecture and LLMs** (Sch
 
 LLM self-verification. For the *LLM-Checking-LLM pattern*, there is relevant work on **LLM self-verification**. Gero et al. (2023) demonstrated that self-verification improves clinical information extraction accuracy, explicitly building on the asymmetry between verification and generation. However, Stechly et al. (2024) showed that self-critique fails for formal reasoning tasks, finding significant performance collapse with self-verification but gains with external verification. Our pattern differs from both in that it uses separate, differently-prompted LLM calls for generation and verification of different properties (e.g., text simplification followed by grammatical correction), rather than asking an LLM to verify its own reasoning.
 
-[← All patterns](../)
+
+
+---
+[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this section](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BRelated+Work%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Related+Work%0A%2A%2ASection%3A%2A%2A+Related+Work%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Frelated-work%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

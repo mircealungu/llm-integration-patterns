@@ -4,7 +4,9 @@ title: "Multiplexed Dispatch"
 permalink: /multiplexed-dispatch/
 ---
 
+
 [← All patterns](../)
+
 
 **Example (Zeeguu):** Real-time translations are dispatched to multiple translation providers in parallel. The first response is used, and the rest are saved for when the user asks for alternatives. 
 
@@ -16,4 +18,7 @@ An alternative to this is **live retrieval**: when the user encounters a transla
 
 **Tradeoff:** Increased cost (you pay for redundant calls) in exchange for reduced latency.
 
-[← All patterns](../)
+
+
+---
+[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BMultiplexed+Dispatch%5D+&labels=feedback%2Clatency-availability&body=%2A%2ARe%3A%2A%2A+Multiplexed+Dispatch%0A%2A%2ASection%3A%2A%2A+Latency+%2F+Availability+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fmultiplexed-dispatch%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

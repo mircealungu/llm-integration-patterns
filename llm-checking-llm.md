@@ -4,7 +4,9 @@ title: "LLM-Checking-LLM"
 permalink: /llm-checking-llm/
 ---
 
+
 [← All patterns](../)
+
 
 **Example (Zeeguu):** After generating contextual example sentences for vocabulary words, a second LLM call reviews the examples for accuracy, naturalness, and appropriate difficulty level.
 
@@ -14,4 +16,7 @@ permalink: /llm-checking-llm/
 
 **Note:** This is distinct from ensemble methods or chain-of-thought — the key insight is that checking is a fundamentally easier task than generating, and this asymmetry can be exploited architecturally.
 
-[← All patterns](../)
+
+
+---
+[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BLLM-Checking-LLM%5D+&labels=feedback%2Cquality-assurance&body=%2A%2ARe%3A%2A%2A+LLM-Checking-LLM%0A%2A%2ASection%3A%2A%2A+Quality+Assurance+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fllm-checking-llm%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
