@@ -14,7 +14,7 @@ permalink: /temperature-as-task-selector/
 
 **Solution:** Systematically vary temperature based on task type. Use temperature 0–0.3 for tasks requiring consistency (validation, classification, structured extraction). Use temperature 0.7–1.0 for tasks requiring creativity (dialogue generation, example variety).
 
-**Note:** This pattern acknowledges that a single LLM can behave as multiple "virtual components" depending on configuration — deterministic validator vs. creative generator.
+**Note:** This pattern acknowledges that a single LLM can behave as multiple "virtual components" depending on configuration: deterministic validator vs. creative generator.
 
 
 

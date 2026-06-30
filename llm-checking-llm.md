@@ -14,7 +14,7 @@ permalink: /llm-checking-llm/
 
 **Solution:** Use one LLM call to generate a result, then use a separate LLM call to check or refine it. The verification prompt can be simpler and more focused than the generation prompt.
 
-**Note:** This is distinct from ensemble methods or chain-of-thought — the key insight is that checking is a fundamentally easier task than generating, and this asymmetry can be exploited architecturally.
+**Note:** This is distinct from ensemble methods or chain-of-thought: the key insight is that checking is a fundamentally easier task than generating, and this asymmetry can be exploited architecturally.
 
 
 
