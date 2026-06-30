@@ -19,7 +19,7 @@ The source lives in [`_src/`](_src/) and mirrors the site one-to-one:
 
 To **add a pattern**, drop a `# Pattern Name` file into the right category folder. To **add a category**, make a new numbered folder. The leading `NN ` on folders and files only sets ordering; it is stripped from the displayed title. Page URLs come from the pattern name (its *slug*), not the file path, so moving or renumbering files never changes a URL.
 
-At publish time, [`build.py`](build.py) assembles the multi-page site: a home page (`index.md`) with the intro and a catalogue, one page per pattern, one per case study, and the prose pages. It also auto-links `*Pattern Name*` cross-references and turns `![[image]]` embeds into responsive figures. **The generated `.md` files at the repo root are produced by the build — do not hand-edit them.**
+At publish time, [`build.py`](build.py) assembles the multi-page site: a home page (`index.md`) with the intro and a catalogue, one page per pattern, one per case study, and the prose pages. It also auto-links `*Pattern Name*` cross-references and turns `![[image]]` embeds into responsive figures. **The generated `.md` files at the repo root are produced by the build; do not hand-edit them.**
 
 ## Contributing
 
