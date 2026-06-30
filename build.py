@@ -19,6 +19,9 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(ROOT, "_src")
 REPO = "mircealungu/llm-integration-patterns"
 SITE = "https://patterns.mircealungu.com"
+TITLE = ("Architectural Patterns for Integrating LLMs "
+         "into User-Facing Applications")
+SUBTITLE = "Lessons from a language-learning platform"
 
 used_labels = set()
 
@@ -38,9 +41,12 @@ def strip_working_notes(text: str) -> str:
     )
 
 
-def front_matter(title: str, permalink: str) -> str:
+def front_matter(title: str, permalink: str, description: str = None) -> str:
     safe = title.replace('"', "'")
-    return f'---\nlayout: default\ntitle: "{safe}"\npermalink: {permalink}\n---\n'
+    fm = f'---\nlayout: default\ntitle: "{safe}"\n'
+    if description:
+        fm += f'description: "{description}"\n'
+    return fm + f"permalink: {permalink}\n---\n"
 
 
 def issue_link(name, slug_path, noun, section=None, label=None):
@@ -69,9 +75,10 @@ def footer(issue, back=None):
     return f"\n\n---\n[← {back}](../) &nbsp;·&nbsp; {issue}\n"
 
 
-def write(slug_path, fm_title, back, body, issue, home=False):
+def write(slug_path, fm_title, back, body, issue, home=False, description=None):
     fname = "index.md" if home else f"{slug_path}.md"
-    parts = [front_matter(fm_title, f"/{slug_path}/" if slug_path else "/")]
+    parts = [front_matter(fm_title, f"/{slug_path}/" if slug_path else "/",
+                          description)]
     if back:
         parts.append(f"\n[← {back}](../)\n")
     parts.append("\n" + body.strip() + "\n")
@@ -168,8 +175,8 @@ def main():
         lines += [f"- [{c}]({p}/)" for c, p in extras]
         lines.append("")
     home_issue = issue_link("the paper", "", "this paper")
-    write("", "Architectural Patterns for Integrating LLMs into User-Facing "
-          "Applications", None, "\n".join(lines), home_issue, home=True)
+    write("", TITLE, None, "\n".join(lines), home_issue, home=True,
+          description=SUBTITLE)
 
     pages = len(glob.glob(os.path.join(ROOT, "*.md")))
     print(f"Built {pages} pages. Labels used: {sorted(used_labels)}")

@@ -1,6 +1,4 @@
-# Architectural Patterns for Integrating LLMs into User-Facing Learning Software
-
-Note about the title: I think the User-Facing needs to be there. And learning, I'm not sure.
+# Architectural Patterns for Integrating LLMs into User-Facing Applications
 
 ### What is this?
 
