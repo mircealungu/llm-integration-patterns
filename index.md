@@ -41,7 +41,7 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 - [Prompt Amortization](prompt-amortization/)
 - [Escalate to the LLM](escalate-to-the-llm/)
 
-### Latency / Availability Patterns
+### Latency and Availability Patterns
 - [Pre-Computing Likely-Needed Results](pre-computing-likely-needed-results/)
 - [Hot-Path Result Caching](hot-path-result-caching/)
 - [Multiplexed Dispatch](multiplexed-dispatch/)

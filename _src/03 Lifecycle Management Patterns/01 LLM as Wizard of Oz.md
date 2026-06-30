@@ -1,6 +1,4 @@
-# Lifecycle Management Patterns
-
-## LLM as Wizard of Oz
+# LLM as Wizard of Oz
 
 **Example (Zeeguu):** Topic classification of articles is currently performed by pasting the abstract into an LLM. This works but is expensive. Once we are satisfied with the topic taxonomy and have accumulated enough labeled data, we will switch to a dedicated topic detection framework.
 

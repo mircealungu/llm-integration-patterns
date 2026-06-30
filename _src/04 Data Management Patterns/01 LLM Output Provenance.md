@@ -1,6 +1,4 @@
-# Data Management Patterns
-
-## LLM Output Provenance
+# LLM Output Provenance
 
 **Example (Zeeguu):** When the system generates example sentences with a given word to be used in exercises, it stores which model and prompt version produced each result. When a prompt is improved, the system can identify and regenerate stale outputs without reprocessing everything. 
 

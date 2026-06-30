@@ -153,8 +153,18 @@ def clean_generated():
             os.remove(f)
 
 
+def read_page(path):
+    """Return (title, body) for a source .md: title from its `# H1` (falling
+    back to the filename without its NN- prefix), body = everything after."""
+    text = render_embeds(open(path, encoding="utf-8").read())
+    m = re.search(r"^# (.+)$", text, re.M)
+    title = (m.group(1).strip() if m
+             else re.sub(r"^\d+\s+", "", os.path.basename(path)[:-3]))
+    body = re.sub(r"^# .+$", "", text, count=1, flags=re.M).strip()
+    return title, body
+
+
 def main():
-    chapters = sorted(glob.glob(os.path.join(SRC, "[0-9]*.md")))
     clean_generated()
 
     home_body = ""
@@ -163,52 +173,46 @@ def main():
     pending = []     # (slug, title, back, body, issue, home, description)
     name2slug = {}   # page name -> slug, for cross-reference auto-linking
 
-    for path in chapters:
-        text = render_embeds(open(path, encoding="utf-8").read())
-        m = re.search(r"^# (.+)$", text, re.M)
-        ctitle = (m.group(1).strip() if m else os.path.basename(path))
-        num = os.path.basename(path)[:2]
+    # Walk top-level entries in order. A numbered FOLDER is a pattern category
+    # (folder name = title); each .md inside is one pattern. A numbered FILE is
+    # the intro (00), a case study, or a prose section (Related Work, etc.).
+    for entry in sorted(os.listdir(SRC)):
+        full = os.path.join(SRC, entry)
 
-        if "case stud" in ctitle.lower():
-            # A whole file titled "Case Study: X" becomes its own page,
-            # listed under "## Case Studies" on the home page. Checked before
-            # the intro test because these files also start with "00".
-            name = re.sub(r"(?i)^(main\s+)?case stud(y|ies):?\s*",
-                          "", ctitle).strip() or ctitle
-            body = re.sub(r"^# .+$", "", text, count=1, flags=re.M).strip()
-            case_studies.append((name, slug(name), body))
-            name2slug[name] = slug(name)
-            continue
-
-        if num == "00":
-            intro = strip_working_notes(text)
-            home_body = re.sub(r"^\s*# .+$", "", intro, count=1,
-                               flags=re.M).strip()
-            continue
-
-        splits = bool(re.search(r"^## ", text, re.M)) and \
-            ctitle.rstrip("?").strip().endswith("Patterns")
-
-        if splits:
-            label = section_label(ctitle)
-            chunks = re.split(r"^(## .+)$", text, flags=re.M)[1:]
+        if os.path.isdir(full):
+            if not re.match(r"\d", entry):
+                continue
+            cat = re.sub(r"^\d+\s+", "", entry)
+            label = section_label(cat)
             pats = []
-            for j in range(0, len(chunks), 2):
-                name = chunks[j][3:].strip()
-                body = chunks[j + 1] if j + 1 < len(chunks) else ""
+            for pf in sorted(glob.glob(os.path.join(full, "*.md"))):
+                name, body = read_page(pf)
                 s = slug(name)
-                il = issue_link(name, s, "this pattern", section=ctitle, label=label)
+                il = issue_link(name, s, "this pattern", section=cat, label=label)
                 pending.append((s, name, "All patterns", body, il, False, None))
                 name2slug[name] = s
                 pats.append((name, s))
-            catalogue.append((ctitle, pats, None))
+            if pats:
+                catalogue.append((cat, pats, None))
+            continue
+
+        if not entry.endswith(".md") or not re.match(r"\d", entry):
+            continue
+        title, body = read_page(full)
+
+        if "case stud" in title.lower():
+            name = re.sub(r"(?i)^(main\s+)?case stud(y|ies):?\s*",
+                          "", title).strip() or title
+            case_studies.append((name, slug(name), body))
+            name2slug[name] = slug(name)
+        elif entry[:2] == "00":
+            home_body = strip_working_notes(body).strip()
         else:
-            s = slug(ctitle)
-            body = re.sub(r"^# .+$", "", text, count=1, flags=re.M).strip()
-            il = issue_link(ctitle, s, "this section", section=ctitle)
-            pending.append((s, ctitle, "All patterns", body, il, False, None))
-            name2slug[ctitle] = s
-            catalogue.append((ctitle, [], s))
+            s = slug(title)
+            il = issue_link(title, s, "this section", section=title)
+            pending.append((s, title, "All patterns", body, il, False, None))
+            name2slug[title] = s
+            catalogue.append((title, [], s))
 
     # Case study pages (e.g. the Zeeguu case study).
     for name, cs_slug, body in case_studies:
