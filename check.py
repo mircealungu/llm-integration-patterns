@@ -40,12 +40,15 @@ added = [ln[1:] for ln in diff.splitlines()
 #   "Do Not Address the Reader" and "Never Use The Word Interesting".
 VOICE = re.compile(r"\b(you|your|you're|you'll|yourself)\b", re.I)
 INTERESTING = re.compile(r"\binteresting\b", re.I)
+EMDASH = re.compile(r"—")  # the classic AI tell — prefer commas/parens/colons
 PLACEHOLDER = re.compile(r"\bTODO\b|\bFIXME\b|\bTK\b|\bXXX\b|(\.\.\.|…)\s*$")
 for ln in added:
     if VOICE.search(ln):
         warnings.append(f"second-person voice: {ln.strip()[:90]}")
     if INTERESTING.search(ln):
         warnings.append(f"'interesting' (writing rule): {ln.strip()[:90]}")
+    if EMDASH.search(ln):
+        warnings.append(f"em-dash —: {ln.strip()[:90]}")
     if PLACEHOLDER.search(ln):
         warnings.append(f"placeholder/TODO: {ln.strip()[:90]}")
 
