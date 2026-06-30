@@ -64,6 +64,7 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 - [Temperature as Task Selector](temperature-as-task-selector/)
 - [Soft Invalidation of LLM Artifacts](soft-invalidation-of-llm-artifacts/)
 - [Deterministic Postprocessing](deterministic-postprocessing/)
+- [Self-Hosted Slow-Path Inference](self-hosted-slow-path-inference/)
 
 ## More
 

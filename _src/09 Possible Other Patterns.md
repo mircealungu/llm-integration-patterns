@@ -42,3 +42,18 @@ None of these are good defaults for production systems where LLM-generated artif
 **Solution:** Enforce deterministic constraints in code, at the post-processing or serialization boundary. Reserve prompt instructions for things that genuinely require model judgment.
 
 **Notes:** The boundary between "deterministic" and "semantic" is the test. *Strip a trailing `…`*: deterministic, do it in code. *Don't mention the user's name*: semantic, the model has to enforce. When the deterministic rule list grows long, that is itself a signal that the task is poorly scoped, not that the prompt needs more rules.
+
+## Self-Hosted Slow-Path Inference
+
+**Example (Zeeguu, prospective):** This pattern is not yet implemented. The plan: overnight, a Mac Studio at home drains a queue of slow, batchable jobs that today run against paid APIs (translation validation, example-sentence checking, CEFR pre-classification). A worker on the Mac polls the Zeeguu server over outbound HTTPS, runs each job on a local model (e.g. via Ollama), and posts the result back. Anything not processed by a morning deadline falls back to the cloud API.
+
+**Forces:** API usage is the dominant variable cost of an LLM integration, yet a large share of the work is latency-insensitive: pre-computed, batched, offline (see *Pre-Computing Likely-Needed Results*, *Prompt Amortization*). Capable open models now run on prosumer hardware (for example a Mac Studio with large unified memory) that is already owned and sits idle at night. The obstacle is connectivity: such a machine usually sits behind NAT with no public IP, and opening inbound ports adds an attack surface its owner does not want.
+
+**Solution:** Run the latency-insensitive tasks on a local model on the owned hardware, and connect it outbound-only. The server enqueues jobs; a worker on the home machine polls that queue over HTTPS, runs each job on a local runtime, and posts the result back. The home machine exposes nothing: no public IP, no inbound ports, no listening service, only outbound calls to the server that already exists.
+
+**Consequences:** Trades API cost for sunk hardware and electricity, on the slow path only; real-time paths still use the cloud. Local model quality and throughput are lower, so the cloud API stays as a deadline-bound fallback (composes with *Fail-Fast Provider Chain* and *Escalate to the LLM*): if the home worker has not drained the queue by the time results are needed, the cloud takes over. Availability is best-effort, since the machine may be asleep or off, so only work that can wait is eligible. Results carry a different model identity and should be recorded as such (composes with *LLM Output Provenance*).
+
+**Notes:**
+
+- *Outbound-only is the key.* A pull-based worker exposes nothing and is the smallest attack surface. If the server must instead call the local model synchronously, a mesh VPN such as Tailscale (or a Cloudflare Tunnel) gives the server a route to the machine without port-forwarding or a public IP.
+- *Owned versus volunteered.* Here the hardware belongs to the operator. A more ambitious variant accepts compute volunteered by third parties, which adds a trust dimension: outputs from untrusted workers must be validated before use (composes with *LLM Content Validation Tracking*) and may need cross-checking across workers.
