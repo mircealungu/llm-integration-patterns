@@ -12,7 +12,7 @@ ThoughtWorks' "**Emerging Patterns in Building GenAI Products**" (Fowler et al.,
 
 Andreessen Horowitz's "**Emerging Architectures for LLM Applications**" (2023) provides a reference architecture for the LLM infrastructure stack (embedding pipelines, vector databases, orchestration layers, agents). Again, this targets LLM-native products rather than LLM integration into existing systems.
 
-Books. "**LLM Design Patterns**" (Huang, Packt, 2024\) and "LLMs in Enterprise" (Menshawy & Fahmy, Packt, 2025\) cover model-level patterns (fine-tuning, quantization, inference optimization, RAG) and enterprise deployment concerns. They do not address application-level integration patterns such as the lifecycle management (Wizard of Oz → specialized tool → LLM as fallback), prompt amortization, or LLM output provenance that we identify.
+Books. "**LLM Design Patterns**" (Huang, Packt, 2024\) and "LLMs in Enterprise" (Menshawy & Fahmy, Packt, 2025\) cover model-level patterns (fine-tuning, quantization, inference optimization, RAG) and enterprise deployment concerns. They do not address application-level integration patterns such as the lifecycle management (Wizard of Oz → specialized tool → Escalate to the LLM), prompt amortization, or LLM output provenance that we identify.
 
 ## Academic surveys. 
 
