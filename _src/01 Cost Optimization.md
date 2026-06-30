@@ -8,6 +8,11 @@
 
 **Solution:** Batch multiple inputs into a single request, amortizing the expensive prompt across many items.
 
+**Code (Zeeguu):**
+
+- [`create_batch_validation_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L103-L118) — horizontal batching: dozens of word/translation pairs packed into a single validation prompt.
+- [`get_adaptive_simplification_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/article_simplification.py#L8-L14) — vertical batching: one call produces simplified versions for *all* CEFR levels simpler than the original.
+
 **Notes:** 
 
 - One might still need to split into multiple prompts when too many tasks are batched. One might also have to investigate whether the quality of the response decreases when the cardinality of the batch is increased. In our own experience, it works fine for ...
