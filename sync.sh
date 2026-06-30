@@ -27,6 +27,13 @@ rsync -a --delete \
 # GitHub landing page, not a site page).
 [ -f "$AIPAT_REPO/_src/README.md" ] && cp "$AIPAT_REPO/_src/README.md" "$AIPAT_REPO/README.md"
 
+# Images: vault images/ -> served /images/ (kept out of assets/ so it never
+# collides with the theme override at assets/css/).
+if [ -d "$AIPAT_REPO/_src/images" ]; then
+    mkdir -p "$AIPAT_REPO/images"
+    rsync -a --delete "$AIPAT_REPO/_src/images/" "$AIPAT_REPO/images/"
+fi
+
 # Explode chapters into a home page + one page per pattern.
 python3 build.py
 

@@ -41,6 +41,35 @@ def strip_working_notes(text: str) -> str:
     )
 
 
+def render_embeds(text: str) -> str:
+    """Turn Obsidian image embeds into responsive <figure>s.
+
+    ![[file.png]]                 -> default-capped, centered, tap-to-zoom
+    ![[file.png|420]]             -> figure capped at 420px (Obsidian's own
+                                     width syntax, so it matches in Obsidian)
+    ![[file.png|420|A caption]]   -> ...with a caption
+    ![[file.png|A caption]]       -> default width, with a caption
+    Images live in the vault's images/ folder, served from /images/.
+    """
+    def repl(m):
+        parts = [p.strip() for p in m.group(1).split("|")]
+        fname, width, caption = parts[0], None, None
+        for p in parts[1:]:
+            w = re.match(r"^(\d+)(?:x\d+)?$", p)
+            if w:
+                width = w.group(1)
+            elif p:
+                caption = p
+        src = f"/images/{fname}"
+        style = f' style="max-width:{width}px"' if width else ""
+        alt = caption or fname.rsplit(".", 1)[0].replace("-", " ")
+        cap = f"\n  <figcaption>{caption}</figcaption>" if caption else ""
+        return (f'<figure class="img"{style}>\n'
+                f'  <a href="{src}"><img src="{src}" alt="{alt}"></a>{cap}\n'
+                f"</figure>")
+    return re.sub(r"!\[\[([^\]]+)\]\]", repl, text)
+
+
 def front_matter(title: str, permalink: str, description: str = None) -> str:
     safe = title.replace('"', "'")
     fm = f'---\nlayout: default\ntitle: "{safe}"\n'
@@ -101,7 +130,7 @@ def main():
     catalogue = []   # (category_title, [(pattern_name, slug)], prose_slug_or_None)
 
     for path in chapters:
-        text = open(path, encoding="utf-8").read()
+        text = render_embeds(open(path, encoding="utf-8").read())
         m = re.search(r"^# (.+)$", text, re.M)
         ctitle = (m.group(1).strip() if m else os.path.basename(path))
         num = os.path.basename(path)[:2]
