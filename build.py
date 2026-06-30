@@ -11,6 +11,7 @@ Links between pages are RELATIVE, so the site works both at
 mircealungu.github.io/llm-integration-patterns/ and at patterns.mircealungu.com/.
 """
 import glob
+import html
 import os
 import re
 import urllib.parse
@@ -62,8 +63,9 @@ def render_embeds(text: str) -> str:
                 caption = p
         src = f"/images/{fname}"
         style = f' style="max-width:{width}px"' if width else ""
-        alt = caption or fname.rsplit(".", 1)[0].replace("-", " ")
-        cap = f"\n  <figcaption>{caption}</figcaption>" if caption else ""
+        alt = html.escape(caption or fname.rsplit(".", 1)[0].replace("-", " "))
+        cap = (f"\n  <figcaption>{html.escape(caption)}</figcaption>"
+               if caption else "")
         return (f'<figure class="img"{style}>\n'
                 f'  <a href="{src}"><img src="{src}" alt="{alt}"></a>{cap}\n'
                 f"</figure>")
