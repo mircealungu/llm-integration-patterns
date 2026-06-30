@@ -10,14 +10,16 @@ It is a working paper, developed in the open and revised as the ideas (and the t
 
 ## Structure
 
-The paper is written as numbered chapter files, kept in [`_src/`](_src/):
+The source lives in [`_src/`](_src/) and mirrors the site one-to-one:
 
 - `00 Intro.md` → the home page (*What is this?* + *The Idea*).
 - `00a Case Study - Zeeguu.md` → a **case study** page. Any file titled `# Case Study: X` becomes its own page, listed under *Case Studies* on the home page.
-- `01`–`06`, `09` (`* Patterns`) → each `## ` section becomes its own **pattern** page.
-- `07 Related Work`, `08 LLM-Specific`, `10 Possible Paper Contributions` → one page each.
+- **Category folders** like `01 Cost Optimization Patterns/` → each `.md` inside is one **pattern** page (its `# H1` is the pattern name); the folder name is the category heading on the home page.
+- `07 Related Work.md`, `08 LLM-Specific.md`, `10 Possible Paper Contributions.md` → one prose page each.
 
-At publish time, [`build.py`](build.py) explodes these into the multi-page site: a home page (`index.md`) with the intro and a catalogue, one page per pattern, one per case study, and the prose pages. **The generated `.md` files at the repo root are produced by the build — do not hand-edit them.**
+To **add a pattern**, drop a `# Pattern Name` file into the right category folder. To **add a category**, make a new numbered folder. The leading `NN ` on folders and files only sets ordering; it is stripped from the displayed title. Page URLs come from the pattern name (its *slug*), not the file path, so moving or renumbering files never changes a URL.
+
+At publish time, [`build.py`](build.py) assembles the multi-page site: a home page (`index.md`) with the intro and a catalogue, one page per pattern, one per case study, and the prose pages. It also auto-links `*Pattern Name*` cross-references and turns `![[image]]` embeds into responsive figures. **The generated `.md` files at the repo root are produced by the build — do not hand-edit them.**
 
 ## Contributing
 
