@@ -23,6 +23,10 @@ rsync -a --delete \
     --exclude='(Design_)*' \
     "$AIPAT_VAULT" "$AIPAT_REPO/_src/"
 
+# The README is edited in the vault but lives at the repo root (it's the
+# GitHub landing page, not a site page).
+[ -f "$AIPAT_REPO/_src/README.md" ] && cp "$AIPAT_REPO/_src/README.md" "$AIPAT_REPO/README.md"
+
 # Explode chapters into a home page + one page per pattern.
 python3 build.py
 
