@@ -106,19 +106,20 @@ def main():
         ctitle = (m.group(1).strip() if m else os.path.basename(path))
         num = os.path.basename(path)[:2]
 
-        if num == "00":
-            intro = strip_working_notes(text)
-            home_body = re.sub(r"^\s*# .+$", "", intro, count=1,
-                               flags=re.M).strip()
-            continue
-
         if "case stud" in ctitle.lower():
             # A whole file titled "Case Study: X" becomes its own page,
-            # listed under "## Case Studies" on the home page.
+            # listed under "## Case Studies" on the home page. Checked before
+            # the intro test because these files also start with "00".
             name = re.sub(r"(?i)^(main\s+)?case stud(y|ies):?\s*",
                           "", ctitle).strip() or ctitle
             body = re.sub(r"^# .+$", "", text, count=1, flags=re.M).strip()
             case_studies.append((name, slug(name), body))
+            continue
+
+        if num == "00":
+            intro = strip_working_notes(text)
+            home_body = re.sub(r"^\s*# .+$", "", intro, count=1,
+                               flags=re.M).strip()
             continue
 
         splits = bool(re.search(r"^## ", text, re.M)) and \
