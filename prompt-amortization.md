@@ -23,7 +23,7 @@ permalink: /prompt-amortization/
 
 **Notes:** 
 
-- How large can a batch be? Two ceilings bound it, and you operate at the lower one. A **token ceiling** — input *and* output must fit the context window; for vertical batching (simplification) the binding side is the *output*, since each variant is a full article. And a **quality ceiling** — accuracy and consistency degrade as the item count grows, independent of tokens. In our experience the quality ceiling binds first for small items: classification and example validation run at **15–20 items per call**, far below what the window allows, because beyond that the model starts dropping or muddling entries.
+- How large can a batch be? Two ceilings bound it, and the effective limit is whichever is lower. A **token ceiling** — input *and* output must fit the context window; for vertical batching (simplification) the binding side is the *output*, since each variant is a full article. And a **quality ceiling** — accuracy and consistency degrade as the item count grows, independent of tokens. In our experience the quality ceiling binds first for small items: classification and example validation run at **15–20 items per call**, far below what the window allows, because beyond that the model starts dropping or muddling entries.
 - Not every candidate is amortized yet: translation validation currently runs **one call per word** (`validate_and_fix`); a batched validation prompt exists in the codebase but is not wired up — a standing opportunity to apply this pattern.
 - Some LLMs provide prompt caching - e.g. Deepseek. Even so, if the cost is amortized with prompt caching, the time saving of amortization can still be a valuable reason for doing it
 
