@@ -108,26 +108,17 @@ def main():
 
         if num == "00":
             intro = strip_working_notes(text)
-            intro = re.sub(r"^\s*# .+$", "", intro, count=1, flags=re.M)
-            parts = re.split(r"(?m)^(### .+)$", intro)
-            home_secs = []
-            i = 1
-            while i < len(parts):
-                head = parts[i]
-                sec_body = parts[i + 1] if i + 1 < len(parts) else ""
-                htext = head[4:].strip()
-                low = htext.lower()
-                if "case stud" in low:
-                    # Each "### ... Case Study: X" section becomes its own page.
-                    name = re.sub(r"(?i)^(main\s+)?case stud(y|ies):?\s*",
-                                  "", htext).strip() or htext
-                    case_studies.append((name, slug(name), sec_body.strip()))
-                elif "what is this" in low or "the idea" in low:
-                    home_secs.append(head + sec_body)
-                else:
-                    home_secs.append(head + sec_body)
-                i += 2
-            home_body = "\n".join(home_secs).strip()
+            home_body = re.sub(r"^\s*# .+$", "", intro, count=1,
+                               flags=re.M).strip()
+            continue
+
+        if "case stud" in ctitle.lower():
+            # A whole file titled "Case Study: X" becomes its own page,
+            # listed under "## Case Studies" on the home page.
+            name = re.sub(r"(?i)^(main\s+)?case stud(y|ies):?\s*",
+                          "", ctitle).strip() or ctitle
+            body = re.sub(r"^# .+$", "", text, count=1, flags=re.M).strip()
+            case_studies.append((name, slug(name), body))
             continue
 
         splits = bool(re.search(r"^## ", text, re.M)) and \
