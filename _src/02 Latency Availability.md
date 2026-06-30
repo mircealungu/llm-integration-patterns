@@ -41,4 +41,4 @@ An alternative to this is **live retrieval**: when the user encounters a transla
 
 **Solution**: Configure a chain of LLM providers with no retries. On any failure, immediately fall back to the next provider in the chain. Prioritize speed over exhausting retry budgets.    
 
-**Note**: This differs from the *LLM as Fallback* pattern in that all components in the chain are LLMs offering equivalent capabilities — the fallback is for reliability, not for capability escalation.
+**Note**: This differs from *Escalate to the LLM* in that all components in the chain are LLMs offering equivalent capabilities — this is a *fallback* for reliability, not the *escalation* to a more capable (and more expensive) tier.

@@ -10,4 +10,4 @@
 
 **Variant — Bootstrapping:** In a more subtle variant, the LLM *generates the training data for its own replacement.* For example, Zeeguu uses an LLM to estimate text difficulty levels. These LLM-generated difficulty labels are being accumulated as training data for a classical classifier that will eventually take over the task.
 
-**Note:** This pattern has an interesting lifecycle relationship with pattern *LLM as Fallback* a system may start with the LLM as primary (Wizard of Oz), migrate to a specialized tool as primary, and then keep the LLM as fallback — completing a full cycle from LLM-first to LLM-as-backup.
+**Note:** This pattern has an interesting lifecycle relationship with *Escalate to the LLM*: a system may start with the LLM as primary (Wizard of Oz), migrate to a specialized tool as primary, and then keep the LLM as the escalation path — completing a full cycle from LLM-first to LLM-on-demand.

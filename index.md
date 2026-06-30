@@ -39,7 +39,7 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 
 ### Cost Optimization Patterns
 - [Prompt Amortization](prompt-amortization/)
-- [LLM as Fallback](llm-as-fallback/)
+- [Escalate to the LLM](escalate-to-the-llm/)
 
 ### Latency / Availability Patterns
 - [Pre-Computing Likely-Needed Results](pre-computing-likely-needed-results/)
