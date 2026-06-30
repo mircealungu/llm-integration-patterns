@@ -14,8 +14,4 @@ In essence, Zeeguu unifies reading, translation, learner modeling, and practice 
 
 Zeeguu currently serves over 300 monthly active users, with peaks exceeding 400 during the academic year[^1].
 
-Open question:
-
-- Do these patterns apply beyond the language learning domain of Zeeguu. Do other kinds of applications show to users LLM generated text in a similar manner? 
-
 [^1]: Monthly active users are defined as users with any learning activity (exercises, reading, browsing, audio lessons, or translations) in a given month. Live statistics are available at: https://api.zeeguu.org/stats/monthly_active_users
