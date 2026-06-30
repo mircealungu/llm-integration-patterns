@@ -10,7 +10,7 @@ permalink: /escalate-to-the-llm/
 
 **Example (Zeeguu):** Google Translate serves as the primary translation engine. When a user indicates the translation is inadequate, the system escalates to an LLM for a more nuanced, context-aware translation. This keeps costs low and speed high in the common case while providing higher, LLM-quality results when needed.
 
-<figure class="img" style="max-width:420px">
+<figure class="img" style="max-width:220px">
   <a href="/images/escalate-to-the-llm.png"><img src="/images/escalate-to-the-llm.png" alt="In Zeeguu, the inline Google translation is the primary path; when the user wants a better rendering they escalate to an LLM on demand via the &quot;Ask LLM&quot; option."></a>
   <figcaption>In Zeeguu, the inline Google translation is the primary path; when the user wants a better rendering they escalate to an LLM on demand via the &quot;Ask LLM&quot; option.</figcaption>
 </figure>

@@ -45,22 +45,33 @@ def strip_working_notes(text: str) -> str:
 def render_embeds(text: str) -> str:
     """Turn Obsidian image embeds into responsive <figure>s.
 
-    ![[file.png]]                 -> default-capped, centered, tap-to-zoom
-    ![[file.png|420]]             -> figure capped at 420px (Obsidian's own
-                                     width syntax, so it matches in Obsidian)
-    ![[file.png|420|A caption]]   -> ...with a caption
-    ![[file.png|A caption]]       -> default width, with a caption
+    ![[file.png]]            -> default-capped, centered, tap-to-zoom
+    ![[file.png|220]]        -> capped at 220px (Obsidian's own width syntax)
+
+    Caption: write it as an *italic line directly under the embed* — Obsidian
+    renders it, and the build folds it into the <figcaption>:
+
+        ![[file.png|220]]
+        *A caption.*
+
+    (A caption inside the embed, ![[file|A caption|220]], still works as a
+    fallback. Put any width LAST so Obsidian honors it too.)
     Images live in the vault's images/ folder, served from /images/.
     """
+    embed = re.compile(
+        r"!\[\[([^\]]+)\]\]"                                  # the embed
+        r"(?:[ \t]*\n[ \t]*\*([^\n*][^\n]*?)\*[ \t]*(?=\n|$))?")  # opt. caption
+
     def repl(m):
         parts = [p.strip() for p in m.group(1).split("|")]
-        fname, width, caption = parts[0], None, None
+        fname, width, pipe_cap = parts[0], None, None
         for p in parts[1:]:
             w = re.match(r"^(\d+)(?:x\d+)?$", p)
             if w:
                 width = w.group(1)
             elif p:
-                caption = p
+                pipe_cap = p
+        caption = (m.group(2) or pipe_cap or "").strip()
         src = f"/images/{fname}"
         style = f' style="max-width:{width}px"' if width else ""
         alt = html.escape(caption or fname.rsplit(".", 1)[0].replace("-", " "))
@@ -69,7 +80,7 @@ def render_embeds(text: str) -> str:
         return (f'<figure class="img"{style}>\n'
                 f'  <a href="{src}"><img src="{src}" alt="{alt}"></a>{cap}\n'
                 f"</figure>")
-    return re.sub(r"!\[\[([^\]]+)\]\]", repl, text)
+    return embed.sub(repl, text)
 
 
 def front_matter(title: str, permalink: str, description: str = None) -> str:
