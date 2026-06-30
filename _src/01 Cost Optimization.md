@@ -2,7 +2,7 @@
 
 ## Prompt Amortization
 
-**Example (Zeeguu):** A prompt that verifies whether a word-translation pair is correct requires substantial instructions (explaining what constitutes a valid translation, edge cases, output format). The actual input — a word and its translation — is tiny. Instead of sending one request per word pair, we pack dozens of pairs into a single prompt. Similarly, when generating example sentences for words users will study, we batch the generation for all words in one call. This pattern combines naturally with pre-computation: because results are computed offline, we have the luxury of batching. Article simplification generates all CEFR-level variants (A1, A2, B1, B2) in one call, with the prompt instructing the model to output a JSON object keyed by level. This reduces four API calls to one, cutting cost by ~75%.
+**Example (Zeeguu):** Two flavours of batching show up. *Horizontal* batching packs many independent inputs into one prompt, amortizing a large instructional preamble across the whole batch: meaning frequency/type classification sends ~15 meanings per call, and validation of generated example sentences checks ~20 examples per call. *Vertical* batching produces many outputs from a single input: article simplification generates every CEFR variant simpler than the original in one call, emitting one section per level — turning up to four or five requests into one (~75% fewer calls for a typical article). Both combine naturally with pre-computation: because results are computed offline, there is the luxury of batching.
 
 **Forces:** Many LLM tasks involve a large instructional preamble (the system prompt explaining the task) and a small variable input. Sending individual requests wastes the prompt overhead, both in cost and latency.
 
@@ -10,12 +10,15 @@
 
 **Code (Zeeguu):**
 
-- [`create_batch_validation_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L103-L118) — horizontal batching: dozens of word/translation pairs packed into a single validation prompt.
+- [`COMBINED_VALIDATION_PROMPT`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L72) — the per-pair validation prompt: the "substantial instructions" (what counts as a valid translation, edge cases, output format). It runs once *per word* — the large preamble this pattern exists to amortize.
+- [`create_batch_meaning_frequency_and_type_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/meaning_frequency_classifier.py#L52-L67) — horizontal batching: ~15 meanings classified in one call.
+- [`validate_examples_batch`](https://github.com/zeeguu/api/blob/master/tools/validate_and_clean_examples.py#L186-L196) — horizontal batching: generated examples validated ~20 at a time (`BATCH_SIZE`).
 - [`get_adaptive_simplification_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/article_simplification.py#L8-L14) — vertical batching: one call produces simplified versions for *all* CEFR levels simpler than the original.
 
 **Notes:** 
 
-- One might still need to split into multiple prompts when too many tasks are batched. One might also have to investigate whether the quality of the response decreases when the cardinality of the batch is increased. In our own experience, it works fine for ...
+- How large can a batch be? Two ceilings bound it, and you operate at the lower one. A **token ceiling** — input *and* output must fit the context window; for vertical batching (simplification) the binding side is the *output*, since each variant is a full article. And a **quality ceiling** — accuracy and consistency degrade as the item count grows, independent of tokens. In our experience the quality ceiling binds first for small items: classification and example validation run at **15–20 items per call**, far below what the window allows, because beyond that the model starts dropping or muddling entries.
+- Not every candidate is amortized yet: translation validation currently runs **one call per word** (`validate_and_fix`); a batched validation prompt exists in the codebase but is not wired up — a standing opportunity to apply this pattern.
 - Some LLMs provide prompt caching - e.g. Deepseek. Even so, if the cost is amortized with prompt caching, the time saving of amortization can still be a valuable reason for doing it
 
 ## Escalate to the LLM
