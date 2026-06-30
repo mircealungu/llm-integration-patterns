@@ -37,6 +37,9 @@ fi
 # Explode chapters into a home page + one page per pattern.
 python3 build.py
 
+# Pre-publish checks (broken links/images block; voice/placeholders warn).
+python3 check.py || { echo "Pre-publish checks failed — not pushing."; exit 1; }
+
 # Commit + push.
 if [ -z "$(git status --porcelain)" ]; then
     echo "No changes to commit."
