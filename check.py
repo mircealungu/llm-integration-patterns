@@ -36,11 +36,16 @@ diff = subprocess.run(["git", "diff", "--unified=0", "--", "_src"],
                       cwd=ROOT, capture_output=True, text=True).stdout
 added = [ln[1:] for ln in diff.splitlines()
          if ln.startswith("+") and not ln.startswith("+++")]
+# Lexical rules from the writing guidelines (warn-only — human judges):
+#   "Do Not Address the Reader" and "Never Use The Word Interesting".
 VOICE = re.compile(r"\b(you|your|you're|you'll|yourself)\b", re.I)
+INTERESTING = re.compile(r"\binteresting\b", re.I)
 PLACEHOLDER = re.compile(r"\bTODO\b|\bFIXME\b|\bTK\b|\bXXX\b|(\.\.\.|…)\s*$")
 for ln in added:
     if VOICE.search(ln):
         warnings.append(f"second-person voice: {ln.strip()[:90]}")
+    if INTERESTING.search(ln):
+        warnings.append(f"'interesting' (writing rule): {ln.strip()[:90]}")
     if PLACEHOLDER.search(ln):
         warnings.append(f"placeholder/TODO: {ln.strip()[:90]}")
 
