@@ -31,7 +31,9 @@ These properties demand specific engineering strategies.
 
 Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.unibe.ch/) — an open-source platform for personalized language learning that helps users learn foreign languages by reading authentic online content. Through this work, we have identified a set of recurring architectural patterns for LLM integration. We believe these patterns are general and applicable beyond our specific domain.
 
-> 📖 **New here?** Read the [**Preamble — the Zeeguu case study**](preamble/) for the context behind these patterns.
+## Case Studies
+
+- [Zeeguu](zeeguu/)
 
 ## The Patterns
 

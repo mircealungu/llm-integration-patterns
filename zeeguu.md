@@ -1,14 +1,12 @@
 ---
 layout: default
-title: "Preamble"
-permalink: /preamble/
+title: "Zeeguu"
+permalink: /zeeguu/
 ---
 
 
-[← All patterns](../)
+[← Home](../)
 
-
-### Main Case Study: Zeeguu
 
 Zeeguu is an open-source language learning platform built around the idea that learners benefit most from engaging with authentic content in their target language. Rather than relying on artificial textbook exercises, Zeeguu helps users find real articles — news, blog posts, and other web content — tailored to both 1\) their *level* and 2\) their *interests*.
 
@@ -33,4 +31,4 @@ Open question:
 
 
 ---
-[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this section](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BPreamble%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Preamble%0A%2A%2ASection%3A%2A%2A+Preamble%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fpreamble%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[← Home](../) &nbsp;·&nbsp; [💬 Open an issue about this case study](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BZeeguu%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Zeeguu%0A%2A%2ASection%3A%2A%2A+Case+Studies%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fzeeguu%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
