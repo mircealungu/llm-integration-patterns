@@ -128,6 +128,25 @@ def write(slug_path, fm_title, back, body, issue, home=False, description=None):
     open(os.path.join(ROOT, fname), "w", encoding="utf-8").write("\n".join(parts))
 
 
+def autolink(body, self_slug, name2slug, home=False):
+    """Turn *Pattern Name* cross-references into links to that pattern's page.
+
+    Only exact, italicized pattern names become links (the deliberate
+    cross-reference convention) — never the page's own name, never **bold**,
+    and never a non-pattern italic like *up* or *reuse*.
+    """
+    prefix = "" if home else "../"
+
+    def repl(m):
+        name = m.group(1)
+        s = name2slug.get(name)
+        if not s or s == self_slug:
+            return m.group(0)
+        return f"[{name}]({prefix}{s}/)"
+
+    return re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)", repl, body)
+
+
 def clean_generated():
     for f in glob.glob(os.path.join(ROOT, "*.md")):
         if os.path.basename(f) != "README.md":
@@ -141,6 +160,8 @@ def main():
     home_body = ""
     case_studies = []  # (name, slug, body)
     catalogue = []   # (category_title, [(pattern_name, slug)], prose_slug_or_None)
+    pending = []     # (slug, title, back, body, issue, home, description)
+    name2slug = {}   # page name -> slug, for cross-reference auto-linking
 
     for path in chapters:
         text = render_embeds(open(path, encoding="utf-8").read())
@@ -156,6 +177,7 @@ def main():
                           "", ctitle).strip() or ctitle
             body = re.sub(r"^# .+$", "", text, count=1, flags=re.M).strip()
             case_studies.append((name, slug(name), body))
+            name2slug[name] = slug(name)
             continue
 
         if num == "00":
@@ -176,20 +198,22 @@ def main():
                 body = chunks[j + 1] if j + 1 < len(chunks) else ""
                 s = slug(name)
                 il = issue_link(name, s, "this pattern", section=ctitle, label=label)
-                write(s, name, "All patterns", body, il)
+                pending.append((s, name, "All patterns", body, il, False, None))
+                name2slug[name] = s
                 pats.append((name, s))
             catalogue.append((ctitle, pats, None))
         else:
             s = slug(ctitle)
             body = re.sub(r"^# .+$", "", text, count=1, flags=re.M).strip()
             il = issue_link(ctitle, s, "this section", section=ctitle)
-            write(s, ctitle, "All patterns", body, il)
+            pending.append((s, ctitle, "All patterns", body, il, False, None))
+            name2slug[ctitle] = s
             catalogue.append((ctitle, [], s))
 
     # Case study pages (e.g. the Zeeguu case study).
     for name, cs_slug, body in case_studies:
         il = issue_link(name, cs_slug, "this case study", section="Case Studies")
-        write(cs_slug, name, "Home", body, il)
+        pending.append((cs_slug, name, "Home", body, il, False, None))
 
     # Home page: What is this? + The Idea + Case Studies + catalogue.
     lines = [home_body, ""]
@@ -209,8 +233,13 @@ def main():
         lines += [f"- [{c}]({p}/)" for c, p in extras]
         lines.append("")
     home_issue = issue_link("the paper", "", "this paper")
-    write("", TITLE, None, "\n".join(lines), home_issue, home=True,
-          description=SUBTITLE)
+    pending.append(("", TITLE, None, "\n".join(lines), home_issue, True, SUBTITLE))
+
+    # Flush every page, auto-linking *Pattern Name* cross-references now that the
+    # full name -> slug map is known.
+    for slug_path, title, back, body, issue, home, description in pending:
+        body = autolink(body, slug_path, name2slug, home=home)
+        write(slug_path, title, back, body, issue, home=home, description=description)
 
     pages = len(glob.glob(os.path.join(ROOT, "*.md")))
     print(f"Built {pages} pages. Labels used: {sorted(used_labels)}")

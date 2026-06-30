@@ -24,7 +24,7 @@ for f in glob.glob(os.path.join(ROOT, "*.md")):
     if name == "README.md":
         continue
     text = open(f, encoding="utf-8").read()
-    for m in re.finditer(r"\]\(([a-z0-9][a-z0-9-]*)/\)", text):   # ](slug/)
+    for m in re.finditer(r"\]\((?:\.\./)?([a-z0-9][a-z0-9-]*)/\)", text):  # ](slug/) or ](../slug/)
         if m.group(1) not in pages:
             errors.append(f"{name}: link to /{m.group(1)}/ but no {m.group(1)}.md")
     for m in re.finditer(r"/images/([^\s\"')]+)", text):          # /images/FILE
