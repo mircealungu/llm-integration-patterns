@@ -22,6 +22,8 @@ An alternative to this is **live retrieval**: when the user encounters a transla
 
 **Tradeoff:** Increased cost (paying for redundant calls) in exchange for reduced latency.
 
+**Note:** In itself this is not LLM-specific. It is the *hedged requests* pattern from distributed systems (Dean and Barroso, *The Tail at Scale*, CACM 2013), also known as request racing or tied requests. Two things give it an LLM flavour here. First, the hedge is across independent, competing vendors (Anthropic, DeepSeek, Google Translate) rather than replicas of a single service. Second, each redundant call costs real money per token, so the losing responses are not thrown away: they are kept and surfaced to the user as alternative translations, turning the redundant work into a feature.
+
 
 
 ---

@@ -12,7 +12,7 @@ permalink: /llm-as-wizard-of-oz/
 </nav>
 
 
-**Example (Zeeguu):** Topic classification of articles is currently performed by pasting the abstract into an LLM. This works but is expensive. Once we are satisfied with the topic taxonomy and have accumulated enough labeled data, we will switch to a dedicated topic detection framework.
+**Example (Zeeguu):** Topic classification of articles is currently performed by pasting the abstract into an LLM and askint it to clasify the topic. This works but is expensive. Once we are satisfied with the topic taxonomy and have accumulated enough labeled data, we will switch to a dedicated topic detection framework.
 
 **Forces:** LLMs are general-purpose machines that can attempt almost any text-based task. Building dedicated, efficient solutions requires upfront investment and training data that may not yet exist.
 
