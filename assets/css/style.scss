@@ -15,6 +15,28 @@
   padding: 2rem 6rem;
 }
 
+/* The home page's title is the long paper title (wraps to two lines) — too
+   tall to pin, and pinning it would bury the #the-patterns anchor. Leave the
+   home header in normal flow so jumping to a category shows it at the top. */
+body.home .page-header {
+  position: static;
+}
+
+/* Anchor jumps (#the-patterns, #category-slug, in-page headings) must clear the
+   pinned header instead of hiding under it. Home header isn't pinned, so a
+   small margin is enough there. */
+.main-content h1,
+.main-content h2,
+.main-content h3 {
+  scroll-margin-top: 7rem;
+}
+
+body.home .main-content h1,
+body.home .main-content h2,
+body.home .main-content h3 {
+  scroll-margin-top: 1.5rem;
+}
+
 @media screen and (max-width: 64em) {
   .page-header { padding: 2rem 4rem; }
 }
