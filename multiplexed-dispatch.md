@@ -7,7 +7,6 @@ permalink: /multiplexed-dispatch/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../hot-path-result-caching/">← Hot-Path Result Caching</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../fail-fast-provider-chain/">Fail-Fast Provider Chain →</a>
 </nav>
 

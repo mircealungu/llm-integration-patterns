@@ -7,7 +7,6 @@ permalink: /escalate-to-the-llm/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../prompt-amortization/">← Prompt Amortization</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../pre-computing-likely-needed-results/">Pre-Computing Likely-Needed Results →</a>
 </nav>
 

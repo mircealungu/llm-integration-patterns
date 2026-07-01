@@ -7,7 +7,6 @@ permalink: /llm-output-provenance/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../llm-as-wizard-of-oz/">← LLM as Wizard of Oz</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../llm-checking-llm/">LLM-Checking-LLM →</a>
 </nav>
 

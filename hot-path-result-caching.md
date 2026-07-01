@@ -7,7 +7,6 @@ permalink: /hot-path-result-caching/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../pre-computing-likely-needed-results/">← Pre-Computing Likely-Needed Results</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../multiplexed-dispatch/">Multiplexed Dispatch →</a>
 </nav>
 

@@ -7,7 +7,6 @@ permalink: /soft-invalidation-of-llm-artifacts/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../temperature-as-task-selector/">← Temperature as Task Selector</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../deterministic-postprocessing/">Deterministic Postprocessing →</a>
 </nav>
 

@@ -7,7 +7,6 @@ permalink: /pre-computing-likely-needed-results/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../escalate-to-the-llm/">← Escalate to the LLM</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../hot-path-result-caching/">Hot-Path Result Caching →</a>
 </nav>
 

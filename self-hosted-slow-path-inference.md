@@ -7,7 +7,6 @@ permalink: /self-hosted-slow-path-inference/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../deterministic-postprocessing/">← Deterministic Postprocessing</a>
-  <a class="nav-all" href="../">All patterns</a>
   <span class="nav-next"></span>
 </nav>
 

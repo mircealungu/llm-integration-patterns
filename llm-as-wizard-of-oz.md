@@ -7,7 +7,6 @@ permalink: /llm-as-wizard-of-oz/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../fail-fast-provider-chain/">← Fail-Fast Provider Chain</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../llm-output-provenance/">LLM Output Provenance →</a>
 </nav>
 

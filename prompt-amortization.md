@@ -7,7 +7,6 @@ permalink: /prompt-amortization/
 
 <nav class="pattern-nav">
   <span class="nav-prev"></span>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../escalate-to-the-llm/">Escalate to the LLM →</a>
 </nav>
 

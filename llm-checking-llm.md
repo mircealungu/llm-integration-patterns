@@ -7,7 +7,6 @@ permalink: /llm-checking-llm/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../llm-output-provenance/">← LLM Output Provenance</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../llm-content-validation-tracking/">LLM Content Validation Tracking →</a>
 </nav>
 

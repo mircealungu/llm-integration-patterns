@@ -7,7 +7,6 @@ permalink: /deterministic-postprocessing/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../soft-invalidation-of-llm-artifacts/">← Soft Invalidation of LLM Artifacts</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../self-hosted-slow-path-inference/">Self-Hosted Slow-Path Inference →</a>
 </nav>
 

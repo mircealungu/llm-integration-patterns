@@ -7,7 +7,6 @@ permalink: /llm-content-validation-tracking/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../llm-checking-llm/">← LLM-Checking-LLM</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../hybrid-classical-llm-pipeline/">Hybrid Classical+LLM Pipeline →</a>
 </nav>
 

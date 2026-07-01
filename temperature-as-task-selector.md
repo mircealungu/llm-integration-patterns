@@ -7,7 +7,6 @@ permalink: /temperature-as-task-selector/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../hybrid-classical-llm-pipeline/">← Hybrid Classical+LLM Pipeline</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../soft-invalidation-of-llm-artifacts/">Soft Invalidation of LLM Artifacts →</a>
 </nav>
 

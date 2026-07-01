@@ -7,7 +7,6 @@ permalink: /fail-fast-provider-chain/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../multiplexed-dispatch/">← Multiplexed Dispatch</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../llm-as-wizard-of-oz/">LLM as Wizard of Oz →</a>
 </nav>
 

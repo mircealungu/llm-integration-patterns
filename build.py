@@ -126,21 +126,21 @@ def nav_bar(prev, nxt):
 
 
 def nav_bar_html(prev, nxt):
-    """Sticky three-column nav for the top of a pattern page: prev pulled
-    left, All patterns centered, next pulled right. Empty end slots keep the
-    centre item centred. Styled by `.pattern-nav` in assets/css/style.scss."""
+    """Sticky nav for the top of a pattern page: prev pulled left, next pulled
+    right (no All-patterns link — that stays in the footer). Empty end slots
+    keep the surviving link pinned to its side. Styled by `.pattern-nav` in
+    assets/css/style.scss."""
     if prev:
         left = (f'<a class="nav-prev" href="../{prev[1]}/">'
                 f'← {html.escape(prev[0])}</a>')
     else:
         left = '<span class="nav-prev"></span>'
-    mid = '<a class="nav-all" href="../">All patterns</a>'
     if nxt:
         right = (f'<a class="nav-next" href="../{nxt[1]}/">'
                  f'{html.escape(nxt[0])} →</a>')
     else:
         right = '<span class="nav-next"></span>'
-    return f'<nav class="pattern-nav">\n  {left}\n  {mid}\n  {right}\n</nav>'
+    return f'<nav class="pattern-nav">\n  {left}\n  {right}\n</nav>'
 
 
 def footer(issue, nav=None):

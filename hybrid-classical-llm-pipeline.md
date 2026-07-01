@@ -7,7 +7,6 @@ permalink: /hybrid-classical-llm-pipeline/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../llm-content-validation-tracking/">← LLM Content Validation Tracking</a>
-  <a class="nav-all" href="../">All patterns</a>
   <a class="nav-next" href="../temperature-as-task-selector/">Temperature as Task Selector →</a>
 </nav>
 
