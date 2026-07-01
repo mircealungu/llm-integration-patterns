@@ -1,14 +1,14 @@
 ---
 layout: default
 title: "Hot-Path Result Caching"
+subtitle: "Latency and Availability Patterns"
+subtitle_url: "../#latency-and-availability-patterns"
 permalink: /hot-path-result-caching/
 ---
 
 
 <nav class="pattern-nav">
-  <a class="nav-prev" href="../pre-computing-likely-needed-results/">← Pre-Computing Likely-Needed Results</a>
-  <a class="nav-here" href="../" title="All patterns">Hot-Path Result Caching</a>
-  <a class="nav-next" href="../multiplexed-dispatch/">Multiplexed Dispatch →</a>
+  <a href="../#the-patterns">← All patterns</a>
 </nav>
 
 
@@ -26,6 +26,6 @@ permalink: /hot-path-result-caching/
 
 
 ---
-[← Pre-Computing Likely-Needed Results](../pre-computing-likely-needed-results/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Multiplexed Dispatch →](../multiplexed-dispatch/)
+[← Pre-Computing Likely-Needed Results](../pre-computing-likely-needed-results/){:.nav-prev} &nbsp;·&nbsp; [All patterns](../#the-patterns) &nbsp;·&nbsp; [Multiplexed Dispatch →](../multiplexed-dispatch/){:.nav-next}
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHot-Path+Result+Caching%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Hot-Path+Result+Caching%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fhot-path-result-caching%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

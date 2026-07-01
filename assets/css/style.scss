@@ -4,9 +4,14 @@
 ---
 @import "{{ site.theme }}";
 
-/* Slim header: just the title now, so drop the theme's tall hero padding
-   and let the gradient band be a compact strip. */
+/* Slim header: just the title + category now, so drop the theme's tall hero
+   padding and let the gradient band be a compact strip. It stays pinned at the
+   top of the viewport while the body (and the "All patterns" bar) scroll under
+   it. */
 .page-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   padding: 2rem 6rem;
 }
 
@@ -22,44 +27,33 @@
   margin-bottom: 0;
 }
 
+/* Category subtitle under the title (links to that category on the home page). */
+.page-header .project-subtitle {
+  margin: 0.4rem 0 0;
+  font-weight: 400;
+  font-size: 1.25rem;
+  opacity: 0.92;
+}
+
+.page-header .project-subtitle a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* "View on GitHub" moved into the footer; give it a little breathing room. */
 .site-footer .btn {
   display: inline-block;
   margin-bottom: 1rem;
 }
 
-/* Sticky pattern nav: prev pulled left, All patterns centered, next pulled
-   right. Three equal columns so the centre item stays centred even when an
-   end slot is empty (first/last pattern). Sticks to the top of the viewport
-   once the header scrolls away. */
+/* Top bar holding just the "← All patterns" back link. Scrolls away under the
+   pinned header. (Prev/next live in the footer.) */
 .pattern-nav {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
   padding: 0.7rem 0;
   margin-bottom: 1.5rem;
-  background: #fff;
   border-bottom: 1px solid #eaecef;
   font-size: 0.95rem;
-}
-
-.pattern-nav > * {
-  flex: 1 1 0;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.pattern-nav .nav-prev { text-align: left; }
-.pattern-nav .nav-next { text-align: right; }
-.pattern-nav .nav-here {
-  text-align: center;
-  font-weight: 600;
-  color: #24292e;
 }
 
 /* Responsive, capped, centered figures for screenshots/diagrams.

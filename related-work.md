@@ -5,7 +5,7 @@ permalink: /related-work/
 ---
 
 
-[← All patterns](../)
+[← All patterns](../#the-patterns)
 
 
 To our knowledge, no peer-reviewed work presents a catalog of architectural patterns for integrating LLMs as components into existing production systems, grounded in real deployment experience and described using the standard pattern format (context, forces, solution, consequences). Our patterns addressing lifecycle management (Wizard of Oz), cost optimization (Pre-computation, Prompt Amortization, Escalate to the LLM, Multiplexed Dispatch), quality assurance (LLM-Checking-LLM, Validation Tracking), and data management (Provenance) appear to be novel contributions.
@@ -33,6 +33,6 @@ LLM self-verification. For the [LLM-Checking-LLM](../llm-checking-llm/) pattern,
 
 
 ---
-[← All patterns](../)
+[← All patterns](../#the-patterns)
 
 [💬 Open an issue about this section](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BRelated+Work%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Related+Work%0A%2A%2ASection%3A%2A%2A+Related+Work%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Frelated-work%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

@@ -24,6 +24,10 @@ TITLE = ("Architectural Patterns for Integrating LLMs "
          "into User-Facing Applications")
 SUBTITLE = "Lessons from a language-learning platform"
 
+# "All patterns" links land on the catalogue heading, not the top of the home
+# page (kramdown auto-ids "## The Patterns" as #the-patterns).
+ALL_PATTERNS_HREF = "../#the-patterns"
+
 used_labels = set()
 
 
@@ -83,11 +87,16 @@ def render_embeds(text: str) -> str:
     return embed.sub(repl, text)
 
 
-def front_matter(title: str, permalink: str, description: str = None) -> str:
+def front_matter(title: str, permalink: str, description: str = None,
+                 subtitle: str = None, subtitle_url: str = None) -> str:
     safe = title.replace('"', "'")
     fm = f'---\nlayout: default\ntitle: "{safe}"\n'
     if description:
         fm += f'description: "{description}"\n'
+    if subtitle:
+        fm += f'subtitle: "{subtitle}"\n'
+    if subtitle_url:
+        fm += f'subtitle_url: "{subtitle_url}"\n'
     return fm + f"permalink: {permalink}\n---\n"
 
 
@@ -112,39 +121,27 @@ def issue_link(name, slug_path, noun, section=None, label=None):
 
 
 def nav_bar(prev, nxt):
-    """Inline Prev · All patterns · Next bar (used in the page footer).
+    """Inline Prev · All patterns · Next bar (used in the page footer). The
+    prev/next links carry `.nav-prev` / `.nav-next` classes (kramdown IAL) so
+    the ← / → keyboard handler in _layouts/default.html can drive off them.
 
     prev/nxt are (name, slug) tuples or None at the ends of the sequence.
     """
     parts = []
     if prev:
-        parts.append(f"[← {prev[0]}](../{prev[1]}/)")
-    parts.append("[All patterns](../)")
+        parts.append(f"[← {prev[0]}](../{prev[1]}/){{:.nav-prev}}")
+    parts.append(f"[All patterns]({ALL_PATTERNS_HREF})")
     if nxt:
-        parts.append(f"[{nxt[0]} →](../{nxt[1]}/)")
+        parts.append(f"[{nxt[0]} →](../{nxt[1]}/){{:.nav-next}}")
     return " &nbsp;·&nbsp; ".join(parts)
 
 
-def nav_bar_html(prev, nxt, current):
-    """Sticky nav for the top of a pattern page: prev name (left), the current
-    pattern name (center, which also links up to All patterns), next name
-    (right). Empty end slots keep the centre item centred; long names are
-    ellipsis-clipped by CSS. The ← / → keyboard handler lives in
-    _layouts/default.html and drives off these `.nav-prev` / `.nav-next` links.
-    Styled by `.pattern-nav` in assets/css/style.scss."""
-    if prev:
-        left = (f'<a class="nav-prev" href="../{prev[1]}/">'
-                f'← {html.escape(prev[0])}</a>')
-    else:
-        left = '<span class="nav-prev"></span>'
-    mid = (f'<a class="nav-here" href="../" title="All patterns">'
-           f'{html.escape(current)}</a>')
-    if nxt:
-        right = (f'<a class="nav-next" href="../{nxt[1]}/">'
-                 f'{html.escape(nxt[0])} →</a>')
-    else:
-        right = '<span class="nav-next"></span>'
-    return f'<nav class="pattern-nav">\n  {left}\n  {mid}\n  {right}\n</nav>'
+def nav_bar_html():
+    """Sticky bar for the top of a pattern page: just a back link to the
+    catalogue. Prev/next live in the footer only. Styled by `.pattern-nav`
+    in assets/css/style.scss."""
+    return (f'<nav class="pattern-nav">\n'
+            f'  <a href="{ALL_PATTERNS_HREF}">← All patterns</a>\n</nav>')
 
 
 def footer(issue, nav=None):
@@ -154,10 +151,10 @@ def footer(issue, nav=None):
 
 
 def write(slug_path, fm_title, top_nav, foot_nav, body, issue,
-          home=False, description=None):
+          home=False, description=None, subtitle=None, subtitle_url=None):
     fname = "index.md" if home else f"{slug_path}.md"
     parts = [front_matter(fm_title, f"/{slug_path}/" if slug_path else "/",
-                          description)]
+                          description, subtitle, subtitle_url)]
     if top_nav:
         parts.append(f"\n{top_nav}\n")
     parts.append("\n" + body.strip() + "\n")
@@ -209,6 +206,7 @@ def main():
     catalogue = []   # (category_title, [(pattern_name, slug)], prose_slug_or_None)
     pending = []     # (slug, title, back, body, issue, home, description)
     name2slug = {}   # page name -> slug, for cross-reference auto-linking
+    pattern_cat = {}  # pattern slug -> its category title (for the subtitle)
 
     # Walk top-level entries in order. A numbered FOLDER is a pattern category
     # (folder name = title); each .md inside is one pattern. A numbered FILE is
@@ -228,6 +226,7 @@ def main():
                 il = issue_link(name, s, "this pattern", section=cat, label=label)
                 pending.append((s, name, "All patterns", body, il, False, None))
                 name2slug[name] = s
+                pattern_cat[s] = cat
                 pats.append((name, s))
             if pats:
                 catalogue.append((cat, pats, None))
@@ -291,15 +290,23 @@ def main():
     # back link.
     for slug_path, title, back, body, issue, home, description in pending:
         body = autolink(body, slug_path, name2slug, home=home)
+        subtitle = subtitle_url = None
         if slug_path in pattern_nav:
             prev, nxt = pattern_nav[slug_path]
-            top_nav, foot_nav = nav_bar_html(prev, nxt, title), nav_bar(prev, nxt)
+            top_nav, foot_nav = nav_bar_html(), nav_bar(prev, nxt)
+            cat = pattern_cat.get(slug_path)
+            if cat:
+                subtitle, subtitle_url = cat, f"../#{slug(cat)}"
         elif back:
-            top_nav = foot_nav = f"[← {back}](../)"
+            href = ALL_PATTERNS_HREF if back == "All patterns" else "../"
+            top_nav = foot_nav = f"[← {back}]({href})"
         else:
             top_nav = foot_nav = None
+        if home and description:
+            subtitle = description  # the paper subtitle, shown under the title
         write(slug_path, title, top_nav, foot_nav, body, issue,
-              home=home, description=description)
+              home=home, description=description,
+              subtitle=subtitle, subtitle_url=subtitle_url)
 
     pages = len(glob.glob(os.path.join(ROOT, "*.md")))
     print(f"Built {pages} pages. Labels used: {sorted(used_labels)}")

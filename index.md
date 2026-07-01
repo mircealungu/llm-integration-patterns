@@ -2,6 +2,7 @@
 layout: default
 title: "Architectural Patterns for Integrating LLMs into User-Facing Applications"
 description: "Lessons from a language-learning platform"
+subtitle: "Lessons from a language-learning platform"
 permalink: /
 ---
 

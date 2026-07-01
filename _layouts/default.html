@@ -17,6 +17,9 @@
 
     <header class="page-header" role="banner">
       <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
+      {% if page.subtitle %}
+      <p class="project-subtitle">{% if page.subtitle_url %}<a href="{{ page.subtitle_url }}">{{ page.subtitle }}</a>{% else %}{{ page.subtitle }}{% endif %}</p>
+      {% endif %}
     </header>
 
     <main id="content" class="main-content" role="main">
