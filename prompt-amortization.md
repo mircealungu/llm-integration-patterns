@@ -5,7 +5,11 @@ permalink: /prompt-amortization/
 ---
 
 
-[All patterns](../) &nbsp;·&nbsp; [Escalate to the LLM →](../escalate-to-the-llm/)
+<nav class="pattern-nav">
+  <span class="nav-prev"></span>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../escalate-to-the-llm/">Escalate to the LLM →</a>
+</nav>
 
 
 **Example (Zeeguu):** When many items need the same expensive prompt, they can be packed into a single call instead of sent one at a time. This *batching* takes two forms. 

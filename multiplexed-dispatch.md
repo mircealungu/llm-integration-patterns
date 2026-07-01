@@ -5,7 +5,11 @@ permalink: /multiplexed-dispatch/
 ---
 
 
-[← Hot-Path Result Caching](../hot-path-result-caching/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Fail-Fast Provider Chain →](../fail-fast-provider-chain/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../hot-path-result-caching/">← Hot-Path Result Caching</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../fail-fast-provider-chain/">Fail-Fast Provider Chain →</a>
+</nav>
 
 
 **Example (Zeeguu):** Real-time translations are dispatched to multiple translation providers in parallel. The first response is used, and the rest are saved for when the user asks for alternatives. 

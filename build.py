@@ -112,7 +112,7 @@ def issue_link(name, slug_path, noun, section=None, label=None):
 
 
 def nav_bar(prev, nxt):
-    """Prev · All patterns · Next bar for a pattern page.
+    """Inline Prev · All patterns · Next bar (used in the page footer).
 
     prev/nxt are (name, slug) tuples or None at the ends of the sequence.
     """
@@ -125,20 +125,39 @@ def nav_bar(prev, nxt):
     return " &nbsp;·&nbsp; ".join(parts)
 
 
+def nav_bar_html(prev, nxt):
+    """Sticky three-column nav for the top of a pattern page: prev pulled
+    left, All patterns centered, next pulled right. Empty end slots keep the
+    centre item centred. Styled by `.pattern-nav` in assets/css/style.scss."""
+    if prev:
+        left = (f'<a class="nav-prev" href="../{prev[1]}/">'
+                f'← {html.escape(prev[0])}</a>')
+    else:
+        left = '<span class="nav-prev"></span>'
+    mid = '<a class="nav-all" href="../">All patterns</a>'
+    if nxt:
+        right = (f'<a class="nav-next" href="../{nxt[1]}/">'
+                 f'{html.escape(nxt[0])} →</a>')
+    else:
+        right = '<span class="nav-next"></span>'
+    return f'<nav class="pattern-nav">\n  {left}\n  {mid}\n  {right}\n</nav>'
+
+
 def footer(issue, nav=None):
     if not nav:
         return f"\n\n---\n{issue}\n"
     return f"\n\n---\n{nav} &nbsp;·&nbsp; {issue}\n"
 
 
-def write(slug_path, fm_title, nav, body, issue, home=False, description=None):
+def write(slug_path, fm_title, top_nav, foot_nav, body, issue,
+          home=False, description=None):
     fname = "index.md" if home else f"{slug_path}.md"
     parts = [front_matter(fm_title, f"/{slug_path}/" if slug_path else "/",
                           description)]
-    if nav:
-        parts.append(f"\n{nav}\n")
+    if top_nav:
+        parts.append(f"\n{top_nav}\n")
     parts.append("\n" + body.strip() + "\n")
-    parts.append(footer(issue, nav=nav))
+    parts.append(footer(issue, nav=foot_nav))
     open(os.path.join(ROOT, fname), "w", encoding="utf-8").write("\n".join(parts))
 
 
@@ -260,18 +279,23 @@ def main():
     for i, (name, s) in enumerate(pattern_seq):
         prev = pattern_seq[i - 1] if i > 0 else None
         nxt = pattern_seq[i + 1] if i < len(pattern_seq) - 1 else None
-        pattern_nav[s] = nav_bar(prev, nxt)
+        pattern_nav[s] = (prev, nxt)
 
     # Flush every page, auto-linking *Pattern Name* cross-references now that the
-    # full name -> slug map is known. Pattern pages get a prev/all/next bar; the
-    # rest keep a simple back link.
+    # full name -> slug map is known. Pattern pages get a sticky prev/all/next
+    # bar up top (and the inline version in the footer); the rest keep a simple
+    # back link.
     for slug_path, title, back, body, issue, home, description in pending:
         body = autolink(body, slug_path, name2slug, home=home)
         if slug_path in pattern_nav:
-            nav = pattern_nav[slug_path]
+            prev, nxt = pattern_nav[slug_path]
+            top_nav, foot_nav = nav_bar_html(prev, nxt), nav_bar(prev, nxt)
+        elif back:
+            top_nav = foot_nav = f"[← {back}](../)"
         else:
-            nav = f"[← {back}](../)" if back else None
-        write(slug_path, title, nav, body, issue, home=home, description=description)
+            top_nav = foot_nav = None
+        write(slug_path, title, top_nav, foot_nav, body, issue,
+              home=home, description=description)
 
     pages = len(glob.glob(os.path.join(ROOT, "*.md")))
     print(f"Built {pages} pages. Labels used: {sorted(used_labels)}")

@@ -5,7 +5,11 @@ permalink: /self-hosted-slow-path-inference/
 ---
 
 
-[← Deterministic Postprocessing](../deterministic-postprocessing/) &nbsp;·&nbsp; [All patterns](../)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../deterministic-postprocessing/">← Deterministic Postprocessing</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <span class="nav-next"></span>
+</nav>
 
 
 **Example (Zeeguu, prospective):** This pattern is not yet implemented. The plan: overnight, a Mac Studio at home drains a queue of slow, batchable jobs that today run against paid APIs (translation validation, example-sentence checking, CEFR pre-classification). A worker on the Mac polls the Zeeguu server over outbound HTTPS, runs each job on a local model (e.g. via Ollama), and posts the result back. Anything not processed by a morning deadline falls back to the cloud API.

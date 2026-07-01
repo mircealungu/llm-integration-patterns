@@ -5,7 +5,11 @@ permalink: /fail-fast-provider-chain/
 ---
 
 
-[← Multiplexed Dispatch](../multiplexed-dispatch/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [LLM as Wizard of Oz →](../llm-as-wizard-of-oz/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../multiplexed-dispatch/">← Multiplexed Dispatch</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../llm-as-wizard-of-oz/">LLM as Wizard of Oz →</a>
+</nav>
 
 
 **Example** (Zeeguu): The app uses a unified LLM service proxy which tries Anthropic first; on any error (timeout, rate limit, API error), it immediately switches to DeepSeek without retry. This keeps worst-case latency bounded while maintaining availability.    

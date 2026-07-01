@@ -5,7 +5,11 @@ permalink: /temperature-as-task-selector/
 ---
 
 
-[← Hybrid Classical+LLM Pipeline](../hybrid-classical-llm-pipeline/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Soft Invalidation of LLM Artifacts →](../soft-invalidation-of-llm-artifacts/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../hybrid-classical-llm-pipeline/">← Hybrid Classical+LLM Pipeline</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../soft-invalidation-of-llm-artifacts/">Soft Invalidation of LLM Artifacts →</a>
+</nav>
 
 
 **Example (Zeeguu):** Translation validation uses temperature 0 for deterministic yes/no judgments. Audio lesson script generation uses temperature 0.8 to produce varied, natural-sounding dialogues. The same model serves both purposes with different configuration.

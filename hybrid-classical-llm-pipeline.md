@@ -5,7 +5,11 @@ permalink: /hybrid-classical-llm-pipeline/
 ---
 
 
-[← LLM Content Validation Tracking](../llm-content-validation-tracking/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Temperature as Task Selector →](../temperature-as-task-selector/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../llm-content-validation-tracking/">← LLM Content Validation Tracking</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../temperature-as-task-selector/">Temperature as Task Selector →</a>
+</nav>
 
 
 **Example (Zeeguu)**: Multi-word expression (MWE) detection uses Stanza's dependency parser to identify candidate phrases (fast, high recall), then sends candidates to an LLM to filter out false positives based on semantic analysis (slower, high precision). This achieves better F1 than either approach alone, at a fraction of the cost of LLM-only detection.    

@@ -5,7 +5,11 @@ permalink: /escalate-to-the-llm/
 ---
 
 
-[← Prompt Amortization](../prompt-amortization/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Pre-Computing Likely-Needed Results →](../pre-computing-likely-needed-results/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../prompt-amortization/">← Prompt Amortization</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../pre-computing-likely-needed-results/">Pre-Computing Likely-Needed Results →</a>
+</nav>
 
 
 **Example (Zeeguu):** Google Translate serves as the primary translation engine. When a user indicates the translation is inadequate, the system escalates to an LLM for a more nuanced, context-aware translation. This keeps costs low and speed high in the common case while providing higher, LLM-quality results when needed.

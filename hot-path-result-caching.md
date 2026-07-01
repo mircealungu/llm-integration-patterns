@@ -5,7 +5,11 @@ permalink: /hot-path-result-caching/
 ---
 
 
-[← Pre-Computing Likely-Needed Results](../pre-computing-likely-needed-results/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Multiplexed Dispatch →](../multiplexed-dispatch/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../pre-computing-likely-needed-results/">← Pre-Computing Likely-Needed Results</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../multiplexed-dispatch/">Multiplexed Dispatch →</a>
+</nav>
 
 
 **Example (Zeeguu):** MWE detection maintains a 500-entry LRU cache. When multiple users read the same article, phrase analyses computed for the first user are served instantly to subsequent users. Cache hit rates of 40-60% are typical for popular articles.

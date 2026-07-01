@@ -5,7 +5,11 @@ permalink: /soft-invalidation-of-llm-artifacts/
 ---
 
 
-[← Temperature as Task Selector](../temperature-as-task-selector/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Deterministic Postprocessing →](../deterministic-postprocessing/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../temperature-as-task-selector/">← Temperature as Task Selector</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../deterministic-postprocessing/">Deterministic Postprocessing →</a>
+</nav>
 
 
 **Example (Zeeguu):** When the prompt that generates audio lesson scripts was improved, the ~900 stored `audio_lesson_meaning` rows produced under the previous prompt were neither regenerated eagerly nor deleted. Instead, each affected row received a `deprecated_at` timestamp, and the cache-lookup helper (`AudioLessonMeaning.find()`) was gated to skip deprecated rows. New daily lessons request a fresh row and trigger regeneration under the new prompt; existing daily lessons that already reference a deprecated row keep playing their old audio without breaking.

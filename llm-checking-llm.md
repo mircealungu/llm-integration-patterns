@@ -5,7 +5,11 @@ permalink: /llm-checking-llm/
 ---
 
 
-[← LLM Output Provenance](../llm-output-provenance/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [LLM Content Validation Tracking →](../llm-content-validation-tracking/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../llm-output-provenance/">← LLM Output Provenance</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../llm-content-validation-tracking/">LLM Content Validation Tracking →</a>
+</nav>
 
 
 **Example (Zeeguu):** After generating contextual example sentences for vocabulary words, a second LLM call reviews the examples for accuracy, naturalness, and appropriate difficulty level.

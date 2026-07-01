@@ -5,7 +5,11 @@ permalink: /deterministic-postprocessing/
 ---
 
 
-[← Soft Invalidation of LLM Artifacts](../soft-invalidation-of-llm-artifacts/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Self-Hosted Slow-Path Inference →](../self-hosted-slow-path-inference/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../soft-invalidation-of-llm-artifacts/">← Soft Invalidation of LLM Artifacts</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../self-hosted-slow-path-inference/">Self-Hosted Slow-Path Inference →</a>
+</nav>
 
 
 **Example (Zeeguu):** LLM-simplified article summaries consistently ended with a Unicode ellipsis (`…`), making every home-card preview read as an unfinished sentence. One option was to add a "do not end with ellipsis" instruction to the simplification prompt; the chosen option was a five-line regex stripping any trailing `…` or `..+` at serialization time. The regex handles every case at 100%, including the ~60k pre-existing rows in the database that no prompt change could retroactively touch.

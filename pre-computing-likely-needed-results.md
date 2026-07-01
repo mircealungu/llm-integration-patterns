@@ -5,7 +5,11 @@ permalink: /pre-computing-likely-needed-results/
 ---
 
 
-[← Escalate to the LLM](../escalate-to-the-llm/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Hot-Path Result Caching →](../hot-path-result-caching/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../escalate-to-the-llm/">← Escalate to the LLM</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../hot-path-result-caching/">Hot-Path Result Caching →</a>
+</nav>
 
 
 **Example (from Zeeguu):** The system needs to verify that word/translation pairs obtained from Google Translate or Azure Translate APIs are correct before including them in vocabulary exercises: the system can afford to insert an imprecise translation while the reader is quickly trying to make sense of a text, but it cannot afford to have users repeatedly practice imprecise translations! A regular cron job identifies words users should study next and pre-computes LLM-based verification for the quality of their translation. 

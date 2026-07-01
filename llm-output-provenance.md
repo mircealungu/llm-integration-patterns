@@ -5,7 +5,11 @@ permalink: /llm-output-provenance/
 ---
 
 
-[← LLM as Wizard of Oz](../llm-as-wizard-of-oz/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [LLM-Checking-LLM →](../llm-checking-llm/)
+<nav class="pattern-nav">
+  <a class="nav-prev" href="../llm-as-wizard-of-oz/">← LLM as Wizard of Oz</a>
+  <a class="nav-all" href="../">All patterns</a>
+  <a class="nav-next" href="../llm-checking-llm/">LLM-Checking-LLM →</a>
+</nav>
 
 
 **Example (Zeeguu):** When the system generates example sentences with a given word to be used in exercises, it stores which model and prompt version produced each result. When a prompt is improved, the system can identify and regenerate stale outputs without reprocessing everything. 
