@@ -2,9 +2,9 @@
 
 **Example (Zeeguu):** When many items need the same expensive prompt, they can be packed into a single call instead of sent one at a time. This *batching* takes two forms. 
 
-*Fan-in* batching packs many independent inputs into one prompt, amortizing a large instructional preamble across the whole batch: meaning frequency/type classification sends ~15 meanings per call, and validation of generated example sentences checks ~20 examples per call. 
+1. *Fan-in* batching packs many independent inputs into one prompt, amortizing a large instructional preamble across the whole batch: meaning frequency/type classification sends ~15 meanings per call, and validation of generated example sentences checks ~20 examples per call. 
 
-*Fan-out* batching produces many outputs from a single input: article simplification generates every CEFR variant simpler than the original in one call, emitting one section per level, turning up to four or five requests into one (~75% fewer calls for a typical article). 
+2. *Fan-out* batching produces many outputs from a single input: article simplification generates every CEFR variant simpler than the original in one call, emitting one section per level, turning up to four or five requests into one (~75% fewer calls for a typical article). 
 
 Both combine naturally with pre-computation: because results are computed offline, there is the luxury of batching.
 
