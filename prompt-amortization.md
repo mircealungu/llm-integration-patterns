@@ -8,7 +8,7 @@ permalink: /prompt-amortization/
 [← All patterns](../)
 
 
-**Example (Zeeguu):** Two flavours of batching show up. 
+**Example (Zeeguu):** When many items need the same expensive prompt, they can be packed into a single call instead of sent one at a time. This *batching* takes two forms. 
 
 *Horizontal* batching packs many independent inputs into one prompt, amortizing a large instructional preamble across the whole batch: meaning frequency/type classification sends ~15 meanings per call, and validation of generated example sentences checks ~20 examples per call. 
 
