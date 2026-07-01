@@ -6,4 +6,6 @@
 
 **Solution**: Configure a chain of LLM providers with no retries. On any failure, immediately fall back to the next provider in the chain. Prioritize speed over exhausting retry budgets.    
 
+**Applicability**: The pattern earns its keep most on **real-time paths where a user is waiting**. There the latency budget is tight, so spending it on a retry against a failing provider is the wrong move: failing over immediately keeps the worst case bounded. For offline or batched work, where nobody is waiting, retries and backoff are more affordable, and it can be worth retrying the cheaper provider before moving on.
+
 **Note**: This differs from *Escalate to the LLM* in that all components in the chain are LLMs offering equivalent capabilities: this is a *fallback* for reliability, not the *escalation* to a more capable (and more expensive) tier.

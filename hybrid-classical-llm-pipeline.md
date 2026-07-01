@@ -1,8 +1,8 @@
 ---
 layout: default
 title: "Hybrid Classical+LLM Pipeline"
-subtitle: "Hybrid Pipeline Patterns"
-subtitle_url: "../#hybrid-pipeline-patterns"
+subtitle: "Quality Assurance Patterns"
+subtitle_url: "../#quality-assurance-patterns"
 permalink: /hybrid-classical-llm-pipeline/
 ---
 
@@ -25,4 +25,4 @@ permalink: /hybrid-classical-llm-pipeline/
 ---
 [← LLM Content Validation Tracking](../llm-content-validation-tracking/){:.nav-prev} &nbsp;·&nbsp; [All patterns](../#the-patterns) &nbsp;·&nbsp; [Temperature as Task Selector →](../temperature-as-task-selector/){:.nav-next}
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHybrid+Classical%2BLLM+Pipeline%5D+&labels=feedback%2Chybrid-pipeline&body=%2A%2ARe%3A%2A%2A+Hybrid+Classical%2BLLM+Pipeline%0A%2A%2ASection%3A%2A%2A+Hybrid+Pipeline+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fhybrid-classical-llm-pipeline%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHybrid+Classical%2BLLM+Pipeline%5D+&labels=feedback%2Cquality-assurance&body=%2A%2ARe%3A%2A%2A+Hybrid+Classical%2BLLM+Pipeline%0A%2A%2ASection%3A%2A%2A+Quality+Assurance+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fhybrid-classical-llm-pipeline%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
