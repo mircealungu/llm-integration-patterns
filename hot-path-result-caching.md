@@ -5,7 +5,7 @@ permalink: /hot-path-result-caching/
 ---
 
 
-[← All patterns](../)
+[← Pre-Computing Likely-Needed Results](../pre-computing-likely-needed-results/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Multiplexed Dispatch →](../multiplexed-dispatch/)
 
 
 **Example (Zeeguu):** MWE detection maintains a 500-entry LRU cache. When multiple users read the same article, phrase analyses computed for the first user are served instantly to subsequent users. Cache hit rates of 40-60% are typical for popular articles.
@@ -22,4 +22,4 @@ permalink: /hot-path-result-caching/
 
 
 ---
-[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHot-Path+Result+Caching%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Hot-Path+Result+Caching%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fhot-path-result-caching%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[← Pre-Computing Likely-Needed Results](../pre-computing-likely-needed-results/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Multiplexed Dispatch →](../multiplexed-dispatch/) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHot-Path+Result+Caching%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Hot-Path+Result+Caching%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fhot-path-result-caching%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

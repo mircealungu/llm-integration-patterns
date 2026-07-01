@@ -4,6 +4,30 @@
 ---
 @import "{{ site.theme }}";
 
+/* Slim header: just the title now, so drop the theme's tall hero padding
+   and let the gradient band be a compact strip. */
+.page-header {
+  padding: 2rem 6rem;
+}
+
+@media screen and (max-width: 64em) {
+  .page-header { padding: 2rem 4rem; }
+}
+
+@media screen and (max-width: 42em) {
+  .page-header { padding: 1.5rem 1rem; }
+}
+
+.page-header .project-name {
+  margin-bottom: 0;
+}
+
+/* "View on GitHub" moved into the footer; give it a little breathing room. */
+.site-footer .btn {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
 /* Responsive, capped, centered figures for screenshots/diagrams.
    - figure caps the display width (default 600px; per-image override via the
      ![[file|NNN]] embed sets an inline max-width on the figure)

@@ -111,20 +111,34 @@ def issue_link(name, slug_path, noun, section=None, label=None):
     return f"[💬 Open an issue about {noun}](https://github.com/{REPO}/issues/new?{q})"
 
 
-def footer(issue, back=None):
-    if not back:
+def nav_bar(prev, nxt):
+    """Prev · All patterns · Next bar for a pattern page.
+
+    prev/nxt are (name, slug) tuples or None at the ends of the sequence.
+    """
+    parts = []
+    if prev:
+        parts.append(f"[← {prev[0]}](../{prev[1]}/)")
+    parts.append("[All patterns](../)")
+    if nxt:
+        parts.append(f"[{nxt[0]} →](../{nxt[1]}/)")
+    return " &nbsp;·&nbsp; ".join(parts)
+
+
+def footer(issue, nav=None):
+    if not nav:
         return f"\n\n---\n{issue}\n"
-    return f"\n\n---\n[← {back}](../) &nbsp;·&nbsp; {issue}\n"
+    return f"\n\n---\n{nav} &nbsp;·&nbsp; {issue}\n"
 
 
-def write(slug_path, fm_title, back, body, issue, home=False, description=None):
+def write(slug_path, fm_title, nav, body, issue, home=False, description=None):
     fname = "index.md" if home else f"{slug_path}.md"
     parts = [front_matter(fm_title, f"/{slug_path}/" if slug_path else "/",
                           description)]
-    if back:
-        parts.append(f"\n[← {back}](../)\n")
+    if nav:
+        parts.append(f"\n{nav}\n")
     parts.append("\n" + body.strip() + "\n")
-    parts.append(footer(issue, back=back))
+    parts.append(footer(issue, nav=nav))
     open(os.path.join(ROOT, fname), "w", encoding="utf-8").write("\n".join(parts))
 
 
@@ -239,11 +253,25 @@ def main():
     home_issue = issue_link("the paper", "", "this paper")
     pending.append(("", TITLE, None, "\n".join(lines), home_issue, True, SUBTITLE))
 
+    # Flatten the catalogue into one ordered sequence of patterns (same order as
+    # the home-page listing) so each pattern page can link to its neighbours.
+    pattern_seq = [(name, s) for _c, pats, _p in catalogue for name, s in pats]
+    pattern_nav = {}
+    for i, (name, s) in enumerate(pattern_seq):
+        prev = pattern_seq[i - 1] if i > 0 else None
+        nxt = pattern_seq[i + 1] if i < len(pattern_seq) - 1 else None
+        pattern_nav[s] = nav_bar(prev, nxt)
+
     # Flush every page, auto-linking *Pattern Name* cross-references now that the
-    # full name -> slug map is known.
+    # full name -> slug map is known. Pattern pages get a prev/all/next bar; the
+    # rest keep a simple back link.
     for slug_path, title, back, body, issue, home, description in pending:
         body = autolink(body, slug_path, name2slug, home=home)
-        write(slug_path, title, back, body, issue, home=home, description=description)
+        if slug_path in pattern_nav:
+            nav = pattern_nav[slug_path]
+        else:
+            nav = f"[← {back}](../)" if back else None
+        write(slug_path, title, nav, body, issue, home=home, description=description)
 
     pages = len(glob.glob(os.path.join(ROOT, "*.md")))
     print(f"Built {pages} pages. Labels used: {sorted(used_labels)}")

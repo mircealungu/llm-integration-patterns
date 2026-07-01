@@ -5,7 +5,7 @@ permalink: /self-hosted-slow-path-inference/
 ---
 
 
-[← All patterns](../)
+[← Deterministic Postprocessing](../deterministic-postprocessing/) &nbsp;·&nbsp; [All patterns](../)
 
 
 **Example (Zeeguu, prospective):** This pattern is not yet implemented. The plan: overnight, a Mac Studio at home drains a queue of slow, batchable jobs that today run against paid APIs (translation validation, example-sentence checking, CEFR pre-classification). A worker on the Mac polls the Zeeguu server over outbound HTTPS, runs each job on a local model (e.g. via Ollama), and posts the result back. Anything not processed by a morning deadline falls back to the cloud API.
@@ -24,4 +24,4 @@ permalink: /self-hosted-slow-path-inference/
 
 
 ---
-[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSelf-Hosted+Slow-Path+Inference%5D+&labels=feedback%2Cpossible-other&body=%2A%2ARe%3A%2A%2A+Self-Hosted+Slow-Path+Inference%0A%2A%2ASection%3A%2A%2A+Possible+Other+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fself-hosted-slow-path-inference%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[← Deterministic Postprocessing](../deterministic-postprocessing/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSelf-Hosted+Slow-Path+Inference%5D+&labels=feedback%2Cpossible-other&body=%2A%2ARe%3A%2A%2A+Self-Hosted+Slow-Path+Inference%0A%2A%2ASection%3A%2A%2A+Possible+Other+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fself-hosted-slow-path-inference%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

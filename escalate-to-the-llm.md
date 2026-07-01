@@ -5,7 +5,7 @@ permalink: /escalate-to-the-llm/
 ---
 
 
-[← All patterns](../)
+[← Prompt Amortization](../prompt-amortization/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Pre-Computing Likely-Needed Results →](../pre-computing-likely-needed-results/)
 
 
 **Example (Zeeguu):** Google Translate serves as the primary translation engine. When a user indicates the translation is inadequate, the system escalates to an LLM for a more nuanced, context-aware translation. This keeps costs low and speed high in the common case while providing higher, LLM-quality results when needed.
@@ -29,4 +29,4 @@ permalink: /escalate-to-the-llm/
 
 
 ---
-[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BEscalate+to+the+LLM%5D+&labels=feedback%2Ccost-optimization&body=%2A%2ARe%3A%2A%2A+Escalate+to+the+LLM%0A%2A%2ASection%3A%2A%2A+Cost+Optimization+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fescalate-to-the-llm%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[← Prompt Amortization](../prompt-amortization/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Pre-Computing Likely-Needed Results →](../pre-computing-likely-needed-results/) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BEscalate+to+the+LLM%5D+&labels=feedback%2Ccost-optimization&body=%2A%2ARe%3A%2A%2A+Escalate+to+the+LLM%0A%2A%2ASection%3A%2A%2A+Cost+Optimization+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fescalate-to-the-llm%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

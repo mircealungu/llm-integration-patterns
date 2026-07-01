@@ -5,7 +5,7 @@ permalink: /fail-fast-provider-chain/
 ---
 
 
-[← All patterns](../)
+[← Multiplexed Dispatch](../multiplexed-dispatch/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [LLM as Wizard of Oz →](../llm-as-wizard-of-oz/)
 
 
 **Example** (Zeeguu): The app uses a unified LLM service proxy which tries Anthropic first; on any error (timeout, rate limit, API error), it immediately switches to DeepSeek without retry. This keeps worst-case latency bounded while maintaining availability.    
@@ -19,4 +19,4 @@ permalink: /fail-fast-provider-chain/
 
 
 ---
-[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BFail-Fast+Provider+Chain%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Fail-Fast+Provider+Chain%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Ffail-fast-provider-chain%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[← Multiplexed Dispatch](../multiplexed-dispatch/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [LLM as Wizard of Oz →](../llm-as-wizard-of-oz/) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BFail-Fast+Provider+Chain%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Fail-Fast+Provider+Chain%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Ffail-fast-provider-chain%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
