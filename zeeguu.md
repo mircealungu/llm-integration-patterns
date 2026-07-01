@@ -27,4 +27,6 @@ Zeeguu currently serves over 300 monthly active users, with peaks exceeding 400 
 
 
 ---
-[← Home](../) &nbsp;·&nbsp; [💬 Open an issue about this case study](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BZeeguu%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Zeeguu%0A%2A%2ASection%3A%2A%2A+Case+Studies%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fzeeguu%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[← Home](../)
+
+[💬 Open an issue about this case study](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BZeeguu%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Zeeguu%0A%2A%2ASection%3A%2A%2A+Case+Studies%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fzeeguu%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

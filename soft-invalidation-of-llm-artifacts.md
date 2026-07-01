@@ -7,6 +7,7 @@ permalink: /soft-invalidation-of-llm-artifacts/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../temperature-as-task-selector/">← Temperature as Task Selector</a>
+  <a class="nav-here" href="../" title="All patterns">Soft Invalidation of LLM Artifacts</a>
   <a class="nav-next" href="../deterministic-postprocessing/">Deterministic Postprocessing →</a>
 </nav>
 
@@ -31,4 +32,6 @@ None of these are good defaults for production systems where LLM-generated artif
 
 
 ---
-[← Temperature as Task Selector](../temperature-as-task-selector/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Deterministic Postprocessing →](../deterministic-postprocessing/) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSoft+Invalidation+of+LLM+Artifacts%5D+&labels=feedback%2Cpossible-other&body=%2A%2ARe%3A%2A%2A+Soft+Invalidation+of+LLM+Artifacts%0A%2A%2ASection%3A%2A%2A+Possible+Other+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fsoft-invalidation-of-llm-artifacts%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[← Temperature as Task Selector](../temperature-as-task-selector/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [Deterministic Postprocessing →](../deterministic-postprocessing/)
+
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSoft+Invalidation+of+LLM+Artifacts%5D+&labels=feedback%2Cpossible-other&body=%2A%2ARe%3A%2A%2A+Soft+Invalidation+of+LLM+Artifacts%0A%2A%2ASection%3A%2A%2A+Possible+Other+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fsoft-invalidation-of-llm-artifacts%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

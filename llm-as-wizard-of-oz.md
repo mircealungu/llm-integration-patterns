@@ -7,6 +7,7 @@ permalink: /llm-as-wizard-of-oz/
 
 <nav class="pattern-nav">
   <a class="nav-prev" href="../fail-fast-provider-chain/">← Fail-Fast Provider Chain</a>
+  <a class="nav-here" href="../" title="All patterns">LLM as Wizard of Oz</a>
   <a class="nav-next" href="../llm-output-provenance/">LLM Output Provenance →</a>
 </nav>
 
@@ -24,4 +25,6 @@ permalink: /llm-as-wizard-of-oz/
 
 
 ---
-[← Fail-Fast Provider Chain](../fail-fast-provider-chain/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [LLM Output Provenance →](../llm-output-provenance/) &nbsp;·&nbsp; [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BLLM+as+Wizard+of+Oz%5D+&labels=feedback%2Clifecycle-management&body=%2A%2ARe%3A%2A%2A+LLM+as+Wizard+of+Oz%0A%2A%2ASection%3A%2A%2A+Lifecycle+Management+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fllm-as-wizard-of-oz%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[← Fail-Fast Provider Chain](../fail-fast-provider-chain/) &nbsp;·&nbsp; [All patterns](../) &nbsp;·&nbsp; [LLM Output Provenance →](../llm-output-provenance/)
+
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BLLM+as+Wizard+of+Oz%5D+&labels=feedback%2Clifecycle-management&body=%2A%2ARe%3A%2A%2A+LLM+as+Wizard+of+Oz%0A%2A%2ASection%3A%2A%2A+Lifecycle+Management+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fllm-as-wizard-of-oz%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

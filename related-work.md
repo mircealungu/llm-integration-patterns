@@ -33,4 +33,6 @@ LLM self-verification. For the [LLM-Checking-LLM](../llm-checking-llm/) pattern,
 
 
 ---
-[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this section](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BRelated+Work%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Related+Work%0A%2A%2ASection%3A%2A%2A+Related+Work%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Frelated-work%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[← All patterns](../)
+
+[💬 Open an issue about this section](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BRelated+Work%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Related+Work%0A%2A%2ASection%3A%2A%2A+Related+Work%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Frelated-work%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

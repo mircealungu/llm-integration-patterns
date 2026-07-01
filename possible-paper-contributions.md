@@ -21,4 +21,6 @@ permalink: /possible-paper-contributions/
 
 
 ---
-[← All patterns](../) &nbsp;·&nbsp; [💬 Open an issue about this section](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BPossible+Paper+Contributions%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Possible+Paper+Contributions%0A%2A%2ASection%3A%2A%2A+Possible+Paper+Contributions%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fpossible-paper-contributions%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[← All patterns](../)
+
+[💬 Open an issue about this section](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BPossible+Paper+Contributions%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Possible+Paper+Contributions%0A%2A%2ASection%3A%2A%2A+Possible+Paper+Contributions%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fpossible-paper-contributions%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

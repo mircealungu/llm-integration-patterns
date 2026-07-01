@@ -125,28 +125,32 @@ def nav_bar(prev, nxt):
     return " &nbsp;·&nbsp; ".join(parts)
 
 
-def nav_bar_html(prev, nxt):
-    """Sticky nav for the top of a pattern page: prev pulled left, next pulled
-    right (no All-patterns link — that stays in the footer). Empty end slots
-    keep the surviving link pinned to its side. Styled by `.pattern-nav` in
-    assets/css/style.scss."""
+def nav_bar_html(prev, nxt, current):
+    """Sticky nav for the top of a pattern page: prev name (left), the current
+    pattern name (center, which also links up to All patterns), next name
+    (right). Empty end slots keep the centre item centred; long names are
+    ellipsis-clipped by CSS. The ← / → keyboard handler lives in
+    _layouts/default.html and drives off these `.nav-prev` / `.nav-next` links.
+    Styled by `.pattern-nav` in assets/css/style.scss."""
     if prev:
         left = (f'<a class="nav-prev" href="../{prev[1]}/">'
                 f'← {html.escape(prev[0])}</a>')
     else:
         left = '<span class="nav-prev"></span>'
+    mid = (f'<a class="nav-here" href="../" title="All patterns">'
+           f'{html.escape(current)}</a>')
     if nxt:
         right = (f'<a class="nav-next" href="../{nxt[1]}/">'
                  f'{html.escape(nxt[0])} →</a>')
     else:
         right = '<span class="nav-next"></span>'
-    return f'<nav class="pattern-nav">\n  {left}\n  {right}\n</nav>'
+    return f'<nav class="pattern-nav">\n  {left}\n  {mid}\n  {right}\n</nav>'
 
 
 def footer(issue, nav=None):
     if not nav:
         return f"\n\n---\n{issue}\n"
-    return f"\n\n---\n{nav} &nbsp;·&nbsp; {issue}\n"
+    return f"\n\n---\n{nav}\n\n{issue}\n"
 
 
 def write(slug_path, fm_title, top_nav, foot_nav, body, issue,
@@ -289,7 +293,7 @@ def main():
         body = autolink(body, slug_path, name2slug, home=home)
         if slug_path in pattern_nav:
             prev, nxt = pattern_nav[slug_path]
-            top_nav, foot_nav = nav_bar_html(prev, nxt), nav_bar(prev, nxt)
+            top_nav, foot_nav = nav_bar_html(prev, nxt, title), nav_bar(prev, nxt)
         elif back:
             top_nav = foot_nav = f"[← {back}](../)"
         else:
