@@ -11,20 +11,18 @@ permalink: /prompt-amortization/
 
 
 <figure class="img" style="max-width:420px">
-  <a href="/images/prompt-amortization-combined-validation.png"><img src="/images/prompt-amortization-combined-validation.png" alt="The `COMBINED_VALIDATION_PROMPT` template: ~250 lines of validation rules, frequency/CEFR/phrase-type taxonomies, output format, and examples — wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes."></a>
-  <figcaption>The `COMBINED_VALIDATION_PROMPT` template: ~250 lines of validation rules, frequency/CEFR/phrase-type taxonomies, output format, and examples — wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes.</figcaption>
+  <a href="/images/prompt-amortization-combined-validation.png"><img src="/images/prompt-amortization-combined-validation.png" alt="The `COMBINED_VALIDATION_PROMPT` template: ~250 lines of validation rules, frequency/CEFR/phrase-type taxonomies, output format, and examples, wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes."></a>
+  <figcaption>The `COMBINED_VALIDATION_PROMPT` template: ~250 lines of validation rules, frequency/CEFR/phrase-type taxonomies, output format, and examples, wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes.</figcaption>
 </figure>
 
 
 ## Example
 
-When many items need the same expensive prompt, they can be packed into a single call instead of sent one at a time. This *batching* takes two forms.
+Several Zeeguu jobs share the same shape — a large instructional prompt wrapped around a tiny variable input (see figure) — and run offline over many items. Instead of paying that preamble once per item, related items are packed into a single call:
 
-1. *Fan-in* batching packs many independent inputs into one prompt, amortizing a large instructional preamble across the whole batch: meaning frequency/type classification sends ~15 meanings per call, and validation of generated example sentences checks ~20 examples per call. 
-
-2. *Fan-out* batching produces many outputs from a single input: article simplification generates every CEFR variant simpler than the original in one call, emitting one section per level, turning up to four or five requests into one (~75% fewer calls for a typical article). 
-
-Both combine naturally with pre-computation: because results are computed offline, there is the luxury of batching.
+- **Meaning classification** sends ~15 word-meanings per call, sharing one frequency/CEFR-type taxonomy prompt across the whole batch.
+- **Example-sentence validation** checks ~20 generated examples per call.
+- **Article simplification** produces every CEFR level simpler than the original in one call — one section per level — turning four or five requests into one (~75% fewer calls for a typical article).
 
 
 
@@ -34,7 +32,12 @@ Many LLM tasks involve a large instructional preamble (the system prompt explain
 
 ## Solution
 
-Batch multiple inputs into a single request, amortizing the expensive prompt across many items.
+Batch multiple items into a single request, amortizing the expensive prompt across all of them. This takes two forms:
+
+- ***Fan-in* batching** packs many independent inputs into one prompt, spreading a large instructional preamble across the whole batch.
+- ***Fan-out* batching** produces many outputs from a single input, emitting one section per output and collapsing several requests into one.
+
+Both combine naturally with pre-computation: because results are computed offline, there is the luxury of batching.
 
 ## Code
 
