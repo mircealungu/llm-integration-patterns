@@ -17,3 +17,8 @@ Use the LLM to perform a task in production while building a more efficient repl
 ## Note
 
 This pattern has a lifecycle relationship with *Escalate to the LLM*: a system may start with the LLM as primary (Wizard of Oz), migrate to a specialized tool as primary, and then keep the LLM as the escalation path, completing a full cycle from LLM-first to LLM-on-demand.
+
+
+
+- after the focus group
+	- it's not exactcly as wizard of oz prototyping

@@ -19,3 +19,8 @@ Enforce deterministic constraints in code, at the post-processing or serializati
 ## Notes
 
 The boundary between "deterministic" and "semantic" is the test. *Strip a trailing `…`*: deterministic, do it in code. *Don't mention the user's name*: semantic, the model has to enforce. When the deterministic rule list grows long, that is itself a signal that the task is poorly scoped, not that the prompt needs more rules.
+
+
+- after the focus group
+	- is it even more generic? favor programming ? 
+	- lllm envy? 

@@ -33,3 +33,10 @@ Keep every model identifier in one central module. Declare the canonical vendor 
 ## War Story
 
 The same commit that repaired the retirement uncovered a second casualty of the identical disease. Simplified articles were being stamped `ai_model="claude-3-5-sonnet"` while the simplifier had long since moved to Haiku. The provenance field named a model that was no longer even in the pipeline (see *LLM Output Provenance*). Same root cause as the retirement: a model identifier duplicated into a place nobody remembers to update, silently going stale. Centralizing selection lets the provenance stamp and the call-time choice read from the same constant, so they cannot disagree.
+
+
+
+alternatives after the focus group
+- proxy, dependency injection 
+- agent anti-pattern ? 
+- AI gateway — an AI gateway can host the role→model mapping as named aliases in its config, relocating this pattern's registry out of application code. See the broader treatment of what gateways do and do not subsume in *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*.

@@ -27,6 +27,13 @@ Systematically vary temperature based on task type. Use temperature 0–0.3 for 
 This pattern acknowledges that a single LLM can behave as multiple "virtual components" depending on configuration: deterministic validator vs. creative generator.
 
 
+- after the focus group
+	- very model dependent 
+	- can of worms?
+	- zero - follow training data? 
+	-
+
+
 
 ---
 <div class="pattern-footer-nav"><a class="nav-prev" href="../hybrid-classical-llm-pipeline/">← Hybrid Classical+LLM Pipeline</a><a class="nav-next" href="../soft-invalidation-of-llm-artifacts/">Soft Invalidation of LLM Artifacts →</a></div>

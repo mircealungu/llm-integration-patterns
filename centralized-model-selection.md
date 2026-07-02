@@ -48,6 +48,13 @@ The same commit that repaired the retirement uncovered a second casualty of the 
 
 
 
+alternatives after the focus group
+- proxy, dependency injection 
+- agent anti-pattern ? 
+- AI gateway — an AI gateway can host the role→model mapping as named aliases in its config, relocating this pattern's registry out of application code. See the broader treatment of what gateways do and do not subsume in *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*.
+
+
+
 ---
 <div class="pattern-footer-nav"><a class="nav-prev" href="../llm-as-wizard-of-oz/">← LLM as Wizard of Oz</a><a class="nav-next" href="../llm-output-provenance/">LLM Output Provenance →</a></div>
 

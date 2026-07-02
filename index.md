@@ -66,6 +66,8 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 - [Deterministic Postprocessing](deterministic-postprocessing/)
 - [Self-Hosted Slow-Path Inference](self-hosted-slow-path-inference/)
 - [Defensive Output Parsing](defensive-output-parsing/)
+- [Per-User Consumption Budget](per-user-consumption-budget/)
+- [Prompt Injection Containment](prompt-injection-containment/)
 
 ## More
 

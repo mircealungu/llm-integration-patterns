@@ -37,6 +37,17 @@ This pattern applies broadly: topic classification, named entity recognition, or
 - *Relationship to the model cascade.* This is the human-/failure-triggered cousin of the **model cascade** in ML serving, where a cheap model runs first and a confidence threshold routes hard inputs to a larger model. The shared shape is *cheap tier first, expensive tier on demand*; the difference is the trigger. A cascade escalates automatically on the model's own low confidence, whereas this pattern escalates on external signals: the primary tool erroring, or the user explicitly declaring the result inadequate. A confidence-based cascade is thus one possible escalation policy; user dissatisfaction is another, and the two can be combined.
 
 
+- after focus group
+	- name? wjhy does the user have to know the LLM? 
+	- just ask: explain 
+	- user should not even ask (Uwe)
+	- escalate to more powerful 
+	- why do we even do news? you could have 1k articles about 
+	- premium version -- only shows news articles
+	- free users only get what the paying users get
+	- which patterns still stand if you replace LLMs with expensive components?
+
+
 
 ---
 <div class="pattern-footer-nav"><a class="nav-prev" href="../prompt-amortization/">← Prompt Amortization</a><a class="nav-next" href="../pre-computing-likely-needed-results/">Pre-Computing Likely-Needed Results →</a></div>

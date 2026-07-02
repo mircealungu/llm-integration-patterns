@@ -28,6 +28,10 @@ Maintain an explicit, queryable validation state for all LLM-generated content i
 - Implicit validation: One could argue that "if a user practiced a word without complaint, it's implicitly validated"
 
 
+- after the focus group
+	- you need somebody that speaks two languages
+
+
 
 ---
 <div class="pattern-footer-nav"><a class="nav-prev" href="../llm-checking-llm/">← LLM-Checking-LLM</a><a class="nav-next" href="../hybrid-classical-llm-pipeline/">Hybrid Classical+LLM Pipeline →</a></div>

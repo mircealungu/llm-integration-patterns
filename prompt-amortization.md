@@ -56,6 +56,10 @@ Both combine naturally with pre-computation: because results are computed offlin
 - Some LLMs provide prompt caching - e.g. Deepseek. Even so, if the cost is amortized with prompt caching, the time saving of amortization can still be a valuable reason for doing it
 
 
+- after focus group
+	- drain pattern?
+
+
 
 ---
 <div class="pattern-footer-nav"><a class="nav-next" href="../escalate-to-the-llm/">Escalate to the LLM →</a></div>

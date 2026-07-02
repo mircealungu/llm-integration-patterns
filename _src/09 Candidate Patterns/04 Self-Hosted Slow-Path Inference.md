@@ -28,3 +28,7 @@ Trades API cost for sunk hardware and electricity, on the slow path only; real-t
 
 - *Outbound-only is the key.* A pull-based worker exposes nothing and is the smallest attack surface. If the server must instead call the local model synchronously, a mesh VPN such as Tailscale (or a Cloudflare Tunnel) gives the server a route to the machine without port-forwarding or a public IP.
 - *Owned versus volunteered.* Here the hardware belongs to the operator. A more ambitious variant accepts compute volunteered by third parties, which adds a trust dimension: outputs from untrusted workers must be validated before use (composes with *LLM Content Validation Tracking*) and may need cross-checking across workers.
+- batch processing? 
+- priority queues ? 
+- I kind of assume that we call APIs in many places where I talk about LLMs
+- business / engineering / design? another category

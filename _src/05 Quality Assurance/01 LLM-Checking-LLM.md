@@ -15,3 +15,9 @@ Use one LLM call to generate a result, then use a separate LLM call to check or 
 ## Note
 
 This is distinct from ensemble methods or chain-of-thought: the key insight is that checking is a fundamentally easier task than generating, and this asymmetry can be exploited architecturally.
+
+
+- after the focus group
+	- LLM as a judge -- is this the same? 
+	- be cynical prompting for an LLM when judging a paper, e.g. 
+

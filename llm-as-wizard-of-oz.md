@@ -30,6 +30,11 @@ This pattern has a lifecycle relationship with [Escalate to the LLM](../escalate
 
 
 
+- after the focus group
+	- it's not exactcly as wizard of oz prototyping
+
+
+
 ---
 <div class="pattern-footer-nav"><a class="nav-prev" href="../fail-fast-provider-chain/">← Fail-Fast Provider Chain</a><a class="nav-next" href="../centralized-model-selection/">Centralized Model Selection →</a></div>
 
