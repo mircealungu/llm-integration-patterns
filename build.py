@@ -128,19 +128,24 @@ def issue_link(name, slug_path, noun, section=None, label=None):
 
 
 def nav_bar(prev, nxt):
-    """Inline Prev · All patterns · Next bar (used in the page footer). The
-    prev/next links carry `.nav-prev` / `.nav-next` classes (kramdown IAL) so
-    the ← / → keyboard handler in _layouts/default.html can drive off them.
+    """Footer nav: prev flush-left, next flush-right (styled by
+    `.pattern-footer-nav` in assets/css/style.scss). "All patterns" is omitted
+    here — it already lives in the top breadcrumb. The prev/next links keep
+    their `.nav-prev` / `.nav-next` classes so the ← / → keyboard handler in
+    _layouts/default.html can drive off them.
 
     prev/nxt are (name, slug) tuples or None at the ends of the sequence.
     """
-    parts = []
+    links = []
     if prev:
-        parts.append(f"[← {prev[0]}](../{prev[1]}/){{:.nav-prev}}")
-    parts.append(f"[All patterns]({ALL_PATTERNS_HREF})")
+        links.append(f'<a class="nav-prev" href="../{prev[1]}/">'
+                     f"← {html.escape(prev[0])}</a>")
     if nxt:
-        parts.append(f"[{nxt[0]} →](../{nxt[1]}/){{:.nav-next}}")
-    return " &nbsp;·&nbsp; ".join(parts)
+        links.append(f'<a class="nav-next" href="../{nxt[1]}/">'
+                     f"{html.escape(nxt[0])} →</a>")
+    if not links:
+        return ""
+    return f'<div class="pattern-footer-nav">{"".join(links)}</div>'
 
 
 def nav_bar_html(cat=None, cat_href=None):

@@ -83,6 +83,18 @@ body.home .main-content h3 {
   color: #b0b4ba;
 }
 
+/* Footer prev/next: prev flush-left, next flush-right (margin-left:auto keeps
+   next on the right even on the first page, where there is no prev). */
+.pattern-footer-nav {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.pattern-footer-nav .nav-next {
+  margin-left: auto;
+}
+
 /* Responsive, capped, centered figures for screenshots/diagrams.
    - figure caps the display width (default 600px; per-image override via the
      ![[file|NNN]] embed sets an inline max-width on the figure)
