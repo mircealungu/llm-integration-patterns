@@ -1,8 +1,9 @@
 # Defensive Output Parsing
 
+(Inspired by discussion with Cesare Pautasso)
 ## Example
 
-MWE detection asks the LLM for a JSON array and refuses to trust that it gets one. 
+Multi-word-expression detection asks the LLM for a JSON array but refuses to blindly trust that it will get one. 
 
 - `_parse_response` first strips any markdown code fence (the model often wraps the JSON in one), tries `json.loads`, and on failure regex-extracts the last JSON array in the text (models tend to add a preamble), parses that, and checks for a bare `[]`. 
 
@@ -16,7 +17,7 @@ The same layered try / extract / validate / fall-back appears in the translation
 
 - A fixed output format is required (JSON, a delimited record), but format compliance is probabilistic. 
 
-- A naive parse on the critical path turns a formatting slip into a failed request, and a formatting slip is far more common than a genuine error.
+- A naive parse on the critical path can turn a formatting slip into a failed request, and a formatting slip is far more common than a genuine error.
 
 ## Solution
 
