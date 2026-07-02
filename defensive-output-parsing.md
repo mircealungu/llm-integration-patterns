@@ -10,7 +10,7 @@ permalink: /defensive-output-parsing/
 </nav>
 
 
-(Inspired by discussion with Cesare Pautasso)
+(Inspired by discussion with [Cesare Pautasso](http://www.pautasso.org/))
 ## Example
 
 Multi-word-expression detection asks the LLM for a JSON array but refuses to blindly trust that it will get one. 
@@ -25,9 +25,9 @@ The same layered try / extract / validate / fall-back appears in the translation
 
 ## Forces
 
-- A fixed output format is required (JSON, a delimited record), but format compliance is probabilistic. 
-
-- A naive parse on the critical path can turn a formatting slip into a failed request, and a formatting slip is far more common than a genuine error.
+- A fixed output format is required (JSON, a delimited record)
+- Format compliance is probabilistic 
+- A naive parse on the critical path can turn a formatting slip into a failed request
 
 ## Solution
 
