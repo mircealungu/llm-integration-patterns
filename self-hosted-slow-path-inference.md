@@ -10,11 +10,7 @@ permalink: /self-hosted-slow-path-inference/
 </nav>
 
 
-## Example
-
-This pattern is not yet implemented, but it's planned. 
-
-### The Plan
+## Example (planned)
 
 Overnight, a local LLM on a server that belongs to the system creator (e.g. a Mac Studio) drains a queue of slow, batchable jobs that today run against paid APIs (translation validation, example-sentence checking, CEFR pre-classification). 
 
