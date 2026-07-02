@@ -50,6 +50,7 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 
 ### Lifecycle Management
 - [LLM as Wizard of Oz](llm-as-wizard-of-oz/)
+- [Centralized Model Selection](centralized-model-selection/)
 
 ### Data Management
 - [LLM Output Provenance](llm-output-provenance/)
