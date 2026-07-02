@@ -1,9 +1,10 @@
 # Prompt Amortization
 
-**Example (Zeeguu):** When many items need the same expensive prompt, they can be packed into a single call instead of sent one at a time. This *batching* takes two forms. 
-
 ![[prompt-amortization-combined-validation.png|420]]
 *The `COMBINED_VALIDATION_PROMPT` template: ~250 lines of validation rules, frequency/CEFR/phrase-type taxonomies, output format, and examples — wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes.*
+
+
+**Example (Zeeguu):** When many items need the same expensive prompt, they can be packed into a single call instead of sent one at a time. This *batching* takes two forms. 
 
 1. *Fan-in* batching packs many independent inputs into one prompt, amortizing a large instructional preamble across the whole batch: meaning frequency/type classification sends ~15 meanings per call, and validation of generated example sentences checks ~20 examples per call. 
 

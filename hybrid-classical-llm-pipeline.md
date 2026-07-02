@@ -18,6 +18,8 @@ permalink: /hybrid-classical-llm-pipeline/
 
 **Tradeoff**: Requires maintaining two systems, but the cost savings from not sending every input to the LLM typically justify the complexity.
 
+**Note**: Close kin to [Escalate to the LLM](../escalate-to-the-llm/) and to a model cascade: all three run a cheap step first and call the LLM selectively. The difference is the trigger. Escalate uses the cheap tool's answer and reaches for the LLM only when it is inadequate (a failure, or user dissatisfaction); here the cheap tool gates on detected difficulty (a flagged candidate) and the LLM's verdict replaces it, as in a confidence-based cascade.
+
 
 
 ---
