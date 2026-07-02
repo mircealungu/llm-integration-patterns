@@ -1,14 +1,12 @@
 ---
 layout: default
 title: "Multiplexed Dispatch"
-subtitle: "Latency and Availability Patterns"
-subtitle_url: "../#latency-and-availability-patterns"
 permalink: /multiplexed-dispatch/
 ---
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#latency-and-availability">Latency and Availability</a>
 </nav>
 
 
@@ -29,4 +27,4 @@ An alternative to this is **live retrieval**: when the user encounters a transla
 ---
 [← Hot-Path Result Caching](../hot-path-result-caching/){:.nav-prev} &nbsp;·&nbsp; [All patterns](../#the-patterns) &nbsp;·&nbsp; [Fail-Fast Provider Chain →](../fail-fast-provider-chain/){:.nav-next}
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BMultiplexed+Dispatch%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Multiplexed+Dispatch%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fmultiplexed-dispatch%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BMultiplexed+Dispatch%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Multiplexed+Dispatch%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fmultiplexed-dispatch%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

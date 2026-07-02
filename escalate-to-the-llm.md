@@ -1,14 +1,12 @@
 ---
 layout: default
 title: "Escalate to the LLM"
-subtitle: "Cost Optimization Patterns"
-subtitle_url: "../#cost-optimization-patterns"
 permalink: /escalate-to-the-llm/
 ---
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#cost-optimization">Cost Optimization</a>
 </nav>
 
 
@@ -35,4 +33,4 @@ permalink: /escalate-to-the-llm/
 ---
 [← Prompt Amortization](../prompt-amortization/){:.nav-prev} &nbsp;·&nbsp; [All patterns](../#the-patterns) &nbsp;·&nbsp; [Pre-Computing Likely-Needed Results →](../pre-computing-likely-needed-results/){:.nav-next}
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BEscalate+to+the+LLM%5D+&labels=feedback%2Ccost-optimization&body=%2A%2ARe%3A%2A%2A+Escalate+to+the+LLM%0A%2A%2ASection%3A%2A%2A+Cost+Optimization+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fescalate-to-the-llm%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BEscalate+to+the+LLM%5D+&labels=feedback%2Ccost-optimization&body=%2A%2ARe%3A%2A%2A+Escalate+to+the+LLM%0A%2A%2ASection%3A%2A%2A+Cost+Optimization%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fescalate-to-the-llm%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

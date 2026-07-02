@@ -78,6 +78,11 @@ body.home .main-content h3 {
   font-size: 0.95rem;
 }
 
+.pattern-nav .crumb-sep {
+  margin: 0 0.15rem;
+  color: #b0b4ba;
+}
+
 /* Responsive, capped, centered figures for screenshots/diagrams.
    - figure caps the display width (default 600px; per-image override via the
      ![[file|NNN]] embed sets an inline max-width on the figure)

@@ -1,14 +1,12 @@
 ---
 layout: default
 title: "LLM Content Validation Tracking"
-subtitle: "Quality Assurance Patterns"
-subtitle_url: "../#quality-assurance-patterns"
 permalink: /llm-content-validation-tracking/
 ---
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#quality-assurance">Quality Assurance</a>
 </nav>
 
 
@@ -28,4 +26,4 @@ permalink: /llm-content-validation-tracking/
 ---
 [← LLM-Checking-LLM](../llm-checking-llm/){:.nav-prev} &nbsp;·&nbsp; [All patterns](../#the-patterns) &nbsp;·&nbsp; [Hybrid Classical+LLM Pipeline →](../hybrid-classical-llm-pipeline/){:.nav-next}
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BLLM+Content+Validation+Tracking%5D+&labels=feedback%2Cquality-assurance&body=%2A%2ARe%3A%2A%2A+LLM+Content+Validation+Tracking%0A%2A%2ASection%3A%2A%2A+Quality+Assurance+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fllm-content-validation-tracking%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BLLM+Content+Validation+Tracking%5D+&labels=feedback%2Cquality-assurance&body=%2A%2ARe%3A%2A%2A+LLM+Content+Validation+Tracking%0A%2A%2ASection%3A%2A%2A+Quality+Assurance%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fllm-content-validation-tracking%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

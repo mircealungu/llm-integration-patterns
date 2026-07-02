@@ -1,14 +1,12 @@
 ---
 layout: default
 title: "Pre-Computing Likely-Needed Results"
-subtitle: "Latency and Availability Patterns"
-subtitle_url: "../#latency-and-availability-patterns"
 permalink: /pre-computing-likely-needed-results/
 ---
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#latency-and-availability">Latency and Availability</a>
 </nav>
 
 
@@ -29,4 +27,4 @@ The system can afford to insert an imprecise translation while the reader is qui
 ---
 [← Escalate to the LLM](../escalate-to-the-llm/){:.nav-prev} &nbsp;·&nbsp; [All patterns](../#the-patterns) &nbsp;·&nbsp; [Hot-Path Result Caching →](../hot-path-result-caching/){:.nav-next}
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BPre-Computing+Likely-Needed+Results%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Pre-Computing+Likely-Needed+Results%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fpre-computing-likely-needed-results%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BPre-Computing+Likely-Needed+Results%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Pre-Computing+Likely-Needed+Results%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fpre-computing-likely-needed-results%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

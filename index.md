@@ -38,28 +38,28 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 
 ## The Patterns
 
-### Cost Optimization Patterns
+### Cost Optimization
 - [Prompt Amortization](prompt-amortization/)
 - [Escalate to the LLM](escalate-to-the-llm/)
 
-### Latency and Availability Patterns
+### Latency and Availability
 - [Pre-Computing Likely-Needed Results](pre-computing-likely-needed-results/)
 - [Hot-Path Result Caching](hot-path-result-caching/)
 - [Multiplexed Dispatch](multiplexed-dispatch/)
 - [Fail-Fast Provider Chain](fail-fast-provider-chain/)
 
-### Lifecycle Management Patterns
+### Lifecycle Management
 - [LLM as Wizard of Oz](llm-as-wizard-of-oz/)
 
-### Data Management Patterns
+### Data Management
 - [LLM Output Provenance](llm-output-provenance/)
 
-### Quality Assurance Patterns
+### Quality Assurance
 - [LLM-Checking-LLM](llm-checking-llm/)
 - [LLM Content Validation Tracking](llm-content-validation-tracking/)
 - [Hybrid Classical+LLM Pipeline](hybrid-classical-llm-pipeline/)
 
-### Possible Other Patterns
+### Candidate
 - [Temperature as Task Selector](temperature-as-task-selector/)
 - [Soft Invalidation of LLM Artifacts](soft-invalidation-of-llm-artifacts/)
 - [Deterministic Postprocessing](deterministic-postprocessing/)

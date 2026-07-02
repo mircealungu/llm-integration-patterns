@@ -1,14 +1,12 @@
 ---
 layout: default
 title: "Soft Invalidation of LLM Artifacts"
-subtitle: "Possible Other Patterns"
-subtitle_url: "../#possible-other-patterns"
 permalink: /soft-invalidation-of-llm-artifacts/
 ---
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#candidate">Candidate</a>
 </nav>
 
 
@@ -34,4 +32,4 @@ None of these are good defaults for production systems where LLM-generated artif
 ---
 [← Temperature as Task Selector](../temperature-as-task-selector/){:.nav-prev} &nbsp;·&nbsp; [All patterns](../#the-patterns) &nbsp;·&nbsp; [Deterministic Postprocessing →](../deterministic-postprocessing/){:.nav-next}
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSoft+Invalidation+of+LLM+Artifacts%5D+&labels=feedback%2Cpossible-other&body=%2A%2ARe%3A%2A%2A+Soft+Invalidation+of+LLM+Artifacts%0A%2A%2ASection%3A%2A%2A+Possible+Other+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fsoft-invalidation-of-llm-artifacts%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSoft+Invalidation+of+LLM+Artifacts%5D+&labels=feedback%2Ccandidate&body=%2A%2ARe%3A%2A%2A+Soft+Invalidation+of+LLM+Artifacts%0A%2A%2ASection%3A%2A%2A+Candidate+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fsoft-invalidation-of-llm-artifacts%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

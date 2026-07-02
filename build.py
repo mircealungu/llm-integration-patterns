@@ -35,8 +35,15 @@ def slug(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
+def strip_patterns_suffix(category_title: str) -> str:
+    """"Latency and Availability Patterns" -> "Latency and Availability".
+    The site is already about patterns, so the suffix is redundant in
+    breadcrumbs and catalogue headings."""
+    return re.sub(r"\s*Patterns$", "", category_title.rstrip("?").strip())
+
+
 def section_label(category_title: str) -> str:
-    return slug(re.sub(r"\s*Patterns$", "", category_title.rstrip("?").strip()))
+    return slug(strip_patterns_suffix(category_title))
 
 
 def strip_working_notes(text: str) -> str:
@@ -136,12 +143,17 @@ def nav_bar(prev, nxt):
     return " &nbsp;·&nbsp; ".join(parts)
 
 
-def nav_bar_html():
-    """Sticky bar for the top of a pattern page: just a back link to the
-    catalogue. Prev/next live in the footer only. Styled by `.pattern-nav`
-    in assets/css/style.scss."""
-    return (f'<nav class="pattern-nav">\n'
-            f'  <a href="{ALL_PATTERNS_HREF}">← All patterns</a>\n</nav>')
+def nav_bar_html(cat=None, cat_href=None):
+    """Sticky bar for the top of a pattern page: a breadcrumb back to the
+    catalogue, then the pattern's category. Prev/next live in the footer only.
+    Styled by `.pattern-nav` in assets/css/style.scss."""
+    crumbs = [f'<a href="{ALL_PATTERNS_HREF}">← All patterns</a>']
+    if cat:
+        sep = '<span class="crumb-sep">‹</span>'
+        cat_html = f'<a href="{cat_href}">{html.escape(cat)}</a>' if cat_href \
+            else html.escape(cat)
+        crumbs.append(f"{sep} {cat_html}")
+    return f'<nav class="pattern-nav">\n  {" ".join(crumbs)}\n</nav>'
 
 
 def footer(issue, nav=None):
@@ -264,7 +276,7 @@ def main():
     lines += ["## The Patterns", ""]
     for ctitle, pats, prose in catalogue:
         if pats:
-            lines.append(f"### {ctitle}")
+            lines.append(f"### {strip_patterns_suffix(ctitle)}")
             lines += [f"- [{name}]({s}/)" for name, s in pats]
             lines.append("")
     extras = [(c, p) for (c, pats, p) in catalogue if not pats]
@@ -293,10 +305,11 @@ def main():
         subtitle = subtitle_url = None
         if slug_path in pattern_nav:
             prev, nxt = pattern_nav[slug_path]
-            top_nav, foot_nav = nav_bar_html(), nav_bar(prev, nxt)
             cat = pattern_cat.get(slug_path)
-            if cat:
-                subtitle, subtitle_url = cat, f"../#{slug(cat)}"
+            cat_label = strip_patterns_suffix(cat) if cat else None
+            cat_href = f"../#{section_label(cat)}" if cat else None
+            top_nav = nav_bar_html(cat_label, cat_href)
+            foot_nav = nav_bar(prev, nxt)
         elif back:
             href = ALL_PATTERNS_HREF if back == "All patterns" else "../"
             top_nav = foot_nav = f"[← {back}]({href})"

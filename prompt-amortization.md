@@ -1,14 +1,12 @@
 ---
 layout: default
 title: "Prompt Amortization"
-subtitle: "Cost Optimization Patterns"
-subtitle_url: "../#cost-optimization-patterns"
 permalink: /prompt-amortization/
 ---
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#cost-optimization">Cost Optimization</a>
 </nav>
 
 
@@ -49,4 +47,4 @@ Both combine naturally with pre-computation: because results are computed offlin
 ---
 [All patterns](../#the-patterns) &nbsp;·&nbsp; [Escalate to the LLM →](../escalate-to-the-llm/){:.nav-next}
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BPrompt+Amortization%5D+&labels=feedback%2Ccost-optimization&body=%2A%2ARe%3A%2A%2A+Prompt+Amortization%0A%2A%2ASection%3A%2A%2A+Cost+Optimization+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fprompt-amortization%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BPrompt+Amortization%5D+&labels=feedback%2Ccost-optimization&body=%2A%2ARe%3A%2A%2A+Prompt+Amortization%0A%2A%2ASection%3A%2A%2A+Cost+Optimization%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fprompt-amortization%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
