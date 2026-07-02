@@ -34,5 +34,5 @@ Keep the strictness in code, where it is deterministic and testable, rather than
 - Related to *Deterministic Postprocessing*, which repairs a specific, known formatting defect; this pattern is the broader stance of not trusting the structure at all.
 
 
-*Thanks to Cesare Pautasso (http://www.pautasso.org/) for the discussion that prompted this pattern*
+*Thanks to [Cesare Pautasso](http://www.pautasso.org/) for the discussion that prompted this pattern*
 
