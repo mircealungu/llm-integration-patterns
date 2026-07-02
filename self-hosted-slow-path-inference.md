@@ -12,11 +12,23 @@ permalink: /self-hosted-slow-path-inference/
 
 ## Example
 
-This pattern is not yet implemented. The plan: overnight, a Mac Studio at home drains a queue of slow, batchable jobs that today run against paid APIs (translation validation, example-sentence checking, CEFR pre-classification). A worker on the Mac polls the Zeeguu server over outbound HTTPS, runs each job on a local model (e.g. via Ollama), and posts the result back. Anything not processed by a morning deadline falls back to the cloud API.
+This pattern is not yet implemented, but it's planned. 
+
+### The Plan
+
+Overnight, a local LLM on a server that belongs to the system creator (e.g. a Mac Studio) drains a queue of slow, batchable jobs that today run against paid APIs (translation validation, example-sentence checking, CEFR pre-classification). 
+
+- A worker on the Mac Studio polls the Zeeguu server over outbound HTTPS, runs each job on a local model (e.g. via Ollama), and posts the result back. 
+
+- Anything not processed by a morning deadline falls back to the cloud API.
 
 ## Forces
 
-API usage is the dominant variable cost of an LLM integration, yet a large share of the work is latency-insensitive: pre-computed, batched, offline (see [Pre-Computing Likely-Needed Results](../pre-computing-likely-needed-results/), [Prompt Amortization](../prompt-amortization/)). Capable open models now run on prosumer hardware (for example a Mac Studio with large unified memory) that is already owned and sits idle at night. The obstacle is connectivity: such a machine usually sits behind NAT with no public IP, and opening inbound ports adds an attack surface its owner does not want.
+API usage is the dominant variable cost of an LLM integration, yet a large share of the work is latency-insensitive: pre-computed, batched, offline (see [Pre-Computing Likely-Needed Results](../pre-computing-likely-needed-results/), [Prompt Amortization](../prompt-amortization/)). 
+
+Capable open models now run on prosumer hardware (for example a Mac Studio with large unified memory) that is already owned and sits idle at night. For some tasks (e.g. example sentence generation) one does not need to use the latest online models. 
+
+The obstacle is connectivity: such a machine usually sits behind NAT with no public IP, and opening inbound ports adds an attack surface its owner does not want.
 
 ## Solution
 
