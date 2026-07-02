@@ -10,7 +10,6 @@ permalink: /defensive-output-parsing/
 </nav>
 
 
-(Inspired by discussion with [Cesare Pautasso](http://www.pautasso.org/))
 ## Example
 
 Multi-word-expression detection asks the LLM for a JSON array but refuses to blindly trust that it will get one. 
@@ -41,7 +40,10 @@ Keep the strictness in code, where it is deterministic and testable, rather than
 
 - A slip degrades a single result instead of failing the request. It composes with a one-shot retry and with [Fail-Fast Provider Chain](../fail-fast-provider-chain/) (a parse failure can trigger the next provider).
 - Provider "JSON mode" or function-calling reduces malformed output but does not remove the need to validate the shape before use.
-- Related to [Deterministic Postprocessing](../deterministic-postprocessing/), which repairs a specific, known formatting defect; this pattern is the broader stance of not trusting the structure at all. Related to [LLM Content Validation Tracking](../llm-content-validation-tracking/), which tracks whether the content is correct; this pattern is about whether the output has the expected form.
+- Related to [Deterministic Postprocessing](../deterministic-postprocessing/), which repairs a specific, known formatting defect; this pattern is the broader stance of not trusting the structure at all.
+
+
+*Thanks to Cesare Pautasso (http://www.pautasso.org/) for the discussion that prompted this pattern*
 
 
 
