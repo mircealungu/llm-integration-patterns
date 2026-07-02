@@ -26,6 +26,6 @@ permalink: /self-hosted-slow-path-inference/
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../deterministic-postprocessing/">← Deterministic Postprocessing</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../deterministic-postprocessing/">← Deterministic Postprocessing</a><a class="nav-next" href="../defensive-output-parsing/">Defensive Output Parsing →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSelf-Hosted+Slow-Path+Inference%5D+&labels=feedback%2Ccandidate&body=%2A%2ARe%3A%2A%2A+Self-Hosted+Slow-Path+Inference%0A%2A%2ASection%3A%2A%2A+Candidate+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fself-hosted-slow-path-inference%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
