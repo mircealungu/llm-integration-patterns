@@ -6,11 +6,11 @@
 
 ## Example
 
-Several Zeeguu jobs share the same shape — a large instructional prompt wrapped around a tiny variable input (see figure) — and run offline over many items. Instead of paying that preamble once per item, related items are packed into a single call:
+Several Zeeguu jobs share the same shape (a large instructional prompt wrapped around a tiny variable input, see figure) and run offline over many items. Instead of paying that preamble once per item, related items are packed into a single call:
 
 - **Meaning classification** sends ~15 word-meanings per call, sharing one frequency/CEFR-type taxonomy prompt across the whole batch.
 - **Example-sentence validation** checks ~20 generated examples per call.
-- **Article simplification** produces every CEFR level simpler than the original in one call — one section per level — turning four or five requests into one (~75% fewer calls for a typical article).
+- **Article simplification** produces every CEFR level simpler than the original in one call, one section per level, turning four or five requests into one (~75% fewer calls for a typical article).
 
 
 
