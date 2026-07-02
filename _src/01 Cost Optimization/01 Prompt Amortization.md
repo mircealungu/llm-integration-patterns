@@ -16,7 +16,10 @@ Several Zeeguu jobs share the same shape (a large instructional prompt wrapped a
 
 ## Forces
 
-Many LLM tasks involve a large instructional preamble (the system prompt explaining the task) and a small variable input. Sending individual requests wastes the prompt overhead, both in cost and latency.
+- **Preamble overhead.** A large, fixed instructional prompt wrapped around a tiny variable input; sent one item at a time, that preamble is re-paid on every call, in tokens, cost, and latency alike. *(pushes toward bigger batches)*
+- **Quality ceiling.** Accuracy and consistency degrade as more items share one call; past ~15–20 small items the model starts dropping or muddling entries. *(pushes toward smaller batches)*
+- **Context ceiling.** Input *and* output must fit the window; for fan-out the output side binds first, since each result is full-length.
+- **Interactive latency.** Fan-in requires waiting to accumulate enough items to fill a batch: fine offline, but unacceptable when a user is blocked on a single result.
 
 ## Solution
 
@@ -36,6 +39,6 @@ Both combine naturally with pre-computation: because results are computed offlin
 
 ## Notes
 
-- How large can a batch be? Two ceilings bound it, and the effective limit is whichever is lower. A **token ceiling**: input *and* output must fit the context window; for fan-out batching (simplification) the binding side is the *output*, since each variant is a full article. And a **quality ceiling**: accuracy and consistency degrade as the item count grows, independent of tokens. In our experience the quality ceiling binds first for small items: classification and example validation run at **15–20 items per call**, far below what the window allows, because beyond that the model starts dropping or muddling entries.
+- Which ceiling binds first? For small items it is the *quality* ceiling, not the token one: classification and example validation run at **15–20 items per call**, far below what the window allows, because beyond that the model starts dropping or muddling entries. For fan-out simplification it flips: the *token* ceiling binds on the output side, since each variant is a full article.
 - Not every candidate is amortized yet: translation validation currently runs **one call per word** (`validate_and_fix`); a batched validation prompt exists in the codebase but is not wired up, a standing opportunity to apply this pattern.
 - Some LLMs provide prompt caching - e.g. Deepseek. Even so, if the cost is amortized with prompt caching, the time saving of amortization can still be a valuable reason for doing it
