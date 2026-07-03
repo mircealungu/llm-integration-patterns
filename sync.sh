@@ -21,6 +21,7 @@ rsync -a --delete \
     --exclude='.obsidian' \
     --exclude='sync.sh' \
     --exclude='(Design_)*' \
+    --exclude='_*' \
     "$AIPAT_VAULT" "$AIPAT_REPO/_src/"
 
 # The README is edited in the vault but lives at the repo root (it's the

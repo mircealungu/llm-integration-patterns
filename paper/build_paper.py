@@ -213,8 +213,15 @@ def assemble():
         elif kind == "prose":
             parts.append(process_file(full, acks))
         elif kind == "category":
+            files = sorted(glob.glob(os.path.join(full, "*.md")))
             parts.append(f"# {title}\n")
-            for pf in sorted(glob.glob(os.path.join(full, "*.md"))):
+            # A `00 …`-prefixed file is the section overview, not a pattern: keep
+            # its body at section level (drop its H1); everything else is a pattern.
+            for f in [f for f in files if os.path.basename(f).startswith("00")]:
+                t = re.sub(r"^#\s+.*$", "", process_file(f, acks), count=1,
+                           flags=re.M).strip()
+                parts.append(t)
+            for pf in [f for f in files if not os.path.basename(f).startswith("00")]:
                 parts.append(demote(process_file(pf, acks), 1))
     body = "\n\n".join(p.strip() for p in parts) + "\n"
     if acks:

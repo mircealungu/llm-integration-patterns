@@ -271,7 +271,12 @@ def main():
             cat = re.sub(r"^\d+\s+", "", entry)
             label = section_label(cat)
             pats = []
+            cat_intro = ""
             for pf in sorted(glob.glob(os.path.join(full, "*.md"))):
+                # A `00 …`-prefixed file is the section overview, not a pattern.
+                if os.path.basename(pf).startswith("00"):
+                    _, cat_intro = read_page(pf)
+                    continue
                 name, body = read_page(pf)
                 s = slug(name)
                 il = issue_link(name, s, "this pattern", section=cat, label=label)
@@ -280,7 +285,7 @@ def main():
                 pattern_cat[s] = cat
                 pats.append((name, s))
             if pats:
-                catalogue.append((cat, pats, None))
+                catalogue.append((cat, pats, cat_intro))
             continue
 
         if not entry.endswith(".md") or not re.match(r"\d", entry):
@@ -316,6 +321,8 @@ def main():
     for ctitle, pats, prose in catalogue:
         if pats:
             lines.append(f"### {strip_patterns_suffix(ctitle)}")
+            if prose and prose.strip():          # category overview (00 file)
+                lines += ["", prose.strip(), ""]
             lines += [f"- [{name}]({s}/)" for name, s in pats]
             lines.append("")
     extras = [(c, p) for (c, pats, p) in catalogue if not pats]
