@@ -33,6 +33,11 @@ Keep the strictness in code, where it is deterministic and testable, rather than
 - Provider "JSON mode" or function-calling reduces malformed output but does not remove the need to validate the shape before use.
 - Related to *Deterministic Postprocessing*, which repairs a specific, known formatting defect; this pattern is the broader stance of not trusting the structure at all.
 
+## Known Uses
 
-*Thanks to [Cesare Pautasso](http://www.pautasso.org/) for the discussion that prompted this pattern*
+- **[Instructor](https://python.useinstructor.com/)** validates responses against a Pydantic schema and auto-retries on validation failure, feeding the error back for correction.
+- **[LangChain](https://python.langchain.com/api_reference/langchain/output_parsers/langchain.output_parsers.fix.OutputFixingParser.html)** `OutputFixingParser` / `RetryOutputParser` re-invoke the model to repair malformed structure on a parse failure.
+- **[OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)** guarantees schema-conformant JSON yet still requires handling truncation (`finish_reason`) and `refusal` — illustrating this pattern's point that JSON mode reduces but does not remove validation.
 
+> [!ack]
+> Thanks to [Cesare Pautasso](http://www.pautasso.org/) for the discussion that prompted this pattern.

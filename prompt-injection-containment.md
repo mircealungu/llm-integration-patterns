@@ -50,6 +50,12 @@ Some gateways offer prompt-injection / content guardrails (Portkey guardrails, L
 
 Partly implemented: the audio-lesson suggestion validator is a full instance; translation relies on task-narrowing plus defensive parsing; the third-party article-context vector is only partially addressed. Included as a candidate to discuss the boundary with [Defensive Output Parsing](../defensive-output-parsing/) and [LLM-Checking-LLM](../llm-checking-llm/) — whether "contain untrusted input" and "validate untrusted output" are two halves of one pattern or two.
 
+## Known Uses
+
+- **[OWASP Top 10 for LLM Applications](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)** (LLM01: Prompt Injection) codifies the threat and lists mitigations matching this pattern's layers: constrain behavior, validate/constrain output, filter input/output, and segregate untrusted content from trusted prompts.
+- **[Simon Willison's Dual-LLM pattern](https://simonwillison.net/2023/Apr/25/dual-llm-pattern/)** handles untrusted text only in a tool-less quarantined LLM while a controller substitutes variable tokens, so raw untrusted content never reaches the privileged LLM — a stronger sibling of our canonicalize-before-use step.
+- **[NVIDIA NeMo Guardrails](https://docs.nvidia.com/nemo/guardrails/latest/getting-started/4-input-rails/README.html)** "input rails" screen user messages for jailbreak/injection before they reach the LLM.
+
 
 
 ---

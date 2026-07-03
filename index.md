@@ -15,6 +15,7 @@ It's a working paper: a draft I'm developing in the open and revising as the ide
 
 *Status: working draft, June 2026*
 
+
 ### The Idea
 
 Large Language Models are increasingly being integrated into existing user-facing interactive applications, not as standalone chatbots, but as components working behind the scenes to improve the user experience. While there is growing literature on building LLM-native products (chatbots, agents, RAG systems) and on using LLMs for code generation, there is surprisingly little guidance on the **software engineering challenges of integrating LLMs as components into existing interactive applications** where real users expect fast, reliable, and trustworthy responses.
@@ -74,6 +75,8 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 - [Related Work](related-work/)
 - [What Makes These Patterns LLM-Specific?](what-makes-these-patterns-llm-specific/)
 - [Possible Paper Contributions](possible-paper-contributions/)
+- [Limitations and Future Work](limitations-and-future-work/)
+- [Conclusion](conclusion/)
 
 
 

@@ -19,3 +19,9 @@ The pattern earns its keep most on **real-time paths where a user is waiting**. 
 ## Note
 
 This differs from *Escalate to the LLM* in that all components in the chain are LLMs offering equivalent capabilities: this is a *fallback* for reliability, not the *escalation* to a more capable (and more expensive) tier.
+
+## Known Uses
+
+- **[Portkey](https://portkey.ai/docs/product/ai-gateway/fallbacks)** fallback mode walks a prioritized provider list, switching on the first non-2xx response (retries are a separate opt-in).
+- **[Cloudflare AI Gateway](https://developers.cloudflare.com/ai-gateway/configuration/fallbacks/)** tries providers sequentially, falling to the next on error or timeout, and reports which provider served via a response header.
+- **[LiteLLM Router](https://docs.litellm.ai/docs/proxy/reliability)** supports ordered fallback chains; note it defaults to retry-*then*-fallback, so it is fail-fast only when retries are set to zero.

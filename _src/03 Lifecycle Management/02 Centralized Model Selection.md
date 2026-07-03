@@ -29,14 +29,18 @@ Keep every model identifier in one central module. Declare the canonical vendor 
 - Prefer **role-based** aliases over vendor-based constants. `WORD_TRANSLATION = HAIKU` reads as intent and lets one re-point a single feature's tier without touching others; a bare `HAIKU = "claude-haiku-…"` re-exported everywhere quietly couples unrelated features to the same choice.
 - Composes with *LLM Output Provenance*: the identifier a system stamps onto a generated artifact and the identifier it uses to *select* the model at call time should be the same central constant, so the two can never drift apart.
 - Composes with *Fail-Fast Provider Chain*: the chain decides the *order* of providers to try; this module names *which model* each provider entry uses.
+- *Alternative — AI gateway.* An AI gateway can host the role→model mapping as named aliases in its config, relocating this pattern's registry out of application code. See the broader treatment of what gateways do and do not subsume in *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*.
 
 ## War Story
 
 The same commit that repaired the retirement uncovered a second casualty of the identical disease. Simplified articles were being stamped `ai_model="claude-3-5-sonnet"` while the simplifier had long since moved to Haiku. The provenance field named a model that was no longer even in the pipeline (see *LLM Output Provenance*). Same root cause as the retirement: a model identifier duplicated into a place nobody remembers to update, silently going stale. Centralizing selection lets the provenance stamp and the call-time choice read from the same constant, so they cannot disagree.
 
+## Known Uses
 
+- **[LiteLLM model aliases](https://docs.litellm.ai/docs/completion/model_alias)** (`model_alias_map`, proxy `model_group_alias`) map a role/user-facing name to a concrete backend model ID, so swapping models is a one-line central edit.
+- **[Portkey Model Catalog](https://portkey.ai/docs/product/ai-gateway/virtual-keys)** references providers and models by a single `@provider/model` alias, changing the backing model in one place.
+- The mechanism is the classic *single source of truth*; what makes it LLM-specific is vendor-driven model deprecation (see this pattern's forces).
 
-alternatives after the focus group
-- proxy, dependency injection 
-- agent anti-pattern ? 
-- AI gateway: an AI gateway can host the role→model mapping as named aliases in its config, relocating this pattern's registry out of application code. See the broader treatment of what gateways do and do not subsume in *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*.
+> [!draft]- Alternatives to explore after the focus group
+> - proxy, dependency injection
+> - agent anti-pattern?

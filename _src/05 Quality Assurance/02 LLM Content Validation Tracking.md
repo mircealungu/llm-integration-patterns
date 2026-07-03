@@ -17,6 +17,12 @@ Maintain an explicit, queryable validation state for all LLM-generated content i
 - This pattern complements *LLM Output Provenance*. Together they answer two essential questions about any piece of LLM-generated data: how was it produced? and has anyone confirmed it's correct? The right granularity of validation tracking depends on the domain: some systems may need binary (verified/not), others may need multiple validators with agreement thresholds, and others, like Zeeguu, benefit from a trust spectrum that reflects different forms of implicit and explicit user feedback.  
 - Implicit validation: One could argue that "if a user practiced a word without complaint, it's implicitly validated"
 
+## Known Uses
 
-- after the focus group
-	- you need somebody that speaks two languages
+- **[Argilla](https://docs.argilla.io/latest/how_to_guides/annotate/)** records carry an explicit status lifecycle (pending → draft → submitted, plus validated/discarded), so model suggestions are not trusted until a human validates.
+- **[Label Studio](https://docs.humansignal.com/guide/ground_truths)** tracks a per-task ground-truth flag and review state, distinguishing verified gold data from unreviewed predictions.
+- **[Snorkel](https://arxiv.org/abs/1711.10160)** (Ratner et al., VLDB 2017) attaches probabilistic confidence to programmatically generated labels rather than treating them as ground truth — a confidence spectrum rather than a discrete state machine.
+- *Note.* These are data-labeling platforms; a documented, in-product *LLM-output* trust-state lifecycle (as opposed to human-annotation state) remains thinly evidenced — one reason we keep this among the less-settled patterns.
+
+> [!draft]- Notes after the focus group
+> - you need somebody that speaks two languages

@@ -28,14 +28,12 @@ Store the full provenance tuple alongside every LLM-generated artifact: (model v
 - This is also critical for the Wizard of Oz pattern: when accumulating LLM-generated labels as training data for a classical replacement, provenance tracking lets one exclude data produced by a prompt version that was later found to be noisy or biased.  
 - The identifier stamped for provenance should be the *same* constant the code uses to select the model, kept in one place ([Centralized Model Selection](../centralized-model-selection/)). When the two are separate literals, the selection can move to a new model while the provenance field keeps naming the old one. A field that names a model no longer in the pipeline is worse than no field at all.
 - Implicit provenance: Keep model names and prompt versions as constants in code. When one needs to know what generated a piece of data, correlate its `created_at` timestamp with git history to determine which model/prompt was deployed at that time. However, this works for simpler systems where there is a single model/prompt active at any time. A system using alternative prompts, e.g. for A/B testing, will have to track provenance explicitly. Also, explicit tracking makes data analysis faster, and ensures that data is self-describable.
-- after the focus group
-	- can be solved with the gateway ?
-	- related to research data management? 
 
+## Known Uses
 
-## War Story
-
-Provenance must capture the dimension that actually varies. Zeeguu's `audio_lesson_meaning` rows have a `created_by` field that records the model identifier (e.g. `"Claude-Opus-Prompt1"`), but the prompt template files were edited in place over time without bumping that identifier, so the field carried the same value across two materially different prompt eras and could not drive selective regeneration. When the team later identified ~900 lessons generated under a previous, ambiguous prompt, the only way to find them was a content regex on the output itself: "does the script contain the ambiguous phrasing?". The lesson: if prompts evolve by in-place edits, the provenance field that names them must bump on every edit (e.g. via a versioned filename like `prompt-v2-rev3.txt` or a content hash); otherwise the field is decorative and selective-regeneration falls back to forensics on the output.
+- **[MLflow Prompt Registry](https://mlflow.org/docs/latest/genai/prompt-registry/)** stores commit-versioned prompts with their model configuration and tracks prompt-version ↔ app-version ↔ trace lineage for reproducibility and selective regeneration.
+- **[LangSmith](https://docs.langchain.com/langsmith/prompt-engineering-concepts)** creates an immutable commit hash per prompt version and records which prompt/model produced each traced output.
+- Both confirm this pattern's core claim that the *prompt* deserves versioning as much as the model.
 
 
 

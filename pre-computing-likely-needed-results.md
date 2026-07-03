@@ -26,6 +26,12 @@ LLMs can provide valuable data for users, but they are slow and expensive, makin
 
 Anticipate likely user needs and pre-compute LLM results offline (e.g., via cron jobs), so results are available instantly when needed. The system designer should model user behavior in order to predict their LLM needs.
 
+## Known Uses
+
+- **[ColBERT](https://arxiv.org/abs/2004.12832)** (Khattab & Zaharia, SIGIR 2020) precomputes contextualized passage embeddings for the whole corpus offline, so query time runs only cheap late-interaction matching — the canonical "precompute the expensive representation ahead of time."
+- Provider **[batch / offline-inference](https://developers.openai.com/api/docs/guides/batch)** pipelines are the enabling infrastructure for computing LLM outputs in bulk off the hot path.
+- *Honest gap.* We did not find a well-documented production system that precomputes *user-facing* LLM answers on a schedule the way Zeeguu does; the closest analogues are the materialized-view / prefetching principle and the offline-index precomputation above.
+
 
 
 ---

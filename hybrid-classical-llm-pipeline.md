@@ -30,11 +30,11 @@ Requires maintaining two systems, but the cost savings from not sending every in
 
 Close kin to [Escalate to the LLM](../escalate-to-the-llm/) and to a model cascade: all three run a cheap step first and call the LLM selectively. The difference is the trigger. Escalate uses the cheap tool's answer and reaches for the LLM only when it is inadequate (a failure, or user dissatisfaction); here the cheap tool gates on detected difficulty (a flagged candidate) and the LLM's verdict replaces it, as in a confidence-based cascade.
 
+## Known Uses
 
-- after the focus group
-	- Hybrid Pipeline: Classical + LLM 
-	- Chain of Delegation ? 
-	- Is this a Pipeline ?
+- **[RankGPT](https://arxiv.org/abs/2304.09542)** (Sun et al., EMNLP 2023) uses BM25 to retrieve ~100 candidates, then an LLM for listwise reranking — classical high-recall generator + LLM precision filter.
+- **[spaCy-llm](https://github.com/explosion/spacy-llm)** (Explosion) is designed to mix LLM components with classical/rule-based ones in a single pipeline.
+- **Retrieve-then-rerank** (e.g. [Cohere Rerank](https://docs.cohere.com/docs/rerank-overview)) keeps a high-recall first-stage search and adds a neural precision reranker.
 
 
 

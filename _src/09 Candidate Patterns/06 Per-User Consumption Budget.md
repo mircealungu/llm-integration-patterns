@@ -41,3 +41,10 @@ Gateways provide per-key / per-user rate limiting and spend caps out of the box 
 ## Status
 
 A crude instance (single active audio generation per user) already ships. The general per-user budget across on-demand actions, and the cost-accounting variant, are not yet implemented — included as a candidate to invite discussion on whether this is one pattern with several denominations (concurrency / count / volume / cost) or several distinct patterns.
+
+## Known Uses
+
+- **[LiteLLM Proxy](https://docs.litellm.ai/docs/proxy/users)** supports per-key `max_budget` (with auto-reset), per-user budgets across a user's keys, and rpm/tpm/parallel-request caps.
+- **[Portkey](https://portkey.ai/docs/product/administration/enforce-budget-and-rate-limit)** attaches a USD budget and rate limits to an individual key, expiring it when the budget is exhausted.
+- **[Helicone](https://docs.helicone.ai/features/advanced-usage/custom-rate-limits)** rate-limits per user via a policy header denominated in request count or cost (e.g. "$5.00/hour/user").
+- *Note.* All three are gateway primitives: they enforce the *mechanism* but not the domain *policy* (which resource, and what the user gets when exhausted) — consistent with this pattern's gateway discussion.

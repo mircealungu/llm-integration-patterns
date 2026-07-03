@@ -53,6 +53,39 @@ def strip_working_notes(text: str) -> str:
     )
 
 
+def process_callouts(text: str) -> str:
+    """Obsidian callouts, shared convention with the paper build (paper/build_paper.py):
+
+    - `> [!draft]` blocks are working notes -> stripped from the published site.
+    - `> [!ack]`  blocks are acknowledgements -> unwrapped, kept inline as text.
+    - any other callout -> unwrapped to plain text (kramdown has no callout support).
+    """
+    lines = text.split("\n")
+    out, i = [], 0
+    while i < len(lines):
+        m = re.match(r"^>\s*\[!(\w+)\][-+]?\s?(.*)$", lines[i])
+        if m:
+            ctype = m.group(1).lower()
+            block = [lines[i]]
+            i += 1
+            while i < len(lines) and lines[i].startswith(">"):
+                block.append(lines[i])
+                i += 1
+            if ctype == "draft":
+                continue
+            out.extend(re.sub(r"^>\s?", "", b) for b in block[1:])
+            continue
+        out.append(lines[i])
+        i += 1
+    return "\n".join(out)
+
+
+def strip_paper_skip(text: str) -> str:
+    """Drop <!-- paper-skip -->…<!-- /paper-skip --> only marks paper-only cuts;
+    the site keeps that content, so here we just remove the marker comments."""
+    return re.sub(r"<!--\s*/?paper-skip\s*-->", "", text)
+
+
 def render_embeds(text: str) -> str:
     """Turn Obsidian image embeds into responsive <figure>s.
 
@@ -207,7 +240,8 @@ def clean_generated():
 def read_page(path):
     """Return (title, body) for a source .md: title from its `# H1` (falling
     back to the filename without its NN- prefix), body = everything after."""
-    text = render_embeds(open(path, encoding="utf-8").read())
+    text = render_embeds(strip_paper_skip(process_callouts(
+        open(path, encoding="utf-8").read())))
     m = re.search(r"^# (.+)$", text, re.M)
     title = (m.group(1).strip() if m
              else re.sub(r"^\d+\s+", "", os.path.basename(path)[:-3]))

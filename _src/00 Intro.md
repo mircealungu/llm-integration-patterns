@@ -1,5 +1,6 @@
 # Architectural Patterns for Integrating LLMs into User-Facing Applications
 
+<!-- paper-skip -->
 ### What is this?
 
 A living catalogue of recurring patterns I keep running into when building software with and around large language models, the small, reusable shapes of solution that show up again and again across agents, tools, prompts, and evaluation.
@@ -7,6 +8,7 @@ A living catalogue of recurring patterns I keep running into when building softw
 It's a working paper: a draft I'm developing in the open and revising as the ideas (and the tools) mature. Feedback and contributions are very welcome, in two forms: an **instance** (a note that a pattern also appears in another system, which strengthens it) or a **case study** (a rich example from a different domain, which earns its own page alongside Zeeguu). Contributors receive named credit on the paper and the site.
 
 *Status: working draft, June 2026*
+<!-- /paper-skip -->
 
 ### The Idea
 

@@ -29,7 +29,7 @@ Several Zeeguu jobs share the same shape (a large instructional prompt wrapped a
 ## Forces
 
 - **Preamble overhead.** A large, fixed instructional prompt wrapped around a tiny variable input; sent one item at a time, that preamble is re-paid on every call, in tokens, cost, and latency alike. *(pushes toward bigger batches)*
-- **Quality ceiling.** Accuracy and consistency degrade as more items share one call; past ~15–20 small items the model starts dropping or muddling entries. *(pushes toward smaller batches)*
+- **Quality ceiling.** Accuracy and consistency degrade as more items share one call; past ~15–20 small items some models start dropping or muddling entries. *(pushes toward smaller batches)*
 - **Context ceiling.** Input *and* output must fit the window; for fan-out the output side binds first, since each result is full-length.
 - **Interactive latency.** Fan-in requires waiting to accumulate enough items to fill a batch: fine offline, but unacceptable when a user is blocked on a single result.
 
@@ -55,9 +55,11 @@ Both combine naturally with pre-computation: because results are computed offlin
 - Not every candidate is amortized yet: translation validation currently runs **one call per word** (`validate_and_fix`); a batched validation prompt exists in the codebase but is not wired up, a standing opportunity to apply this pattern.
 - Some LLMs provide prompt caching - e.g. Deepseek. Even so, if the cost is amortized with prompt caching, the time saving of amortization can still be a valuable reason for doing it
 
+## Known Uses
 
-- after focus group
-	- drain pattern?
+- **[Batch prompting](https://arxiv.org/abs/2301.08721)** (Cheng, Kasai & Yu, EMNLP 2023) packs multiple independent samples under one shared instructional prompt in a single call, cutting token and time cost roughly inverse-linearly with batch size.
+- **Vertical batching** maps to structured-output calls that emit several keyed results at once (and to the OpenAI/Anthropic multi-output `n` parameter).
+- *Distinguish from provider batch APIs.* The [OpenAI Batch API](https://developers.openai.com/api/docs/guides/batch) and [Anthropic Message Batches](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing) give ~50% off large asynchronous jobs, but each request still carries and pays for its own full prompt — they amortize scheduling and rate-limit overhead, *not* the in-prompt instructional overhead this pattern targets.
 
 
 

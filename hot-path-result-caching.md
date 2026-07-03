@@ -30,6 +30,12 @@ Memory overhead and cache invalidation complexity. Best suited for queries where
 
 - A variant of this caches the results in the DB not in-memory. We also have this in Zeeguu.
 
+## Known Uses
+
+- **[GPTCache](https://aclanthology.org/2023.nlposs-1.24/)** (Bang, NLP-OSS @ EMNLP 2023) is a dedicated LLM cache supporting both exact-match and semantic (embedding-similarity) lookup.
+- **[Helicone](https://docs.helicone.ai/features/advanced-usage/caching)** caches on a hash of the request, stored at the edge with a configurable TTL.
+- **[Portkey](https://portkey.ai/docs/product/ai-gateway/cache-simple-and-semantic)** ships both "simple" (exact-match) and "semantic" caches; **[LangChain](https://python.langchain.com/docs/integrations/llm_caching/)** provides in-memory and SQLite caches.
+
 
 
 ---

@@ -38,10 +38,13 @@ Trades API cost for sunk hardware and electricity, on the slow path only; real-t
 
 - *Outbound-only is the key.* A pull-based worker exposes nothing and is the smallest attack surface. If the server must instead call the local model synchronously, a mesh VPN such as Tailscale (or a Cloudflare Tunnel) gives the server a route to the machine without port-forwarding or a public IP.
 - *Owned versus volunteered.* Here the hardware belongs to the operator. A more ambitious variant accepts compute volunteered by third parties, which adds a trust dimension: outputs from untrusted workers must be validated before use (composes with [LLM Content Validation Tracking](../llm-content-validation-tracking/)) and may need cross-checking across workers.
-- batch processing? 
-- priority queues ? 
-- I kind of assume that we call APIs in many places where I talk about LLMs
-- business / engineering / design? another category
+
+## Known Uses
+
+- **[Ollama / llama.cpp on Apple Silicon](https://daily.dev/blog/running-llms-locally-ollama-llama-cpp-self-hosted-ai-developers/)** are routinely used to run extraction/summarization batch jobs overnight on an owned Mac with no per-token cost and no rate limits — the slow-path use directly.
+- **[Apple Intelligence + Private Cloud Compute](https://security.apple.com/blog/private-cloud-compute/)** ships a local-first / cloud-fallback split, escalating to a larger cloud model only when needed — the same local+cloud division of labour, though *inverted*: Apple uses local as the fast path, this pattern uses it as the slow/cheap path.
+- **[GitHub Actions self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/communicating-with-self-hosted-runners)** are the outbound-only pull-worker mechanism: the runner long-polls over HTTPS so "only an outbound connection… is required," exposing no inbound ports — exactly the NAT-traversal design proposed here.
+- *Novel composition.* Each mechanism is well-attested independently; combining local slow-path + cloud deadline-fallback + outbound-only worker into one LLM system is this candidate's contribution.
 
 
 
