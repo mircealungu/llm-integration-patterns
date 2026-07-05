@@ -15,11 +15,13 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
+WEB = os.path.join(ROOT, "web")       # generated Jekyll site
+SRC = os.path.join(ROOT, "content")   # chapter sources
 errors, warnings = [], []
 
 # --- ERRORS: internal links + image refs in the generated pages ---
-pages = {os.path.basename(f)[:-3] for f in glob.glob(os.path.join(ROOT, "*.md"))}
-for f in glob.glob(os.path.join(ROOT, "*.md")):
+pages = {os.path.basename(f)[:-3] for f in glob.glob(os.path.join(WEB, "*.md"))}
+for f in glob.glob(os.path.join(WEB, "*.md")):
     name = os.path.basename(f)
     if name == "README.md":
         continue
@@ -28,11 +30,11 @@ for f in glob.glob(os.path.join(ROOT, "*.md")):
         if m.group(1) not in pages:
             errors.append(f"{name}: link to /{m.group(1)}/ but no {m.group(1)}.md")
     for m in re.finditer(r"/images/([^\s\"')]+)", text):          # /images/FILE
-        if not os.path.exists(os.path.join(ROOT, "images", m.group(1))):
+        if not os.path.exists(os.path.join(WEB, "images", m.group(1))):
             errors.append(f"{name}: image /images/{m.group(1)} is missing")
 
 # --- WARNINGS: voice + placeholders, on added source lines only ---
-diff = subprocess.run(["git", "diff", "--unified=0", "--", "_src"],
+diff = subprocess.run(["git", "diff", "--unified=0", "--", "content"],
                       cwd=ROOT, capture_output=True, text=True).stdout
 added = [ln[1:] for ln in diff.splitlines()
          if ln.startswith("+") and not ln.startswith("+++")]

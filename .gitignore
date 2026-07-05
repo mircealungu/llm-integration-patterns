@@ -1,3 +1,6 @@
 .DS_Store
 .obsidian/
 .sync-backups/
+_site/
+web/_site/
+.jekyll-cache/
