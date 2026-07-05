@@ -9,6 +9,7 @@ permalink: /data-management/
 
 
 - [LLM Output Provenance](../llm-output-provenance/)
+- [Soft Invalidation of LLM Artifacts](../soft-invalidation-of-llm-artifacts/)
 
 
 

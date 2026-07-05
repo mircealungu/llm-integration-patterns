@@ -45,6 +45,8 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 ### [Cost Optimization](cost-optimization/)
 - [Prompt Amortization](prompt-amortization/)
 - [Escalate to the LLM](escalate-to-the-llm/)
+- [Self-Hosted Slow-Path Inference](self-hosted-slow-path-inference/)
+- [Per-User Consumption Budget](per-user-consumption-budget/)
 
 ### [Latency and Availability](latency-and-availability/)
 - [Pre-Computing Likely-Needed Results](pre-computing-likely-needed-results/)
@@ -58,19 +60,17 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 
 ### [Data Management](data-management/)
 - [LLM Output Provenance](llm-output-provenance/)
+- [Soft Invalidation of LLM Artifacts](soft-invalidation-of-llm-artifacts/)
 
 ### [Quality Assurance](quality-assurance/)
 - [LLM-Checking-LLM](llm-checking-llm/)
 - [LLM Content Validation Tracking](llm-content-validation-tracking/)
 - [Hybrid Classical+LLM Pipeline](hybrid-classical-llm-pipeline/)
+- [Defensive Output Parsing](defensive-output-parsing/)
+- [Deterministic Postprocessing](deterministic-postprocessing/)
 
 ### [Candidate](candidate/)
 - [Temperature as Task Selector](temperature-as-task-selector/)
-- [Soft Invalidation of LLM Artifacts](soft-invalidation-of-llm-artifacts/)
-- [Deterministic Postprocessing](deterministic-postprocessing/)
-- [Self-Hosted Slow-Path Inference](self-hosted-slow-path-inference/)
-- [Defensive Output Parsing](defensive-output-parsing/)
-- [Per-User Consumption Budget](per-user-consumption-budget/)
 - [Prompt Injection Containment](prompt-injection-containment/)
 
 ## More

@@ -38,6 +38,6 @@ Store the full provenance tuple alongside every LLM-generated artifact: (model v
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../centralized-model-selection/">← Centralized Model Selection</a><a class="nav-next" href="../llm-checking-llm/">LLM-Checking-LLM →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../centralized-model-selection/">← Centralized Model Selection</a><a class="nav-next" href="../soft-invalidation-of-llm-artifacts/">Soft Invalidation of LLM Artifacts →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BLLM+Output+Provenance%5D+&labels=feedback%2Cdata-management&body=%2A%2ARe%3A%2A%2A+LLM+Output+Provenance%0A%2A%2ASection%3A%2A%2A+Data+Management%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fllm-output-provenance%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

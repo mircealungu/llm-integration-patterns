@@ -6,7 +6,7 @@ permalink: /defensive-output-parsing/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../candidate/">Candidate</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../quality-assurance/">Quality Assurance</a>
 </nav>
 
 
@@ -53,6 +53,6 @@ Thanks to [Cesare Pautasso](http://www.pautasso.org/) for the discussion that pr
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../self-hosted-slow-path-inference/">← Self-Hosted Slow-Path Inference</a><a class="nav-next" href="../per-user-consumption-budget/">Per-User Consumption Budget →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../hybrid-classical-llm-pipeline/">← Hybrid Classical+LLM Pipeline</a><a class="nav-next" href="../deterministic-postprocessing/">Deterministic Postprocessing →</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BDefensive+Output+Parsing%5D+&labels=feedback%2Ccandidate&body=%2A%2ARe%3A%2A%2A+Defensive+Output+Parsing%0A%2A%2ASection%3A%2A%2A+Candidate+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fdefensive-output-parsing%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BDefensive+Output+Parsing%5D+&labels=feedback%2Cquality-assurance&body=%2A%2ARe%3A%2A%2A+Defensive+Output+Parsing%0A%2A%2ASection%3A%2A%2A+Quality+Assurance%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fdefensive-output-parsing%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

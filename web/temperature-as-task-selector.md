@@ -35,6 +35,6 @@ This pattern acknowledges that a single LLM can behave as multiple "virtual comp
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../hybrid-classical-llm-pipeline/">← Hybrid Classical+LLM Pipeline</a><a class="nav-next" href="../soft-invalidation-of-llm-artifacts/">Soft Invalidation of LLM Artifacts →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../deterministic-postprocessing/">← Deterministic Postprocessing</a><a class="nav-next" href="../prompt-injection-containment/">Prompt Injection Containment →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BTemperature+as+Task+Selector%5D+&labels=feedback%2Ccandidate&body=%2A%2ARe%3A%2A%2A+Temperature+as+Task+Selector%0A%2A%2ASection%3A%2A%2A+Candidate+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Ftemperature-as-task-selector%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
