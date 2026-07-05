@@ -45,7 +45,7 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 ### [Cost Optimization](cost-optimization/)
 - [Prompt Amortization](prompt-amortization/)
 - [Escalate to the LLM](escalate-to-the-llm/)
-- [Self-Hosted Slow-Path Inference](self-hosted-slow-path-inference/)
+- [Slow-Path Inference](slow-path-inference/)
 - [Per-User Consumption Budget](per-user-consumption-budget/)
 
 ### [Latency and Availability](latency-and-availability/)
