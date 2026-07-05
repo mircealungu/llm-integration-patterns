@@ -8,6 +8,10 @@
 cd "$(dirname "$0")"
 [ -f ~/.local_envvars.sh ] && source ~/.local_envvars.sh
 
+# pandoc (Homebrew) and xelatex (MacTeX) live outside a bare shell's PATH; add
+# their dirs so the PDF build works no matter which shell launches this script.
+export PATH="/opt/homebrew/bin:/Library/TeX/texbin:$PATH"
+
 if [ -z "$AIPAT_VAULT" ] || [ -z "$AIPAT_REPO" ]; then
     echo "AIPAT_VAULT / AIPAT_REPO not set (see ~/.local_envvars.sh)" >&2
     exit 1
