@@ -85,6 +85,15 @@ fi
 # Explode chapters into a home page + one page per pattern.
 python3 build.py
 
+# Build the ACM PDF from content/ and drop it into the site (served at
+# /paper.pdf). Uses this machine's TeX toolchain, so CI needs none. Non-fatal:
+# a LaTeX error must not block publishing the website.
+if python3 paper/build_paper.py; then
+    cp "$AIPAT_REPO/paper/paper.pdf" "$AIPAT_REPO/web/paper.pdf"
+else
+    echo "PDF build failed — publishing the site without refreshing the PDF." >&2
+fi
+
 # Pre-publish checks (broken links/images block; voice/placeholders warn).
 python3 check.py || { echo "Pre-publish checks failed — not pushing."; exit 1; }
 
