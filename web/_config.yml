@@ -1,10 +1,6 @@
 title: Architectural Patterns for Integrating LLMs into User-Facing Applications
 description: A living catalogue of recurring patterns for integrating LLMs as components into existing user-facing applications.
 theme: jekyll-theme-cayman
-exclude:
-  - README.md
-  - sync.sh
-  - build.py
-  - check.py
-  - Gemfile
-  - Gemfile.lock
+# Jekyll builds only this web/ folder (see .github/workflows/pages.yml), so the
+# root-level tooling (build.py, sync.sh, README, paper/) is out of scope and
+# needs no exclude list.

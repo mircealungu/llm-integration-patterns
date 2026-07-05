@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Build a multi-page Jekyll site from the numbered chapter sources in _src/.
+"""Build a multi-page Jekyll site from the numbered chapter sources in content/.
+
+Source lives in content/; the generated Jekyll pages are written into web/
+(the Jekyll site root: _config.yml, _layouts/, assets/, images/). GitHub Pages
+builds web/ via .github/workflows/pages.yml.
 
 - 00 Intro            -> home page (What is this? + The Idea) + catalogue,
                          and a separate Preamble page (the Zeeguu case study)
@@ -17,7 +21,8 @@ import re
 import urllib.parse
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-SRC = os.path.join(ROOT, "_src")
+SRC = os.path.join(ROOT, "content")   # chapter sources (mirror of the vault)
+OUT = os.path.join(ROOT, "web")       # Jekyll site root; generated pages go here
 REPO = "mircealungu/llm-integration-patterns"
 SITE = "https://patterns.mircealungu.com"
 TITLE = ("Architectural Patterns for Integrating LLMs "
@@ -209,7 +214,7 @@ def write(slug_path, fm_title, top_nav, foot_nav, body, issue,
         parts.append(f"\n{top_nav}\n")
     parts.append("\n" + body.strip() + "\n")
     parts.append(footer(issue, nav=foot_nav))
-    open(os.path.join(ROOT, fname), "w", encoding="utf-8").write("\n".join(parts))
+    open(os.path.join(OUT, fname), "w", encoding="utf-8").write("\n".join(parts))
 
 
 def autolink(body, self_slug, name2slug, home=False):
@@ -232,9 +237,8 @@ def autolink(body, self_slug, name2slug, home=False):
 
 
 def clean_generated():
-    for f in glob.glob(os.path.join(ROOT, "*.md")):
-        if os.path.basename(f) != "README.md":
-            os.remove(f)
+    for f in glob.glob(os.path.join(OUT, "*.md")):
+        os.remove(f)
 
 
 def read_page(path):
@@ -250,6 +254,7 @@ def read_page(path):
 
 
 def main():
+    os.makedirs(OUT, exist_ok=True)
     clean_generated()
 
     home_body = ""
@@ -367,7 +372,7 @@ def main():
               home=home, description=description,
               subtitle=subtitle, subtitle_url=subtitle_url)
 
-    pages = len(glob.glob(os.path.join(ROOT, "*.md")))
+    pages = len(glob.glob(os.path.join(OUT, "*.md")))
     print(f"Built {pages} pages. Labels used: {sorted(used_labels)}")
 
 
