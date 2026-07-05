@@ -26,6 +26,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Build the ACM PDF from content/ and drop it into the site so it is
+      # served at /paper.pdf. Non-fatal: a LaTeX hiccup must never block the
+      # website deploy (the last good PDF simply stays until the next success).
+      - name: Build the paper PDF and publish it into the site (non-fatal)
+        continue-on-error: true
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pandoc texlive-xetex texlive-publishers \
+            texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended texlive-fonts-extra texlive-bibtex-extra
+          python3 paper/build_paper.py
+          cp paper/paper.pdf web/paper.pdf
       - uses: actions/configure-pages@v5
       - name: Build Jekyll site from web/
         uses: actions/jekyll-build-pages@v1

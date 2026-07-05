@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Build an ACM (acmart) PDF from the SAME vault Markdown that feeds the website.
 
-Single source of truth: the Obsidian vault chapters (AIPAT_VAULT). The website
-(build.py) and this paper build are two *views* of that one source. This script
-adds only a thin, paper-only layer on top:
+Single source: the chapter Markdown in content/ (the in-repo mirror of the
+Obsidian vault; pass --vault to read the live vault directly instead). The
+website (build.py) and this paper build are two *views* of that one source.
+This script adds only a thin, paper-only layer on top:
 
   - MANIFEST      : which chapters, in what order, go in the paper (the site
                     includes a few extra meta pages this omits).
@@ -26,14 +27,22 @@ import shutil
 import subprocess
 import sys
 
-VAULT = os.environ.get(
-    "AIPAT_VAULT",
-    "/Users/mircea/Library/Mobile Documents/iCloud~md~obsidian/Documents/"
-    "Megavault/writing/26 - AI Patterns",
-).rstrip("/")
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "build")
 BIB = os.path.join(HERE, "references.bib")
+
+# Source defaults to the in-repo content/ mirror, so contributors and CI can
+# build the PDF without the Obsidian vault. `--vault` reads the live vault
+# (AIPAT_VAULT) instead — handy for a local preview of not-yet-synced edits.
+CONTENT = os.path.normpath(os.path.join(HERE, os.pardir, "content"))
+if "--vault" in sys.argv:
+    SRC = os.environ.get(
+        "AIPAT_VAULT",
+        "/Users/mircea/Library/Mobile Documents/iCloud~md~obsidian/Documents/"
+        "Megavault/writing/26 - AI Patterns",
+    ).rstrip("/")
+else:
+    SRC = CONTENT
 
 # --- PAPER-ONLY METADATA (edit here; never touches the shared Markdown) -------
 META = {
@@ -204,7 +213,7 @@ def linkify_citations(md, url2key):
 def assemble():
     parts, acks = [], []
     for kind, rel, title in MANIFEST:
-        full = os.path.join(VAULT, rel)
+        full = os.path.join(SRC, rel)
         if kind == "intro":
             t = process_file(full, acks)
             t = re.sub(r"^#\s+.*$", "", t, count=1, flags=re.M)   # drop H1 title
@@ -278,8 +287,8 @@ def main():
         shutil.rmtree(OUT)
     os.makedirs(os.path.join(OUT, "images"))
 
-    # images from the vault (basenames, no spaces in the build dir)
-    for img in glob.glob(os.path.join(VAULT, "images", "*")):
+    # images from the source (basenames, no spaces in the build dir)
+    for img in glob.glob(os.path.join(SRC, "images", "*")):
         if os.path.isfile(img):
             shutil.copy(img, os.path.join(OUT, "images", os.path.basename(img)))
 
