@@ -17,10 +17,10 @@ fi
 # main is protected: collaborators only open PRs; the maintainer merges on
 # GitHub, then runs this. We pull the merge and reverse-import the changed
 # chapter sources back into the vault (the editing surface) BEFORE the normal
-# vault -> _src mirror, so that mirror's --delete can't wipe the merged work.
+# vault -> content mirror, so that mirror's --delete can't wipe the merged work.
 #
-# The pre-pull HEAD is the last-synced state (every sync ends by committing an
-# _src that equals the vault), so git itself is the collision baseline — no
+# The pre-pull HEAD is the last-synced state (every sync ends by committing a
+# content/ that equals the vault), so git itself is the collision baseline — no
 # manifest to keep. Note: PR deletions are NOT propagated to the vault (the
 # reverse import has no --delete); remove such files by hand.
 BASE=$(git rev-parse HEAD)
@@ -34,13 +34,13 @@ git pull --ff-only --quiet || {
 # Detect and stop rather than silently overwrite either side.
 conflicts=()
 while IFS= read -r -d '' path; do
-    rel=${path#_src/}
+    rel=${path#content/}
     vfile="$AIPAT_VAULT$rel"
     [ -f "$vfile" ] || continue          # new PR file the vault lacks: not a conflict
     if ! diff -q <(git show "$BASE:$path" 2>/dev/null) "$vfile" >/dev/null 2>&1; then
         conflicts+=("$rel")              # vault differs from baseline => also edited here
     fi
-done < <(git diff -z --name-only "$BASE" HEAD -- _src/)
+done < <(git diff -z --name-only "$BASE" HEAD -- content/)
 
 if [ ${#conflicts[@]} -gt 0 ]; then
     echo "CONFLICT — edited in BOTH the vault and a merged PR:" >&2
@@ -50,36 +50,36 @@ if [ ${#conflicts[@]} -gt 0 ]; then
 fi
 
 # Reverse import: bring the merged (non-conflicting) PR edits into the vault.
-# No --delete (never drop a vault file just because _src lacks it — _src is a
-# subset). -u keeps a newer vault file; --backup preserves anything overwritten.
+# No --delete (never drop a vault file just because content/ lacks it — content/
+# is a subset). -u keeps a newer vault file; --backup preserves anything overwritten.
 if [ "$BASE" != "$(git rev-parse HEAD)" ]; then
     rsync -a -u \
         --backup --backup-dir="$AIPAT_REPO/.sync-backups/reverse-$(date +%Y%m%d-%H%M%S)" \
         --exclude='.DS_Store' --exclude='sync.sh' \
-        "$AIPAT_REPO/_src/" "$AIPAT_VAULT"
+        "$AIPAT_REPO/content/" "$AIPAT_VAULT"
     echo "Reverse-imported merged PR edits into the vault."
 fi
 
-# Chapter sources live in _src/ (underscore = ignored by Jekyll). The stale
-# Google-Doc export is left behind in the vault.
-mkdir -p "$AIPAT_REPO/_src"
+# Chapter sources live in content/. The stale Google-Doc export is left behind
+# in the vault (excluded below).
+mkdir -p "$AIPAT_REPO/content"
 rsync -a --delete \
     --exclude='.DS_Store' \
     --exclude='.obsidian' \
     --exclude='sync.sh' \
     --exclude='(Design_)*' \
     --exclude='_*' \
-    "$AIPAT_VAULT" "$AIPAT_REPO/_src/"
+    "$AIPAT_VAULT" "$AIPAT_REPO/content/"
 
 # The README is edited in the vault but lives at the repo root (it's the
 # GitHub landing page, not a site page).
-[ -f "$AIPAT_REPO/_src/README.md" ] && cp "$AIPAT_REPO/_src/README.md" "$AIPAT_REPO/README.md"
+[ -f "$AIPAT_REPO/content/README.md" ] && cp "$AIPAT_REPO/content/README.md" "$AIPAT_REPO/README.md"
 
-# Images: vault images/ -> served /images/ (kept out of assets/ so it never
-# collides with the theme override at assets/css/).
-if [ -d "$AIPAT_REPO/_src/images" ]; then
-    mkdir -p "$AIPAT_REPO/images"
-    rsync -a --delete "$AIPAT_REPO/_src/images/" "$AIPAT_REPO/images/"
+# Images: content/images -> web/images, served at /images/ (Jekyll serves the
+# web/ site root; kept out of web/assets/ so it never collides with the theme CSS).
+if [ -d "$AIPAT_REPO/content/images" ]; then
+    mkdir -p "$AIPAT_REPO/web/images"
+    rsync -a --delete "$AIPAT_REPO/content/images/" "$AIPAT_REPO/web/images/"
 fi
 
 # Explode chapters into a home page + one page per pattern.

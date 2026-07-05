@@ -1,0 +1,47 @@
+name: Deploy site to GitHub Pages
+
+# Replaces the classic Pages Jekyll build so we can serve from web/ instead of
+# the repo root. build.py generates the pages into web/ (committed by sync.sh);
+# this workflow runs Jekyll over web/ and deploys the result.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; don't cancel an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Build Jekyll site from web/
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./web
+          destination: ./_site
+      - uses: actions/upload-pages-artifact@v3
+
+  # Deploy only for real pushes to main — PR/branch runs just validate the build.
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
