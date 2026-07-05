@@ -6,7 +6,7 @@ permalink: /centralized-model-selection/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#lifecycle-management">Lifecycle Management</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../lifecycle-management/">Lifecycle Management</a>
 </nav>
 
 

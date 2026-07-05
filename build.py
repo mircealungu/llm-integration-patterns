@@ -316,6 +316,22 @@ def main():
         il = issue_link(name, cs_slug, "this case study", section="Case Studies")
         pending.append((cs_slug, name, "Home", body, il, False, None))
 
+    # Category pages: the category's overview (its `00` file) followed by the
+    # list of its patterns. A category with no `00` file just shows the list —
+    # graceful degradation, so overviews can be filled in one at a time.
+    for ctitle, pats, cat_intro in catalogue:
+        if not pats:
+            continue                       # prose section, not a pattern category
+        cat_slug = section_label(ctitle)
+        blocks = []
+        if cat_intro and cat_intro.strip():
+            blocks.append(cat_intro.strip())
+        blocks.append("\n".join(f"- [{name}](../{s}/)" for name, s in pats))
+        il = issue_link(ctitle, cat_slug, "this category", section=ctitle,
+                        label=section_label(ctitle))
+        pending.append((cat_slug, strip_patterns_suffix(ctitle), "All patterns",
+                        "\n\n".join(blocks), il, False, None))
+
     # Home page: What is this? + The Idea + Case Studies + catalogue.
     lines = [home_body, ""]
     if case_studies:
@@ -325,9 +341,8 @@ def main():
     lines += ["## The Patterns", ""]
     for ctitle, pats, prose in catalogue:
         if pats:
-            lines.append(f"### {strip_patterns_suffix(ctitle)}")
-            if prose and prose.strip():          # category overview (00 file)
-                lines += ["", prose.strip(), ""]
+            # Heading links to the category page (overview lives there now).
+            lines.append(f"### [{strip_patterns_suffix(ctitle)}]({section_label(ctitle)}/)")
             lines += [f"- [{name}]({s}/)" for name, s in pats]
             lines.append("")
     extras = [(c, p) for (c, pats, p) in catalogue if not pats]
@@ -358,7 +373,7 @@ def main():
             prev, nxt = pattern_nav[slug_path]
             cat = pattern_cat.get(slug_path)
             cat_label = strip_patterns_suffix(cat) if cat else None
-            cat_href = f"../#{section_label(cat)}" if cat else None
+            cat_href = f"../{section_label(cat)}/" if cat else None
             top_nav = nav_bar_html(cat_label, cat_href)
             foot_nav = nav_bar(prev, nxt)
         elif back:

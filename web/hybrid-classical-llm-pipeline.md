@@ -6,7 +6,7 @@ permalink: /hybrid-classical-llm-pipeline/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#quality-assurance">Quality Assurance</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../quality-assurance/">Quality Assurance</a>
 </nav>
 
 

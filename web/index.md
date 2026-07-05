@@ -42,34 +42,29 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 
 ## The Patterns
 
-### Cost Optimization
-
-We use *cost* as shorthand for any expensive, metered resource — most visibly the per-token API bill, but also latency, compute, and energy. The unifying force is that LLM calls carry a large, often *fixed* overhead (the instructional prompt, the network round-trip), so invoking them naïvely wastes that setup on a tiny payload.
-
-These patterns are really about *economy*: **amortizing a fixed overhead** across many uses ([Prompt Amortization](prompt-amortization/)), and **paying the expensive resource only in proportion to the value returned** ([Escalate to the LLM](escalate-to-the-llm/)). The same frugality transfers to non-monetary resources — which is why Prompt Amortization cuts latency as well as dollars.
-
+### [Cost Optimization](cost-optimization/)
 - [Prompt Amortization](prompt-amortization/)
 - [Escalate to the LLM](escalate-to-the-llm/)
 
-### Latency and Availability
+### [Latency and Availability](latency-and-availability/)
 - [Pre-Computing Likely-Needed Results](pre-computing-likely-needed-results/)
 - [Hot-Path Result Caching](hot-path-result-caching/)
 - [Multiplexed Dispatch](multiplexed-dispatch/)
 - [Fail-Fast Provider Chain](fail-fast-provider-chain/)
 
-### Lifecycle Management
+### [Lifecycle Management](lifecycle-management/)
 - [LLM as Wizard of Oz](llm-as-wizard-of-oz/)
 - [Centralized Model Selection](centralized-model-selection/)
 
-### Data Management
+### [Data Management](data-management/)
 - [LLM Output Provenance](llm-output-provenance/)
 
-### Quality Assurance
+### [Quality Assurance](quality-assurance/)
 - [LLM-Checking-LLM](llm-checking-llm/)
 - [LLM Content Validation Tracking](llm-content-validation-tracking/)
 - [Hybrid Classical+LLM Pipeline](hybrid-classical-llm-pipeline/)
 
-### Candidate
+### [Candidate](candidate/)
 - [Temperature as Task Selector](temperature-as-task-selector/)
 - [Soft Invalidation of LLM Artifacts](soft-invalidation-of-llm-artifacts/)
 - [Deterministic Postprocessing](deterministic-postprocessing/)
