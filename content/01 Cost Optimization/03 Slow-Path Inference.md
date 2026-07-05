@@ -2,12 +2,16 @@
 
 ## Example
 
-Zeeguu simplifies articles to easier CEFR levels on two different paths, chosen by whether a reader is waiting. 
+Zeeguu runs the pattern in two places.
 
-1. When a learner opens an article that has not been simplified yet, the on-demand simplification runs on a fast model (Anthropic Haiku, the "real-time text-simplification" path), with a cheaper model as fallback, so the reader is not left waiting. 
-2. The bulk, ahead-of-time simplification of the crawled article feed — which no user is blocking on — is pinned to the cheaper, slower DeepSeek model (`crawl_round_robin(..., simplification_provider='deepseek')`); the CEFR assessment done during crawling is likewise DeepSeek-only, "for consistency with batch crawling". 
- 
+**Two model tiers for one task.** Article simplification takes two paths, chosen by whether a reader is waiting.
+
+1. When a learner opens an article that has not been simplified yet, the on-demand simplification runs on a fast model (Anthropic Haiku, the "real-time text-simplification" path), with a cheaper model as fallback, so the reader is not left waiting.
+2. The bulk, ahead-of-time simplification of the crawled article feed — which no user is blocking on — is pinned to the cheaper, slower DeepSeek model (`crawl_round_robin(..., simplification_provider='deepseek')`); the CEFR assessment done during crawling is likewise DeepSeek-only, "for consistency with batch crawling".
+
 Same task, two model tiers, selected by latency-sensitivity rather than by the task itself.
+
+**An owned machine as the slow path.** Zeeguu's latency-insensitive LLM work — CEFR assessment, translation validation, meaning-frequency classification, ahead-of-time example generation — all bills against metered APIs, yet none of it is on a user's critical path. A single owned machine (a Mac Studio running Ollama) drains that entire queue overnight on a local model at zero per-token cost, with the cloud API as a deadline-bound fallback for whatever is not done by morning. It moves a whole category of spend off the metered bill onto hardware that already sits idle at night. (The machine has no public IP and is not on the server's network, so it connects as an outbound-only pull worker — the server enqueues, the machine polls over HTTPS and posts back — a deployment detail, not an LLM concern.)
 
 ## Forces
 
@@ -27,7 +31,7 @@ Realize the slow path with whatever is cheapest for the work, in rough order of 
 
 - **A cheaper model.** The lightest realization: point the batch path at a cheaper provider. Zeeguu uses DeepSeek for batch simplification and crawl-time CEFR assessment while the reader-facing path stays on Anthropic Haiku — the same call behind a different endpoint.
 - **A provider batch API.** Asynchronous endpoints (OpenAI Batch, Anthropic Message Batches) run at roughly half price for up to ~24h turnaround, with no infrastructure to own.
-- **Self-hosted local inference.** Zeeguu's latency-insensitive LLM work — CEFR assessment, translation validation, meaning-frequency classification, ahead-of-time example generation — all bills against metered APIs today, yet none of it is on a user's critical path. A single owned machine (a Mac Studio running Ollama) drains that entire queue overnight on a local model at zero per-token cost, with the cloud API as a deadline-bound fallback for whatever is not done by morning. It moves a *whole category* of spend off the metered bill onto hardware that already sits idle at night. *(The machine has no public IP and is not on the server's network, so it connects as an outbound-only pull worker — the server enqueues, the machine polls over HTTPS and posts back — a deployment detail, not an LLM concern.)*
+- **Self-hosted local inference.** A local model on owned hardware draining an overnight queue at zero per-token cost — the largest saving, the most infrastructure (the owned-machine example above).
 
 ## Consequences
 
