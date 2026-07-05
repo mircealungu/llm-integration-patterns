@@ -13,6 +13,53 @@ if [ -z "$AIPAT_VAULT" ] || [ -z "$AIPAT_REPO" ]; then
     exit 1
 fi
 
+# --- Pull collaborator PRs and guard against same-file collisions ----------
+# main is protected: collaborators only open PRs; the maintainer merges on
+# GitHub, then runs this. We pull the merge and reverse-import the changed
+# chapter sources back into the vault (the editing surface) BEFORE the normal
+# vault -> _src mirror, so that mirror's --delete can't wipe the merged work.
+#
+# The pre-pull HEAD is the last-synced state (every sync ends by committing an
+# _src that equals the vault), so git itself is the collision baseline — no
+# manifest to keep. Note: PR deletions are NOT propagated to the vault (the
+# reverse import has no --delete); remove such files by hand.
+BASE=$(git rev-parse HEAD)
+git pull --ff-only --quiet || {
+    echo "git pull --ff-only failed (local commits or a real conflict?). Resolve, then re-run." >&2
+    exit 1
+}
+
+# A file edited in BOTH the vault and a just-merged PR is a genuine conflict
+# that neither rsync nor git can resolve (the vault copy lives outside git).
+# Detect and stop rather than silently overwrite either side.
+conflicts=()
+while IFS= read -r -d '' path; do
+    rel=${path#_src/}
+    vfile="$AIPAT_VAULT$rel"
+    [ -f "$vfile" ] || continue          # new PR file the vault lacks: not a conflict
+    if ! diff -q <(git show "$BASE:$path" 2>/dev/null) "$vfile" >/dev/null 2>&1; then
+        conflicts+=("$rel")              # vault differs from baseline => also edited here
+    fi
+done < <(git diff -z --name-only "$BASE" HEAD -- _src/)
+
+if [ ${#conflicts[@]} -gt 0 ]; then
+    echo "CONFLICT — edited in BOTH the vault and a merged PR:" >&2
+    printf '  - %s\n' "${conflicts[@]}" >&2
+    echo "Reconcile these by hand in the vault, then re-run sync." >&2
+    exit 1
+fi
+
+# Reverse import: bring the merged (non-conflicting) PR edits into the vault.
+# No --delete (never drop a vault file just because _src lacks it — _src is a
+# subset). -u keeps a newer vault file; --backup preserves anything overwritten.
+if [ "$BASE" != "$(git rev-parse HEAD)" ]; then
+    rsync -a -u \
+        --backup --backup-dir="$AIPAT_REPO/.sync-backups/reverse-$(date +%Y%m%d-%H%M%S)" \
+        --exclude='.DS_Store' --exclude='sync.sh' \
+        "$AIPAT_REPO/_src/" "$AIPAT_VAULT"
+    echo "Reverse-imported merged PR edits into the vault."
+fi
+
 # Chapter sources live in _src/ (underscore = ignored by Jekyll). The stale
 # Google-Doc export is left behind in the vault.
 mkdir -p "$AIPAT_REPO/_src"
