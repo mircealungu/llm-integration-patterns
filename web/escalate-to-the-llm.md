@@ -6,7 +6,7 @@ permalink: /escalate-to-the-llm/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#cost-optimization">Cost Optimization</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../cost-optimization/">Cost Optimization</a>
 </nav>
 
 

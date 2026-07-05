@@ -6,7 +6,7 @@ permalink: /soft-invalidation-of-llm-artifacts/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#candidate">Candidate</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../candidate/">Candidate</a>
 </nav>
 
 

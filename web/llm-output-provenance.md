@@ -6,7 +6,7 @@ permalink: /llm-output-provenance/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#data-management">Data Management</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../data-management/">Data Management</a>
 </nav>
 
 

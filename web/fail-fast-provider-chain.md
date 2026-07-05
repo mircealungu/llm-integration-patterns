@@ -6,7 +6,7 @@ permalink: /fail-fast-provider-chain/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../#latency-and-availability">Latency and Availability</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../latency-and-availability/">Latency and Availability</a>
 </nav>
 
 
