@@ -1,6 +1,8 @@
 # Architectural Patterns for Integrating LLMs into User-Facing Applications
 
 <!-- paper-skip -->
+
+See also: [pdf version](patterns.mircealungu.com/paper.pdf).
 ### What is this?
 
 A living catalogue of recurring patterns I keep running into when building software with and around large language models, the small, reusable shapes of solution that show up again and again across agents, tools, prompts, and evaluation.
