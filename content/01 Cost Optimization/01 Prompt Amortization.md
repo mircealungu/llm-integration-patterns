@@ -40,7 +40,6 @@ Both combine naturally with pre-computation: because results are computed offlin
 ## Notes
 
 - Which ceiling binds first? For small items it is the *quality* ceiling, not the token one: classification and example validation run at **15–20 items per call**, far below what the window allows, because beyond that the model starts dropping or muddling entries. For fan-out simplification it flips: the *token* ceiling binds on the output side, since each variant is a full article.
-- Not every candidate is amortized yet: translation validation currently runs **one call per word** (`validate_and_fix`); a batched validation prompt exists in the codebase but is not wired up, a standing opportunity to apply this pattern.
 - Some LLMs provide prompt caching - e.g. Deepseek. Even so, if the cost is amortized with prompt caching, the time saving of amortization can still be a valuable reason for doing it
 
 ## Known Uses
