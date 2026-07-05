@@ -9,11 +9,6 @@ permalink: /candidate/
 
 
 - [Temperature as Task Selector](../temperature-as-task-selector/)
-- [Soft Invalidation of LLM Artifacts](../soft-invalidation-of-llm-artifacts/)
-- [Deterministic Postprocessing](../deterministic-postprocessing/)
-- [Self-Hosted Slow-Path Inference](../self-hosted-slow-path-inference/)
-- [Defensive Output Parsing](../defensive-output-parsing/)
-- [Per-User Consumption Budget](../per-user-consumption-budget/)
 - [Prompt Injection Containment](../prompt-injection-containment/)
 
 

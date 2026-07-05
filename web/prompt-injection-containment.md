@@ -59,6 +59,6 @@ Partly implemented: the audio-lesson suggestion validator is a full instance; tr
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../per-user-consumption-budget/">← Per-User Consumption Budget</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../temperature-as-task-selector/">← Temperature as Task Selector</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BPrompt+Injection+Containment%5D+&labels=feedback%2Ccandidate&body=%2A%2ARe%3A%2A%2A+Prompt+Injection+Containment%0A%2A%2ASection%3A%2A%2A+Candidate+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fprompt-injection-containment%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

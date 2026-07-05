@@ -11,6 +11,8 @@ permalink: /quality-assurance/
 - [LLM-Checking-LLM](../llm-checking-llm/)
 - [LLM Content Validation Tracking](../llm-content-validation-tracking/)
 - [Hybrid Classical+LLM Pipeline](../hybrid-classical-llm-pipeline/)
+- [Defensive Output Parsing](../defensive-output-parsing/)
+- [Deterministic Postprocessing](../deterministic-postprocessing/)
 
 
 
