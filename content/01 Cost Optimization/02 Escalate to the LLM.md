@@ -13,7 +13,7 @@ Google Translate serves as the primary translation engine. When a user indicates
 
 ## Problem
 
-LLM quality is only worth its cost on the minority of requests the cheap tool handles poorly — but you cannot reliably tell those apart up front. How do you spend the LLM *only* where it pays off?
+LLM quality is only worth its cost on the minority of requests the cheap tool handles poorly — and those cannot be told apart up front. How can the LLM be spent *only* where it pays off?
 
 ## Forces
 

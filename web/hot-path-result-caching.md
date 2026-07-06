@@ -20,7 +20,7 @@ Multi-word expression (MWE) detection finds the phrases in an article that a lea
 
 ## Problem
 
-How do you avoid paying for the same expensive LLM call again and again when the repeats are unpredictable?
+How can the same expensive LLM call be avoided when it recurs unpredictably within a short window?
 
 ## Forces
 
