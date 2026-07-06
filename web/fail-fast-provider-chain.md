@@ -10,9 +10,17 @@ permalink: /fail-fast-provider-chain/
 </nav>
 
 
+## Context
+
+A request is served by one of several interchangeable LLM providers, on the user's critical path, and any provider can intermittently error, rate-limit, or spike in latency.
+
 ## Example
 
 (Zeeguu): The app uses a unified LLM service proxy which tries Anthropic first; on any error (timeout, rate limit, API error), it immediately switches to DeepSeek without retry. This keeps worst-case latency bounded while maintaining availability.
+
+## Problem
+
+How do you keep the request succeeding within its latency budget when a provider fails — without burning that budget on retries?
 
 ## Forces
 
@@ -22,9 +30,11 @@ LLM providers experience outages, rate limits, and latency spikes. Retry logic i
 
 Configure a chain of LLM providers with no retries. On any failure, immediately fall back to the next provider in the chain. Prioritize speed over exhausting retry budgets.
 
-## Applicability
+## Consequences
 
-The pattern earns its keep most on **real-time paths where a user is waiting**. There the latency budget is tight, so spending it on a retry against a failing provider is the wrong move: failing over immediately keeps the worst case bounded. For offline or batched work, where nobody is waiting, retries and backoff are more affordable, and it can be worth retrying the cheaper provider before moving on.
+- **The request survives an outage, and latency stays bounded.** A dead or slow provider no longer fails the request, and skipping retries keeps the worst case tight.
+- **It shines on real-time paths, less so offline.** Where a user waits, spending the budget on a retry against a failing provider is the wrong move. For offline or batched work nobody is waiting, so retry-and-backoff — even retrying the cheaper provider first — is more affordable.
+- **Cost attribution shifts to whoever served.** A fallback changes which provider you pay and at what rate (composes with [Per-User Consumption Budget](../per-user-consumption-budget/) and [Centralized Model Selection](../centralized-model-selection/)).
 
 ## Note
 
