@@ -10,9 +10,17 @@ permalink: /deterministic-postprocessing/
 </nav>
 
 
+## Context
+
+LLM output carries a deterministic formatting defect (a stable trailing string, a known preamble, leaked markdown in a plain-text field), the same defect shows up on every call, and it is already present in rows written to the database.
+
 ## Example
 
 LLM-simplified article summaries consistently ended with a Unicode ellipsis (`…`), making every home-card preview read as an unfinished sentence. One option was to add a "do not end with ellipsis" instruction to the simplification prompt; the chosen option was a five-line regex stripping any trailing `…` or `..+` at serialization time. The regex handles every case at 100%, including the ~60k pre-existing rows in the database that no prompt change could retroactively touch.
+
+## Problem
+
+Should a deterministic defect be fixed by instructing the model, or in code?
 
 ## Forces
 
@@ -26,9 +34,10 @@ When LLM output has a deterministic formatting defect (a stable trailing string,
 
 Enforce deterministic constraints in code, at the post-processing or serialization boundary. Reserve prompt instructions for things that genuinely require model judgment.
 
-## Notes
+## Consequences
 
-The boundary between "deterministic" and "semantic" is the test. *Strip a trailing `…`*: deterministic, do it in code. *Don't mention the user's name*: semantic, the model has to enforce. When the deterministic rule list grows long, that is itself a signal that the task is poorly scoped, not that the prompt needs more rules.
+- A code-side fix is 100% reliable, costs no prompt tokens, is testable and reviewable, and retroactively repairs rows already stored, none of which a prompt instruction achieves.
+- It applies only to genuinely deterministic defects. The test is whether the rule needs model judgment: *strip a trailing `…`* belongs in code, *don't mention the user's name* the model has to enforce. A code-side rule list that keeps growing is a signal the task is poorly scoped, not that it needs more rules.
 
 ## Known Uses
 

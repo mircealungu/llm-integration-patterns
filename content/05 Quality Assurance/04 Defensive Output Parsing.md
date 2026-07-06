@@ -1,6 +1,10 @@
 # Defensive Output Parsing
 
 
+## Context
+
+An LLM is asked for output in a fixed shape (JSON, a delimited record), but format compliance is only probabilistic, and the parsed result feeds code on the critical path.
+
 ## Example
 
 Multi-word-expression detection asks the LLM for a JSON array but refuses to blindly trust that it will get one. 
@@ -12,6 +16,10 @@ Multi-word-expression detection asks the LLM for a JSON array but refuses to bli
 - A separate `_validate_groups` step then checks the parsed shape (token indices in range) before anything downstream uses it. 
 
 The same layered try / extract / validate / fall-back appears in the translation validator, the simplification service, and the example generators.
+
+## Problem
+
+How can a probabilistic formatting slip be kept from turning into a failed request?
 
 ## Forces
 
@@ -27,10 +35,15 @@ Parse in layers: strip known wrappers, attempt a lenient parse, extract the expe
 
 Keep the strictness in code, where it is deterministic and testable, rather than in ever-longer prompt instructions.
 
+## Consequences
+
+- A malformed response degrades a single result instead of failing the request: the layered parse recovers what it can, and a clean fallback (a default, a skip, a retry, the next provider) covers the rest.
+- The strictness lives in parsing code that is deterministic and testable, rather than in ever-longer prompt instructions.
+- Provider "JSON mode" or function-calling reduces malformed output but does not remove the need to validate the shape before use.
+
 ## Notes
 
-- A slip degrades a single result instead of failing the request. It composes with a one-shot retry and with *Fail-Fast Provider Chain* (a parse failure can trigger the next provider).
-- Provider "JSON mode" or function-calling reduces malformed output but does not remove the need to validate the shape before use.
+- Composes with a one-shot retry and with *Fail-Fast Provider Chain* (a parse failure can trigger the next provider).
 - Related to *Deterministic Postprocessing*, which repairs a specific, known formatting defect; this pattern is the broader stance of not trusting the structure at all.
 
 ## Known Uses

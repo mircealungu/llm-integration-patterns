@@ -1,8 +1,16 @@
 # Hybrid Classical+LLM Pipeline
 
+## Context
+
+A task can be served by a fast, deterministic classical tool (a dependency parser, a POS tagger, a rule extractor) that misses edge cases, and by an LLM that handles the edge cases but is too expensive to run on every input.
+
 ## Example
 
 Multi-word expression (MWE) detection runs Stanza's dependency parser first, as a cheap high-recall gate. If Stanza flags no candidate in a sentence, the LLM is never called. When it does flag one, an LLM re-analyzes the whole sentence and its verdict is used (and if the LLM finds no expression, its precision is trusted over Stanza's). The LLM therefore runs on only the fraction of sentences that might contain an expression, rather than on every sentence.
+
+## Problem
+
+How can both high recall and high precision be reached without paying LLM cost on every input?
 
 ## Forces
 
@@ -12,9 +20,11 @@ Classical NLP tools (dependency parsers, POS taggers, rule-based extractors) are
 
 Run the cheap classical tool first, as a high-recall gate: invoke the LLM only when the classical stage fires, and skip it otherwise (the common case, and the main cost saving). When it fires, let the LLM make the precision decision. The two are not alternatives: the classical stage controls *when* the LLM runs; the LLM controls *what counts*.
 
-## Tradeoff
+## Consequences
 
-Requires maintaining two systems, but the cost savings from not sending every input to the LLM typically justify the complexity.
+- **The LLM runs only where it is needed.** It fires on the fraction of inputs the classical gate flags, so the common case costs nothing extra while the LLM still makes the precision call.
+- **Two systems must be built and kept in sync.** That is real added complexity, usually justified by the saving from skipping the LLM on the common case.
+- **The gate must have high recall.** A candidate the classical stage misses never reaches the LLM, so the recall of the cheap stage caps the precision of the whole.
 
 ## Note
 
