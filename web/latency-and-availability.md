@@ -8,7 +8,7 @@ permalink: /latency-and-availability/
 [← All patterns](../#the-patterns)
 
 
-- [Pre-Computing Likely-Needed Results](../pre-computing-likely-needed-results/)
+- [Anticipatory Precomputation](../anticipatory-precomputation/)
 - [Hot-Path Result Caching](../hot-path-result-caching/)
 - [Multiplexed Dispatch](../multiplexed-dispatch/)
 - [Fail-Fast Provider Chain](../fail-fast-provider-chain/)

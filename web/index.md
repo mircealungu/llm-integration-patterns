@@ -49,7 +49,7 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 - [Per-User Consumption Budget](per-user-consumption-budget/)
 
 ### [Latency and Availability](latency-and-availability/)
-- [Pre-Computing Likely-Needed Results](pre-computing-likely-needed-results/)
+- [Anticipatory Precomputation](anticipatory-precomputation/)
 - [Hot-Path Result Caching](hot-path-result-caching/)
 - [Multiplexed Dispatch](multiplexed-dispatch/)
 - [Fail-Fast Provider Chain](fail-fast-provider-chain/)

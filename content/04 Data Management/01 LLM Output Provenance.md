@@ -21,9 +21,9 @@ Store the full provenance tuple alongside every LLM-generated artifact: (model v
 
 ## Known Uses
 
-- **[MLflow Prompt Registry](https://mlflow.org/docs/latest/genai/prompt-registry/)** stores commit-versioned prompts with their model configuration and tracks prompt-version ↔ app-version ↔ trace lineage for reproducibility and selective regeneration.
-- **[LangSmith](https://docs.langchain.com/langsmith/prompt-engineering-concepts)** creates an immutable commit hash per prompt version and records which prompt/model produced each traced output.
-- Both confirm this pattern's core claim that the *prompt* deserves versioning as much as the model.
+- *Better attested in tooling than in production self-reports.* The capability is productized — [MLflow Prompt Registry](https://mlflow.org/docs/latest/genai/prompt-registry/) and [LangSmith](https://docs.langchain.com/langsmith/prompt-engineering-concepts) version prompts and record which prompt/model produced each output, confirming the pattern's core claim that the *prompt* deserves versioning as much as the model — but these are tools, not documented in-app deployments.
+- *Adjacent production pipelines.* [DoorDash](https://careersatdoordash.com/blog/doordash-profile-generation-llms-understanding-consumers-merchants-and-items/) stores versioned LLM-generated profiles and "treat[s] prompts as code"; [Etsy](https://www.etsy.com/codeascraft/understanding-etsyas-vast-inventory-with-llms) stores Pydantic-validated LLM attribute extractions over 100M+ listings. Both store LLM artifacts at scale and version prompts, but neither publicly describes stamping *each artifact* with its prompt version to drive *selective* regeneration — the load-bearing mechanic here.
+- We did not find a first-hand account of the full pattern; Zeeguu is our instance.
 
 > [!draft]- Notes after the focus group
 > - can be solved with the gateway ?
