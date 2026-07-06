@@ -22,6 +22,6 @@ Memory overhead and cache invalidation complexity. Best suited for queries where
 
 ## Known Uses
 
-- **[GPTCache](https://aclanthology.org/2023.nlposs-1.24/)** (Bang, NLP-OSS @ EMNLP 2023) is a dedicated LLM cache supporting both exact-match and semantic (embedding-similarity) lookup.
-- **[Helicone](https://docs.helicone.ai/features/advanced-usage/caching)** caches on a hash of the request, stored at the edge with a configurable TTL.
-- **[Portkey](https://portkey.ai/docs/product/ai-gateway/cache-simple-and-semantic)** ships both "simple" (exact-match) and "semantic" caches; **[LangChain](https://python.langchain.com/docs/integrations/llm_caching/)** provides in-memory and SQLite caches.
+- **Walmart** — Walmart's chief software architect describes a production *semantic* cache (vector-similarity, not exact match) for e-commerce search, reporting a hit rate "closer to 50%" on tail queries. *(Reported in a [vendor writeup of the talk](https://portkey.ai/blog/transforming-e-commerce-search-with-generative-ai-insights-from-walmarts-journey/); the claims are attributed to Walmart on the record, but the source is secondary.)*
+- *Tools that ship this, not documented deployments.* Result caching is common enough to be productized: dedicated LLM caches ([GPTCache](https://aclanthology.org/2023.nlposs-1.24/), exact + semantic) and gateway caches ([Helicone](https://docs.helicone.ai/features/advanced-usage/caching), [Portkey](https://portkey.ai/docs/product/ai-gateway/cache-simple-and-semantic), [LangChain](https://python.langchain.com/docs/integrations/llm_caching/)).
+- *Honest note.* First-party write-ups of *reactive* LLM-output caching are scarce; most published examples (Yelp, Instacart) are *anticipatory precomputation* of head queries (see *Anticipatory Precomputation*) rather than caching on a miss.

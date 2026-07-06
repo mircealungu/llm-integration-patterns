@@ -49,9 +49,9 @@ The same commit that repaired the retirement uncovered a second casualty of the 
 
 ## Known Uses
 
-- **[LiteLLM model aliases](https://docs.litellm.ai/docs/completion/model_alias)** (`model_alias_map`, proxy `model_group_alias`) map a role/user-facing name to a concrete backend model ID, so swapping models is a one-line central edit.
-- **[Portkey Model Catalog](https://portkey.ai/docs/product/ai-gateway/virtual-keys)** references providers and models by a single `@provider/model` alias, changing the backing model in one place.
-- The mechanism is the classic *single source of truth*; what makes it LLM-specific is vendor-driven model deprecation (see this pattern's forces).
+- **[Sourcegraph Cody](https://sourcegraph.com/docs/cody/enterprise/model-configuration)** binds each feature *role* — `chat`, `fastChat`, `codeCompletion` — to a `modelRef` in a central `defaultModels` map, so changing which model powers a feature is a single config edit rather than a call-site change: genuine role-based central selection in a shipped product.
+- *Enablers.* Gateways relocate the role→model map into their config as aliases ([LiteLLM model aliases](https://docs.litellm.ai/docs/completion/model_alias), [Portkey Model Catalog](https://portkey.ai/docs/product/ai-gateway/virtual-keys)) — the same mechanism, hosted outside app code.
+- The mechanism is the classic *single source of truth*; what makes it LLM-specific is vendor-driven model deprecation (see this pattern's forces). We did not find a public first-hand account of centralizing model IDs *in response to a deprecation outage* — Zeeguu's is our instance.
 
 
 

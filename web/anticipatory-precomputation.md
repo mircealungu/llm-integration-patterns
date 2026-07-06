@@ -1,7 +1,7 @@
 ---
 layout: default
-title: "Pre-Computing Likely-Needed Results"
-permalink: /pre-computing-likely-needed-results/
+title: "Anticipatory Precomputation"
+permalink: /anticipatory-precomputation/
 ---
 
 
@@ -28,13 +28,14 @@ Anticipate likely user needs and pre-compute LLM results offline (e.g., via cron
 
 ## Known Uses
 
+- **[Yelp](https://engineeringblog.yelp.com/2025/02/search-query-understanding-with-LLMs.html)** pre-computes LLM query-understanding responses for high-frequency ("head") search queries into a key/value store — "caching (pre-computing) high-end LLM responses for only head queries" — reaching 95% of traffic for review-highlight expansions, so the expensive model never runs on the hot path.
+- **[Instacart](https://tech.instacart.com/building-the-intent-engine-how-instacart-is-revamping-query-understanding-with-llms-3ac8051ae7ac)**'s Intent Engine serves high-frequency search queries from a precomputed cache of LLM outputs, leaving only ~2% of queries to a real-time model.
 - **[ColBERT](https://arxiv.org/abs/2004.12832)** (Khattab & Zaharia, SIGIR 2020) precomputes contextualized passage embeddings for the whole corpus offline, so query time runs only cheap late-interaction matching — the canonical "precompute the expensive representation ahead of time."
-- Provider **[batch / offline-inference](https://developers.openai.com/api/docs/guides/batch)** pipelines are the enabling infrastructure for computing LLM outputs in bulk off the hot path.
-- *Honest gap.* We did not find a well-documented production system that precomputes *user-facing* LLM answers on a schedule the way Zeeguu does; the closest analogues are the materialized-view / prefetching principle and the offline-index precomputation above.
+- *Enabler, not instance.* Provider [batch / offline-inference](https://developers.openai.com/api/docs/guides/batch) endpoints are the infrastructure for computing LLM outputs in bulk off the hot path — not a use of the pattern.
 
 
 
 ---
 <div class="pattern-footer-nav"><a class="nav-prev" href="../per-user-consumption-budget/">← Per-User Consumption Budget</a><a class="nav-next" href="../hot-path-result-caching/">Hot-Path Result Caching →</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BPre-Computing+Likely-Needed+Results%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Pre-Computing+Likely-Needed+Results%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fpre-computing-likely-needed-results%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BAnticipatory+Precomputation%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Anticipatory+Precomputation%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fanticipatory-precomputation%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

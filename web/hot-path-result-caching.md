@@ -32,13 +32,13 @@ Memory overhead and cache invalidation complexity. Best suited for queries where
 
 ## Known Uses
 
-- **[GPTCache](https://aclanthology.org/2023.nlposs-1.24/)** (Bang, NLP-OSS @ EMNLP 2023) is a dedicated LLM cache supporting both exact-match and semantic (embedding-similarity) lookup.
-- **[Helicone](https://docs.helicone.ai/features/advanced-usage/caching)** caches on a hash of the request, stored at the edge with a configurable TTL.
-- **[Portkey](https://portkey.ai/docs/product/ai-gateway/cache-simple-and-semantic)** ships both "simple" (exact-match) and "semantic" caches; **[LangChain](https://python.langchain.com/docs/integrations/llm_caching/)** provides in-memory and SQLite caches.
+- **Walmart** — Walmart's chief software architect describes a production *semantic* cache (vector-similarity, not exact match) for e-commerce search, reporting a hit rate "closer to 50%" on tail queries. *(Reported in a [vendor writeup of the talk](https://portkey.ai/blog/transforming-e-commerce-search-with-generative-ai-insights-from-walmarts-journey/); the claims are attributed to Walmart on the record, but the source is secondary.)*
+- *Tools that ship this, not documented deployments.* Result caching is common enough to be productized: dedicated LLM caches ([GPTCache](https://aclanthology.org/2023.nlposs-1.24/), exact + semantic) and gateway caches ([Helicone](https://docs.helicone.ai/features/advanced-usage/caching), [Portkey](https://portkey.ai/docs/product/ai-gateway/cache-simple-and-semantic), [LangChain](https://python.langchain.com/docs/integrations/llm_caching/)).
+- *Honest note.* First-party write-ups of *reactive* LLM-output caching are scarce; most published examples (Yelp, Instacart) are *anticipatory precomputation* of head queries (see [Anticipatory Precomputation](../anticipatory-precomputation/)) rather than caching on a miss.
 
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../pre-computing-likely-needed-results/">← Pre-Computing Likely-Needed Results</a><a class="nav-next" href="../multiplexed-dispatch/">Multiplexed Dispatch →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../anticipatory-precomputation/">← Anticipatory Precomputation</a><a class="nav-next" href="../multiplexed-dispatch/">Multiplexed Dispatch →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHot-Path+Result+Caching%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Hot-Path+Result+Caching%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fhot-path-result-caching%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

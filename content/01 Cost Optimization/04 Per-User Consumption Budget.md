@@ -44,7 +44,8 @@ A crude instance (single active audio generation per user) already ships. The ge
 
 ## Known Uses
 
-- **[LiteLLM Proxy](https://docs.litellm.ai/docs/proxy/users)** supports per-key `max_budget` (with auto-reset), per-user budgets across a user's keys, and rpm/tpm/parallel-request caps.
-- **[Portkey](https://portkey.ai/docs/product/administration/enforce-budget-and-rate-limit)** attaches a USD budget and rate limits to an individual key, expiring it when the budget is exhausted.
-- **[Helicone](https://docs.helicone.ai/features/advanced-usage/custom-rate-limits)** rate-limits per user via a policy header denominated in request count or cost (e.g. "$5.00/hour/user").
-- *Note.* All three are gateway primitives: they enforce the *mechanism* but not the domain *policy* (which resource, and what the user gets when exhausted) — consistent with this pattern's gateway discussion.
+- **[GitHub Copilot](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests)** gives each user a monthly budget of "premium requests"; when it is exhausted the user is not blocked — "you can still use Copilot with one of the included models for the rest of the month" (subject to rate limiting). A per-user count budget that degrades to a cheaper model tier.
+- **[Canva](https://www.canva.com/help/ai-access/)** caps per-user AI usage by plan; paid users who hit the limit see "short pauses between generations" (a throttle) rather than a hard stop.
+- **Cursor** (historical, pre-2025) gave each user 500 "fast requests"/month, then degraded to a slower unprioritized queue rather than blocking.
+- *Enablers.* Gateways offer per-user budgets as a primitive ([LiteLLM](https://docs.litellm.ai/docs/proxy/users), [Portkey](https://portkey.ai/docs/product/administration/enforce-budget-and-rate-limit), [Helicone](https://docs.helicone.ai/features/advanced-usage/custom-rate-limits)) — the enforcement mechanism, not the *policy* of what the user gets when exhausted.
+- *Observed.* Public examples degrade to a cheaper model tier or a slower queue; degrading to a genuinely non-LLM path (as Zeeguu does with Google Translate) appears rarer in the wild.

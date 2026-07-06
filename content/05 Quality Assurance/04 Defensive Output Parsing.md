@@ -35,9 +35,9 @@ Keep the strictness in code, where it is deterministic and testable, rather than
 
 ## Known Uses
 
-- **[Instructor](https://python.useinstructor.com/)** validates responses against a Pydantic schema and auto-retries on validation failure, feeding the error back for correction.
-- **[LangChain](https://python.langchain.com/api_reference/langchain/output_parsers/langchain.output_parsers.fix.OutputFixingParser.html)** `OutputFixingParser` / `RetryOutputParser` re-invoke the model to repair malformed structure on a parse failure.
-- **[OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)** guarantees schema-conformant JSON yet still requires handling truncation (`finish_reason`) and `refusal` — illustrating this pattern's point that JSON mode reduces but does not remove validation.
+- **[G-Research](https://www.gresearch.com/news/building-a-code-review-tool-the-llm-patterns-that-actually-work/)**'s code-review tool treats LLM output as "unverified input": it normalises responses by "removing wrappers before parsing" (some providers return bare JSON, some wrap it in markdown fences), validates every finding against an authoritative rule index (invalid findings are "rejected outright"), detects truncation via the `length` finish reason and retries with a lower cap, and sends structurally-invalid output back to the model for one repair pass.
+- **[Honeycomb](https://www.honeycomb.io/blog/hard-stuff-nobody-talks-about-llm)**'s Query Assistant parses the LLM output, "correct[s] it (if it's correctable)," validates it, and instruments parse vs. validation errors separately before running the query.
+- *Tools that ship this.* Validation/repair is widely productized — [Instructor](https://python.useinstructor.com/) (Pydantic + auto-retry), [LangChain](https://python.langchain.com/api_reference/langchain/output_parsers/langchain.output_parsers.fix.OutputFixingParser.html) `OutputFixingParser`, and provider [structured-output](https://developers.openai.com/api/docs/guides/structured-outputs) modes (which still require handling truncation and refusals) — but a library that *provides* validation is the mechanism, not evidence of an in-app stance.
 
 > [!ack]
 > Thanks to [Cesare Pautasso](http://www.pautasso.org/) for the discussion that prompted this pattern.
