@@ -1,5 +1,9 @@
 # Anticipatory Precomputation
 
+## Context
+
+A user-facing feature needs an LLM result, but the model takes seconds while the user expects a response in well under one — and *which* results a given user will need next is predictable from their behaviour.
+
 ## Example
 
 When a learner reads a text and asks for a translation, the most important thing is to return a good-enough translation **fast**. The system can afford an imprecise translation while the reader is quickly making sense of a text, but it cannot afford to have learners repeatedly *practice* an imprecise one.
@@ -8,6 +12,10 @@ The vocabulary exercises are built from the words a learner has looked up, so th
 
 **An even costlier instance: audio lessons.** Generating a personalized audio lesson is more expensive again: an LLM writes the lesson script, then text-to-speech synthesizes the audio, several seconds of work no learner should wait through. A nightly job pre-computes the next lessons for recently active learners (prioritized by how recently they practiced), on the assumption that someone who has been studying will be back for the next one. When they return, the lesson is already waiting. 
 
+## Problem
+
+How do you put an LLM-quality result on the user's critical path without making them wait for the model — given that you can often predict what they will need?
+
 ## Forces
 
 LLMs can provide valuable data for users, but they are slow and expensive, making their invocation impractical when the user needs an answer in real-time. (Real-time users expect answers in 200ms, while depending on the prompt and the deployment configuration, an LLM-based system can take multiple seconds to produce an answer).
@@ -15,6 +23,12 @@ LLMs can provide valuable data for users, but they are slow and expensive, makin
 ## Solution
 
 Anticipate likely user needs and pre-compute LLM results offline (e.g., via cron jobs), so results are available instantly when needed. The system designer should model user behavior in order to predict their LLM needs.
+
+## Consequences
+
+- **Zero latency at request time.** The LLM's cost and multi-second latency are paid entirely off the hot path; when the user acts, the result is already waiting.
+- **You pay for guesses that miss.** Precomputing spends tokens on results that may never be requested, so the value depends on the accuracy of the behaviour model — a poor predictor wastes spend *and* still misses.
+- **Needs a reliable "what" and "when" signal, plus a fallback.** It applies only where upcoming needs are predictable; cold or mispredicted requests still need an on-demand path. Composes with *Prompt Amortization* (offline results can be batched).
 
 ## Known Uses
 

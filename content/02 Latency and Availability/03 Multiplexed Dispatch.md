@@ -1,8 +1,16 @@
 # Multiplexed Dispatch
 
+## Context
+
+Several providers offer the same capability (e.g. translation) at different and individually *variable* latencies, and the request sits on the user's critical path where a slow tail hurts.
+
 ## Example
 
 Real-time translations are dispatched to multiple translation providers in parallel. The first response is used, and the rest are saved for when the user asks for alternatives.
+
+## Problem
+
+How do you keep worst-case latency low when any single provider can be intermittently slow?
 
 ## Forces
 
@@ -14,9 +22,10 @@ Dispatch the same request to multiple providers simultaneously and use the first
 
 An alternative to this is **live retrieval**: when the user encounters a translation that they are not sure of, they ask for alternatives, the UI presents the results that are cached, but also asks for alternatives and displays a UI interface that highlights the fact that some of the results are still streaming in.
 
-## Tradeoff
+## Consequences
 
-Increased cost (paying for redundant calls) in exchange for reduced latency.
+- **Latency tracks the fastest responder, not the average.** Racing collapses the slow tail: worst-case latency becomes the *best* of N providers rather than any one's.
+- **You pay N× for one used result** — every dispatch bills its own tokens. (Zeeguu recoups some of this by keeping the losing responses as alternative translations; see the note below.)
 
 ## Note
 
