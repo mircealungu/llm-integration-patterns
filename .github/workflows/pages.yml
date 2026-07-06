@@ -44,12 +44,16 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     steps:
+      # deploy-pages intermittently returns "Deployment failed, try again later"
+      # (a Pages backend transient / throttle). Try once; on failure wait and
+      # retry once more before failing the run.
       - id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          # deploy-pages intermittently fails with "Deployment failed, try again
-          # later"; be more patient with the Pages backend before giving up.
-          timeout: 600000
-          error_count: 50
+        continue-on-error: true
+      - if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+      - id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
