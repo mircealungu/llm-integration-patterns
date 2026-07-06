@@ -24,7 +24,7 @@ The vocabulary exercises are built from the words a learner has looked up, so th
 
 ## Problem
 
-How do you put an LLM-quality result on the user's critical path without making them wait for the model — given that you can often predict what they will need?
+How can an LLM-quality result reach the user's critical path without a wait for the model — when upcoming needs are often predictable?
 
 ## Forces
 
@@ -37,7 +37,7 @@ Anticipate likely user needs and pre-compute LLM results offline (e.g., via cron
 ## Consequences
 
 - **Zero latency at request time.** The LLM's cost and multi-second latency are paid entirely off the hot path; when the user acts, the result is already waiting.
-- **You pay for guesses that miss.** Precomputing spends tokens on results that may never be requested, so the value depends on the accuracy of the behaviour model — a poor predictor wastes spend *and* still misses.
+- **Precomputing pays for guesses that miss.** It spends tokens on results that may never be requested, so the value depends on the accuracy of the behaviour model — a poor predictor wastes spend *and* still misses.
 - **Needs a reliable "what" and "when" signal, plus a fallback.** It applies only where upcoming needs are predictable; cold or mispredicted requests still need an on-demand path. Composes with [Prompt Amortization](../prompt-amortization/) (offline results can be batched).
 
 ## Known Uses

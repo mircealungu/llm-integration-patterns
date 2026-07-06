@@ -10,7 +10,7 @@ A request is served by one of several interchangeable LLM providers, on the user
 
 ## Problem
 
-How do you keep the request succeeding within its latency budget when a provider fails — without burning that budget on retries?
+How can the request keep succeeding within its latency budget when a provider fails — without burning that budget on retries?
 
 ## Forces
 
@@ -24,7 +24,7 @@ Configure a chain of LLM providers with no retries. On any failure, immediately 
 
 - **The request survives an outage, and latency stays bounded.** A dead or slow provider no longer fails the request, and skipping retries keeps the worst case tight.
 - **It shines on real-time paths, less so offline.** Where a user waits, spending the budget on a retry against a failing provider is the wrong move. For offline or batched work nobody is waiting, so retry-and-backoff — even retrying the cheaper provider first — is more affordable.
-- **Cost attribution shifts to whoever served.** A fallback changes which provider you pay and at what rate (composes with *Per-User Consumption Budget* and *Centralized Model Selection*).
+- **Cost attribution shifts to whoever served.** A fallback changes which provider is billed and at what rate (composes with *Per-User Consumption Budget* and *Centralized Model Selection*).
 
 ## Note
 

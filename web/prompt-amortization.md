@@ -32,7 +32,7 @@ Several Zeeguu jobs share the same shape (a large instructional prompt wrapped a
 
 ## Problem
 
-Sent one item at a time, that fixed preamble is re-paid on every call and dominates token cost and latency. How do you pay it once instead of once per item — without blowing past the model's quality or context limits?
+Sent one item at a time, that fixed preamble is re-paid on every call and dominates token cost and latency. How can it be paid once instead of once per item — without blowing past the model's quality or context limits?
 
 ## Forces
 

@@ -10,7 +10,7 @@ Real-time translations are dispatched to multiple translation providers in paral
 
 ## Problem
 
-How do you keep worst-case latency low when any single provider can be intermittently slow?
+How can worst-case latency stay low when any single provider can be intermittently slow?
 
 ## Forces
 
@@ -25,7 +25,7 @@ An alternative to this is **live retrieval**: when the user encounters a transla
 ## Consequences
 
 - **Latency tracks the fastest responder, not the average.** Racing collapses the slow tail: worst-case latency becomes the *best* of N providers rather than any one's.
-- **You pay N× for one used result** — every dispatch bills its own tokens. (Zeeguu recoups some of this by keeping the losing responses as alternative translations; see the note below.)
+- **N× the cost for one used result** — every dispatch bills its own tokens. (Zeeguu recoups some of this by keeping the losing responses as alternative translations; see the note below.)
 
 ## Note
 
