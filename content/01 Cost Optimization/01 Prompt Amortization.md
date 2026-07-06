@@ -16,10 +16,10 @@ Several Zeeguu jobs share the same shape (a large instructional prompt wrapped a
 
 ## Forces
 
-- **Preamble overhead.** A large, fixed instructional prompt wrapped around a tiny variable input; sent one item at a time, that preamble is re-paid on every call, in tokens, cost, and latency alike. *(pushes toward bigger batches)*
+- **Preamble overhead/Token ceiling.** A large, fixed instructional prompt wrapped around a tiny variable input; sent one item at a time, that preamble is re-paid on every call, in tokens, cost, and latency alike. *(pushes toward bigger batches)*
 - **Quality ceiling.** Accuracy and consistency degrade as more items share one call; past ~15–20 small items some models start dropping or muddling entries. *(pushes toward smaller batches)*
 - **Context ceiling.** Input *and* output must fit the window; for fan-out the output side binds first, since each result is full-length.
-- **Interactive latency.** Fan-in requires waiting to accumulate enough items to fill a batch: fine offline, but unacceptable when a user is blocked on a single result.
+- **Interactive latency.** Fan-in requires waiting to accumulate enough items to fill a batch: fine offline, but unacceptable when a user is blocked on a single result, since items from multiple users cannot be mixed.
 
 ## Solution
 
@@ -37,16 +37,20 @@ Both combine naturally with pre-computation: because results are computed offlin
 - [`validate_examples_batch`](https://github.com/zeeguu/api/blob/master/tools/validate_and_clean_examples.py#L186-L196). Fan-in batching: generated examples validated ~20 at a time (`BATCH_SIZE`).
 - [`get_adaptive_simplification_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/article_simplification.py#L8-L14). Fan-out batching: one call produces simplified versions for *all* CEFR levels simpler than the original.
 
-## Notes
+## Consequences
 
-- Which ceiling binds first? For small items it is the *quality* ceiling, not the token one: classification and example validation run at **15–20 items per call**, far below what the window allows, because beyond that the model starts dropping or muddling entries. For fan-out simplification it flips: the *token* ceiling binds on the output side, since each variant is a full article.
-- Some LLMs provide prompt caching - e.g. Deepseek. Even so, if the cost is amortized with prompt caching, the time saving of amortization can still be a valuable reason for doing it
+- **Celing**. Which ceiling binds first? For small items it is the *quality* ceiling, not the token one: classification and example validation run at **15–20 items per call**, far below what the window allows, because beyond that the model starts dropping or muddling entries. For fan-out simplification it flips: the *token* ceiling binds on the output side, since each variant is a full article.
 
 ## Known Uses
 
 - **[Batch prompting](https://arxiv.org/abs/2301.08721)** (Cheng, Kasai & Yu, EMNLP 2023) packs multiple independent samples under one shared instructional prompt in a single call, cutting token and time cost roughly inverse-linearly with batch size.
 - **Vertical batching** maps to structured-output calls that emit several keyed results at once (and to the OpenAI/Anthropic multi-output `n` parameter).
 - *Distinguish from provider batch APIs.* The [OpenAI Batch API](https://developers.openai.com/api/docs/guides/batch) and [Anthropic Message Batches](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing) give ~50% off large asynchronous jobs, but each request still carries and pays for its own full prompt — they amortize scheduling and rate-limit overhead, *not* the in-prompt instructional overhead this pattern targets.
+
+## Related Patterns
+
+- Some LLMs provide prompt caching - e.g. Deepseek. Even so, if the cost is amortized with prompt caching, the time saving of amortization can still be a valuable reason for doing it
+
 
 > [!draft]- Notes after the focus group
 > - drain pattern?
