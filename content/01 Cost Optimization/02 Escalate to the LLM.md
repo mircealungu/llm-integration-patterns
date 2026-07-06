@@ -1,11 +1,19 @@
 # Escalate to the LLM
 
+## Context
+
+Both LLMs and cheaper, specialized, algorithmic tools are available to implement a feature. 
+
 ## Example
 
 Google Translate serves as the primary translation engine. When a user indicates the translation is inadequate, the system escalates to an LLM for a more nuanced, context-aware translation. This keeps costs low and speed high in the common case while providing higher, LLM-quality results when needed.
 
 ![[escalate-to-the-llm.png|220]]
 *In Zeeguu, the inline Google translation is the primary path; when the user wants a better rendering they escalate to an LLM on demand via the "Ask LLM" option.*
+
+## Problem
+
+How to reduce costs while ensuring quality is not degraded?
 
 ## Forces
 
@@ -15,9 +23,13 @@ Specialized tools (translation APIs, NLP pipelines, classical classifiers) are f
 
 Use the specialized tool as the primary path and escalate to the LLM only when the primary fails or the user signals dissatisfaction.
 
-## Applicability
+The LLM will receive the initial input, and if necessary may also be fed the specialized tool output together with the user feedback.
 
-This pattern applies broadly: topic classification, named entity recognition, or any NLP task where a cheaper tool handles the common case and the LLM handles the long tail.
+## Consequences
+
+LLMs are involved only when the user signals the results of the specialized tool are insufficient, keeping costs low. 
+However, unless the escalation happens automatically due to a failure, usability may suffer as users need to be provided a mechanism to provide feedback so that the results quality can be improved with the LLM.
+The time needed to reach a successful outcome increases, as two results are shown when the LLM is involved.
 
 ## Notes
 
@@ -25,6 +37,8 @@ This pattern applies broadly: topic classification, named entity recognition, or
 - *Relationship to the model cascade.* This is the human-/failure-triggered cousin of the **model cascade** in ML serving, where a cheap model runs first and a confidence threshold routes hard inputs to a larger model. The shared shape is *cheap tier first, expensive tier on demand*; the difference is the trigger. A cascade escalates automatically on the model's own low confidence, whereas this pattern escalates on external signals: the primary tool erroring, or the user explicitly declaring the result inadequate. A confidence-based cascade is thus one possible escalation policy; user dissatisfaction is another, and the two can be combined.
 
 ## Known Uses
+
+This pattern applies broadly: topic classification, named entity recognition, or any NLP task where a cheaper tool handles the common case and the LLM handles the long tail.
 
 - **[FrugalGPT](https://arxiv.org/abs/2305.05176)** (Chen, Zaharia & Zou, 2023) queries cheaper models first and escalates to more capable, expensive ones only when a scorer rejects the cheap answer.
 - **[RouteLLM](https://arxiv.org/abs/2406.18665)** (Ong et al., 2024) trains a router that sends easy queries to a weak/cheap model and escalates only hard ones to the strong model; shipped as an open-source framework.
