@@ -48,3 +48,8 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # deploy-pages intermittently fails with "Deployment failed, try again
+          # later"; be more patient with the Pages backend before giving up.
+          timeout: 600000
+          error_count: 50
