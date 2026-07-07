@@ -10,11 +10,11 @@ Many LLM calls share the same shape: a large, fixed instructional prompt (rules,
 
 ## Example
 
-Several Zeeguu jobs share the same shape (a large instructional prompt wrapped around a tiny variable input, see figure) and run offline over many items. Instead of paying that preamble once per item, related items are packed into a single call:
+Several Zeeguu jobs share the same shape (a large instructional prompt wrapped around a tiny variable input, see figure) and run offline over many items. Instead of paying that preamble once per item, related items are packed into a single call, in one of two directions: **fan-in** (many inputs, one call) or **fan-out** (one input, many outputs).
 
-- **Meaning classification** sends ~15 word-meanings per call, sharing one frequency/CEFR-type taxonomy prompt across the whole batch.
-- **Example-sentence validation** checks ~20 generated examples per call.
-- **Article simplification** produces every CEFR level simpler than the original in one call, one section per level, turning four or five requests into one (~75% fewer calls for a typical article).
+- **Meaning classification** (*fan-in*) sends ~15 word-meanings per call, sharing one frequency/CEFR-type taxonomy prompt across the whole batch.
+- **Example-sentence validation** (*fan-in*) checks ~20 generated examples per call.
+- **Article simplification** (*fan-out*) produces every CEFR level (the A1 to C2 proficiency scale) simpler than the original in one call, one section per level, turning four or five requests into one (~75% fewer calls for a typical article).
 
 
 
@@ -24,7 +24,7 @@ Sent one item at a time, that fixed preamble is re-paid on every call and domina
 
 ## Forces
 
-- **Preamble overhead.** A large, fixed instructional prompt wrapped around a tiny variable input; sent one item at a time, that preamble is re-paid on every call, in tokens, cost, and latency alike. *(pushes toward bigger batches)*
+- **Preamble overhead.** The preamble is large by necessity: detailed rules, taxonomies, and examples are what make the output accurate and consistent, so quality pulls it up, and it cannot be trimmed without losing quality. Sent one item at a time, that fixed preamble is re-paid on every call, in tokens, cost, and latency. The only lever left is to amortize it. *(pushes toward bigger batches)*
 - **Quality ceiling.** Accuracy and consistency degrade as more items share one call; past ~15–20 small items some models start dropping or muddling entries. *(pushes toward smaller batches)*
 - **Context ceiling.** Input *and* output must fit the window; for fan-out the output side binds first, since each result is full-length.
 - **Interactive latency.** Fan-in requires waiting to accumulate enough items to fill a batch: fine offline, but unacceptable when a user is blocked on a single result.
@@ -36,7 +36,7 @@ Batch multiple items into a single request, amortizing the expensive prompt acro
 - ***Fan-in* batching** packs many independent inputs into one prompt, spreading a large instructional preamble across the whole batch.
 - ***Fan-out* batching** produces many outputs from a single input, emitting one section per output and collapsing several requests into one.
 
-Both combine naturally with pre-computation: because results are computed offline, there is the luxury of batching.
+Both combine naturally with *Anticipatory Precomputation*: because results are computed offline, there is the luxury of batching.
 
 ## Consequences
 
@@ -58,7 +58,7 @@ Both combine naturally with pre-computation: because results are computed offlin
 ## Known Uses
 
 - **[Batch prompting](https://arxiv.org/abs/2301.08721)** (Cheng, Kasai & Yu, EMNLP 2023) packs multiple independent samples under one shared instructional prompt in a single call, cutting token and time cost roughly inverse-linearly with batch size.
-- **Vertical batching** maps to structured-output calls that emit several keyed results at once (and to the OpenAI/Anthropic multi-output `n` parameter).
+- The *fan-out* direction maps directly to structured-output calls that emit several keyed results at once, and to the OpenAI/Anthropic multi-output `n` parameter.
 - *Distinguish from provider batch APIs.* The [OpenAI Batch API](https://developers.openai.com/api/docs/guides/batch) and [Anthropic Message Batches](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing) give ~50% off large asynchronous jobs, but each request still carries and pays for its own full prompt — they amortize scheduling and rate-limit overhead, *not* the in-prompt instructional overhead this pattern targets.
 
 > [!draft]- Notes after the focus group
