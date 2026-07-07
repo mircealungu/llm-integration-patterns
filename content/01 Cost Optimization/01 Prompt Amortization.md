@@ -1,7 +1,7 @@
 # Prompt Amortization
 
 ![[prompt-amortization-combined-validation.png|420]]
-*The [`COMBINED_VALIDATION_PROMPT`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L72) template: ~250 lines of validation rules, frequency/CEFR/phrase-type taxonomies, output format, and examples, wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes.*
+*The [`COMBINED_VALIDATION_PROMPT`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L72) template: ~250 lines of validation rules, frequency/[CEFR](../zeeguu/#cefr-levels)/phrase-type taxonomies, output format, and examples, wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes.*
 
 
 ## Context
@@ -12,9 +12,9 @@ Many LLM calls share the same shape: a large, fixed instructional prompt (rules,
 
 Several Zeeguu jobs have exactly this shape. Rather than pay the preamble once per item, they pack related items into a single call, in one of two directions: **fan-in** (many inputs, one call) or **fan-out** (one input, many outputs):
 
-- **Meaning classification** (*fan-in*) sends ~15 word-meanings per call, sharing one frequency/CEFR-type taxonomy prompt across the whole batch ([`create_batch_meaning_frequency_and_type_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/meaning_frequency_classifier.py#L52-L67)).
+- **[Meaning](../zeeguu/#the-learner-model) classification** (*fan-in*) sends ~15 word-meanings per call, sharing one frequency/CEFR-type taxonomy prompt across the whole batch ([`create_batch_meaning_frequency_and_type_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/meaning_frequency_classifier.py#L52-L67)).
 - **Example-sentence validation** (*fan-in*) checks ~20 generated examples per call ([`validate_examples_batch`](https://github.com/zeeguu/api/blob/master/tools/validate_and_clean_examples.py#L186-L196)).
-- **Article simplification** (*fan-out*) produces every CEFR level (the A1 to C2 proficiency scale) simpler than the original in one call, one section per level, turning four or five requests into one, about 75% fewer calls for a typical article ([`get_adaptive_simplification_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/article_simplification.py#L8-L14)).
+- **[Article simplification](../zeeguu/#article-simplification)** (*fan-out*) produces every CEFR level simpler than the original in one call, one section per level, turning four or five requests into one, about 75% fewer calls for a typical article ([`get_adaptive_simplification_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/article_simplification.py#L8-L14)).
 
 
 

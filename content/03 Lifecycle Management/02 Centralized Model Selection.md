@@ -6,7 +6,7 @@ A single LLM model identifier is referenced from many call sites across a codeba
 
 ## Example
 
-Zeeguu's reader has an on-demand "Ask LLM" translation action. Its model ID, `claude-sonnet-4-20250514`, was hardcoded at three call sites in the translation service and two more in the MWE detector. Anthropic retired that snapshot; every call began returning `404 not_found_error`. The error was swallowed one layer down (the helper returns `None` on any exception), so the endpoint returned a generic `404 "LLM translation failed"` and the reader silently degraded to an "**Ask LLM, try again**" button that could never succeed.
+Zeeguu's reader has an on-demand "[Ask LLM](../zeeguu/#translation)" translation action. Its model ID, `claude-sonnet-4-20250514`, was hardcoded at three call sites in the translation service and two more in the [MWE](../zeeguu/#multi-word-expressions) detector. Anthropic retired that snapshot; every call began returning `404 not_found_error`. The error was swallowed one layer down (the helper returns `None` on any exception), so the endpoint returned a generic `404 "LLM translation failed"` and the reader silently degraded to an "**Ask LLM, try again**" button that could never succeed.
 
 ![[centralized-model-selection-try-again.png|420]]
 
@@ -29,7 +29,7 @@ How can a provider's model retirement be survived without hunting down every har
 
 ## Solution
 
-Keep every model identifier in one central module. Declare the canonical vendor IDs once, then expose *role-based aliases* (one per use: translation, classification, simplification…) that resolve to them. Call sites import the role, never the raw string. Surviving a vendor retirement, or moving one feature to a cheaper or faster tier, becomes a one-line change in a file that documents the whole model landscape on one screen.
+Keep every model identifier in one central module. Declare the canonical vendor IDs once, then expose *role-based aliases* (one per use: translation, classification, [simplification](../zeeguu/#article-simplification)…) that resolve to them. Call sites import the role, never the raw string. Surviving a vendor retirement, or moving one feature to a cheaper or faster tier, becomes a one-line change in a file that documents the whole model landscape on one screen.
 
 ## Consequences
 

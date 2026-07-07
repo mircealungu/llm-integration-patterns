@@ -6,7 +6,7 @@ Some LLM-backed features are triggered directly by a user's action and bill a sh
 
 ## Example
 
-Several of Zeeguu's LLM actions are triggered *directly by a user's click* and charge a shared provider account the instant the user acts: on-demand "Ask LLM" translation, on-demand article simplification, and audio-lesson generation (LLM script + text-to-speech). Because the spend is attached to individual user behaviour, a single enthusiastic user (or a buggy client, or a script) can run up the bill or exhaust shared rate limits for everyone.
+Several of Zeeguu's LLM actions are triggered *directly by a user's click* and charge a shared provider account the instant the user acts: on-demand "[Ask LLM](../zeeguu/#translation)" translation, on-demand [article simplification](../zeeguu/#article-simplification), and [audio-lesson](../zeeguu/#audio-lessons) generation (LLM script + text-to-speech). Because the spend is attached to individual user behaviour, a single enthusiastic user (or a buggy client, or a script) can run up the bill or exhaust shared rate limits for everyone.
 
 Zeeguu already contains a crude instance of the defense. Audio-lesson generation allows **only one active generation per user at a time**: `AudioLessonGenerationProgress.create_for_user` deletes any existing record and `find_active_for_user` gates new requests. That is a per-user *concurrency* budget of exactly one, the cheapest possible bound, chosen precisely because the audio pipeline is among the most expensive actions in the system.
 
