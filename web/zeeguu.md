@@ -34,7 +34,7 @@ When an article is compelling but too hard, Zeeguu rewrites it with an LLM to ea
 
 ### Crawling
 
-Zeeguu builds its article library by crawling news sites and blogs on a schedule, rather than waiting for a reader to supply a URL. This steady feed of freshly crawled articles is where most ahead-of-time LLM work happens (CEFR assessment, simplification), off any reader's critical path.
+Zeeguu builds its article library two ways. Automatically, it crawls news sites and blogs on a schedule; this steady feed of freshly crawled articles is where most ahead-of-time LLM work happens (CEFR assessment, simplification), off any reader's critical path. On demand, readers push their own content in: a browser extension sends any article to Zeeguu for study, and on mobile the system share sheet sends any web page to be made interactive.
 
 ### Multi-Word Expressions
 
