@@ -43,7 +43,7 @@ Sent one item at a time, that fixed preamble is re-paid on every call and domina
 
 ## Solution
 
-Batch multiple items into a single request, amortizing the expensive prompt across all of them. This takes two forms:
+The move is `map` for LLM calls: apply one shared, expensive prompt across a batch so its setup is paid once, not once per item. It takes two forms:
 
 - ***Fan-in* batching** packs many independent inputs into one prompt, spreading a large instructional preamble across the whole batch.
 - ***Fan-out* batching** produces many outputs from a single input, emitting one section per output and collapsing several requests into one.
@@ -65,7 +65,8 @@ Both combine naturally with [Anticipatory Precomputation](../anticipatory-precom
 
 ## Notes
 
-- *Prompt caching is a partial substitute.* Some providers (e.g. DeepSeek) cache a repeated prompt prefix and discount it. That amortizes the preamble's *cost*, but not its *latency* or the per-call overhead of many round-trips — so batching still earns its keep even where the provider caches prompts.
+- **Both directions are the same `map`, over a different axis.** Fan-in maps the prompt over inputs, e.g. `map(validate, examples)`. Fan-out maps over outputs for a fixed input, e.g. `map(level → simplify(article, level), levels)`. Either way the shared prompt is the function whose fixed setup the batch pays for once.
+- *Prompt caching is a partial substitute.* Some providers (e.g. DeepSeek) cache a repeated prompt prefix and discount it. That amortizes the preamble's *cost*, but not its *latency* or the per-call overhead of many round-trips, so batching still earns its keep even where the provider caches prompts.
 
 ## Known Uses
 
