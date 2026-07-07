@@ -13,7 +13,7 @@ In Zeeguu, translation APIs (from Google, Azure, and DeepL) serve as the primary
 
 ## Problem
 
-LLM quality is only worth its cost on the minority of requests the cheap tool handles poorly — and those cannot be told apart up front. How can the LLM be spent *only* where it pays off?
+LLM quality is only worth its cost on the minority of requests the cheap tool handles poorly, and those cannot be told apart up front. How can the LLM be spent *only* where it pays off?
 
 ## Forces
 
@@ -21,12 +21,12 @@ Specialized tools (translation APIs, NLP pipelines, classical classifiers) are f
 
 ## Solution
 
-Use the specialized tool as the primary path and escalate to the LLM only when the primary fails or the user signals dissatisfaction. The LLM receives the original input, and — where it helps — the specialized tool's output and the user's feedback alongside it, so the escalation refines rather than restarts.
+Use the specialized tool as the primary path and escalate to the LLM only when the primary fails or the user signals dissatisfaction. The LLM receives the original input, and (where it helps) the specialized tool's output and the user's feedback alongside it, so the escalation refines rather than restarts.
 
 ## Consequences
 
 - **Cheap in the common case.** The LLM runs only on failure or dissatisfaction, so the vast majority of requests never incur its cost or latency.
-- **User-triggered escalation costs usability.** Unless it fires automatically on a detectable failure, the user must be given — and must notice and use — a way to signal dissatisfaction: extra UI surface, and the routing burden falls on them.
+- **User-triggered escalation costs usability.** Unless it fires automatically on a detectable failure, the user must be given, and must notice and use, a way to signal dissatisfaction: extra UI surface, and the routing burden falls on them.
 - **A miss doubles the wait.** When escalation happens the user has already waited for the cheap result first, so time-to-answer for those cases is the sum of both.
 
 ## Notes

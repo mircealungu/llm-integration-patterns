@@ -2,7 +2,7 @@
 
 ## Context
 
-The same or near-identical LLM request recurs within a short window — many users hitting the same content, or one user re-requesting — but *which* requests recur is unpredictable, so they cannot be precomputed ahead of time.
+The same or near-identical LLM request recurs within a short window (many users hitting the same content, or one user re-requesting) but *which* requests recur is unpredictable, so they cannot be precomputed ahead of time.
 
 ## Example
 
@@ -28,6 +28,6 @@ Maintain an in-memory LRU cache for recent LLM results. Cache keys include the r
 
 ## Known Uses
 
-- **Walmart** — Walmart's chief software architect describes a production *semantic* cache (vector-similarity, not exact match) for e-commerce search, reporting a hit rate "closer to 50%" on tail queries. *(Reported in a [vendor writeup of the talk](https://portkey.ai/blog/transforming-e-commerce-search-with-generative-ai-insights-from-walmarts-journey/); the claims are attributed to Walmart on the record, but the source is secondary.)*
+- **Walmart**: Walmart's chief software architect describes a production *semantic* cache (vector-similarity, not exact match) for e-commerce search, reporting a hit rate "closer to 50%" on tail queries. *(Reported in a [vendor writeup of the talk](https://portkey.ai/blog/transforming-e-commerce-search-with-generative-ai-insights-from-walmarts-journey/); the claims are attributed to Walmart on the record, but the source is secondary.)*
 - *Tools that ship this, not documented deployments.* Result caching is common enough to be productized: dedicated LLM caches ([GPTCache](https://aclanthology.org/2023.nlposs-1.24/), exact + semantic) and gateway caches ([Helicone](https://docs.helicone.ai/features/advanced-usage/caching), [Portkey](https://portkey.ai/docs/product/ai-gateway/cache-simple-and-semantic), [LangChain](https://python.langchain.com/docs/integrations/llm_caching/)).
 - *Honest note.* First-party write-ups of *reactive* LLM-output caching are scarce; most published examples (Yelp, Instacart) are *anticipatory precomputation* of head queries (see *Anticipatory Precomputation*) rather than caching on a miss.

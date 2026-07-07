@@ -51,7 +51,7 @@ Mark stale rows as deprecated rather than mutating or removing them. Gate the ca
 ## Known Uses
 
 - **[`stale-while-revalidate`](https://datatracker.ietf.org/doc/html/rfc5861)** (IETF RFC 5861) is the same mechanic in HTTP caching: keep a stale entry usable and revalidate it lazily on next demand rather than eagerly regenerating.
-- The **[soft-delete / tombstone](https://brandur.org/soft-deletion)** database idiom marks a row with a timestamp and gates every read (`WHERE deleted_at IS NULL`), so the row stays intact for existing references but drops out of the active path — structurally identical to a `deprecated_at` gate.
+- The **[soft-delete / tombstone](https://brandur.org/soft-deletion)** database idiom marks a row with a timestamp and gates every read (`WHERE deleted_at IS NULL`), so the row stays intact for existing references but drops out of the active path: structurally identical to a `deprecated_at` gate.
 - *Analogues, not exact instances.* Both capture the mechanism, but we did not find a documented LLM system that combines mark-deprecated + gate-reuse + **keep-old-rows-resolvable-for-user-history** + lazy regeneration; the history-preservation facet appears novel, which is why this stays a candidate.
 
 

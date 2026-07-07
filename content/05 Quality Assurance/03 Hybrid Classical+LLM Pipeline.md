@@ -32,7 +32,7 @@ Close kin to *Escalate to the LLM* and to a model cascade: all three run a cheap
 
 ## Known Uses
 
-- **[RankGPT](https://arxiv.org/abs/2304.09542)** (Sun et al., EMNLP 2023) uses BM25 to retrieve ~100 candidates, then an LLM for listwise reranking — classical high-recall generator + LLM precision filter.
+- **[RankGPT](https://arxiv.org/abs/2304.09542)** (Sun et al., EMNLP 2023) uses BM25 to retrieve ~100 candidates, then an LLM for listwise reranking: classical high-recall generator + LLM precision filter.
 - **[spaCy-llm](https://github.com/explosion/spacy-llm)** (Explosion) is designed to mix LLM components with classical/rule-based ones in a single pipeline.
 - **Retrieve-then-rerank** (e.g. [Cohere Rerank](https://docs.cohere.com/docs/rerank-overview)) keeps a high-recall first-stage search and adds a neural precision reranker.
 
