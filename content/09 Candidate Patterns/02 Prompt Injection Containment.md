@@ -12,7 +12,7 @@ Two Zeeguu surfaces feed *untrusted text* into a prompt, and they contain it wit
 
 - An LLM cannot reliably separate *data* from *instructions*: any untrusted text in the prompt (typed by a user, or lifted from third-party content the app ingests) can carry instructions the model may follow.
 - In a *component* (not a chatbot), the output feeds downstream automated steps that generate, synthesize, and *persist* artifacts. A successful injection is therefore not merely an off-topic reply; it can produce unintended stored content, waste expensive compute, or emit unsafe output under the application's name.
-- Legitimate and injected text share one channel (the prompt), so you cannot filter injection out by transport; you must *reduce, constrain, or scope* the untrusted text instead.
+- Legitimate and injected text share one channel (the prompt), so injection cannot be filtered out by transport; it must instead be *reduced, constrained, or scoped*.
 - Perfect sanitization is impossible. Defenses are layered and probabilistic, and each extra gatekeeping call has a cost that must be traded against the consequence it guards.
 
 ## Solution
