@@ -38,7 +38,7 @@ Every translation a learner requests is logged, building a model of which words 
 
 ### Translation
 
-While reading, a learner gets an instant contextual translation from Google Translate. If it reads poorly, they can escalate to an LLM through the "Ask LLM" action for a more nuanced rendering.
+While reading, a learner gets an instant contextual translation from Google Translate. If it reads poorly, they can escalate to an LLM through the "Ask AI" action for a more nuanced rendering.
 
 ### Audio Lessons
 

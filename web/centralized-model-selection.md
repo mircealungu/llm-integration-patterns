@@ -16,7 +16,7 @@ A single LLM model identifier is referenced from many call sites across a codeba
 
 ## Example
 
-Zeeguu's reader has an on-demand "[Ask LLM](../zeeguu/#translation)" translation action. Its model ID, `claude-sonnet-4-20250514`, was hardcoded at three call sites in the translation service and two more in the [MWE](../zeeguu/#multi-word-expressions) detector. Anthropic retired that snapshot; every call began returning `404 not_found_error`. The error was swallowed one layer down (the helper returns `None` on any exception), so the endpoint returned a generic `404 "LLM translation failed"` and the reader silently degraded to an "**Ask LLM, try again**" button that could never succeed.
+Zeeguu's reader has an on-demand "[Ask AI](../zeeguu/#translation)" translation action. Its model ID, `claude-sonnet-4-20250514`, was hardcoded at three call sites in the translation service and two more in the [MWE](../zeeguu/#multi-word-expressions) detector. Anthropic retired that snapshot; every call began returning `404 not_found_error`. The error was swallowed one layer down (the helper returns `None` on any exception), so the endpoint returned a generic `404 "LLM translation failed"` and the reader silently degraded to an "**Ask AI, try again**" button that could never succeed.
 
 <figure class="img" style="max-width:420px">
   <a href="/images/centralized-model-selection-try-again.png"><img src="/images/centralized-model-selection-try-again.png" alt="centralized model selection try again"></a>
