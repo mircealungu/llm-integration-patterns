@@ -18,9 +18,9 @@ Multiple LLM providers offer similar capabilities but with varying latency. When
 
 ## Solution
 
-Dispatch the same request to multiple providers simultaneously and use the first response that arrives. Track the top two fastest providers, and always dispatch to these.
+Dispatch the same request to multiple providers simultaneously and use the first response that arrives. To cap the redundant cost, race only the few providers that have historically been fastest rather than all of them.
 
-An alternative to this is **live retrieval**: when the user encounters a translation that they are not sure of, they ask for alternatives, the UI presents the results that are cached, but also asks for alternatives and displays a UI interface that highlights the fact that some of the results are still streaming in.
+This composes with **live retrieval**: when a user is unsure of a translation and asks for alternatives, the UI shows the already-raced cached results immediately, then fetches more on demand, streaming them in as they arrive.
 
 ## Consequences
 
@@ -32,6 +32,10 @@ An alternative to this is **live retrieval**: when the user encounters a transla
 In itself this is not LLM-specific. It is the *hedged requests* pattern from distributed systems (Dean and Barroso, *The Tail at Scale*, CACM 2013), also known as request racing or tied requests. Two things give it an LLM flavour here.
 1. First, the hedge is across independent, competing vendors (Anthropic, DeepSeek, Google Translate) rather than replicas of a single service. 
 2. Second, each redundant call costs real money per token, so the losing responses are not thrown away: they are kept and surfaced to future readers of the same text as alternative translations, turning the redundant work into a feature.
+
+## Status
+
+Included as a candidate. This is the general *hedged requests* pattern applied to translation providers (a mix that includes non-LLM engines such as Google Translate), rather than a distinctly LLM-specific technique. Racing calls across LLMs specifically, for the cases that most need low latency, is plausible but not something Zeeguu currently does.
 
 ## Known Uses
 

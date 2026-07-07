@@ -10,6 +10,7 @@ permalink: /candidate/
 
 - [Temperature as Task Selector](../temperature-as-task-selector/)
 - [Prompt Injection Containment](../prompt-injection-containment/)
+- [Multiplexed Dispatch](../multiplexed-dispatch/)
 
 
 
