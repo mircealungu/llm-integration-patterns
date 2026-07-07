@@ -8,7 +8,7 @@ permalink: /lifecycle-management/
 [← All patterns](../#the-patterns)
 
 
-- [LLM as Wizard of Oz](../llm-as-wizard-of-oz/)
+- [Rent, Then Build](../rent-then-build/)
 - [Centralized Model Selection](../centralized-model-selection/)
 
 

@@ -1,4 +1,4 @@
-# LLM as Wizard of Oz
+# Rent, Then Build
 
 ## Context
 
@@ -18,7 +18,7 @@ LLMs are general-purpose machines that can attempt almost any text-based task. B
 
 ## Solution
 
-Use the LLM to perform a task in production while building a more efficient replacement. The name nods to Wizard-of-Oz prototyping, where a human secretly stands in for a system not yet built. The inversion here is that the stand-in is not a human faking automation but a general-purpose LLM genuinely doing the work: it is the "wizard behind the curtain," convincing to users and good for early beta-testing and feedback, but intended to be temporary.
+Use the LLM to perform a task in production while building a more efficient replacement. The arc is rent, then build: the LLM's general capability is *rented* (paid per call, costly but available immediately) to ship the feature now, while a cheaper, dedicated implementation is *built* to eventually own the task. The rented LLM is convincing to users and good for early beta-testing and feedback, but intended to be temporary.
 
 **Bootstrapping variant:** In a more subtle variant, the LLM *generates the training data for its own replacement.* For example, Zeeguu uses an LLM to estimate text difficulty levels. These LLM-generated difficulty labels are being accumulated as training data for a classical classifier that will eventually take over the task.
 
@@ -30,7 +30,7 @@ Use the LLM to perform a task in production while building a more efficient repl
 
 ## Note
 
-This pattern has a lifecycle relationship with *Escalate to the LLM*: a system may start with the LLM as primary (Wizard of Oz), migrate to a specialized tool as primary, and then keep the LLM as the escalation path, completing a full cycle from LLM-first to LLM-on-demand.
+This pattern has a lifecycle relationship with *Escalate to the LLM*: a system may start with the LLM as primary (renting it), migrate to a specialized tool as primary, and then keep the LLM as the escalation path, completing a full cycle from LLM-first to LLM-on-demand.
 
 ## Known Uses
 

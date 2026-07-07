@@ -56,7 +56,7 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 - [Fail-Fast Provider Chain](fail-fast-provider-chain/)
 
 ### [Lifecycle Management](lifecycle-management/)
-- [LLM as Wizard of Oz](llm-as-wizard-of-oz/)
+- [Rent, Then Build](rent-then-build/)
 - [Centralized Model Selection](centralized-model-selection/)
 
 ### [Data Management](data-management/)
