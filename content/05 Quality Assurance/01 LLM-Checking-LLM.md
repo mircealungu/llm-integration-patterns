@@ -14,7 +14,7 @@ How can an unreliable generator's mistakes be caught, when a second generator wo
 
 ## Forces
 
-LLMs are imprecise generators, but verification of specific properties (e.g., grammatical correctness) is a more constrained task than open-ended generation (e.g., text simplification). A second, focused LLM call can catch errors that the first, more complex call introduced.
+LLMs are imprecise generators, but verification of specific properties (e.g., grammatical correctness) is a more constrained task than open-ended generation (e.g., text [simplification](../zeeguu/#article-simplification)). A second, focused LLM call can catch errors that the first, more complex call introduced.
 
 ## Solution
 

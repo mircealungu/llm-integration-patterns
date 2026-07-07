@@ -16,7 +16,7 @@ An LLM is asked for output in a fixed shape (JSON, a delimited record), but form
 
 ## Example
 
-Multi-word-expression detection asks the LLM for a JSON array but refuses to blindly trust that it will get one. 
+[Multi-word-expression](../zeeguu/#multi-word-expressions) detection asks the LLM for a JSON array but refuses to blindly trust that it will get one. 
 
 - `_parse_response` first strips any markdown code fence (the model often wraps the JSON in one), tries `json.loads`, and on failure regex-extracts the last JSON array in the text (models tend to add a preamble), parses that, and checks for a bare `[]`. 
 
@@ -24,7 +24,7 @@ Multi-word-expression detection asks the LLM for a JSON array but refuses to bli
 
 - A separate `_validate_groups` step then checks the parsed shape (token indices in range) before anything downstream uses it. 
 
-The same layered try / extract / validate / fall-back appears in the translation validator, the simplification service, and the example generators.
+The same layered try / extract / validate / fall-back appears in the translation validator, the [simplification](../zeeguu/#article-simplification) service, and the example generators.
 
 ## Problem
 
