@@ -16,7 +16,7 @@ The same or near-identical LLM request recurs within a short window (many users 
 
 ## Example
 
-[Multi-word expression](../zeeguu/#multi-word-expressions) (MWE) detection finds the phrases in an article that a learner might want translated as a unit (for example *kick the bucket*). It uses an LLM, gated by a cheap Stanza (an NLP library) pass (see [Hybrid Classical+LLM Pipeline](../hybrid-classical-llm-pipeline/)), and the LLM call is the expensive part, so the analysis is worth caching: the detector keeps a 500-entry in-memory LRU cache, so when multiple users read the same article, phrase analyses computed for the first reader are served instantly to the rest. Hit rates are highest for popular articles that many users read in the same window.
+Any expensive LLM call whose inputs recur can be cached in memory, keyed on those inputs, so every repeat after the first is near-free. Zeeguu does this for [Multi-word expression](../zeeguu/#multi-word-expressions) (MWE) detection, which finds the phrases in an article a learner might want translated as a unit (for example *kick the bucket*). It runs an LLM, gated by a cheap Stanza (an NLP library) pass (see [Hybrid Classical+LLM Pipeline](../hybrid-classical-llm-pipeline/)), and the LLM call is the expensive part. The detector keeps a 500-entry in-memory cache keyed on the article's sentences (dropping its oldest entries when full), so when many users read the same article, the analysis computed for the first reader is served instantly to the rest. Hit rates are highest for popular articles read by many learners in the same window. Only LLM results are cached: when the LLM is unavailable and the detector falls back to Stanza, those weaker results are deliberately not stored.
 
 ## Problem
 
@@ -28,12 +28,12 @@ Pre-computation handles predictable needs, but some LLM queries are repeated unp
 
 ## Solution
 
-Maintain an in-memory LRU cache for recent LLM results. Cache keys include the relevant input parameters; entries evict on an LRU basis when capacity is reached (the example above bounds the cache at 500 entries), with an optional short TTL where results can go stale over time.
+Maintain an in-memory cache for recent LLM results, keyed on the call's inputs. Bound it by capacity and evict the oldest entries when full (the example above caps the cache at 500 entries). No time-based expiry is needed where the cached result is a pure function of its inputs.
 
 ## Consequences
 
 - **Repeats are near-free.** A hit within the window returns from memory at ~zero cost and latency; hit rate is highest for popular content many users read in the same window.
-- **Memory and staleness are the price.** The cache costs memory and adds invalidation complexity; it fits only where brief staleness is acceptable and the input space clusters naturally.
+- **Memory is the price, and it only pays where inputs repeat.** The cache costs memory and returns nothing on a wide, flat input space; it fits where requests cluster on the same content, so the same calls actually recur.
 - **Variant: persist it.** A DB-backed cache outlives process memory and survives restarts (Zeeguu uses this too), trading a little speed for durability.
 
 ## Known Uses
