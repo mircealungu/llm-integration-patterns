@@ -18,7 +18,7 @@ LLMs are general-purpose machines that can attempt almost any text-based task. B
 
 ## Solution
 
-Use the LLM to perform a task in production while building a more efficient replacement. The LLM serves as the "wizard behind the curtain": convincing to users, allowing early beta-testing and feedback, but intended to be temporary.
+Use the LLM to perform a task in production while building a more efficient replacement. The name nods to Wizard-of-Oz prototyping, where a human secretly stands in for a system not yet built. The inversion here is that the stand-in is not a human faking automation but a general-purpose LLM genuinely doing the work: it is the "wizard behind the curtain," convincing to users and good for early beta-testing and feedback, but intended to be temporary.
 
 **Bootstrapping variant:** In a more subtle variant, the LLM *generates the training data for its own replacement.* For example, Zeeguu uses an LLM to estimate text difficulty levels. These LLM-generated difficulty labels are being accumulated as training data for a classical classifier that will eventually take over the task.
 

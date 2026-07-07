@@ -6,7 +6,7 @@ LLM output carries a deterministic formatting defect (a stable trailing string, 
 
 ## Example
 
-LLM-simplified article summaries consistently ended with a Unicode ellipsis (`…`), making every home-card preview read as an unfinished sentence. One option was to add a "do not end with ellipsis" instruction to the [simplification](../zeeguu/#article-simplification) prompt; the chosen option was a five-line regex stripping any trailing `…` or `..+` at serialization time. The regex handles every case at 100%, including the ~60k pre-existing rows in the database that no prompt change could retroactively touch.
+LLM-simplified article summaries consistently ended with a Unicode ellipsis (`…`), making every home-card preview read as an unfinished sentence. One option was to add a "do not end with ellipsis" instruction to the [simplification](../zeeguu/#article-simplification) prompt; the chosen option was a five-line regex stripping any trailing `…` or `..+` at serialization time. Because it runs as each summary is served, not on the stored row, it fixes every case at 100%, including the ~60k rows already in the database, with no backfill and no row ever rewritten.
 
 ## Problem
 
@@ -26,7 +26,7 @@ Enforce deterministic constraints in code, at the post-processing or serializati
 
 ## Consequences
 
-- A code-side fix is 100% reliable, costs no prompt tokens, is testable and reviewable, and retroactively repairs rows already stored, none of which a prompt instruction achieves.
+- A code-side fix is 100% reliable, costs no prompt tokens, is testable and reviewable, and (applied at the serialization boundary) cleans every already-stored row on the way out with no backfill, none of which a prompt instruction achieves.
 - It applies only to genuinely deterministic defects. The test is whether the rule needs model judgment: *strip a trailing `…`* belongs in code, *don't mention the user's name* the model has to enforce. A code-side rule list that keeps growing is a signal the task is poorly scoped, not that it needs more rules.
 
 ## Known Uses
