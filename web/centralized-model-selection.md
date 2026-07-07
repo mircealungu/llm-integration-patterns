@@ -10,6 +10,10 @@ permalink: /centralized-model-selection/
 </nav>
 
 
+## Context
+
+A single LLM model identifier is referenced from many call sites across a codebase. Providers retire dated model snapshots on their own schedule, so an ID that is valid today can start returning 404 at a future date with no change to the code.
+
 ## Example
 
 Zeeguu's reader has an on-demand "Ask LLM" translation action. Its model ID, `claude-sonnet-4-20250514`, was hardcoded at three call sites in the translation service and two more in the MWE detector. Anthropic retired that snapshot; every call began returning `404 not_found_error`. The error was swallowed one layer down (the helper returns `None` on any exception), so the endpoint returned a generic `404 "LLM translation failed"` and the reader silently degraded to an "**Ask LLM — try again**" button that could never succeed.
@@ -25,6 +29,10 @@ The fix itself was mechanical: swap to the live snapshot the rest of the codebas
 
 To avoid this happening again in the future, Zeeguu now keeps every model identifier in [one module](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/models.py), keyed by *role* (`WORD_TRANSLATION`, `MWE_DETECTION`, `SIMPLIFICATION`, …) and each resolving to a canonical vendor ID declared once; a feature asks for `models.WORD_TRANSLATION` and never names a snapshot, so the next retirement is a one-line edit.
 
+## Problem
+
+How can a provider's model retirement be survived without hunting down every hardcoded model ID scattered across the codebase?
+
 ## Forces
 
 - Model identifiers are volatile in a way ordinary configuration is not 
@@ -34,6 +42,12 @@ To avoid this happening again in the future, Zeeguu now keeps every model identi
 ## Solution
 
 Keep every model identifier in one central module. Declare the canonical vendor IDs once, then expose *role-based aliases* (one per use: translation, classification, simplification…) that resolve to them. Call sites import the role, never the raw string. Surviving a vendor retirement, or moving one feature to a cheaper or faster tier, becomes a one-line change in a file that documents the whole model landscape on one screen.
+
+## Consequences
+
+- **A retirement is a one-line edit.** Surviving a deprecation, or re-pointing a feature to a cheaper or faster tier, changes one line in a module that shows the whole model landscape on one screen, rather than a hunt across call sites.
+- **The registry only helps if nothing bypasses it.** It adds one layer of indirection, and a single stray hardcoded ID reintroduces the exact failure the pattern prevents, so the discipline has to hold everywhere.
+- **One constant keeps selection and provenance in sync.** Because the same central constant both selects the model and stamps it onto output, the two cannot drift (composes with [LLM Output Provenance](../llm-output-provenance/)); it also names which model each entry of a [Fail-Fast Provider Chain](../fail-fast-provider-chain/) uses.
 
 ## Notes
 
