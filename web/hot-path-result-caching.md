@@ -16,7 +16,7 @@ The same or near-identical LLM request recurs within a short window (many users 
 
 ## Example
 
-[Multi-word expression](../zeeguu/#multi-word-expressions) (MWE) detection finds the phrases in an article that a learner might want translated as a unit (for example *kick the bucket*). It uses an LLM, gated by a cheap Stanza pass (see [Hybrid Classical+LLM Pipeline](../hybrid-classical-llm-pipeline/)), and the LLM call is the expensive part, so the analysis is worth caching: the detector keeps a 500-entry in-memory cache, so when multiple users read the same article, phrase analyses computed for the first reader are served instantly to the rest. Hit rates are highest for popular articles that many users read in the same window.
+[Multi-word expression](../zeeguu/#multi-word-expressions) (MWE) detection finds the phrases in an article that a learner might want translated as a unit (for example *kick the bucket*). It uses an LLM, gated by a cheap Stanza (an NLP library) pass (see [Hybrid Classical+LLM Pipeline](../hybrid-classical-llm-pipeline/)), and the LLM call is the expensive part, so the analysis is worth caching: the detector keeps a 500-entry in-memory LRU cache, so when multiple users read the same article, phrase analyses computed for the first reader are served instantly to the rest. Hit rates are highest for popular articles that many users read in the same window.
 
 ## Problem
 
@@ -28,7 +28,7 @@ Pre-computation handles predictable needs, but some LLM queries are repeated unp
 
 ## Solution
 
-Maintain an in-memory LRU cache for recent LLM results. Cache keys include the relevant input parameters; cache entries expire after a short TTL or when capacity is reached.
+Maintain an in-memory LRU cache for recent LLM results. Cache keys include the relevant input parameters; entries evict on an LRU basis when capacity is reached (the example above bounds the cache at 500 entries), with an optional short TTL where results can go stale over time.
 
 ## Consequences
 
@@ -45,6 +45,6 @@ Maintain an in-memory LRU cache for recent LLM results. Cache keys include the r
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../anticipatory-precomputation/">← Anticipatory Precomputation</a><a class="nav-next" href="../multiplexed-dispatch/">Multiplexed Dispatch →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../anticipatory-precomputation/">← Anticipatory Precomputation</a><a class="nav-next" href="../fail-fast-provider-chain/">Fail-Fast Provider Chain →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHot-Path+Result+Caching%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Hot-Path+Result+Caching%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fhot-path-result-caching%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

@@ -6,7 +6,7 @@ permalink: /multiplexed-dispatch/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../latency-and-availability/">Latency and Availability</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../candidate/">Candidate</a>
 </nav>
 
 
@@ -28,9 +28,9 @@ Multiple LLM providers offer similar capabilities but with varying latency. When
 
 ## Solution
 
-Dispatch the same request to multiple providers simultaneously and use the first response that arrives. Track the top two fastest providers, and always dispatch to these.
+Dispatch the same request to multiple providers simultaneously and use the first response that arrives. To cap the redundant cost, race only the few providers that have historically been fastest rather than all of them.
 
-An alternative to this is **live retrieval**: when the user encounters a translation that they are not sure of, they ask for alternatives, the UI presents the results that are cached, but also asks for alternatives and displays a UI interface that highlights the fact that some of the results are still streaming in.
+This composes with **live retrieval**: when a user is unsure of a translation and asks for alternatives, the UI shows the already-raced cached results immediately, then fetches more on demand, streaming them in as they arrive.
 
 ## Consequences
 
@@ -43,6 +43,10 @@ In itself this is not LLM-specific. It is the *hedged requests* pattern from dis
 1. First, the hedge is across independent, competing vendors (Anthropic, DeepSeek, Google Translate) rather than replicas of a single service. 
 2. Second, each redundant call costs real money per token, so the losing responses are not thrown away: they are kept and surfaced to future readers of the same text as alternative translations, turning the redundant work into a feature.
 
+## Status
+
+Included as a candidate. This is the general *hedged requests* pattern applied to translation providers (a mix that includes non-LLM engines such as Google Translate), rather than a distinctly LLM-specific technique. Racing calls across LLMs specifically, for the cases that most need low latency, is plausible but not something Zeeguu currently does.
+
 ## Known Uses
 
 - **[Hedged requests](https://cacm.acm.org/research/the-tail-at-scale/)** (Dean & Barroso, "The Tail at Scale," CACM 2013) are the classical ancestor: send a duplicate to another replica after a latency threshold, take the first, cancel the rest, cutting BigTable p99 from 1800ms to 74ms at ~2% extra load.
@@ -52,6 +56,6 @@ In itself this is not LLM-specific. It is the *hedged requests* pattern from dis
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../hot-path-result-caching/">← Hot-Path Result Caching</a><a class="nav-next" href="../fail-fast-provider-chain/">Fail-Fast Provider Chain →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../prompt-injection-containment/">← Prompt Injection Containment</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BMultiplexed+Dispatch%5D+&labels=feedback%2Clatency-and-availability&body=%2A%2ARe%3A%2A%2A+Multiplexed+Dispatch%0A%2A%2ASection%3A%2A%2A+Latency+and+Availability%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fmultiplexed-dispatch%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BMultiplexed+Dispatch%5D+&labels=feedback%2Ccandidate&body=%2A%2ARe%3A%2A%2A+Multiplexed+Dispatch%0A%2A%2ASection%3A%2A%2A+Candidate+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fmultiplexed-dispatch%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

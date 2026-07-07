@@ -10,7 +10,6 @@ permalink: /latency-and-availability/
 
 - [Anticipatory Precomputation](../anticipatory-precomputation/)
 - [Hot-Path Result Caching](../hot-path-result-caching/)
-- [Multiplexed Dispatch](../multiplexed-dispatch/)
 - [Fail-Fast Provider Chain](../fail-fast-provider-chain/)
 
 
