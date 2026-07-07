@@ -1,7 +1,7 @@
 ---
 layout: default
-title: "LLM as Wizard of Oz"
-permalink: /llm-as-wizard-of-oz/
+title: "Rent, Then Build"
+permalink: /rent-then-build/
 ---
 
 
@@ -28,7 +28,7 @@ LLMs are general-purpose machines that can attempt almost any text-based task. B
 
 ## Solution
 
-Use the LLM to perform a task in production while building a more efficient replacement. The name nods to Wizard-of-Oz prototyping, where a human secretly stands in for a system not yet built. The inversion here is that the stand-in is not a human faking automation but a general-purpose LLM genuinely doing the work: it is the "wizard behind the curtain," convincing to users and good for early beta-testing and feedback, but intended to be temporary.
+Use the LLM to perform a task in production while building a more efficient replacement. The arc is rent, then build: the LLM's general capability is *rented* (paid per call, costly but available immediately) to ship the feature now, while a cheaper, dedicated implementation is *built* to eventually own the task. The rented LLM is convincing to users and good for early beta-testing and feedback, but intended to be temporary.
 
 **Bootstrapping variant:** In a more subtle variant, the LLM *generates the training data for its own replacement.* For example, Zeeguu uses an LLM to estimate text difficulty levels. These LLM-generated difficulty labels are being accumulated as training data for a classical classifier that will eventually take over the task.
 
@@ -40,7 +40,7 @@ Use the LLM to perform a task in production while building a more efficient repl
 
 ## Note
 
-This pattern has a lifecycle relationship with [Escalate to the LLM](../escalate-to-the-llm/): a system may start with the LLM as primary (Wizard of Oz), migrate to a specialized tool as primary, and then keep the LLM as the escalation path, completing a full cycle from LLM-first to LLM-on-demand.
+This pattern has a lifecycle relationship with [Escalate to the LLM](../escalate-to-the-llm/): a system may start with the LLM as primary (renting it), migrate to a specialized tool as primary, and then keep the LLM as the escalation path, completing a full cycle from LLM-first to LLM-on-demand.
 
 ## Known Uses
 
@@ -53,4 +53,4 @@ This pattern has a lifecycle relationship with [Escalate to the LLM](../escalate
 ---
 <div class="pattern-footer-nav"><a class="nav-prev" href="../fail-fast-provider-chain/">← Fail-Fast Provider Chain</a><a class="nav-next" href="../centralized-model-selection/">Centralized Model Selection →</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BLLM+as+Wizard+of+Oz%5D+&labels=feedback%2Clifecycle-management&body=%2A%2ARe%3A%2A%2A+LLM+as+Wizard+of+Oz%0A%2A%2ASection%3A%2A%2A+Lifecycle+Management%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fllm-as-wizard-of-oz%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BRent%2C+Then+Build%5D+&labels=feedback%2Clifecycle-management&body=%2A%2ARe%3A%2A%2A+Rent%2C+Then+Build%0A%2A%2ASection%3A%2A%2A+Lifecycle+Management%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Frent-then-build%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
