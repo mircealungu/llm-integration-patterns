@@ -238,6 +238,10 @@ def assemble():
     body = linkify_citations(body, load_bib_urls(BIB))
     for sym, rep in SYMBOL_MATH.items():
         body = body.replace(sym, rep)
+    # Web links to another page's anchor ([x](../slug/#anchor)) are one document
+    # in the PDF, so rewrite them to intra-document anchors ([x](#anchor));
+    # pandoc then renders them as internal cross-references, not dead web URLs.
+    body = re.sub(r"\]\(\.\./[^)#]*#", "](#", body)
     return body
 
 
