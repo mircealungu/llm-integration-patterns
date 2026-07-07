@@ -21,7 +21,7 @@ How can one user, or a buggy client, be stopped from running up the shared bill 
 - On-demand LLM actions cost real money and latency per invocation, and, unlike a pre-computed or cached feature, they are driven by user behaviour, so from the system's side consumption is unbounded.
 - Consumption is wildly uneven across users. A small number of heavy users, an abusive script, or a runaway client can dominate cost and exhaust the shared provider's rate limits, degrading service for everyone.
 - The bound must be per *user* (the entity the spend is attached to), not global, or one user's overuse silently taxes the rest.
-- Exact cost accounting is precise but comparatively expensive to build (capture token usage, maintain a current price table). Often a coarse proxy (a count, a concurrency cap, a time budget) is far cheaper and adequately bounds the failure you actually care about.
+- Exact cost accounting is precise but comparatively expensive to build (capture token usage, maintain a current price table). Often a coarse proxy (a count, a concurrency cap, a time budget) is far cheaper and adequately bounds the failure that actually matters.
 
 ## Solution
 
@@ -34,7 +34,7 @@ Give each user a budget on an LLM-backed resource and refuse or degrade once it 
 
 When a budget is exhausted, **degrade rather than fail** where possible: fall back to the cheaper non-LLM path (serve the Google Translate result and simply stop escalating to the LLM; see *Escalate to the LLM*), queue the request, or show a friendly "try again later."
 
-**The precise variant, per-user cost attribution.** At the accurate end, meter every LLM call as `(user, feature, model, provider, input_tokens, output_tokens, timestamp)`, store **tokens** (provider-neutral) and derive **cost** through a central price table, and aggregate per user. This is the most accurate budget denomination and doubles as observability: it answers *which users and which features drive the bill*. It also composes with *Centralized Model Selection* (price table keyed by the same model constants) and *LLM Output Provenance* (the per-artifact provenance record is the natural place to also stamp token counts: provenance says *how was it made*, this adds *what did it cost, and to whom*). Prefer a coarse proxy unless you genuinely need this precision.
+**The precise variant, per-user cost attribution.** At the accurate end, meter every LLM call as `(user, feature, model, provider, input_tokens, output_tokens, timestamp)`, store **tokens** (provider-neutral) and derive **cost** through a central price table, and aggregate per user. This is the most accurate budget denomination and doubles as observability: it answers *which users and which features drive the bill*. It also composes with *Centralized Model Selection* (price table keyed by the same model constants) and *LLM Output Provenance* (the per-artifact provenance record is the natural place to also stamp token counts: provenance says *how was it made*, this adds *what did it cost, and to whom*). Prefer a coarse proxy unless this precision is genuinely needed.
 
 ## Consequences
 
@@ -44,8 +44,8 @@ When a budget is exhausted, **degrade rather than fail** where possible: fall ba
 
 ## Notes
 
-- Choose the coarsest proxy that prevents the failure you care about. If the risk is "a script hammers *simplify*," a per-hour count stops it; you do not need per-token accounting.
-- Attribute to the provider that **actually** served the call: a *Fail-Fast Provider Chain* fallback changes who you pay and at what rate.
+- Choose the coarsest proxy that prevents the failure in question. If the risk is "a script hammers *simplify*," a per-hour count stops it; per-token accounting is not needed.
+- Attribute to the provider that **actually** served the call: a *Fail-Fast Provider Chain* fallback changes which provider is billed and at what rate.
 - The graceful-degradation clause is what keeps this user-friendly rather than punitive: a language learner who exhausts their LLM-translation budget still gets Google Translate, not an error.
 
 ## Relationship to LLM Gateways
