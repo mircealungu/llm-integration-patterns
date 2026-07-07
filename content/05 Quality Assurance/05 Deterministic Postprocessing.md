@@ -31,8 +31,8 @@ Enforce deterministic constraints in code, at the post-processing or serializati
 
 ## Known Uses
 
-- *Adjacent structural cousin.* Structured-output libraries such as **[Outlines](https://dottxt-ai.github.io/outlines/latest/)** constrain generation so the format is valid upfront, and explicitly contrast this with the common practice of "fixing bad outputs after generation using parsing, regex, or fragile code" — evidence that code-side repair is widespread, though Outlines *prevents* rather than *repairs*.
-- *Largely best-practice / folklore.* We found no source that names this specific rule — repair a *deterministic* defect in code, not the prompt, because code is 100% reliable and also fixes already-stored rows. The literature documents the stronger cousin (constrained decoding / structured outputs) and generic output sanitization, so we present this as its own contribution and cite these as adjacent, not prior.
+- *Adjacent structural cousin.* Structured-output libraries such as **[Outlines](https://dottxt-ai.github.io/outlines/latest/)** constrain generation so the format is valid upfront, and explicitly contrast this with the common practice of "fixing bad outputs after generation using parsing, regex, or fragile code": evidence that code-side repair is widespread, though Outlines *prevents* rather than *repairs*.
+- *Largely best-practice / folklore.* We found no source that names this specific rule: repair a *deterministic* defect in code, not the prompt, because code is 100% reliable and also fixes already-stored rows. The literature documents the stronger cousin (constrained decoding / structured outputs) and generic output sanitization, so we present this as its own contribution and cite these as adjacent, not prior.
 
 > [!draft]- Notes after the focus group
 > - is it even more generic? favor programming ? 

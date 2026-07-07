@@ -30,7 +30,7 @@ This pattern acknowledges that a single LLM can behave as multiple "virtual comp
 
 - **Vendor guidance**: [Anthropic's Messages API](https://platform.claude.com/docs/en/api/messages) advises temperature near 0 for analytical/multiple-choice tasks and near 1 for creative ones; the [OpenAI Cookbook](https://github.com/openai/openai-cookbook/blob/main/examples/Multiclass_classification_for_transactions.ipynb) hard-codes `temperature=0` for classification.
 - **Azure OpenAI** guidance recommends 0–0.3 for extraction/categorization and 0.7–1.0 for creative generation.
-- *Caveat worth keeping.* [Renze & Guven](https://arxiv.org/abs/2402.05201) (EMNLP Findings 2024) found temperature 0.0–1.0 has *no* statistically significant effect on problem-solving accuracy — evidence that this pattern's justification is determinism/consistency and output variety, not correctness.
+- *Caveat worth keeping.* [Renze & Guven](https://arxiv.org/abs/2402.05201) (EMNLP Findings 2024) found temperature 0.0–1.0 has *no* statistically significant effect on problem-solving accuracy: evidence that this pattern's justification is determinism/consistency and output variety, not correctness.
 
 
 

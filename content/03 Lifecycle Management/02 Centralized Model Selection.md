@@ -6,7 +6,7 @@ A single LLM model identifier is referenced from many call sites across a codeba
 
 ## Example
 
-Zeeguu's reader has an on-demand "Ask LLM" translation action. Its model ID, `claude-sonnet-4-20250514`, was hardcoded at three call sites in the translation service and two more in the MWE detector. Anthropic retired that snapshot; every call began returning `404 not_found_error`. The error was swallowed one layer down (the helper returns `None` on any exception), so the endpoint returned a generic `404 "LLM translation failed"` and the reader silently degraded to an "**Ask LLM — try again**" button that could never succeed.
+Zeeguu's reader has an on-demand "Ask LLM" translation action. Its model ID, `claude-sonnet-4-20250514`, was hardcoded at three call sites in the translation service and two more in the MWE detector. Anthropic retired that snapshot; every call began returning `404 not_found_error`. The error was swallowed one layer down (the helper returns `None` on any exception), so the endpoint returned a generic `404 "LLM translation failed"` and the reader silently degraded to an "**Ask LLM, try again**" button that could never succeed.
 
 ![[centralized-model-selection-try-again.png|420]]
 
@@ -43,7 +43,7 @@ Keep every model identifier in one central module. Declare the canonical vendor 
 - Prefer **role-based** aliases over vendor-based constants. `WORD_TRANSLATION = HAIKU` reads as intent and lets one re-point a single feature's tier without touching others; a bare `HAIKU = "claude-haiku-…"` re-exported everywhere quietly couples unrelated features to the same choice.
 - Composes with *LLM Output Provenance*: the identifier a system stamps onto a generated artifact and the identifier it uses to *select* the model at call time should be the same central constant, so the two can never drift apart.
 - Composes with *Fail-Fast Provider Chain*: the chain decides the *order* of providers to try; this module names *which model* each provider entry uses.
-- *Alternative — AI gateway.* An AI gateway can host the role→model mapping as named aliases in its config, relocating this pattern's registry out of application code. See the broader treatment of what gateways do and do not subsume in *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*.
+- *Alternative: AI gateway.* An AI gateway can host the role→model mapping as named aliases in its config, relocating this pattern's registry out of application code. See the broader treatment of what gateways do and do not subsume in *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*.
 
 ## War Story
 
@@ -51,9 +51,9 @@ The same commit that repaired the retirement uncovered a second casualty of the 
 
 ## Known Uses
 
-- **[Sourcegraph Cody](https://sourcegraph.com/docs/cody/enterprise/model-configuration)** binds each feature *role* — `chat`, `fastChat`, `codeCompletion` — to a `modelRef` in a central `defaultModels` map, so changing which model powers a feature is a single config edit rather than a call-site change: genuine role-based central selection in a shipped product.
-- *Enablers.* Gateways relocate the role→model map into their config as aliases ([LiteLLM model aliases](https://docs.litellm.ai/docs/completion/model_alias), [Portkey Model Catalog](https://portkey.ai/docs/product/ai-gateway/virtual-keys)) — the same mechanism, hosted outside app code.
-- The mechanism is the classic *single source of truth*; what makes it LLM-specific is vendor-driven model deprecation (see this pattern's forces). We did not find a public first-hand account of centralizing model IDs *in response to a deprecation outage* — Zeeguu's is our instance.
+- **[Sourcegraph Cody](https://sourcegraph.com/docs/cody/enterprise/model-configuration)** binds each feature *role* (`chat`, `fastChat`, `codeCompletion`) to a `modelRef` in a central `defaultModels` map, so changing which model powers a feature is a single config edit rather than a call-site change: genuine role-based central selection in a shipped product.
+- *Enablers.* Gateways relocate the role→model map into their config as aliases ([LiteLLM model aliases](https://docs.litellm.ai/docs/completion/model_alias), [Portkey Model Catalog](https://portkey.ai/docs/product/ai-gateway/virtual-keys)): the same mechanism, hosted outside app code.
+- The mechanism is the classic *single source of truth*; what makes it LLM-specific is vendor-driven model deprecation (see this pattern's forces). We did not find a public first-hand account of centralizing model IDs *in response to a deprecation outage*: Zeeguu's is our instance.
 
 > [!draft]- Alternatives to explore after the focus group
 > - proxy, dependency injection
