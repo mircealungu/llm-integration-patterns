@@ -1,8 +1,16 @@
 # Soft Invalidation of LLM Artifacts
 
+## Context
+
+An LLM-generated artifact has been stored and is reused as a cache, and it is also referenced from user-visible history. Then the prompt or model that produced it improves, so the stored version is now known to be suboptimal while old references still point at it.
+
 ## Example
 
 When the prompt that generates audio lesson scripts was improved, the ~900 stored `audio_lesson_meaning` rows produced under the previous prompt were neither regenerated eagerly nor deleted. Instead, each affected row received a `deprecated_at` timestamp, and the cache-lookup helper (`AudioLessonMeaning.find()`) was gated to skip deprecated rows. New daily lessons request a fresh row and trigger regeneration under the new prompt; existing daily lessons that already reference a deprecated row keep playing their old audio without breaking.
+
+## Problem
+
+When the generator improves, how can stored artifacts be refreshed without either paying to regenerate everything up front or breaking the past references that still point at the old ones?
 
 ## Forces
 
@@ -16,6 +24,12 @@ None of these are good defaults for production systems where LLM-generated artif
 ## Solution
 
 Mark stale rows as deprecated rather than mutating or removing them. Gate the cache-lookup / reuse path to skip deprecated rows, forcing fresh generation on next demand. Existing references to a deprecated row remain valid (the row keeps its content for historical playback), but no new consumer picks it up. Regeneration cost is paid lazily, amortized over normal access patterns, and only for content that is actually requested again.
+
+## Consequences
+
+- **Cost is lazy and history stays intact.** Regeneration is paid only for content requested again, and old references keep resolving to their original artifact, so user-visible history does not break.
+- **Old versions linger until next demand.** A replay hears the old quality until something triggers regeneration, and the deprecation flag has to reach every downstream cache to be effective.
+- **It assumes artifact identity follows the row.** If the stored artifact is keyed by its source rather than its row, a regenerated row overwrites the deprecated one (see the note). Pairs with *LLM Output Provenance*: provenance says which rows are stale, this says what to do once that is known.
 
 ## Notes
 

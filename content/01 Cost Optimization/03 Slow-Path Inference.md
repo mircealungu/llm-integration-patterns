@@ -1,5 +1,9 @@
 # Slow-Path Inference
 
+## Context
+
+A user-facing app makes many LLM calls, but only some are on a user's critical path. The rest (pre-computation, batch classification, offline validation) are latency-insensitive, and cheaper execution paths exist that are slower or lower quality but far less costly.
+
 ## Example
 
 Zeeguu runs the pattern in two places.
@@ -12,6 +16,10 @@ Zeeguu runs the pattern in two places.
 Same task, two model tiers, selected by latency-sensitivity rather than by the task itself.
 
 **An owned machine as the slow path.** Zeeguu's latency-insensitive LLM work — CEFR assessment, translation validation, meaning-frequency classification, ahead-of-time example generation — all bills against metered APIs, yet none of it is on a user's critical path. A single owned machine (a Mac Studio running Ollama) drains that entire queue overnight on a local model at zero per-token cost, with the cloud API as a deadline-bound fallback for whatever is not done by morning. It moves a whole category of spend off the metered bill onto hardware that already sits idle at night. (The machine has no public IP and is not on the server's network, so it connects as an outbound-only pull worker — the server enqueues, the machine polls over HTTPS and posts back — a deployment detail, not an LLM concern.)
+
+## Problem
+
+How can the premium cost of the real-time model be avoided on the large share of LLM work that no user is waiting for?
 
 ## Forces
 

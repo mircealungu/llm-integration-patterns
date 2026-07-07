@@ -10,9 +10,17 @@ permalink: /llm-output-provenance/
 </nav>
 
 
+## Context
+
+LLM-generated artifacts (example sentences, summaries, labels) are written to persistent storage and reused for a long time, while the models and prompts that produce them keep improving. The prompt changes more often, and often matters more to output quality, than the model.
+
 ## Example
 
 When the system generates example sentences with a given word to be used in exercises, it stores which model and prompt version produced each result. When a prompt is improved, the system can identify and regenerate stale outputs without reprocessing everything.
+
+## Problem
+
+When a prompt or model improves, how can exactly the stale artifacts be found and regenerated, without reprocessing the entire store?
 
 ## Forces
 
@@ -21,6 +29,12 @@ LLM-generated data that enters persistent storage becomes a long-lived asset, bu
 ## Solution
 
 Store the full provenance tuple alongside every LLM-generated artifact: (model version, prompt version, generated output, timestamp). This enables selective regeneration (e.g., *"re-run everything produced by prompt v2 with the improved prompt v3"*) and quality auditing.
+
+## Consequences
+
+- **Selective regeneration becomes a query.** Re-run everything a given prompt or model produced and leave the rest, and the same record doubles as a quality-audit trail.
+- **The stamp must be present and precise.** Every write has to record the provenance, and it is only as useful as the granularity it captures: a field that does not bump when the prompt is edited in place silently goes stale and drives nothing.
+- **One identifier, shared with selection and validation.** The stamped model identifier and the one used to select the model at call time should be the same central constant (composes with [Centralized Model Selection](../centralized-model-selection/)), and provenance pairs with [LLM Content Validation Tracking](../llm-content-validation-tracking/): how an artifact was made, and whether it has been confirmed.
 
 ## Notes
 
