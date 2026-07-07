@@ -16,7 +16,9 @@ It's a working paper: a draft I'm developing in the open and revising as the ide
 
 ### The Idea
 
-Large Language Models are increasingly being integrated into existing user-facing interactive applications, not as standalone chatbots, but as components working behind the scenes to improve the user experience. While there is growing literature on building LLM-native products (chatbots, agents, RAG systems) and on using LLMs for code generation, there is surprisingly little guidance on the **software engineering challenges of integrating LLMs as components into existing interactive applications** where real users expect fast, reliable, and trustworthy responses.
+Large Language Models are increasingly being integrated into existing user-facing interactive applications, not as standalone chatbots, but as components working behind the scenes to improve the user experience. 
+
+While there is growing literature on building LLM-native products (chatbots, agents, RAG systems) and on using LLMs for code generation, there is surprisingly little guidance on the **software engineering challenges of integrating LLMs as components into existing interactive applications** where real users expect fast, reliable, and trustworthy responses.
 
 LLMs have a unique combination of properties that create novel architectural forces: 
 
