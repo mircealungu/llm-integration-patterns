@@ -6,7 +6,7 @@ A single LLM model identifier is referenced from many call sites across a codeba
 
 ## Example
 
-Zeeguu's reader has an on-demand "[Ask AI](../zeeguu/#translation)" translation action. Its model ID, `claude-sonnet-4-20250514`, was hardcoded at three call sites in the translation service and two more in the [MWE](../zeeguu/#multi-word-expressions) detector. Anthropic retired that snapshot; every call began returning `404 not_found_error`. The error was swallowed one layer down (the helper returns `None` on any exception), so the endpoint returned a generic `404 "LLM translation failed"` and the reader silently degraded to an "**Ask AI, try again**" button that could never succeed.
+Zeeguu's reader has an on-demand "[Ask AI](../zeeguu/#translation)" translation action. Its model ID, `claude-sonnet-4-20250514`, was hardcoded at three call sites in the translation service and two more in the multi-word-expression ([MWE](../zeeguu/#multi-word-expressions)) detector. Anthropic retired that snapshot; every call began returning `404 not_found_error`. The error was swallowed one layer down (the helper returns `None` on any exception), so the endpoint returned a generic `404 "LLM translation failed"` and the reader silently degraded to an "**Ask AI, try again**" button that could never succeed.
 
 ![[centralized-model-selection-try-again.png|420]]
 
@@ -15,7 +15,7 @@ Nothing in the code had changed; a date had passed. The error started showing up
 
 The fix itself was mechanical: swap to the live snapshot the rest of the codebase already used. But finding it took a dig through production logs, and the swap had to be repeated at five sites. 
 
-To avoid this happening again in the future, Zeeguu now keeps every model identifier in [one module](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/models.py), keyed by *role* (`WORD_TRANSLATION`, `MWE_DETECTION`, `SIMPLIFICATION`, …) and each resolving to a canonical vendor ID declared once; a feature asks for `models.WORD_TRANSLATION` and never names a snapshot, so the next retirement is a one-line edit.
+To avoid this happening again in the future, Zeeguu now keeps every model identifier in [one module](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/models.py), keyed by *role*, the job a model does in a feature (`WORD_TRANSLATION`, `MWE_DETECTION`, `SIMPLIFICATION`, …), and each resolving to a canonical vendor ID declared once; a feature asks for `models.WORD_TRANSLATION` and never names a snapshot, so the next retirement is a one-line edit.
 
 ## Problem
 
@@ -41,8 +41,6 @@ Keep every model identifier in one central module. Declare the canonical vendor 
 
 - The mechanism is classical (single source of truth; no magic strings). What makes it an LLM pattern is the *force*: vendor-driven model deprecation turns an innocuous hardcoded string into a scheduled runtime failure. It is the direct defense against the *"old ones regularly deprecated"* property listed among the core LLM forces in the introduction.
 - Prefer **role-based** aliases over vendor-based constants. `WORD_TRANSLATION = HAIKU` reads as intent and lets one re-point a single feature's tier without touching others; a bare `HAIKU = "claude-haiku-…"` re-exported everywhere quietly couples unrelated features to the same choice.
-- Composes with *LLM Output Provenance*: the identifier a system stamps onto a generated artifact and the identifier it uses to *select* the model at call time should be the same central constant, so the two can never drift apart.
-- Composes with *Fail-Fast Provider Chain*: the chain decides the *order* of providers to try; this module names *which model* each provider entry uses.
 - *Alternative: AI gateway.* An AI gateway can host the role→model mapping as named aliases in its config, relocating this pattern's registry out of application code. See the broader treatment of what gateways do and do not subsume in *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*.
 
 ## War Story

@@ -23,14 +23,14 @@ Store the full provenance tuple alongside every LLM-generated artifact: (model v
 ## Consequences
 
 - **Selective regeneration becomes a query.** Re-run everything a given prompt or model produced and leave the rest, and the same record doubles as a quality-audit trail.
-- **The stamp must be present and precise.** Every write has to record the provenance, and it is only as useful as the granularity it captures: a field that does not bump when the prompt is edited in place silently goes stale and drives nothing.
+- **The stamp must be present and precise.** Every write has to record the provenance, and it is only as useful as the granularity it captures: a field that is not updated when the prompt is edited in place silently goes stale and drives nothing.
 - **One identifier, shared with selection and validation.** The stamped model identifier and the one used to select the model at call time should be the same central constant (composes with *Centralized Model Selection*), and provenance pairs with *LLM Content Validation Tracking*: how an artifact was made, and whether it has been confirmed.
 
 ## Notes
 
 - The key insight is that the prompt is at least as important to version as the model: a prompt change can completely alter output format, quality, or behavior even with the same model.   
 - This is also critical for the Wizard of Oz pattern: when accumulating LLM-generated labels as training data for a classical replacement, provenance tracking lets one exclude data produced by a prompt version that was later found to be noisy or biased.  
-- The identifier stamped for provenance should be the *same* constant the code uses to select the model, kept in one place (*Centralized Model Selection*). When the two are separate literals, the selection can move to a new model while the provenance field keeps naming the old one. A field that names a model no longer in the pipeline is worse than no field at all.
+- A field that names a model no longer in the pipeline is worse than no field at all, so stamp the provenance from the same constant used to *select* the model (*Centralized Model Selection*).
 - Implicit provenance: Keep model names and prompt versions as constants in code. When one needs to know what generated a piece of data, correlate its `created_at` timestamp with git history to determine which model/prompt was deployed at that time. However, this works for simpler systems where there is a single model/prompt active at any time. A system using alternative prompts, e.g. for A/B testing, will have to track provenance explicitly. Also, explicit tracking makes data analysis faster, and ensures that data is self-describable.
 
 ## Known Uses

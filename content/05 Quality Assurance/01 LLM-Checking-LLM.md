@@ -14,11 +14,11 @@ How can an unreliable generator's mistakes be caught, when a second generator wo
 
 ## Forces
 
-LLMs are imprecise generators, but verification of specific properties (e.g., grammatical correctness) is a more constrained task than open-ended generation (e.g., text [simplification](../zeeguu/#article-simplification)). A second, focused LLM call can catch errors that the first, more complex call introduced.
+LLMs are imprecise generators, but verification of specific properties (e.g., grammatical correctness) is a more constrained task than open-ended generation (e.g., [article simplification](../zeeguu/#article-simplification), rewriting a text at a simpler reading level). A second, focused LLM call can catch errors that the first, more complex call introduced.
 
 ## Solution
 
-Use one LLM call to generate a result, then use a separate LLM call to check or refine it. The verification prompt can be simpler and more focused than the generation prompt.
+Use one LLM call to generate a result, then use a separate LLM call to check or refine it. This escapes the paradox because verifying one specific property (is it grammatical? does it match the source?) is a narrower task than the open-ended generation that produced the output, so the checker fails less often on that property than the generator did. The verification prompt can be simpler and more focused than the generation prompt.
 
 ## Consequences
 
