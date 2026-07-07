@@ -242,6 +242,9 @@ def assemble():
     # in the PDF, so rewrite them to intra-document anchors ([x](#anchor));
     # pandoc then renders them as internal cross-references, not dead web URLs.
     body = re.sub(r"\]\(\.\./[^)#]*#", "](#", body)
+    # Stray trailing whitespace (a 2-space markdown "hard break") on a list item
+    # becomes \\ in LaTeX and spaces bullets far apart; strip it line by line.
+    body = "\n".join(line.rstrip() for line in body.split("\n"))
     return body
 
 
