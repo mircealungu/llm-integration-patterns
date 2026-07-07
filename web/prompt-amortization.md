@@ -18,11 +18,11 @@ permalink: /prompt-amortization/
 
 ## Context
 
-Many LLM calls share the same shape: a large, fixed instructional prompt (rules, taxonomies, output format, examples) wrapped around a tiny variable input. The work is offline and batchable — nobody is blocked on any single result.
+Many LLM calls share the same shape: a large, fixed instructional prompt (rules, taxonomies, output format, examples) wrapped around a tiny variable input (see figure). The work is offline and batchable: nobody is blocked on any single result.
 
 ## Example
 
-Several Zeeguu jobs share the same shape (a large instructional prompt wrapped around a tiny variable input, see figure) and run offline over many items. Instead of paying that preamble once per item, related items are packed into a single call, in one of two directions: **fan-in** (many inputs, one call) or **fan-out** (one input, many outputs).
+Several Zeeguu jobs have exactly this shape. Rather than pay the preamble once per item, they pack related items into a single call, in one of two directions: **fan-in** (many inputs, one call) or **fan-out** (one input, many outputs):
 
 - **Meaning classification** (*fan-in*) sends ~15 word-meanings per call, sharing one frequency/CEFR-type taxonomy prompt across the whole batch.
 - **Example-sentence validation** (*fan-in*) checks ~20 generated examples per call.
