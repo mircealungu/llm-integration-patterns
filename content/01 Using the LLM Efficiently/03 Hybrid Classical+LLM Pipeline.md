@@ -2,7 +2,7 @@
 
 ## Context
 
-A task can be served by a fast, deterministic classical tool (a dependency parser, a POS tagger, a rule extractor) that misses edge cases, and by an LLM that handles the edge cases but is too expensive to run on every input.
+A task involves a processing a set of possible cases. Most of them can be resolved by a cheap, fast, deterministic, classical natural language processing tool, which can return an estimate of its confidence. An expensive LLM is available to handle the remaining edge cases, which are rejected by the classical tool.
 
 ## Example
 
@@ -14,16 +14,16 @@ How can both high recall and high precision be reached without paying LLM cost o
 
 ## Forces
 
-Classical NLP tools (dependency parsers, POS taggers, rule-based extractors) are fast and deterministic but miss edge cases. LLMs handle edge cases well but are expensive to run on every input. Neither alone achieves both high recall and high precision.
+Classical NLP tools (dependency parsers, part of speech taggers, rule-based extractors) are fast and deterministic but miss edge cases. LLMs handle edge cases well but are expensive to run on every input and provide non deterministic output. Neither alone achieves both high recall and high precision, while keeping the overall cost low.
 
 ## Solution
 
-Run the cheap classical tool first, as a high-recall gate: invoke the LLM only when the classical stage fires, and skip it otherwise (the common case, and the main cost saving). When it fires, let the LLM make the precision decision. The two are not alternatives: the classical stage controls *when* the LLM runs; the LLM controls *what counts*.
+Run the cheap classical tool first, as a high-recall gate: invoke the LLM only when the classical stage could produce a false positive, and skip it otherwise (the common case, and the main cost saving). When it fires, let the LLM make the precision decision. The two are complementary: the classical stage controls *when* the LLM runs; the LLM controls *what counts*.
 
 ## Consequences
 
 - **The LLM runs only where it is needed.** It fires on the fraction of inputs the classical gate flags, so the common case costs nothing extra while the LLM still makes the precision call.
-- **Two systems must be built and kept in sync.** That is real added complexity, usually justified by the saving from skipping the LLM on the common case.
+- **Two systems must be built, integrated and kept in sync.** That is real added complexity, usually justified by the saving from skipping the LLM on the common case.
 - **The gate must have high recall.** A candidate the classical stage misses never reaches the LLM, so the recall of the cheap stage caps the precision of the whole.
 
 ## Known Uses
