@@ -51,6 +51,3 @@ Keep the strictness in code, where it is deterministic and testable, rather than
 - Composes with a one-shot retry and with *Fail-Fast Provider Chain* (a parse failure can trigger the next provider).
 - Related to *Deterministic Postprocessing*, which repairs a specific, known formatting defect; this pattern is the broader stance of not trusting the structure at all.
 - *Enablers (not instances).* Validation/repair is widely productized, [Instructor](https://python.useinstructor.com/) (Pydantic + auto-retry), [LangChain](https://python.langchain.com/api_reference/langchain/output_parsers/langchain.output_parsers.fix.OutputFixingParser.html) `OutputFixingParser`, and provider [structured-output](https://developers.openai.com/api/docs/guides/structured-outputs) modes (which still require handling truncation and refusals), but a library that *provides* validation is the mechanism, not evidence of an in-app stance.
-
-> [!ack]
-> Thanks to [Cesare Pautasso](http://www.pautasso.org/) for the discussion that prompted this pattern.
