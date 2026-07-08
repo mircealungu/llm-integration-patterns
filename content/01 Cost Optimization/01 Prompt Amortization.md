@@ -16,9 +16,9 @@ Several Zeeguu jobs have exactly this shape. Rather than pay the preamble once p
 - **Example-sentence validation** (*fan-in*) checks ~20 generated examples per call.[^amort-validate]
 - **[Article simplification](../zeeguu/#article-simplification)** (*fan-out*) produces every CEFR level simpler than the original in one call, one section per level, turning four or five requests into one, about 75% fewer calls for a typical article.[^amort-simplify]
 
-[^amort-meaning]: [`create_batch_meaning_frequency_and_type_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/meaning_frequency_classifier.py#L52-L67)
-[^amort-validate]: [`validate_examples_batch`](https://github.com/zeeguu/api/blob/master/tools/validate_and_clean_examples.py#L186-L196)
-[^amort-simplify]: [`get_adaptive_simplification_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/article_simplification.py#L8-L14)
+[^amort-meaning]: The batched meaning-classifier prompt, [`create_batch_meaning_frequency_and_type_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/meaning_frequency_classifier.py#L52-L67) in the `zeeguu/api` repository.
+[^amort-validate]: The batch example-sentence validator, [`validate_examples_batch`](https://github.com/zeeguu/api/blob/master/tools/validate_and_clean_examples.py#L186-L196) in the `zeeguu/api` repository.
+[^amort-simplify]: The multi-level simplification prompt, [`get_adaptive_simplification_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/article_simplification.py#L8-L14) in the `zeeguu/api` repository.
 
 
 

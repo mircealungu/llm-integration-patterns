@@ -12,6 +12,10 @@ The patterns in this catalogue have been extracted from a single production syst
 
 A second limitation is that the catalogue reports patterns we have found useful but does not yet quantify their impact systematically. Anecdotal cost and latency improvements are reported per pattern; a more rigorous deployment-level evaluation (measuring, for example, how much of Zeeguu's LLM bill is attributable to which patterns, or how much user-perceived latency [Multiplexed Dispatch](../multiplexed-dispatch/) removes) is future work.
 
+A further direction is to treat the catalogue as the seed of a *pattern language* rather than a flat list. The patterns are not independent: they compose (pre-computation feeds [Prompt Amortization](../prompt-amortization/); a report in [Targeted User Feedback](../targeted-user-feedback/) drives [Soft Invalidation of LLM Artifacts](../soft-invalidation-of-llm-artifacts/)) and they evolve over a system's lifetime (an LLM may begin as a [Rent, Then Build](../rent-then-build/) stand-in, hand off to a specialized tool, and remain as the [Escalate to the LLM](../escalate-to-the-llm/) fallback). Documenting these interactions, sequences, and tensions, so a designer can navigate from one pattern to the next, is a contribution beyond the individual patterns.
+
+These choices are not made once. A system's pattern mix is actively revised as it scales and the provider landscape shifts: Zeeguu adopted [Multiplexed Dispatch](../multiplexed-dispatch/) only recently, having previously made single LLM calls, and may later drop it or fold it together with [Per-User Consumption Budget](../per-user-consumption-budget/) as usage grows. A longitudinal account of how and why a system's chosen patterns change over time would deepen the lifecycle dimension that this single-snapshot catalogue can only sketch.
+
 Finally, we expect the catalogue to be incomplete. Several proto-patterns are listed in *Candidate Patterns*; others will likely surface only through engagement with practitioners working at different scales, in different domains, and with different LLM providers.
 
 

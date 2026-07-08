@@ -15,7 +15,7 @@ The source lives in [`_src/`](_src/) and mirrors the site one-to-one:
 - `00 Intro.md` → the home page (*What is this?* + *The Idea*).
 - `00a Case Study - Zeeguu.md` → a **case study** page. Any file titled `# Case Study: X` becomes its own page, listed under *Case Studies* on the home page.
 - **Category folders** like `01 Cost Optimization Patterns/` → each `.md` inside is one **pattern** page (its `# H1` is the pattern name); the folder name is the category heading on the home page.
-- `07 Related Work.md`, `08 LLM-Specific.md`, `10 Possible Paper Contributions.md` → one prose page each.
+- `07 Related Work.md`, `08 LLM-Specific.md` → one prose page each.
 
 To **add a pattern**, drop a `# Pattern Name` file into the right category folder. To **add a category**, make a new numbered folder. The leading `NN ` on folders and files only sets ordering; it is stripped from the displayed title. Page URLs come from the pattern name (its *slug*), not the file path, so moving or renumbering files never changes a URL.
 

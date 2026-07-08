@@ -80,7 +80,6 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 
 - [Related Work](related-work/)
 - [What Makes These Patterns LLM-Specific?](what-makes-these-patterns-llm-specific/)
-- [Possible Paper Contributions](possible-paper-contributions/)
 - [Limitations and Future Work](limitations-and-future-work/)
 - [Conclusion](conclusion/)
 
