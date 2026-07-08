@@ -10,7 +10,7 @@ permalink: /cost-optimization/
 
 We use *cost* as shorthand for any expensive, metered resource: most visibly the per-token API bill. However, costs are also latency, compute, and energy. The unifying force is that LLM calls carry a large, often *fixed* overhead (the instructional prompt, the network round-trip), so invoking them naïvely wastes that setup on a tiny payload.
 
-These patterns are really about *economy*: **amortizing a fixed overhead** across many uses ([Prompt Amortization](../prompt-amortization/)), and **paying the expensive resource only in proportion to the value returned** ([Escalate to the LLM](../escalate-to-the-llm/)). The same frugality transfers to non-monetary resources, which is why Prompt Amortization cuts latency as well as dollars.
+These patterns are really about *economy*, each attacking the bill from a different angle. [Prompt Amortization](../prompt-amortization/) **amortizes a fixed overhead** across many calls, so the expensive preamble is paid once rather than per item. [Escalate to the LLM](../escalate-to-the-llm/) **spends the LLM only in proportion to the value it adds**, reaching for it only where a cheaper tool falls short. [Slow-Path Inference](../slow-path-inference/) **pays premium, low-latency rates only when a user is waiting**, routing deferrable work to a cheaper path. [Per-User Consumption Budget](../per-user-consumption-budget/) **bounds what any single user can consume**, so user-driven demand cannot run the bill up without limit. The same frugality transfers to non-monetary resources, which is why Prompt Amortization cuts latency as well as dollars.
 
 - [Prompt Amortization](../prompt-amortization/)
 - [Escalate to the LLM](../escalate-to-the-llm/)
