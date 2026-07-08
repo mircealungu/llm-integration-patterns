@@ -6,7 +6,7 @@ permalink: /hybrid-classical-llm-pipeline/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../quality-assurance/">Quality Assurance</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../using-the-llm-efficiently/">Using the LLM Efficiently</a>
 </nav>
 
 
@@ -49,6 +49,6 @@ Close kin to [Escalate to the LLM](../escalate-to-the-llm/) and to a model casca
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../llm-content-validation-tracking/">← LLM Content Validation Tracking</a><a class="nav-next" href="../defensive-output-parsing/">Defensive Output Parsing →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../escalate-to-the-llm/">← Escalate to the LLM</a><a class="nav-next" href="../anticipatory-precomputation/">Anticipatory Precomputation →</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHybrid+Classical%2BLLM+Pipeline%5D+&labels=feedback%2Cquality-assurance&body=%2A%2ARe%3A%2A%2A+Hybrid+Classical%2BLLM+Pipeline%0A%2A%2ASection%3A%2A%2A+Quality+Assurance%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fhybrid-classical-llm-pipeline%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHybrid+Classical%2BLLM+Pipeline%5D+&labels=feedback%2Cusing-the-llm-efficiently&body=%2A%2ARe%3A%2A%2A+Hybrid+Classical%2BLLM+Pipeline%0A%2A%2ASection%3A%2A%2A+Using+the+LLM+Efficiently%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fhybrid-classical-llm-pipeline%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

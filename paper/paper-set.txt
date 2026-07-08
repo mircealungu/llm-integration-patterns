@@ -1,0 +1,12 @@
+# Patterns included in the workshop-paper PDF (one slug per line).
+# The site shows all patterns; these get the ★ badge and go in the PDF.
+prompt-amortization
+escalate-to-the-llm
+hybrid-classical-llm-pipeline
+anticipatory-precomputation
+defensive-output-parsing
+llm-checking-llm
+llm-content-validation-tracking
+llm-output-provenance
+soft-invalidation-of-llm-artifacts
+rent-then-build

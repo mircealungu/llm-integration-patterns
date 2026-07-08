@@ -87,11 +87,9 @@ META = {
 MANIFEST = [
     ("intro",    "00 Intro.md", None),
     ("prose",    "00a Case Study - Zeeguu.md", None),
-    ("category", "01 Cost Optimization", "Cost Optimization"),
-    ("category", "02 Latency and Availability", "Latency and Availability"),
-    ("category", "03 Lifecycle Management", "Lifecycle Management"),
-    ("category", "04 Data Management", "Data Management"),
-    ("category", "05 Quality Assurance", "Quality Assurance"),
+    ("category", "01 Using the LLM Efficiently", "Using the LLM Efficiently"),
+    ("category", "02 Trusting LLM Output", "Trusting LLM Output"),
+    ("category", "03 Managing Change Over Time", "Managing Change Over Time"),
     ("prose",    "08 LLM-Specific.md", None),
     ("prose",    "07 Related Work.md", None),
     ("prose",    "11 Limitations and Future Work.md", None),
@@ -214,6 +212,21 @@ def linkify_citations(md, url2key):
     return re.sub(r"(?<!\!)\[([^\]]+)\]\((https?://[^)]+)\)", repl, md)
 
 
+def load_paper_set():
+    """Slugs of the patterns that go in the workshop paper (one per line)."""
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "paper-set.txt")
+    with open(p, encoding="utf-8") as f:
+        return {ln.strip() for ln in f if ln.strip() and not ln.startswith("#")}
+
+
+PAPER_SET = load_paper_set()
+
+
+def pattern_slug(path):
+    name = re.sub(r"\.md$", "", re.sub(r"^\d+\s+", "", os.path.basename(path)))
+    return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+
+
 def assemble():
     parts, acks = [], []
     for kind, rel, title in MANIFEST:
@@ -234,7 +247,8 @@ def assemble():
                 t = re.sub(r"^#\s+.*$", "", process_file(f, acks), count=1,
                            flags=re.M).strip()
                 parts.append(t)
-            for pf in [f for f in files if not os.path.basename(f).startswith("00")]:
+            for pf in [f for f in files if not os.path.basename(f).startswith("00")
+                       and pattern_slug(f) in PAPER_SET]:
                 parts.append(demote(process_file(pf, acks), 1))
     body = "\n\n".join(p.strip() for p in parts) + "\n"
     if acks:

@@ -36,6 +36,20 @@ ALL_PATTERNS_HREF = "../#the-patterns"
 used_labels = set()
 
 
+def _load_paper_set():
+    """Slugs of patterns in the workshop paper; badged with a star on the site."""
+    p = os.path.join(ROOT, "paper", "paper-set.txt")
+    try:
+        with open(p, encoding="utf-8") as f:
+            return {ln.strip() for ln in f if ln.strip() and not ln.startswith("#")}
+    except FileNotFoundError:
+        return set()
+
+
+PAPER_SET = _load_paper_set()
+PAPER_BADGE = " ★"
+
+
 def slug(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
@@ -326,7 +340,9 @@ def main():
         blocks = []
         if cat_intro and cat_intro.strip():
             blocks.append(cat_intro.strip())
-        blocks.append("\n".join(f"- [{name}](../{s}/)" for name, s in pats))
+        blocks.append("\n".join(
+            f"- [{name}](../{s}/){PAPER_BADGE if s in PAPER_SET else ''}"
+            for name, s in pats))
         il = issue_link(ctitle, cat_slug, "this category", section=ctitle,
                         label=section_label(ctitle))
         pending.append((cat_slug, strip_patterns_suffix(ctitle), "All patterns",
@@ -338,12 +354,16 @@ def main():
         lines += ["## Case Studies", ""]
         lines += [f"- [{name}]({cs_slug}/)" for name, cs_slug, _ in case_studies]
         lines.append("")
-    lines += ["## The Patterns", ""]
+    lines += ["## The Patterns", "",
+              "*★ marks the patterns in the [PLoP workshop paper](/paper.pdf); "
+              "the rest are part of the extended catalogue we are growing toward a book.*",
+              ""]
     for ctitle, pats, prose in catalogue:
         if pats:
             # Heading links to the category page (overview lives there now).
             lines.append(f"### [{strip_patterns_suffix(ctitle)}]({section_label(ctitle)}/)")
-            lines += [f"- [{name}]({s}/)" for name, s in pats]
+            lines += [f"- [{name}]({s}/){PAPER_BADGE if s in PAPER_SET else ''}"
+                      for name, s in pats]
             lines.append("")
     extras = [(c, p) for (c, pats, p) in catalogue if not pats]
     if extras:

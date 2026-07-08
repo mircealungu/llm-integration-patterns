@@ -6,7 +6,7 @@ permalink: /soft-invalidation-of-llm-artifacts/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../data-management/">Data Management</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../managing-change-over-time/">Managing Change Over Time</a>
 </nav>
 
 
@@ -57,6 +57,6 @@ Mark stale rows as deprecated rather than mutating or removing them. Gate the ca
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../llm-output-provenance/">← LLM Output Provenance</a><a class="nav-next" href="../llm-checking-llm/">LLM-Checking-LLM →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../llm-output-provenance/">← LLM Output Provenance</a><a class="nav-next" href="../rent-then-build/">Rent, Then Build →</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSoft+Invalidation+of+LLM+Artifacts%5D+&labels=feedback%2Cdata-management&body=%2A%2ARe%3A%2A%2A+Soft+Invalidation+of+LLM+Artifacts%0A%2A%2ASection%3A%2A%2A+Data+Management%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fsoft-invalidation-of-llm-artifacts%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSoft+Invalidation+of+LLM+Artifacts%5D+&labels=feedback%2Cmanaging-change-over-time&body=%2A%2ARe%3A%2A%2A+Soft+Invalidation+of+LLM+Artifacts%0A%2A%2ASection%3A%2A%2A+Managing+Change+Over+Time%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fsoft-invalidation-of-llm-artifacts%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

@@ -44,33 +44,31 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 
 ## The Patterns
 
-### [Cost Optimization](cost-optimization/)
-- [Prompt Amortization](prompt-amortization/)
-- [Escalate to the LLM](escalate-to-the-llm/)
+*★ marks the patterns in the [PLoP workshop paper](/paper.pdf); the rest are part of the extended catalogue we are growing toward a book.*
+
+### [Using the LLM Efficiently](using-the-llm-efficiently/)
+- [Prompt Amortization](prompt-amortization/) ★
+- [Escalate to the LLM](escalate-to-the-llm/) ★
+- [Hybrid Classical+LLM Pipeline](hybrid-classical-llm-pipeline/) ★
+- [Anticipatory Precomputation](anticipatory-precomputation/) ★
 - [Slow-Path Inference](slow-path-inference/)
+- [Hot-Path Result Caching](hot-path-result-caching/)
+- [Multiplexed Dispatch](multiplexed-dispatch/)
+- [Fail-Fast Provider Chain](fail-fast-provider-chain/)
 - [Per-User Consumption Budget](per-user-consumption-budget/)
 
-### [Latency and Availability](latency-and-availability/)
-- [Anticipatory Precomputation](anticipatory-precomputation/)
-- [Hot-Path Result Caching](hot-path-result-caching/)
-- [Fail-Fast Provider Chain](fail-fast-provider-chain/)
-- [Multiplexed Dispatch](multiplexed-dispatch/)
-
-### [Lifecycle Management](lifecycle-management/)
-- [Rent, Then Build](rent-then-build/)
-- [Centralized Model Selection](centralized-model-selection/)
-
-### [Data Management](data-management/)
-- [LLM Output Provenance](llm-output-provenance/)
-- [Soft Invalidation of LLM Artifacts](soft-invalidation-of-llm-artifacts/)
-
-### [Quality Assurance](quality-assurance/)
-- [LLM-Checking-LLM](llm-checking-llm/)
-- [LLM Content Validation Tracking](llm-content-validation-tracking/)
-- [Hybrid Classical+LLM Pipeline](hybrid-classical-llm-pipeline/)
-- [Defensive Output Parsing](defensive-output-parsing/)
+### [Trusting LLM Output](trusting-llm-output/)
+- [Defensive Output Parsing](defensive-output-parsing/) ★
+- [LLM-Checking-LLM](llm-checking-llm/) ★
+- [LLM Content Validation Tracking](llm-content-validation-tracking/) ★
 - [Deterministic Postprocessing](deterministic-postprocessing/)
 - [Targeted User Feedback](targeted-user-feedback/)
+
+### [Managing Change Over Time](managing-change-over-time/)
+- [LLM Output Provenance](llm-output-provenance/) ★
+- [Soft Invalidation of LLM Artifacts](soft-invalidation-of-llm-artifacts/) ★
+- [Rent, Then Build](rent-then-build/) ★
+- [Centralized Model Selection](centralized-model-selection/)
 
 ### [Candidate](candidate/)
 - [Temperature as Task Selector](temperature-as-task-selector/)

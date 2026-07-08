@@ -6,7 +6,7 @@ permalink: /escalate-to-the-llm/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../cost-optimization/">Cost Optimization</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../using-the-llm-efficiently/">Using the LLM Efficiently</a>
 </nav>
 
 
@@ -56,6 +56,6 @@ Use the specialized tool as the primary path and escalate to the LLM only when t
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../prompt-amortization/">← Prompt Amortization</a><a class="nav-next" href="../slow-path-inference/">Slow-Path Inference →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../prompt-amortization/">← Prompt Amortization</a><a class="nav-next" href="../hybrid-classical-llm-pipeline/">Hybrid Classical+LLM Pipeline →</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BEscalate+to+the+LLM%5D+&labels=feedback%2Ccost-optimization&body=%2A%2ARe%3A%2A%2A+Escalate+to+the+LLM%0A%2A%2ASection%3A%2A%2A+Cost+Optimization%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fescalate-to-the-llm%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BEscalate+to+the+LLM%5D+&labels=feedback%2Cusing-the-llm-efficiently&body=%2A%2ARe%3A%2A%2A+Escalate+to+the+LLM%0A%2A%2ASection%3A%2A%2A+Using+the+LLM+Efficiently%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fescalate-to-the-llm%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
