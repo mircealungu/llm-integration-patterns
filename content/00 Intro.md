@@ -3,7 +3,7 @@
 <!-- paper-skip -->
 
 *Status: working draft, Jul 2026*
-*See also: [pdf version](/paper.pdf).*
+*See also: the [PDF version](/paper.pdf), a selection of these patterns submitted to PLoP 2026.*
 
 ### What is this?
 
