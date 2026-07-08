@@ -28,7 +28,7 @@ LLM-generated data that enters persistent storage becomes a long-lived asset, bu
 
 ## Solution
 
-Store the full provenance tuple alongside every LLM-generated artifact: (model version, prompt version, generated output, timestamp). This enables selective regeneration (e.g., *"re-run everything produced by prompt v2 with the improved prompt v3"*) and quality auditing.
+Store the full provenance tuple alongside every LLM-generated artifact: **model version, prompt version, generated output, timestamp**. This enables selective regeneration (e.g., *"re-run everything produced by prompt v2 with the improved prompt v3"*) and quality auditing.
 
 ## Consequences
 
