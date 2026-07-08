@@ -16,7 +16,7 @@ An LLM-generated artifact has been stored and is reused as a cache, and it is al
 
 ## Example
 
-When the prompt that generates [audio lesson](../zeeguu/#audio-lessons) scripts was improved, the ~900 stored `audio_lesson_meaning` rows (each caching one vocabulary item's generated audio) produced under the previous prompt were neither regenerated eagerly nor deleted. Instead, each affected row received a `deprecated_at` timestamp, and the cache-lookup helper (`AudioLessonMeaning.find()`) was gated to skip deprecated rows. New daily lessons request a fresh row and trigger regeneration under the new prompt; existing daily lessons that already reference a deprecated row keep playing their old audio without breaking.
+When the prompt that generates [audio lesson](../zeeguu/#audio-lessons) scripts was improved, the ~900 stored `audio_lesson_meaning` rows (each caching one vocabulary item's generated audio) produced under the previous prompt were neither regenerated eagerly nor deleted: a learner who had already listened to one should not have its content change underneath them. Instead, each affected row received a `deprecated_at` timestamp, and the cache-lookup helper (`AudioLessonMeaning.find()`) was gated to skip deprecated rows. New daily lessons request a fresh row and trigger regeneration under the new prompt; existing daily lessons that already reference a deprecated row keep playing their old audio without breaking.
 
 ## Problem
 
@@ -39,7 +39,7 @@ Mark stale rows as deprecated rather than mutating or removing them. Gate the ca
 
 - **Cost is lazy and history stays intact.** Regeneration is paid only for content requested again, and old references keep resolving to their original artifact, so user-visible history does not break.
 - **Old versions linger until next demand.** A replay hears the old quality until something triggers regeneration, and the deprecation flag has to reach every downstream cache to be effective.
-- **It assumes artifact identity follows the row.** If the stored artifact is keyed by its source (e.g. `meaning_id`) rather than its own row id, a regenerated row overwrites the deprecated one's file (see the note). Pairs with [LLM Output Provenance](../llm-output-provenance/): provenance says which rows are stale, this says what to do once that is known.
+- **It assumes artifact identity follows the row.** If the stored artifact is keyed by its source (e.g. `meaning_id`) rather than its own row id, a regenerated row overwrites the deprecated one's file (see the note).
 
 ## Known Uses
 
