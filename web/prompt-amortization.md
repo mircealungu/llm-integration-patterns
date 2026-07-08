@@ -47,7 +47,7 @@ Sent one item at a time, that fixed preamble is re-paid on every call and domina
 
 ## Solution
 
-The move is `map` for LLM calls: apply one shared, expensive prompt across a batch so its setup is paid once, not once per item. It takes two forms:
+At its core, this is `map` for LLM calls: apply one shared, expensive prompt across a batch so its setup is paid once, not once per item. It takes two forms:
 
 - ***Fan-in* batching** packs many independent inputs into one prompt, spreading a large instructional preamble across the whole batch.
 - ***Fan-out* batching** produces many outputs from a single input, emitting one section per output and collapsing several requests into one.
