@@ -32,6 +32,8 @@ This differs from *Escalate to the LLM* in that all components in the chain are 
 
 *Pair it with a circuit breaker.* Fail-fast falls back per request, but a provider that stays down still costs its full timeout on every call before the chain moves on. A circuit breaker removes that tax: once a provider trips (repeated failures or slow responses), it is skipped for a cooldown and the next provider is called directly, so a sustained outage stops taxing every request. Slack's routing layer does exactly this (see Known Uses).
 
+*Or race instead of chaining.* This chain is sequential: one call, a second only on failure, so it costs 1× but a slow or dead primary adds its timeout to that request. Where the latency tail matters more than cost and the call is cheap or low-volume, dispatch to several providers in parallel and take the first (*Multiplexed Dispatch*): N× the cost, but the tail collapses and failover is immediate.
+
 ## Known Uses
 
 - **[Karrot](https://medium.com/daangn/karrots-genai-platform-5cf6e813838e)** (Korea's largest secondhand marketplace) runs a tiered resilience chain on its GenAI platform: retry, then region failover, then cross-provider fallback: "If Google's `gemini-2.5-flash` is unavailable even across regions, we route to OpenAI's GPT-5."

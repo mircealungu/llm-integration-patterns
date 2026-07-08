@@ -16,10 +16,10 @@ Several models or providers can produce the same result at different and individ
 
 ## Example
 
-Zeeguu races calls on its real-time paths, where a waiting user feels every slow response.
+Zeeguu races calls where the latency tail hurts a waiting user and a second attempt is cheap.
 
-- **On-demand simplification.** When a reader opens an article that has to be simplified right now, the request goes to two models at once; the first response is rendered, and the slower one is kept as an alternative the reader can switch to. Racing collapses the latency tail on the one path where a human is blocked, and it doubles as failover: if one provider is slow or down, the other still answers. The redundant cost is affordable because on-demand simplification is rare next to the crawled batch.
-- **Translation.** Real-time translations are likewise dispatched to several providers in parallel; the first response is used and the rest are surfaced as alternative translations.
+- **"Ask AI" translation.** When the inline Google translation reads poorly and a reader taps **Ask AI**, the request is dispatched to two LLMs at once; the first response is shown, and the slower one is kept as an alternative rendering the reader can switch to. This is the ideal place to race: the call is small, the reader is waiting for this one answer, and it fires only on demand rather than on every word, so a second call costs almost nothing. Racing collapses the latency tail, and doubles as failover when one provider is slow or down.
+- **Inline translation.** The instant, every-word translation is likewise raced across several providers (Google, Azure, DeepL); the first response is used and the rest are surfaced as alternatives. Racing on every word is affordable here because the providers themselves are cheap.
 
 ## Problem
 
@@ -38,7 +38,7 @@ This composes with **live retrieval**: when a user is unsure of a translation an
 ## Consequences
 
 - **Latency tracks the fastest responder, not the average.** Racing collapses the slow tail: worst-case latency becomes the *best* of N providers rather than any one's.
-- **N× the cost for one used result**: every dispatch bills its own tokens. (Zeeguu recoups some of this by keeping the losing responses as alternatives; see the note below.)
+- **N× the cost for one used result**: every dispatch bills its own tokens. That bounds where racing fits: small, low-volume, latency-critical calls. For big or high-volume work, sequential [Fail-Fast Provider Chain](../fail-fast-provider-chain/) is the cheaper choice, one call and a second only on failure. (Zeeguu recoups some of the racing cost by keeping the losing responses as alternatives; see the note below.)
 - **It doubles as failover.** Each racer is a full, independent attempt, so a provider that errors or hangs simply loses the race instead of failing the request: availability comes for free, where [Fail-Fast Provider Chain](../fail-fast-provider-chain/) buys it with an explicit fallback.
 
 ## Note
@@ -51,7 +51,7 @@ In itself this is not LLM-specific. It is the *hedged requests* pattern from dis
 
 - **[Hedged requests](https://cacm.acm.org/research/the-tail-at-scale/)** (Dean & Barroso, "The Tail at Scale," CACM 2013) are the classical ancestor: send a duplicate to another replica after a latency threshold, take the first, cancel the rest, cutting BigTable p99 from 1800ms to 74ms at ~2% extra load.
 - General infrastructure ships it: **[gRPC `hedgingPolicy`](https://grpc.io/docs/guides/request-hedging/)** and **[Polly](https://www.pollydocs.org/strategies/hedging)** (.NET) race concurrent copies and take the first response.
-- *Honest gap / opportunity.* We could not find a major LLM gateway that ships true provider *racing* as a first-class feature; most do sequential fallback (see [Fail-Fast Provider Chain](../fail-fast-provider-chain/)) or learned single-model routing. Zeeguu's parallel dispatch, across translation providers and across two models for on-demand simplification, appears to be an under-adopted transfer of the hedging idea to LLMs.
+- *Honest gap / opportunity.* We could not find a major LLM gateway that ships true provider *racing* as a first-class feature; most do sequential fallback (see [Fail-Fast Provider Chain](../fail-fast-provider-chain/)) or learned single-model routing. Zeeguu's parallel dispatch, across translation providers and across two LLMs for the on-demand "Ask AI" translation, appears to be an under-adopted transfer of the hedging idea to LLMs.
 
 
 
