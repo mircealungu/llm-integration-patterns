@@ -162,6 +162,10 @@ def convert_embeds(text):
             elif p:
                 pipe_cap = p
         caption = (m.group(2) or pipe_cap or "").strip()
+        # Inline links in the caption would nest brackets inside the ![...] alt
+        # text and break pandoc's parse (it mangles and duplicates the caption);
+        # keep the link text, drop the target.
+        caption = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", caption)
         if width:
             w = max(1, round(int(width) * PAPER_FIG_SCALE))
             attr = f"{{ width={w}px }}"
