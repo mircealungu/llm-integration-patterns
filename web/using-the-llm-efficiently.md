@@ -8,7 +8,7 @@ permalink: /using-the-llm-efficiently/
 [← All patterns](../#the-patterns)
 
 
-An LLM call is slow and metered, so a recurring question in any integration is how *not* to make the call, or how to make each one count. The patterns here keep the model's cost and latency off the user's path: paying a large fixed prompt once across a batch rather than once per item, reaching for the LLM only when a cheaper tool falls short, letting a classical stage gate it so it runs only where its judgment is needed, and computing likely-needed results ahead of time so the model never runs while a user waits. The unifying force is that the LLM is the expensive, slow component: the cheapest call is often the one avoided.
+An LLM call is slow and metered, so a recurring question in any integration is how *not* to make the call, or how to make each one count. The patterns here keep the model's cost and latency off the user's path: paying a large fixed prompt once across a batch rather than once per item, reaching for the LLM only when a cheaper tool falls short, letting a classical stage gate it so it runs only where its judgment is needed, and computing likely-needed results ahead of time so the model never runs while a user waits. The unifying force is that the LLM is the expensive, slow component: the cheapest call is the one that is never made.
 
 - [Prompt Amortization](../prompt-amortization/) ★
 - [Escalate to the LLM](../escalate-to-the-llm/) ★

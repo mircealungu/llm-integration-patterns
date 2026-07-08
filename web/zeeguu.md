@@ -26,35 +26,35 @@ A handful of Zeeguu-specific concepts recur across the patterns. They are collec
 
 ### CEFR Levels
 
-The Common European Framework of Reference grades language proficiency on an ordered six-level scale, from A1 (beginner) to C2 (mastery). Zeeguu uses it in two directions: to estimate how hard an article is, and to simplify an article down to the level o.
+The Common European Framework of Reference grades language proficiency on an ordered six-level scale, from A1 (beginner) to C2 (mastery). Zeeguu uses it in two directions: to estimate how hard an article is, and to simplify an article down to the level of a given learner.
 
 ### Article Simplification
 
-When an article is compelling but too hard, Zeeguu rewrites it with an LLM to easier CEFR levels, producing one simplified version per level below the original. It runs both on demand, when a reader opens an article that has not been simplified yet, and ahead of time, over the crawled feed.
+When an article is compelling but too hard, Zeeguu rewrites it with an LLM to easier CEFR levels, producing one simplified version per level below the original. It runs both on demand, when a reader opens an article that has not been simplified yet, and ahead of time, over the crawled feed for some articles deemed likely to appeal to readers.
 
 ### Crawling
 
-Zeeguu builds its article recommendations by crawling news sites and blogs multiple times per day; this steady feed of freshly crawled articles is where most ahead-of-time LLM work happens (CEFR assessment, simplification), off any reader's critical path. On demand, readers push their own content in: a browser extension sends any article to Zeeguu for study, and on mobile the system share sheet sends any web page to be made interactive.
+Zeeguu builds its article recommendations by crawling news sites and blogs multiple times per day; this steady feed of freshly crawled articles is where most ahead-of-time LLM work happens (CEFR assessment, simplification), off any reader's critical path. On demand, readers push their own content in: a browser extension sends any article to Zeeguu for study, and on mobile the system share sheet sends any web page to be made interactive and studied within the application.
 
 ### Multi-Word Expressions
 
-A multi-word expression (MWE) is a group of words whose meaning is not the sum of its parts, for example *break the ice*. Zeeguu detects them so a learner can translate the phrase as a unit rather than word by word. A cheap dependency-parse gate (Stanza) fires first, and an LLM confirms only the flagged sentences.
+A multi-word expression (MWE) is a group of words whose meaning is not the sum of its parts, for example *break the ice*. Zeeguu detects them so a learner can translate the phrase as a unit rather than word by word. A cheap dependency-parse gate ([Stanza](https://arxiv.org/abs/2003.07082)) fires first, and an LLM confirms only the flagged sentences.
 
 ### The Learner Model
 
-Every translation a learner requests is logged, building a model of which words they know and which they struggle with. Each word-in-context is a *meaning*; meanings are classified (by frequency, CEFR level, and phrase type) and drive which exercises and lessons the learner sees.
+Every translation a learner requests is logged, building a model of which words they know and which they struggle with. Each word-in-context is a *meaning*; meanings are classified (by frequency, CEFR level, and phrase type) and drive which exercises and lessons the learner sees. Vocabulary training trains *meanings*, not words. 
 
 ### Translation
 
-While reading, a learner gets an instant contextual translation from Google Translate. If it reads poorly, they can escalate to an LLM through the "Ask AI" action for a more nuanced rendering.
+While reading, a learner gets an instant contextual translation that is generated with the help of multiple parallel translation APIs. If they all agree, the translation is inserted above the word. If they disagree a popup surfaces the disagreement, together with the choice of them to escalate to an LLM through the "Ask AI" action. That is done as one extra, more expensive way of helping the learner that is not confident in which of the translations is the correct one. 
 
 ### Audio Lessons
 
-Zeeguu generates personalized audio lessons: an LLM writes a short script built around the words a learner is studying, and text-to-speech synthesizes the audio. Both steps are slow and costly, so lessons are pre-computed for recently active learners.
+Zeeguu generates personalized audio lessons: an LLM writes a short script built around the words a learner is studying, and text-to-speech synthesizes the audio. Both steps are slow and costly, so lessons are pre-computed for recently active learners. Once a learner choose a topic (european history) or a situation (talking to elderly neighbour on the stairway), a new lesson is generated every day, conditional to the learner having listened to the previous day's lesson. 
 
 ### Vocabulary Exercises
 
-Exercises are built from the words a learner has looked up. They use example sentences drawn from the learner's own reading where possible, and LLM-generated, then LLM-validated, sentences otherwise.
+Exercises are built from the words a learner has looked up. They use example sentences drawn from the learner's own reading where possible, and LLM-generated, then LLM-validated, sentences otherwise. Where possible, because not all contexts in which the learner has encounter words are appropriate for exercises (some context sentences are too long, others don't make sense outside of their own context).
 
 ## Reach
 

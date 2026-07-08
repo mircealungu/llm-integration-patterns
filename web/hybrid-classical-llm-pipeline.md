@@ -16,7 +16,7 @@ A task can be served by a fast, deterministic classical tool (a dependency parse
 
 ## Example
 
-[Multi-word expression](../zeeguu/#multi-word-expressions) (MWE) detection runs Stanza (a classical NLP library) first, as a cheap *high-recall* gate: it catches every possible candidate, tolerating false positives. If Stanza flags no candidate in a sentence, the LLM is never called. When it does flag one, an LLM re-analyzes the whole sentence and makes the *precision* call, rejecting the false positives; its verdict is used even when it overrides Stanza and finds no expression. The LLM therefore runs on only the fraction of sentences that might contain an expression, rather than on every sentence.
+[Multi-word expression](../zeeguu/#multi-word-expressions) (MWE) detection runs [Stanza](https://arxiv.org/abs/2003.07082) (a classical NLP library) first, as a cheap *high-recall* gate: it catches every possible candidate, tolerating false positives. If Stanza flags no candidate in a sentence, the LLM is never called. When it does flag one, an LLM re-analyzes the whole sentence and makes the *precision* call, rejecting the false positives; its verdict is used even when it overrides Stanza and finds no expression. The LLM therefore runs on only the fraction of sentences that might contain an expression, rather than on every sentence.
 
 ## Problem
 
