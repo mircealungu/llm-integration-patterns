@@ -4,3 +4,6 @@
 _site/
 web/_site/
 .jekyll-cache/
+
+# local Claude Code instructions (not for the public repo)
+CLAUDE.md
