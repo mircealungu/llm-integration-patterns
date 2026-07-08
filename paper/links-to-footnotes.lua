@@ -24,9 +24,12 @@ return {
           inlines[#inlines + 1] = il
         end
         -- Emit the URL as raw \url{} (not a pandoc Link) so it is never
-        -- re-processed, and so special characters in the URL are handled.
+        -- re-processed. Escape # and % so \url survives inside a footnote (a
+        -- moving argument): a bare # there is read as a macro parameter and
+        -- crashes hyperref ("Illegal parameter number"), truncating the PDF.
+        local target = link.target:gsub('#', '\\#'):gsub('%%', '\\%%')
         inlines[#inlines + 1] = pandoc.Note(pandoc.Plain({
-          pandoc.RawInline('latex', '\\url{' .. link.target .. '}')
+          pandoc.RawInline('latex', '\\url{' .. target .. '}')
         }))
         return inlines
       end
