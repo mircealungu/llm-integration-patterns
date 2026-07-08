@@ -92,14 +92,13 @@ MANIFEST = [
     ("category", "03 Lifecycle Management", "Lifecycle Management"),
     ("category", "04 Data Management", "Data Management"),
     ("category", "05 Quality Assurance", "Quality Assurance"),
-    ("category", "09 Candidate Patterns", "Candidate Patterns"),
     ("prose",    "08 LLM-Specific.md", None),
     ("prose",    "07 Related Work.md", None),
     ("prose",    "11 Limitations and Future Work.md", None),
     ("prose",    "12 Conclusion.md", None),
 ]
-# NOTE: '10 Possible Paper Contributions.md' is intentionally excluded — it is
-# repo/site meta, not paper content.
+# NOTE: '09 Candidate Patterns' (provisional, site-only) and '10 Possible Paper
+# Contributions.md' (repo/site meta) are intentionally excluded from the paper.
 
 # Unicode symbols that pdf/xelatex + acmart fonts may lack a glyph for; route
 # them through inline math so they always render, regardless of engine/font.
