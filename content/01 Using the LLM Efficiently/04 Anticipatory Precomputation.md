@@ -2,7 +2,7 @@
 
 ## Context
 
-A user-facing feature needs an LLM result, but the model takes seconds while the user expects a response in well under one, and *which* results a given user will need next is predictable from their behaviour.
+A user-facing feature needs an LLM result, but the model takes seconds while the user expects a response immediately. The possible user input is limited and *which* results a given user will need next is predictable from their past behaviour.
 
 ## Example
 
@@ -12,21 +12,27 @@ The vocabulary exercises a learner practices are built from the words they looke
 
 ## Problem
 
-How can an LLM-quality result reach the user's critical path without a wait for the model, when upcoming needs are often predictable?
+How can we exploit user predictability so that LLM-quality results reach the user's critical path without waiting for the model to generate them?
 
 ## Forces
 
-LLMs can provide valuable data for users, but they are slow and expensive, making their invocation impractical when the user needs an answer in real-time. (Real-time users expect answers in 200ms, while depending on the prompt and the deployment configuration, an LLM-based system can take multiple seconds to produce an answer).
+LLMs can provide valuable data for users, but they are slow and expensive, making their invocation impractical when the user needs an answer in real-time. Interactive users expect answers in real time (e.g., within 200ms). Depending on the prompt and the deployment configuration, an LLM can take multiple seconds to produce an answer. 
+
+Precomputing answers based on the expected user input requires to store the LLM output so that the answers can be matched against the actual user input. Both the precomputation and the necessary storage space have a non-negligible cost. Ideally, the answer should be precomputed just before the user needs it so that it can be deleted immediately afterwards.
 
 ## Solution
 
-Anticipate likely user needs and pre-compute LLM results offline (e.g., via cron jobs), so results are available instantly when needed. The system designer should model user behavior in order to predict their LLM needs.
+Anticipate likely user needs and pre-compute LLM results offline (e.g., via cron jobs), so results are available instantly when needed. The system designer should model user behavior in order to predict their LLM needs. If the prediction fails and the result is not ready, the user will need to wait for the LLM to generate it in real time. After they have been consumed by the user, no longer needed results should be removed.
 
 ## Consequences
 
-- **Zero latency at request time.** The LLM's cost and multi-second latency are paid entirely off the hot path; when the user acts, the result is already waiting.
-- **Precomputing pays for guesses that miss.** It spends tokens on results that may never be requested, so the value depends on the accuracy of the behaviour model: a poor predictor wastes spend *and* still misses.
-- **Needs a reliable "what" and "when" signal, plus a fallback.** It applies only where upcoming needs are predictable; cold or mispredicted requests still need an on-demand path. Composes with *Prompt Amortization* (offline results can be batched).
+- **Zero latency at request time.** The LLM's cost and multi-second latency are paid entirely off the hot path; when the user acts, the result is already waiting for them.
+- **Precomputing pays for guesses that miss.** Tokens are spent on results that may never be requested, so the value depends on the accuracy of the behaviour model: a poor predictor wastes spend *and* still misses, wasting the user's time.
+- **Needs a reliable "what" and "when" signal, plus a fallback.** It applies only where upcoming needs are predictable; cold, unexpected or mispredicted requests still need an on-demand path.
+
+## Related Patterns
+
+Composes with *Prompt Amortization*: offline results can be batched.
 
 ## Known Uses
 
