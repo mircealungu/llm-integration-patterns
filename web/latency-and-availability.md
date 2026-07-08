@@ -8,6 +8,8 @@ permalink: /latency-and-availability/
 [← All patterns](../#the-patterns)
 
 
+LLM calls take seconds, and the providers behind them err, rate-limit, and spike without warning, yet users on the critical path expect an answer in well under a second. These patterns keep the slow, unreliable model off that path. [Anticipatory Precomputation](../anticipatory-precomputation/) moves the work earlier, computing likely-needed results offline so they are ready before the user asks. [Hot-Path Result Caching](../hot-path-result-caching/) moves it sideways, serving a repeated result from memory instead of recomputing it. [Multiplexed Dispatch](../multiplexed-dispatch/) races several models or providers and takes the first response, so worst-case latency tracks the fastest rather than the slowest. [Fail-Fast Provider Chain](../fail-fast-provider-chain/) keeps the request alive when a provider dies, falling straight through to the next one instead of spending the latency budget on retries.
+
 - [Anticipatory Precomputation](../anticipatory-precomputation/)
 - [Hot-Path Result Caching](../hot-path-result-caching/)
 - [Fail-Fast Provider Chain](../fail-fast-provider-chain/)

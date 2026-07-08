@@ -8,6 +8,8 @@ permalink: /lifecycle-management/
 [← All patterns](../#the-patterns)
 
 
+An LLM integration is not static: the models behind it are retired and re-priced on the vendor's schedule, and the role the LLM plays in a feature changes as the system matures. These patterns manage that evolution over time. [Rent, Then Build](../rent-then-build/) treats the LLM as a temporary stand-in, shipping a feature on rented general capability now while a cheaper, dedicated replacement is built. [Centralized Model Selection](../centralized-model-selection/) keeps every model identifier in one place, so a vendor retiring a dated snapshot is a one-line change rather than a hunt across the codebase.
+
 - [Rent, Then Build](../rent-then-build/)
 - [Centralized Model Selection](../centralized-model-selection/)
 
