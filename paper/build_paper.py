@@ -54,6 +54,11 @@ META = {
     "city": "Copenhagen",
     "country": "Denmark",
     "email": "mircea.lungu@gmail.com",  # <- swap for institutional address
+    "author2": "Cesare Pautasso",
+    "institution2": "University of Lugano",
+    "city2": "Lugano",
+    "country2": "Switzerland",
+    "email2": "",  # <- Cesare's email (institutional/IEEE)
     "keywords": "large language models, software architecture, design patterns, "
                 "LLM integration, cost, latency, quality assurance",
     "abstract": (
@@ -255,6 +260,7 @@ def tex_escape_meta(s):
 def main_tex():
     m = META
     sub = f"\\subtitle{{{m['subtitle']}}}\n" if m.get("subtitle") else ""
+    email2 = f"\\email{{{m['email2']}}}\n" if m.get("email2") else ""
     return rf"""\documentclass[manuscript,nonacm,screen]{{acmart}}
 \settopmatter{{printacmref=false, printccs=false, printfolios=true}}
 \setcopyright{{none}}
@@ -270,7 +276,12 @@ def main_tex():
   \city{{{m['city']}}}
   \country{{{m['country']}}}}}
 \email{{{m['email']}}}
-\begin{{abstract}}
+\author{{{m['author2']}}}
+\affiliation{{%
+  \institution{{{m['institution2']}}}
+  \city{{{m['city2']}}}
+  \country{{{m['country2']}}}}}
+{email2}\begin{{abstract}}
 {m['abstract']}
 \end{{abstract}}
 \keywords{{{m['keywords']}}}
