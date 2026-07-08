@@ -2,7 +2,7 @@
 
 ## Context
 
-A feature needs to work in production now, but the efficient, dedicated version of it (a fine-tuned or classical model) needs training data or engineering that does not exist yet. A general-purpose LLM can do the task immediately, if expensively.
+A specific feature has not been implemented yet. An LLM exists which can be immediately used to implement the feature for a price which is expensive but still affordable.
 
 ## Example
 
@@ -14,7 +14,12 @@ How can a feature ship and start earning its keep before the cheaper, dedicated 
 
 ## Forces
 
-LLMs are general-purpose machines that can attempt almost any text-based task. Building dedicated, efficient solutions requires upfront investment and training data that may not yet exist.
+- **Generality**. LLMs are general-purpose machines that can attempt almost any text-based task. Specific solutions may provide deterministic results which can be guaranteed to be correct within a concrete domain.
+
+- **Cost**. LLMs are readily available for a pay-per-use fee. Building dedicated, efficient solutions requires upfront investment and training data that may not yet exist.
+
+- **Time to Market**. A feature needs to work in production now, but the efficient, dedicated version of it (a fine-tuned or classical model) needs training data or engineering that does not exist yet. A general-purpose LLM can do the task immediately, if expensively.
+
 
 ## Solution
 
@@ -27,6 +32,7 @@ Use the LLM to perform a task in production while building a more efficient repl
 - **The feature is live from day one.** It gathers real usage and feedback immediately, with the LLM standing in for a component that does not exist yet.
 - **Running the stand-in funds its successor.** The LLM's inputs and outputs accumulate as the labeled data the dedicated replacement needs, so the temporary solution also produces the training set for the permanent one (the bootstrapping variant).
 - **The stand-in is expensive, and "temporary" can stick.** Until the replacement ships, the feature runs at LLM cost and latency, the replacement is a second system to build and validate, and the intended-temporary LLM can quietly become permanent.
+- **User feedback**. The feature is validated by gathering user feedback before making the investment to build and optimize a specific implementation for it.
 
 ## Note
 
