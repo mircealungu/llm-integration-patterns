@@ -38,7 +38,7 @@ Zeeguu builds its article recommendations by crawling news sites and blogs multi
 
 ### Multi-Word Expressions
 
-A multi-word expression (MWE) is a group of words whose meaning is not the sum of its parts, for example *give up*. Zeeguu detects them so a learner can translate the phrase as a unit rather than word by word. A cheap dependency-parse gate (Stanza) fires first, and an LLM confirms only the flagged sentences.
+A multi-word expression (MWE) is a group of words whose meaning is not the sum of its parts, for example *break the ice*. Zeeguu detects them so a learner can translate the phrase as a unit rather than word by word. A cheap dependency-parse gate (Stanza) fires first, and an LLM confirms only the flagged sentences.
 
 ### The Learner Model
 
