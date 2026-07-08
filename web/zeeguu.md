@@ -34,11 +34,11 @@ When an article is compelling but too hard, Zeeguu rewrites it with an LLM to ea
 
 ### Crawling
 
-Zeeguu builds its article library two ways. Automatically, it crawls news sites and blogs on a schedule; this steady feed of freshly crawled articles is where most ahead-of-time LLM work happens (CEFR assessment, simplification), off any reader's critical path. On demand, readers push their own content in: a browser extension sends any article to Zeeguu for study, and on mobile the system share sheet sends any web page to be made interactive.
+Zeeguu builds its article recommendations by crawling news sites and blogs multiple times per day; this steady feed of freshly crawled articles is where most ahead-of-time LLM work happens (CEFR assessment, simplification), off any reader's critical path. On demand, readers push their own content in: a browser extension sends any article to Zeeguu for study, and on mobile the system share sheet sends any web page to be made interactive.
 
 ### Multi-Word Expressions
 
-A multi-word expression (MWE) is a group of words whose meaning is not the sum of its parts, for example *kick the bucket*. Zeeguu detects them so a learner can translate the phrase as a unit rather than word by word. A cheap dependency-parse gate (Stanza) fires first, and an LLM confirms only the flagged sentences.
+A multi-word expression (MWE) is a group of words whose meaning is not the sum of its parts, for example *give up*. Zeeguu detects them so a learner can translate the phrase as a unit rather than word by word. A cheap dependency-parse gate (Stanza) fires first, and an LLM confirms only the flagged sentences.
 
 ### The Learner Model
 
