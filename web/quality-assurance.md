@@ -13,6 +13,7 @@ permalink: /quality-assurance/
 - [Hybrid Classical+LLM Pipeline](../hybrid-classical-llm-pipeline/)
 - [Defensive Output Parsing](../defensive-output-parsing/)
 - [Deterministic Postprocessing](../deterministic-postprocessing/)
+- [Targeted User Feedback](../targeted-user-feedback/)
 
 
 

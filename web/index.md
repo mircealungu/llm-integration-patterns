@@ -69,6 +69,7 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 - [Hybrid Classical+LLM Pipeline](hybrid-classical-llm-pipeline/)
 - [Defensive Output Parsing](defensive-output-parsing/)
 - [Deterministic Postprocessing](deterministic-postprocessing/)
+- [Targeted User Feedback](targeted-user-feedback/)
 
 ### [Candidate](candidate/)
 - [Temperature as Task Selector](temperature-as-task-selector/)
