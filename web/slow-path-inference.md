@@ -12,7 +12,7 @@ permalink: /slow-path-inference/
 
 ## Context
 
-A user-facing app makes many LLM calls, but only some are on a user's critical path, where the model has to respond fast. The rest (pre-computation, batch classification, offline validation) are latency-insensitive. That latitude matters more with LLMs than in classical serving, because a fast model is usually a smaller, less capable one: work no user is waiting on can run more cheaply (a batch endpoint at half price, a cheaper provider, owned hardware) or on a larger, more capable model than the real-time path can afford.
+A user-facing app makes many LLM calls, but only some are on a user's critical path, where the model has to respond fast. The rest (pre-computation, batch classification, offline validation) are latency-insensitive. This pattern is about *latency*, not quality: latency-tolerant work can reach the same quality far more cheaply, because tolerating a slower turnaround unlocks a batch endpoint (the same model at roughly half price), a comparably capable cheaper provider, or owned hardware.
 
 ## Example
 
@@ -34,8 +34,8 @@ How can the premium cost of the real-time model be avoided on the large share of
 ## Forces
 
 - In a user-facing app, a large share of LLM work is *not* on a user's critical path: content pre-computed for later, batch classification, offline validation. Only a fraction is real-time.
-- The real-time path must respond fast, which pins it to a low-latency model, typically a smaller and less capable one. Paying that speed premium, and accepting that capability ceiling, on work no one is waiting on is wasteful.
-- Latency-tolerant work carries no such constraint: it can run more cheaply (a batch endpoint, a cheaper provider, owned hardware) or on a larger, more capable model. Either way it is far cheaper than a premium real-time tier, and never forced below the real-time path's quality.
+- The real-time path must respond fast, which pins it to a low-latency model and its price. Paying that speed premium on work no one is waiting on is wasteful.
+- Latency-tolerant work carries no such constraint: the same quality can be had far more cheaply through a batch endpoint, a comparably capable cheaper provider, or owned hardware.
 - A single model for everything forces a bad compromise: premium cost on all of it, or premium latency and quality on none.
 
 ## Solution
@@ -53,12 +53,13 @@ Realize the slow path with whatever is cheapest for the work, in rough order of 
 
 ## Consequences
 
-Slow-path output is much cheaper and best-effort in timing, so only latency-insensitive work is eligible, and the fast path (or cloud) stays as a deadline-bound fallback (composes with [Fail-Fast Provider Chain](../fail-fast-provider-chain/) and [Escalate to the LLM](../escalate-to-the-llm/)). Freed from the latency budget, the slow path can even run a larger, more capable model than the real-time tier, so it need not be a quality compromise. Results carry a different model identity and should be recorded as such (composes with [LLM Output Provenance](../llm-output-provenance/)); untrusted slow-path output may need validation (composes with [LLM Content Validation Tracking](../llm-content-validation-tracking/)). Which model runs on which path should live in one place (composes with [Centralized Model Selection](../centralized-model-selection/)), so re-tiering a feature is a one-line change.
+Slow-path output is much cheaper and best-effort in timing, so only latency-insensitive work is eligible, and the fast path (or cloud) stays as a deadline-bound fallback (composes with [Fail-Fast Provider Chain](../fail-fast-provider-chain/) and [Escalate to the LLM](../escalate-to-the-llm/)). The slow path targets the same quality as the fast one, only more cheaply, so it is not a quality compromise. Results carry a different model identity and should be recorded as such (composes with [LLM Output Provenance](../llm-output-provenance/)); untrusted slow-path output may need validation (composes with [LLM Content Validation Tracking](../llm-content-validation-tracking/)). Which model runs on which path should live in one place (composes with [Centralized Model Selection](../centralized-model-selection/)), so re-tiering a feature is a one-line change.
 
 ## Notes
 
 - *The owned machine is a pull worker.* It has no public IP and is not on the server's network, so it connects outbound-only: the server enqueues jobs, the machine polls over HTTPS and posts results back. A deployment detail, not an LLM concern.
 - *Route by latency-sensitivity, not by task.* The same task, article simplification, runs on both paths; what selects the path is whether a human is blocked, not what is being computed. That is what separates this pattern from simply using a cheap model for cheap tasks.
+- *The slow path is not the lower-quality tier.* Unlike the classical batch/online split, tolerating latency here costs no quality; it buys the same result more cheaply. If anything the fast path is the constrained one, since the most capable models are the slowest and a real-time budget rules them out: a frontier model cannot answer within 200ms.
 
 ## Known Uses
 
