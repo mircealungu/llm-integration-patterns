@@ -2,7 +2,7 @@
 
 ## Context
 
-An LLM generates content that will be used or stored, and its output is sometimes wrong in ways a targeted check could catch. Verifying a specific property (grammaticality, factual match, difficulty level) is a narrower task than the open-ended generation that produced it.
+An LLM generates content that is sometimes wrong in ways a targeted check could catch. It is possible to specify how to verify compliance of the content against a specific property as a narrower task than the open-ended generation that produced it.
 
 ## Example
 
@@ -14,17 +14,23 @@ How can an unreliable generator's mistakes be caught, when a second generator wo
 
 ## Forces
 
-LLMs are imprecise generators, but verification of specific properties (e.g., grammatical correctness) is a more constrained task than open-ended generation (e.g., [article simplification](../zeeguu/#article-simplification), rewriting a text at a simpler reading level). A second, focused LLM call can catch errors that the first, more complex call introduced.
+LLMs can perform both open-ended generation tasks as well as verification of specific properties (e.g., grammatical correctness, factual match, difficulty level), a more constrained task than open-ended generation (e.g., [article simplification](../zeeguu/#article-simplification), rewriting a text at a simpler reading level). A second, focused LLM call can sometimes catch errors that the first, more complex call introduced. Each LLM call has a cost and adds latency.
+
+The caller of the LLM should not have to be concerned about whether the property is satisfied by the result.
 
 ## Solution
 
-Use one LLM call to generate a result, then use a separate LLM call to check or refine it. This escapes the paradox because verifying one specific property (is it grammatical? does it match the source?) is a narrower task than the open-ended generation that produced the output, so the checker fails less often on that property than the generator did. The verification prompt can be simpler and more focused than the generation prompt.
+Use one LLM call to generate a result, then use a separate LLM call to check or refine it. This escapes the paradox because verifying one specific property (is it grammatical? does it match the source?) is a narrower task than the open-ended generation prompt that produced the output, so the checker fails less often on that property while the generator may have ignored it. The verification prompt should be simpler and more focused than the generation prompt.
 
 ## Consequences
 
 - **A focused check is more reliable than the generation.** Verifying one property is easier than producing the whole output, so the second call catches errors the first introduced, for the price of one extra call.
-- **It narrows the error rate, it does not remove it.** The checker is itself an LLM and can return its own false verdicts, and it adds cost and latency.
-- **It pays off only when checking is genuinely narrower than generating.** A check as open-ended as the generation buys little. The verdict composes with *LLM Content Validation Tracking* (record it) and *Hybrid Classical+LLM Pipeline* (a classical check is cheaper still, where one exists).
+- **It narrows the error rate, it does not remove it.** The checker is itself an LLM and can return its own false verdicts. The caller should not expect full compliance, just like if it was directly calling the LLM to generate the result.
+- **It pays off only when checking is genuinely narrower than generating.** A check as open-ended as the generation buys little.
+
+## Related Patterns
+
+The LLM-checking-LLM verdict composes with *LLM Content Validation Tracking* (record it) and could be replaced by or combined by an inverted *Hybrid Classical+LLM Pipeline* (a classical downstream check is cheaper still, where one exists).
 
 ## Known Uses
 
