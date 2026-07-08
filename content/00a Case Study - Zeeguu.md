@@ -50,7 +50,7 @@ Exercises are built from the words a learner has looked up. They use example sen
 
 ## Reach
 
-Zeeguu currently serves over 300 monthly active users, with peaks exceeding 400 during the academic year[^1].
+Zeeguu currently serves over 300 monthly active users, with peaks exceeding 400 during the academic year[^1]. It is publicly available to try: the web app is at [zeeguu.org](https://zeeguu.org) with the invite code `zeeguu-beta`, and the mobile apps can be downloaded from the iOS and Android app stores.
 
 [^1]: Monthly active users are defined as users with any learning activity (exercises, reading, browsing, audio lessons, or translations) in a given month. Live statistics are available at: https://api.zeeguu.org/stats/monthly_active_users
 
