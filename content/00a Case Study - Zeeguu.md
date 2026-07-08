@@ -1,6 +1,6 @@
 # Case Study: Zeeguu
 
-Zeeguu is an open-source language learning platform built around the idea that learners benefit most from engaging with authentic content in their target language. Rather than relying on artificial textbook exercises, Zeeguu helps users find real articles (news, blog posts, and other web content) tailored to both 1\) their *level* and 2\) their *interests*.
+Zeeguu is an open-source language learning platform built around the idea that learners benefit most from engaging with comprehensive and authentic content in their target language. Rather than relying on artificial textbook texts and exercises, Zeeguu helps users find real articles (news, blog posts, and other web content) tailored to both 1\) their *level* and 2\) their *interests*. Then based on the words they don't understand generates personalized vocabulary exercises and audio lessons. 
 
 The platform recommends articles in the learner's target language based on their proficiency and reading preferences, making it **easy to find material that is both engaging and appropriately challenging**. If a text is personally compelling but too difficult, Zeeguu simplifies it to the learner's level using LLMs. 
 
@@ -18,7 +18,7 @@ A handful of Zeeguu-specific concepts recur across the patterns. They are collec
 
 ### CEFR Levels
 
-The Common European Framework of Reference grades language proficiency on an ordered six-level scale, from A1 (beginner) to C2 (mastery). Zeeguu uses it in two directions: to estimate how hard an article is, and to simplify an article down to every level easier than the original.
+The Common European Framework of Reference grades language proficiency on an ordered six-level scale, from A1 (beginner) to C2 (mastery). Zeeguu uses it in two directions: to estimate how hard an article is, and to simplify an article down to the level o.
 
 ### Article Simplification
 

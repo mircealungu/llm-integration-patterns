@@ -21,14 +21,14 @@ A living catalogue of the recurring patterns that come up when integrating LLMs 
 
 While there is growing literature on building LLM-native products (chatbots, agents, RAG systems) and on using LLMs for code generation, there is surprisingly little guidance on the **software engineering challenges of integrating LLMs as components into existing interactive applications** where real users expect fast, reliable, and trustworthy responses.
 
-We expect this integration to become the common case: over time, more and more existing user-facing applications will adopt LLMs not as standalone chatbots but as components working behind the scenes to improve the user experience.
+We expect this integration to become the common case: over time, more and more existing user-facing applications will adopt LLMs not as standalone chatbots but as components working behind the scenes to improve the user experience. This is why we present a set of patterns that highlight the challenges and opportunities such integrations raise. 
 
-LLMs have a unique combination of properties that create novel architectural forces: 
+Indeed, LLMs have a unique combination of properties that create novel architectural forces: 
 
 - they are expensive (per-token pricing),   
 - slow (high latency),   
-- non-deterministic (same input can yield different outputs, although this can be to a certain degree controlled with the temperature setting),  
-- rapidly evolving  (new models released every few months and old ones regularly deprecated),  
+- non-deterministic (same input can yield different outputs),  
+- rapidly evolving (new models released every few months and old ones regularly deprecated),  
 - imprecise (they make mistakes), and   
 - general-purpose (they can attempt almost any task described as text). 
 
