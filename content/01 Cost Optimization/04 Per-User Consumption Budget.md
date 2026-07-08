@@ -2,7 +2,7 @@
 
 ## Context
 
-Some LLM-backed features are triggered directly by a user's action and bill a shared provider account the instant the user acts. Consumption is therefore driven by user behaviour, unbounded from the system's side, and wildly uneven across users.
+Some LLM-backed features are triggered directly by a user's action and bill a shared provider account the instant the user acts. Consumption is therefore driven by user behaviour, unbounded from the system's side, and can be extremely uneven across users.
 
 ## Example
 
@@ -19,7 +19,7 @@ How can one user, or a buggy client, be stopped from running up the shared bill 
 ## Forces
 
 - On-demand LLM actions cost real money and latency per invocation, and, unlike a pre-computed or cached feature, they are driven by user behaviour, so from the system's side consumption is unbounded.
-- Consumption is wildly uneven across users. A small number of heavy users, an abusive script, or a runaway client can dominate cost and exhaust the shared provider's rate limits, degrading service for everyone.
+- Consumption can be wildly uneven across users. A small number of heavy users, an abusive script, or a runaway client can dominate cost and exhaust the shared provider's rate limits, degrading service for everyone.
 - The bound must be per *user* (the entity the spend is attached to), not global, or one user's overuse silently taxes the rest.
 - Exact cost accounting is precise but comparatively expensive to build (capture token usage, maintain a current price table). Often a coarse proxy (a count, a concurrency cap, a time budget) is far cheaper and adequately bounds the failure that actually matters.
 

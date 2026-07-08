@@ -12,7 +12,7 @@ permalink: /slow-path-inference/
 
 ## Context
 
-A user-facing app makes many LLM calls, but only some are on a user's critical path. The rest (pre-computation, batch classification, offline validation) are latency-insensitive, and cheaper execution paths exist that are slower or lower quality but far less costly.
+A user-facing app makes many LLM calls, but only some are on a user's critical path. The rest (pre-computation, batch classification, offline validation) are latency-insensitive, and some are quality-insensitive as well. Cheaper execution exploits that slack: tolerating delay alone earns a discount (an asynchronous batch endpoint runs the *same* model at roughly half price), and tolerating a weaker result earns more (a cheaper or local model), where the work allows it.
 
 ## Example
 
@@ -35,7 +35,7 @@ How can the premium cost of the real-time model be avoided on the large share of
 
 - In a user-facing app, a large share of LLM work is *not* on a user's critical path: content pre-computed for later, batch classification, offline validation. Only a fraction is real-time.
 - The real-time path must pay for low latency: a fast, often premium model. Paying those same rates for work no one is waiting on is wasteful.
-- Cheaper execution paths (a cheaper model, a provider batch endpoint, owned hardware) are slower and often lower quality. That is acceptable for deferrable work, unacceptable for the real-time path.
+- The slow path is cheap for two independent reasons. Turnaround-tolerance alone buys a batch endpoint: the *same* model at roughly half price, quality unchanged. Getting cheaper than that means a weaker model (a cheaper provider, a local model), which trades quality, so that lever applies only where the work tolerates a lower-quality result. Neither is acceptable on the real-time path.
 - A single model for everything forces a bad compromise: premium cost on all of it, or premium latency and quality on none.
 
 ## Solution
@@ -53,13 +53,13 @@ Realize the slow path with whatever is cheapest for the work, in rough order of 
 
 ## Consequences
 
-Slow-path output is cheaper but lower quality and best-effort in timing, so only latency-insensitive work is eligible, and the fast path (or cloud) stays as a deadline-bound fallback (composes with [Fail-Fast Provider Chain](../fail-fast-provider-chain/) and [Escalate to the LLM](../escalate-to-the-llm/)). Results carry a different model identity and should be recorded as such (composes with [LLM Output Provenance](../llm-output-provenance/)); untrusted slow-path output may need validation (composes with [LLM Content Validation Tracking](../llm-content-validation-tracking/)). Which model runs on which path should live in one place (composes with [Centralized Model Selection](../centralized-model-selection/)), so re-tiering a feature is a one-line change.
+Slow-path output is much cheaper and best-effort in timing, so only latency-insensitive work is eligible, and the fast path (or cloud) stays as a deadline-bound fallback (composes with [Fail-Fast Provider Chain](../fail-fast-provider-chain/) and [Escalate to the LLM](../escalate-to-the-llm/)). A batch endpoint keeps the same quality, but a weaker model does not, so route only quality-tolerant work to it: output that is rejected and recomputed on the fast path costs *more* than never taking the slow path at all. Results carry a different model identity and should be recorded as such (composes with [LLM Output Provenance](../llm-output-provenance/)); untrusted slow-path output may need validation (composes with [LLM Content Validation Tracking](../llm-content-validation-tracking/)). Which model runs on which path should live in one place (composes with [Centralized Model Selection](../centralized-model-selection/)), so re-tiering a feature is a one-line change.
 
 ## Notes
 
 - *The owned machine is a pull worker.* It has no public IP and is not on the server's network, so it connects outbound-only: the server enqueues jobs, the machine polls over HTTPS and posts results back. A deployment detail, not an LLM concern.
 - *Route by latency-sensitivity, not by task.* The same task, article simplification, runs on both paths; what selects the path is whether a human is blocked, not what is being computed. That is what separates this pattern from simply using a cheap model for cheap tasks.
-- *The quality gap is the constraint.* The split only works where the slow path's lower quality is tolerable; where it is not, this degrades into just pre-computing on the fast model.
+- *Only one lever touches quality.* Tolerating delay (a batch endpoint) is a pure cost win at the same quality. A weaker model is cheaper still but trades quality, so that lever needs the work to be quality-insensitive too; where it is not, use the batch endpoint or pre-compute on the fast model.
 
 ## Known Uses
 
