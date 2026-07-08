@@ -312,9 +312,12 @@ def main():
     body_md = os.path.join(OUT, "body.md")
     open(body_md, "w", encoding="utf-8").write(assemble())
 
+    lua_filter = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              "links-to-footnotes.lua")
     r = run(["pandoc", body_md, "-f",
              "markdown+tex_math_dollars+footnotes+pipe_tables",
              "-t", "latex", "--natbib", "--wrap=preserve",
+             "--lua-filter", lua_filter,
              "-o", os.path.join(OUT, "body.tex")])
     if r.returncode:
         sys.exit("pandoc failed")
