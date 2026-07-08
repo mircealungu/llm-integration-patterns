@@ -10,7 +10,7 @@ Many LLM calls share the same shape: a large, fixed instructional prompt (rules,
 
 ## Example
 
-Several Zeeguu jobs have exactly this shape. Rather than pay the preamble once per item, they pack related items into a single call, in one of two directions: **fan-in** (many inputs, one call) or **fan-out** (one input, many outputs):
+Several Zeeguu jobs have exactly this shape. Rather than pay the preamble once per item, they batch (i.e., pack) related items into a single call, in one of two directions: **fan-in** (many inputs, one call) or **fan-out** (one input, many outputs):
 
 - **[Meaning](../zeeguu/#the-learner-model) classification** (*fan-in*) sends ~15 word-meanings per call, sharing one frequency/CEFR-type taxonomy prompt across the whole batch.[^amort-meaning]
 - **Example-sentence validation** (*fan-in*) checks ~20 generated examples per call.[^amort-validate]

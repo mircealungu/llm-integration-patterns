@@ -32,7 +32,7 @@ Zeeguu builds its article recommendations by crawling news sites and blogs multi
 
 A multi-word expression (MWE) is a group of words whose meaning is not the sum of its parts, for example *break the ice*. Zeeguu detects them so a learner can translate the phrase as a unit rather than word by word. A cheap dependency-parse gate ([Stanza](https://arxiv.org/abs/2003.07082)) fires first, and an LLM confirms only the flagged sentences.
 
-### The Learner Model
+### Meanings and The Learner Model {#the-learner-model}
 
 Every translation a learner requests is logged, building a model of which words they know and which they struggle with. Each word-in-context is a *meaning*; meanings are classified (by frequency, CEFR level, and phrase type) and drive which exercises and lessons the learner sees. Vocabulary training trains *meanings*, not words. 
 

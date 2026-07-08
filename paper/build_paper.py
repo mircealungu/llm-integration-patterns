@@ -263,6 +263,11 @@ def assemble():
     # Web links to another page's anchor ([x](../slug/#anchor)) are one document
     # in the PDF, so rewrite them to intra-document anchors ([x](#anchor));
     # pandoc then renders them as internal cross-references, not dead web URLs.
+    # Case-study glossary references render as "term (Section N.N)" with the
+    # section number hyperlinked, instead of hyperlinking the term itself.
+    # PDF-only; the website keeps the plain hyperlink on the term.
+    body = re.sub(r"\[([^\]]+)\]\(\.\./zeeguu/#([a-z0-9-]+)\)",
+                  r"\1 (Section \\ref{\2})", body)
     body = re.sub(r"\]\(\.\./[^)#]*#", "](#", body)
     # Stray trailing whitespace (a 2-space markdown "hard break") on a list item
     # becomes \\ in LaTeX and spaces bullets far apart; strip it line by line.
