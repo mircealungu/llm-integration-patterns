@@ -44,10 +44,6 @@ Anticipate likely user needs and pre-compute LLM results offline (e.g., via cron
 - **[Instacart](https://tech.instacart.com/building-the-intent-engine-how-instacart-is-revamping-query-understanding-with-llms-3ac8051ae7ac)**'s Intent Engine serves high-frequency search queries from a precomputed cache of LLM outputs, leaving only ~2% of queries to a real-time model.
 - **[ColBERT](https://arxiv.org/abs/2004.12832)** (Khattab & Zaharia, SIGIR 2020) precomputes contextualized passage embeddings for the whole corpus offline, so query time runs only cheap late-interaction matching: the canonical "precompute the expensive representation ahead of time."
 
-## Notes
-
-- *Enablers (not instances).* Provider [batch / offline-inference](https://developers.openai.com/api/docs/guides/batch) endpoints are the infrastructure for computing LLM outputs in bulk off the hot path, not a use of the pattern.
-
 
 
 ---

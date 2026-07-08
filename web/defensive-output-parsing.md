@@ -59,6 +59,7 @@ Keep the strictness in code, where it is deterministic and testable, rather than
 
 - Composes with a one-shot retry and with [Fail-Fast Provider Chain](../fail-fast-provider-chain/) (a parse failure can trigger the next provider).
 - Related to [Deterministic Postprocessing](../deterministic-postprocessing/), which repairs a specific, known formatting defect; this pattern is the broader stance of not trusting the structure at all.
+- *Prior art: error-tolerant parsing.* Recovering the expected structure and skipping the surrounding text is the LLM-output analogue of [island grammars](https://doi.org/10.1109/WCRE.2001.957806) and other lenient, error-tolerant parsing long used to pull structure out of irregular input.
 - *Enablers (not instances).* Validation/repair is widely productized, [Instructor](https://python.useinstructor.com/) (Pydantic + auto-retry), [LangChain](https://python.langchain.com/api_reference/langchain/output_parsers/langchain.output_parsers.fix.OutputFixingParser.html) `OutputFixingParser`, and provider [structured-output](https://developers.openai.com/api/docs/guides/structured-outputs) modes (which still require handling truncation and refusals), but a library that *provides* validation is the mechanism, not evidence of an in-app stance.
 
 

@@ -33,7 +33,7 @@ Use the specialized tool as the primary path and escalate to the LLM only when t
 
 - **[FrugalGPT](https://arxiv.org/abs/2305.05176)** (Chen, Zaharia & Zou, 2023) queries cheaper models first and escalates to more capable, expensive ones only when a scorer rejects the cheap answer.
 - **[RouteLLM](https://arxiv.org/abs/2406.18665)** (Ong et al., 2024) trains a router that sends easy queries to a weak/cheap model and escalates only hard ones to the strong model; shipped as an open-source framework.
-- These are the *model-cascade* cousins of the pattern (automatic, confidence-triggered) whereas Zeeguu's trigger is a failure of the cheaper *non-LLM* tool or explicit user dissatisfaction.
+
 
 ## Notes
 
