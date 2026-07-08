@@ -12,9 +12,7 @@ permalink: /
 
 ### What is this?
 
-A living catalogue of recurring patterns I keep running into when building software with and around large language models, the small, reusable shapes of solution that show up again and again across agents, tools, prompts, and evaluation.
-
-It's a working paper: a draft I'm developing in the open and revising as the ideas (and the tools) mature. Feedback and contributions are very welcome, in two forms: an **instance** (a note that a pattern also appears in another system, which strengthens it) or a **case study** (a rich example from a different domain, which earns its own page alongside Zeeguu). Contributors receive named credit on the paper and the site.
+A living catalogue of the recurring patterns that come up when integrating LLMs into real, user-facing software, grounded in the Zeeguu language-learning platform and developed in the open as a working paper. Contributions are welcome: an **instance** (a note that a pattern also appears in another system) or a **case study** (a rich example from a new domain, which earns its own page alongside Zeeguu). Contributors receive named credit.
 
 
 
