@@ -12,7 +12,7 @@ permalink: /fail-fast-provider-chain/
 
 ## Context
 
-A request is served by one of several interchangeable LLM providers, on the user's critical path, and any provider can intermittently error, rate-limit, or spike in latency.
+A request is served by one of several LLM providers on the user's critical path, and any provider can intermittently error, rate-limit, or spike in latency. The providers are interchangeable for this request: a valid answer from any of them is acceptable, even if their quality varies slightly, because availability matters more than which one served.
 
 ## Example
 
@@ -24,7 +24,7 @@ How can the request keep succeeding within its latency budget when a provider fa
 
 ## Forces
 
-LLM providers experience outages, rate limits, and latency spikes. Retry logic increases latency and may still fail. Different providers offer similar capabilities at different price/performance points.
+LLM providers experience outages, rate limits, and latency spikes. Retry logic increases latency and may still fail. Different providers offer similar capabilities at different price/performance points. On this path what matters is a valid answer within the latency budget: quality variation between the providers is tolerable, so whichever one serves the request is fine.
 
 ## Solution
 
@@ -39,6 +39,8 @@ Configure a chain of LLM providers with no retries. On any failure, immediately 
 ## Note
 
 This differs from [Escalate to the LLM](../escalate-to-the-llm/) in that all components in the chain are LLMs offering equivalent capabilities: this is a *fallback* for reliability, not the *escalation* to a more capable (and more expensive) tier.
+
+*Pair it with a circuit breaker.* Fail-fast falls back per request, but a provider that stays down still costs its full timeout on every call before the chain moves on. A circuit breaker removes that tax: once a provider trips (repeated failures or slow responses), it is skipped for a cooldown and the next provider is called directly, so a sustained outage stops taxing every request. Slack's routing layer does exactly this (see Known Uses).
 
 ## Known Uses
 
