@@ -38,8 +38,8 @@ Maintain an explicit, queryable validation state for all LLM-generated content i
 
 ## Known Uses
 
-- **[Argilla](https://docs.argilla.io/latest/how_to_guides/annotate/)** records carry an explicit status lifecycle (pending → draft → submitted, plus validated/discarded), so model suggestions are not trusted until a human validates.
-- **[Label Studio](https://docs.humansignal.com/guide/ground_truths)** tracks a per-task ground-truth flag and review state, distinguishing verified gold data from unreviewed predictions.
+- **[Argilla](https://docs.argilla.io/latest/how_to_guides/annotate/)**, an open-source annotation platform, gives every record an explicit status: a model suggestion starts as *pending*, becomes a *draft* and then *submitted* as someone works on it, and ends up *validated* or *discarded*. A suggestion is never treated as correct until a human has moved it to *validated*.
+- **[Label Studio](https://docs.humansignal.com/guide/ground_truths)**, another annotation tool, flags each item as ground truth or not and records whether it has been reviewed, so human-verified "gold" data stays clearly separate from unreviewed model predictions.
 - **[Snorkel](https://arxiv.org/abs/1711.10160)** (Ratner et al., VLDB 2017) attaches probabilistic confidence to programmatically generated labels rather than treating them as ground truth: a confidence spectrum rather than a discrete state machine.
 - *Note.* These are data-labeling platforms; a documented, in-product *LLM-output* trust-state lifecycle (as opposed to human-annotation state) remains thinly evidenced: one reason we keep this among the less-settled patterns.
 
