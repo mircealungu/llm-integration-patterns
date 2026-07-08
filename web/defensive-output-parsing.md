@@ -50,16 +50,16 @@ Keep the strictness in code, where it is deterministic and testable, rather than
 - The strictness lives in parsing code that is deterministic and testable, rather than in ever-longer prompt instructions.
 - Provider "JSON mode" or function-calling reduces malformed output but does not remove the need to validate the shape before use.
 
-## Notes
-
-- Composes with a one-shot retry and with [Fail-Fast Provider Chain](../fail-fast-provider-chain/) (a parse failure can trigger the next provider).
-- Related to [Deterministic Postprocessing](../deterministic-postprocessing/), which repairs a specific, known formatting defect; this pattern is the broader stance of not trusting the structure at all.
-
 ## Known Uses
 
 - **[G-Research](https://www.gresearch.com/news/building-a-code-review-tool-the-llm-patterns-that-actually-work/)**'s code-review tool treats LLM output as "unverified input": it normalises responses by "removing wrappers before parsing" (some providers return bare JSON, some wrap it in markdown fences), validates every finding against an authoritative rule index (invalid findings are "rejected outright"), detects truncation via the `length` finish reason and retries with a lower cap, and sends structurally-invalid output back to the model for one repair pass.
 - **[Honeycomb](https://www.honeycomb.io/blog/hard-stuff-nobody-talks-about-llm)**'s Query Assistant parses the LLM output, "correct[s] it (if it's correctable)," validates it, and instruments parse vs. validation errors separately before running the query.
-- *Tools that ship this.* Validation/repair is widely productized, [Instructor](https://python.useinstructor.com/) (Pydantic + auto-retry), [LangChain](https://python.langchain.com/api_reference/langchain/output_parsers/langchain.output_parsers.fix.OutputFixingParser.html) `OutputFixingParser`, and provider [structured-output](https://developers.openai.com/api/docs/guides/structured-outputs) modes (which still require handling truncation and refusals), but a library that *provides* validation is the mechanism, not evidence of an in-app stance.
+
+## Notes
+
+- Composes with a one-shot retry and with [Fail-Fast Provider Chain](../fail-fast-provider-chain/) (a parse failure can trigger the next provider).
+- Related to [Deterministic Postprocessing](../deterministic-postprocessing/), which repairs a specific, known formatting defect; this pattern is the broader stance of not trusting the structure at all.
+- *Enablers (not instances).* Validation/repair is widely productized, [Instructor](https://python.useinstructor.com/) (Pydantic + auto-retry), [LangChain](https://python.langchain.com/api_reference/langchain/output_parsers/langchain.output_parsers.fix.OutputFixingParser.html) `OutputFixingParser`, and provider [structured-output](https://developers.openai.com/api/docs/guides/structured-outputs) modes (which still require handling truncation and refusals), but a library that *provides* validation is the mechanism, not evidence of an in-app stance.
 
 Thanks to [Cesare Pautasso](http://www.pautasso.org/) for the discussion that prompted this pattern.
 

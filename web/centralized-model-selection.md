@@ -49,12 +49,6 @@ Keep every model identifier in one central module. Declare the canonical vendor 
 - **The registry only helps if nothing bypasses it.** It adds one layer of indirection, and a single stray hardcoded ID reintroduces the exact failure the pattern prevents, so the discipline has to hold everywhere.
 - **One constant keeps selection and provenance in sync.** Because the same central constant both selects the model and stamps it onto output, the two cannot drift (composes with [LLM Output Provenance](../llm-output-provenance/)); it also names which model each entry of a [Fail-Fast Provider Chain](../fail-fast-provider-chain/) uses.
 
-## Notes
-
-- The mechanism is classical (single source of truth; no magic strings). What makes it an LLM pattern is the *force*: vendor-driven model deprecation turns an innocuous hardcoded string into a scheduled runtime failure. It is the direct defense against the *"old ones regularly deprecated"* property listed among the core LLM forces in the introduction.
-- Prefer **role-based** aliases over vendor-based constants. `WORD_TRANSLATION = HAIKU` reads as intent and lets one re-point a single feature's tier without touching others; a bare `HAIKU = "claude-haiku-…"` re-exported everywhere quietly couples unrelated features to the same choice.
-- *Alternative: AI gateway.* An AI gateway can host the role→model mapping as named aliases in its config, relocating this pattern's registry out of application code. See the broader treatment of what gateways do and do not subsume in *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*.
-
 ## War Story
 
 The same commit that repaired the retirement uncovered a second casualty of the identical disease. Simplified articles were being stamped `ai_model="claude-3-5-sonnet"` while the simplifier had long since moved to Haiku. The provenance field named a model that was no longer even in the pipeline (see [LLM Output Provenance](../llm-output-provenance/)). Same root cause as the retirement: a model identifier duplicated into a place nobody remembers to update, silently going stale. Centralizing selection lets the provenance stamp and the call-time choice read from the same constant, so they cannot disagree.
@@ -62,8 +56,14 @@ The same commit that repaired the retirement uncovered a second casualty of the 
 ## Known Uses
 
 - **[Sourcegraph Cody](https://sourcegraph.com/docs/cody/enterprise/model-configuration)** binds each feature *role* (`chat`, `fastChat`, `codeCompletion`) to a `modelRef` in a central `defaultModels` map, so changing which model powers a feature is a single config edit rather than a call-site change: genuine role-based central selection in a shipped product.
-- *Enablers.* Gateways relocate the role→model map into their config as aliases ([LiteLLM model aliases](https://docs.litellm.ai/docs/completion/model_alias), [Portkey Model Catalog](https://portkey.ai/docs/product/ai-gateway/virtual-keys)): the same mechanism, hosted outside app code.
 - The mechanism is the classic *single source of truth*; what makes it LLM-specific is vendor-driven model deprecation (see this pattern's forces). We did not find a public first-hand account of centralizing model IDs *in response to a deprecation outage*: Zeeguu's is our instance.
+
+## Notes
+
+- The mechanism is classical (single source of truth; no magic strings). What makes it an LLM pattern is the *force*: vendor-driven model deprecation turns an innocuous hardcoded string into a scheduled runtime failure. It is the direct defense against the *"old ones regularly deprecated"* property listed among the core LLM forces in the introduction.
+- Prefer **role-based** aliases over vendor-based constants. `WORD_TRANSLATION = HAIKU` reads as intent and lets one re-point a single feature's tier without touching others; a bare `HAIKU = "claude-haiku-…"` re-exported everywhere quietly couples unrelated features to the same choice.
+- *Alternative: AI gateway.* An AI gateway can host the role→model mapping as named aliases in its config, relocating this pattern's registry out of application code. See the broader treatment of what gateways do and do not subsume in *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*.
+- *Enablers (not instances).* Gateways relocate the role→model map into their config as aliases ([LiteLLM model aliases](https://docs.litellm.ai/docs/completion/model_alias), [Portkey Model Catalog](https://portkey.ai/docs/product/ai-gateway/virtual-keys)): the same mechanism, hosted outside app code.
 
 
 

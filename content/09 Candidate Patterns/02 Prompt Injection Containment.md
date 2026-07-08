@@ -26,12 +26,6 @@ Never let raw untrusted text flow into a consequential prompt as-is. Contain it 
 
 Match containment strength to consequence: the audio pipeline (multi-step, persists artifacts, real cost) earns a dedicated gatekeeper call; a throwaway inline translation leans on scoping and output validation.
 
-## Notes
-
-- Composes with *Defensive Output Parsing*, constraining and validating the *output* is the second half of containment: limit what goes in *and* what can come out. It also composes with *LLM-Checking-LLM*: the gatekeeper is a checker specialized for safety rather than quality.
-- **Honest gap:** the article-context vector is only *partially* contained. Article text is third-party and could carry injection; today's defense there is task-narrowing plus output constraint, not context sanitization. We flag this rather than claim full coverage.
-- **Fail-open vs. fail-closed:** `suggestion_validator` deliberately *fails open*: on LLM error it lets the suggestion through with only basic sanitization, trading safety for availability on a low-stakes feature. A higher-stakes surface should fail *closed*. Making that choice explicit per feature is part of the pattern.
-
 ## Relationship to LLM Gateways
 
 Some gateways offer prompt-injection / content guardrails (Portkey guardrails, LiteLLM hooks, dedicated screens such as Lakera or prompt-shield features) that can run a screening pass at the gateway. But the strongest containment here is not a generic screen: it is *domain canonicalization* (reduce the input to a 2–5 word topic in the user's language) and *task-narrowing*, both of which require the application's knowledge of what a legitimate input looks like. A gateway can add a screening layer; it cannot know that "a valid audio-lesson topic is a 2–5 word phrase" or "a valid translation is 1–3 words." As elsewhere (see *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*): gateway = generic guardrail; pattern = domain-specific reduction and scoping.
@@ -45,3 +39,9 @@ Partly implemented: the audio-lesson suggestion validator is a full instance; tr
 - **[OWASP Top 10 for LLM Applications](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)** (LLM01: Prompt Injection) codifies the threat and lists mitigations matching this pattern's layers: constrain behavior, validate/constrain output, filter input/output, and segregate untrusted content from trusted prompts.
 - **[Simon Willison's Dual-LLM pattern](https://simonwillison.net/2023/Apr/25/dual-llm-pattern/)** handles untrusted text only in a tool-less quarantined LLM while a controller substitutes variable tokens, so raw untrusted content never reaches the privileged LLM, a stronger sibling of our canonicalize-before-use step.
 - **[NVIDIA NeMo Guardrails](https://docs.nvidia.com/nemo/guardrails/latest/getting-started/4-input-rails/README.html)** "input rails" screen user messages for jailbreak/injection before they reach the LLM.
+
+## Notes
+
+- Composes with *Defensive Output Parsing*, constraining and validating the *output* is the second half of containment: limit what goes in *and* what can come out. It also composes with *LLM-Checking-LLM*: the gatekeeper is a checker specialized for safety rather than quality.
+- **Honest gap:** the article-context vector is only *partially* contained. Article text is third-party and could carry injection; today's defense there is task-narrowing plus output constraint, not context sanitization. We flag this rather than claim full coverage.
+- **Fail-open vs. fail-closed:** `suggestion_validator` deliberately *fails open*: on LLM error it lets the suggestion through with only basic sanitization, trading safety for availability on a low-stakes feature. A higher-stakes surface should fail *closed*. Making that choice explicit per feature is part of the pattern.

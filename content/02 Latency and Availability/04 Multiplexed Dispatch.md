@@ -31,14 +31,15 @@ This composes with **live retrieval**: when a user is unsure of a translation an
 - **N× the cost for one used result**: every dispatch bills its own tokens. That bounds where racing fits: small, low-volume, latency-critical calls. For big or high-volume work, sequential *Fail-Fast Provider Chain* is the cheaper choice, one call and a second only on failure. (Zeeguu recoups some of the racing cost by keeping the losing responses as alternatives; see the note below.)
 - **It doubles as failover.** Each racer is a full, independent attempt, so a provider that errors or hangs simply loses the race instead of failing the request: availability comes for free, where *Fail-Fast Provider Chain* buys it with an explicit fallback.
 
-## Note
+## Known Uses
+
+- **[Hedged requests](https://cacm.acm.org/research/the-tail-at-scale/)** (Dean & Barroso, "The Tail at Scale," CACM 2013) are the classical ancestor: send a duplicate to another replica after a latency threshold, take the first, cancel the rest, cutting BigTable p99 from 1800ms to 74ms at ~2% extra load.
+- *Honest gap / opportunity.* We could not find a major LLM gateway that ships true provider *racing* as a first-class feature; most do sequential fallback (see *Fail-Fast Provider Chain*) or learned single-model routing. Zeeguu's parallel dispatch, across translation providers and across two LLMs for the on-demand "Ask AI" translation, appears to be an under-adopted transfer of the hedging idea to LLMs.
+
+## Notes
 
 In itself this is not LLM-specific. It is the *hedged requests* pattern from distributed systems (Dean and Barroso, *The Tail at Scale*, CACM 2013), also known as request racing or tied requests. Two things give it an LLM flavour here.
 1. First, the hedge is across independent, competing vendors (Anthropic, DeepSeek, Google Translate) rather than replicas of a single service. 
 2. Second, each redundant call costs real money per token, so the losing responses are not thrown away: they are kept and surfaced to future readers of the same text as alternative translations, turning the redundant work into a feature.
 
-## Known Uses
-
-- **[Hedged requests](https://cacm.acm.org/research/the-tail-at-scale/)** (Dean & Barroso, "The Tail at Scale," CACM 2013) are the classical ancestor: send a duplicate to another replica after a latency threshold, take the first, cancel the rest, cutting BigTable p99 from 1800ms to 74ms at ~2% extra load.
-- General infrastructure ships it: **[gRPC `hedgingPolicy`](https://grpc.io/docs/guides/request-hedging/)** and **[Polly](https://www.pollydocs.org/strategies/hedging)** (.NET) race concurrent copies and take the first response.
-- *Honest gap / opportunity.* We could not find a major LLM gateway that ships true provider *racing* as a first-class feature; most do sequential fallback (see *Fail-Fast Provider Chain*) or learned single-model routing. Zeeguu's parallel dispatch, across translation providers and across two LLMs for the on-demand "Ask AI" translation, appears to be an under-adopted transfer of the hedging idea to LLMs.
+- *Enablers (not instances).* General infrastructure ships it: **[gRPC `hedgingPolicy`](https://grpc.io/docs/guides/request-hedging/)** and **[Polly](https://www.pollydocs.org/strategies/hedging)** (.NET) race concurrent copies and take the first response.

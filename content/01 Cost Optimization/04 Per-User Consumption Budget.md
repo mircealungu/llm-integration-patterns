@@ -42,12 +42,6 @@ When a budget is exhausted, **degrade rather than fail** where possible: fall ba
 - **The budget is a thing to size and maintain.** It needs a denomination and a window, and the choice trades effort against tightness: a coarse proxy (a count, a concurrency cap) is cheap to build but loose, while per-token cost accounting is precise and the most work.
 - **What happens at the limit is a product decision, not a mechanism.** Degrading to a cheaper non-LLM path keeps the feature friendly (composes with *Escalate to the LLM*); a hard refuse does not. No gateway can make that call.
 
-## Notes
-
-- Choose the coarsest proxy that prevents the failure in question. If the risk is "a script hammers *simplify*," a per-hour count stops it; per-token accounting is not needed.
-- Attribute to the provider that **actually** served the call: a *Fail-Fast Provider Chain* fallback changes which provider is billed and at what rate.
-- The graceful-degradation clause is what keeps this user-friendly rather than punitive: a language learner who exhausts their LLM-translation budget still gets Google Translate, not an error.
-
 ## Relationship to LLM Gateways
 
 Gateways provide per-key / per-user rate limiting and spend caps out of the box (LiteLLM virtual-key budgets and RPM/TPM limits, Portkey, Cloudflare AI Gateway), so both the coarse and the cost-based variants can be *partly* delegated, but only if the application tags each call with a user id (and, for per-feature budgets, with the feature). As with metering generally (see *What Makes These Patterns LLM-Specific? → Relationship to LLM Gateways*), the gateway supplies the **enforcement primitive** (count, throttle, cap); the pattern owns the **policy**: which resource, which window, and crucially *what the user gets when the budget is exhausted* (degrade to Google Translate vs. hard refuse), which is a product decision no gateway can make.
@@ -61,5 +55,11 @@ A crude instance (single active audio generation per user) already ships. The ge
 - **[GitHub Copilot](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests)** gives each user a monthly budget of "premium requests"; when it is exhausted the user is not blocked: "you can still use Copilot with one of the included models for the rest of the month" (subject to rate limiting). A per-user count budget that degrades to a cheaper model tier.
 - **[Canva](https://www.canva.com/help/ai-access/)** caps per-user AI usage by plan; paid users who hit the limit see "short pauses between generations" (a throttle) rather than a hard stop.
 - **Cursor** (historical, pre-2025) gave each user 500 "fast requests"/month, then degraded to a slower unprioritized queue rather than blocking.
-- *Enablers.* Gateways offer per-user budgets as a primitive ([LiteLLM](https://docs.litellm.ai/docs/proxy/users), [Portkey](https://portkey.ai/docs/product/administration/enforce-budget-and-rate-limit), [Helicone](https://docs.helicone.ai/features/advanced-usage/custom-rate-limits)): the enforcement mechanism, not the *policy* of what the user gets when exhausted.
 - *Observed.* Public examples degrade to a cheaper model tier or a slower queue; degrading to a genuinely non-LLM path (as Zeeguu does with Google Translate) appears rarer in the wild.
+
+## Notes
+
+- Choose the coarsest proxy that prevents the failure in question. If the risk is "a script hammers *simplify*," a per-hour count stops it; per-token accounting is not needed.
+- Attribute to the provider that **actually** served the call: a *Fail-Fast Provider Chain* fallback changes which provider is billed and at what rate.
+- The graceful-degradation clause is what keeps this user-friendly rather than punitive: a language learner who exhausts their LLM-translation budget still gets Google Translate, not an error.
+- *Enablers (not instances).* Gateways offer per-user budgets as a primitive ([LiteLLM](https://docs.litellm.ai/docs/proxy/users), [Portkey](https://portkey.ai/docs/product/administration/enforce-budget-and-rate-limit), [Helicone](https://docs.helicone.ai/features/advanced-usage/custom-rate-limits)): the enforcement mechanism, not the *policy* of what the user gets when exhausted.
