@@ -9,7 +9,7 @@ A feature can be produced two ways: a cheap, fast specialized tool (a translatio
 In Zeeguu, translation APIs (from Google, Azure, and DeepL) serve as the primary translation engines. When a user indicates the translation is inadequate (by choosing *Ask AI* from the alternatives menu), the system escalates to an LLM for a more nuanced, context-aware translation. This keeps costs low and speed high in the common case while providing higher, LLM-quality results when needed. 
 
 ![[escalate-to-the-llm.png|220]]
-*In Zeeguu, the inline Google translation is the primary path; when the user wants a better rendering they escalate to an LLM on demand via the "[Ask AI](../zeeguu/#translation)" option.*
+*In Zeeguu, the inline [translation](../zeeguu/#translation) is the primary path; when the user wants a better rendering they escalate to an LLM on demand via the "[Ask AI](../zeeguu/#translation)" option.*
 
 ## Problem
 
