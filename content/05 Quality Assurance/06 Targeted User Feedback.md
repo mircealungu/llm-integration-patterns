@@ -41,10 +41,6 @@ Route each report into the quality machinery: record it against the artifact (co
 - Collecting user feedback is itself well-known; the facet worth stating is *granularity*: match the anchor to the content (position for continuous, per-item for discrete).
 - Explicit reports are the active end of the spectrum whose passive end *LLM Content Validation Tracking* already captures (a user who practiced a word without complaint). Together they run from silent acceptance to active correction.
 
-## Status
-
-Zeeguu's error-reporting affordances are part of its intended design, described here in their target form; they are rolling out rather than already fully shipped.
-
 ## Known Uses
 
 - Generic thumbs-up / thumbs-down feedback on LLM output is ubiquitous (ChatGPT, GitHub Copilot, and most assistant UIs collect it). The facet this pattern adds, and that is far less common, is feedback **anchored to a position or item** and wired to **regeneration** of the flagged artifact rather than to offline model training.

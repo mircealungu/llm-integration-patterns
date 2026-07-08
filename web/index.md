@@ -54,6 +54,7 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 - [Anticipatory Precomputation](anticipatory-precomputation/)
 - [Hot-Path Result Caching](hot-path-result-caching/)
 - [Fail-Fast Provider Chain](fail-fast-provider-chain/)
+- [Multiplexed Dispatch](multiplexed-dispatch/)
 
 ### [Lifecycle Management](lifecycle-management/)
 - [Rent, Then Build](rent-then-build/)
@@ -74,7 +75,6 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.u
 ### [Candidate](candidate/)
 - [Temperature as Task Selector](temperature-as-task-selector/)
 - [Prompt Injection Containment](prompt-injection-containment/)
-- [Multiplexed Dispatch](multiplexed-dispatch/)
 
 ## More
 

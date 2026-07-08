@@ -11,6 +11,7 @@ permalink: /latency-and-availability/
 - [Anticipatory Precomputation](../anticipatory-precomputation/)
 - [Hot-Path Result Caching](../hot-path-result-caching/)
 - [Fail-Fast Provider Chain](../fail-fast-provider-chain/)
+- [Multiplexed Dispatch](../multiplexed-dispatch/)
 
 
 

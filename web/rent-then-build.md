@@ -51,6 +51,6 @@ This pattern has a lifecycle relationship with [Escalate to the LLM](../escalate
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../fail-fast-provider-chain/">← Fail-Fast Provider Chain</a><a class="nav-next" href="../centralized-model-selection/">Centralized Model Selection →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../multiplexed-dispatch/">← Multiplexed Dispatch</a><a class="nav-next" href="../centralized-model-selection/">Centralized Model Selection →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BRent%2C+Then+Build%5D+&labels=feedback%2Clifecycle-management&body=%2A%2ARe%3A%2A%2A+Rent%2C+Then+Build%0A%2A%2ASection%3A%2A%2A+Lifecycle+Management%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Frent-then-build%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
