@@ -26,11 +26,13 @@ How can an LLM-quality result reach the user's critical path without a wait for 
 
 ## Forces
 
-LLMs can provide valuable data for users, but they are slow and expensive, making their invocation impractical when the user needs an answer in real-time. (Real-time users expect answers in 200ms, while depending on the prompt and the deployment configuration, an LLM-based system can take multiple seconds to produce an answer).
+- **Latency.** Real-time users expect an answer in about 200ms, but an LLM can take several seconds depending on the prompt and deployment, so it cannot run on the request path. *(pushes toward precomputing)*
+- **Wasted spend on misses.** Precomputing spends tokens on results that may never be requested, so a poor predictor pays for nothing and still misses. *(pushes toward precomputing only high-probability needs)*
+- **Predictability.** The pattern is available only where upcoming needs can be forecast from behaviour; the better the behaviour model, the more of the work can move off the request path.
 
 ## Solution
 
-Anticipate likely user needs and pre-compute LLM results offline (e.g., via cron jobs), so results are available instantly when needed. The system designer should model user behavior in order to predict their LLM needs.
+Anticipate likely user needs and pre-compute LLM results offline (e.g., via cron jobs), so results are available instantly when needed. The system designer should model user behavior in order to predict their LLM needs. Keep an on-demand path for cold or mispredicted requests, so a miss degrades to a normal wait rather than a failure.
 
 ## Consequences
 
@@ -42,7 +44,7 @@ Anticipate likely user needs and pre-compute LLM results offline (e.g., via cron
 
 - **[Yelp](https://engineeringblog.yelp.com/2025/02/search-query-understanding-with-LLMs.html)** pre-computes LLM query-understanding responses for high-frequency ("head") search queries into a key/value store, "caching (pre-computing) high-end LLM responses for only head queries", reaching 95% of traffic for review-highlight expansions, so the expensive model never runs on the hot path.
 - **[Instacart](https://tech.instacart.com/building-the-intent-engine-how-instacart-is-revamping-query-understanding-with-llms-3ac8051ae7ac)**'s Intent Engine serves high-frequency search queries from a precomputed cache of LLM outputs, leaving only ~2% of queries to a real-time model.
-- **[ColBERT](https://arxiv.org/abs/2004.12832)** (Khattab & Zaharia, SIGIR 2020) precomputes contextualized passage embeddings for the whole corpus offline, so query time runs only cheap late-interaction matching: the canonical "precompute the expensive representation ahead of time."
+- **[ColBERT](https://arxiv.org/abs/2004.12832)** (Khattab & Zaharia, SIGIR 2020) precomputes contextualized passage embeddings for the whole corpus offline, so query time runs only cheap late-interaction matching: the canonical "precompute the expensive representation ahead of time" (the pattern's shape applied to retrieval rather than generation).
 
 
 
