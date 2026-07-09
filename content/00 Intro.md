@@ -22,9 +22,9 @@ Indeed, LLMs have a unique combination of properties:
 
 - **expensive**: billed per token, with a large fixed prompt re-paid on every call;   
 - **slow**: responses take seconds, not the milliseconds an interactive interface expects;   
-- **non-deterministic**: the same input can return a different, or malformed, answer;  
+- **non-deterministic**: the same input can return a different answer;  
 - **rapidly evolving**: models are released and retired on the vendor's schedule, every few months;  
-- **imprecise**: they make mistakes, and a confident wrong answer is indistinguishable from a right one; and   
+- **imprecise**: they make mistakes, from a malformed response to a confident but wrong answer; and   
 - **general-purpose**: they can attempt almost any task expressed in text. 
 
 Integrating a component with these properties into a live, user-facing system is what creates the architectural forces these patterns resolve: the tension between what the model is (slow, costly, non-deterministic) and what users and the surrounding code expect (fast, affordable, well-formed).
