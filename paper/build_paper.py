@@ -10,9 +10,10 @@ This script adds only a thin, paper-only layer on top:
                     includes a few extra meta pages this omits).
   - metadata      : ACM title block (title, author, abstract, keywords) — lives
                     here, never in the shared Markdown body.
-  - callouts      : `> [!draft]` blocks are stripped; `> [!ack]` blocks are
-                    hoisted into an Acknowledgments section; other callouts are
-                    unwrapped to plain text.
+  - callouts      : `> [!draft]` blocks are stripped; other callouts are
+                    unwrapped to plain text. (Acknowledgments are an ordinary
+                    `13 Acknowledgments.md` prose section in the MANIFEST, not a
+                    hoisted callout.)
   - `<!-- paper-skip -->…<!-- /paper-skip -->` regions are dropped (website-only
     framing such as the "What is this?" intro).
   - Obsidian `![[img|width]]` embeds -> pandoc figures.
@@ -95,6 +96,7 @@ MANIFEST = [
     ("prose",    "07 Related Work.md", None),
     ("prose",    "11 Limitations and Future Work.md", None),
     ("prose",    "12 Conclusion.md", None),
+    ("prose",    "13 Acknowledgments.md", None),
 ]
 # NOTE: '09 Candidate Patterns' (provisional, site-only) and '10 Possible Paper
 # Contributions.md' (repo/site meta) are intentionally excluded from the paper.
@@ -126,8 +128,8 @@ def strip_paper_skip(text):
                   "", text, flags=re.S)
 
 
-def process_callouts(text, acks):
-    """Drop [!draft] callouts, hoist [!ack] into `acks`, unwrap the rest."""
+def process_callouts(text):
+    """Drop [!draft] callouts; unwrap every other callout to plain text."""
     lines = text.split("\n")
     out, i = [], 0
     while i < len(lines):
@@ -142,10 +144,7 @@ def process_callouts(text, acks):
             body = [re.sub(r"^>\s?", "", b) for b in block[1:]]
             if ctype == "draft":
                 continue                       # stripped everywhere
-            if ctype == "ack":
-                acks.append("\n".join(body).strip())
-                continue
-            out.extend(body)                   # unknown callout -> plain text
+            out.extend(body)                   # any other callout -> plain text
             continue
         out.append(lines[i])
         i += 1
@@ -190,10 +189,10 @@ def demote(md, by):
     return "\n".join(out)
 
 
-def process_file(path, acks):
+def process_file(path):
     text = open(path, encoding="utf-8").read()
     text = strip_paper_skip(text)
-    text = process_callouts(text, acks)
+    text = process_callouts(text)
     text = convert_embeds(text)
     return text.strip()
 
@@ -238,16 +237,16 @@ def pattern_slug(path):
 
 
 def assemble():
-    parts, acks = [], []
+    parts = []
     for kind, rel, title in MANIFEST:
         full = os.path.join(SRC, rel)
         if kind == "intro":
-            t = process_file(full, acks)
+            t = process_file(full)
             t = re.sub(r"^#\s+.*$", "", t, count=1, flags=re.M)   # drop H1 title
             t = t.replace("### The Idea", "# Introduction")
             parts.append(t.strip())
         elif kind == "prose":
-            parts.append(process_file(full, acks))
+            parts.append(process_file(full))
         elif kind == "category":
             files = sorted(glob.glob(os.path.join(full, "*.md")))
             # Emit the theme heading as raw LaTeX so it can be set apart from the
@@ -262,16 +261,14 @@ def assemble():
             # A `00 …`-prefixed file is the section overview, not a pattern: keep
             # its body at section level (drop its H1); everything else is a pattern.
             for f in [f for f in files if os.path.basename(f).startswith("00")]:
-                t = re.sub(r"^#\s+.*$", "", process_file(f, acks), count=1,
+                t = re.sub(r"^#\s+.*$", "", process_file(f), count=1,
                            flags=re.M).strip()
                 parts.append(t)
             for pf in [f for f in files if not os.path.basename(f).startswith("00")
                        and pattern_slug(f) in PAPER_SET]:
                 parts.append(PATTERN_LEADING_SPACE + "\n\n"
-                             + demote(process_file(pf, acks), 1))
+                             + demote(process_file(pf), 1))
     body = "\n\n".join(p.strip() for p in parts) + "\n"
-    if acks:
-        body += "\n\n# Acknowledgments\n\n" + "\n\n".join(acks) + "\n"
     body = linkify_citations(body, load_bib_urls(BIB))
     for sym, rep in SYMBOL_MATH.items():
         body = body.replace(sym, rep)

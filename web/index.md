@@ -25,18 +25,18 @@ We expect this integration to become the common case: over time, more and more e
 
 Indeed, LLMs have a unique combination of properties: 
 
-- they are expensive (per-token pricing),   
-- slow (high latency),   
-- non-deterministic (same input can yield different outputs),  
-- rapidly evolving (new models released every few months and old ones regularly deprecated),  
-- imprecise (they make mistakes), and   
-- general-purpose (they can attempt almost any task described as text). 
+- **expensive**: billed per token, with a large fixed prompt re-paid on every call;   
+- **slow**: responses take seconds, not the milliseconds an interactive interface expects;   
+- **non-deterministic**: the same input can return a different, or malformed, answer;  
+- **rapidly evolving**: models are released and retired on the vendor's schedule, every few months;  
+- **imprecise**: they make mistakes, even on inputs they usually get right; and   
+- **general-purpose**: they can attempt almost any task expressed in text. 
 
 Integrating a component with these properties into a live, user-facing system is what creates the architectural forces these patterns resolve: the tension between what the model is (slow, costly, non-deterministic) and what users and the surrounding code expect (fast, affordable, well-formed).
 
 Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.org), an open-source platform for personalized language learning that helps users learn foreign languages by enabling them to read authentic online content (real articles, not textbook exercises). Through this work, we have identified a set of architectural patterns for LLM integration, several of them corroborated by documented use in other systems. Because these forces arise from the LLM's own properties and the generic demands of a live application, not from anything specific to language learning, we expect them, and the patterns that resolve them, to recur wherever LLMs are integrated into user-facing systems.
 
-Each pattern that follows is presented in the same format: context, example, problem, forces, solution, consequences, known uses, and notes.
+The remainder of the paper is organised as follows. Section 2 introduces Zeeguu, the platform that grounds every example. The catalogue then follows in three themes, using the LLM efficiently (Section 3), trusting its output (Section 4), and managing change over time (Section 5), each pattern given in the same format: context, example, problem, forces, solution, consequences, known uses, notes. Section 6 asks what makes these patterns specific to LLMs, and the paper closes with related work, limitations, and conclusions.
 
 ## Case Studies
 
@@ -80,6 +80,7 @@ Each pattern that follows is presented in the same format: context, example, pro
 - [What Makes These Patterns LLM-Specific?](what-makes-these-patterns-llm-specific/)
 - [Limitations and Future Work](limitations-and-future-work/)
 - [Conclusion](conclusion/)
+- [Acknowledgments](acknowledgments/)
 
 
 
