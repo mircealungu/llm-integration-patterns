@@ -51,12 +51,11 @@ Both combine naturally with *Anticipatory Precomputation* (computing likely-need
 
 - *The fan-in direction is prior art.* Packing many independent inputs under one shared prompt is the published **[batch prompting](https://arxiv.org/abs/2301.08721)** technique (Cheng, Kasai & Yu, EMNLP 2023), which cuts token and time cost roughly inverse-linearly with batch size. This pattern's contribution is to add the *fan-out* direction and to frame both as a single move: amortizing one fixed preamble.
 - The *fan-out* direction maps directly to structured-output calls that emit several keyed results at once, and to the OpenAI/Anthropic multi-output `n` parameter (which requests several completions per call).
-- *Distinguish from provider batch APIs.* The [OpenAI Batch API](https://developers.openai.com/api/docs/guides/batch) and [Anthropic Message Batches](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing) give ~50% off large asynchronous jobs, but each request still carries and pays for its own full prompt; they amortize scheduling and rate-limit overhead, *not* the in-prompt instructional overhead this pattern targets.
 
 ## Notes
 
 - **Both directions are the same `map`, over a different axis.** Fan-in maps the prompt over inputs, e.g. `map(validate, examples)`. Fan-out maps over outputs for a fixed input, e.g. `map(level → simplify(article, level), levels)`. Either way the shared prompt is the function whose fixed setup the batch pays for once.
-- *Prompt caching is a partial substitute.* Some providers (e.g. DeepSeek) cache a repeated prompt prefix and discount it. That amortizes the preamble's *cost*, but not its *latency* or the per-call overhead of many round-trips, so batching still earns its keep even where the provider caches prompts.
+- **Two adjacent provider mechanisms are not this pattern.** *Provider batch APIs* ([OpenAI Batch](https://developers.openai.com/api/docs/guides/batch), [Anthropic Message Batches](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing)) give ~50% off large asynchronous jobs, but each request still carries and pays for its own full preamble; they amortize scheduling and rate-limit overhead, *not* the in-prompt instructional overhead this pattern targets. *Prompt caching* (e.g. DeepSeek) instead caches a repeated prompt prefix and discounts it, which *does* amortize the preamble's cost, but not its latency or the per-call overhead of many round-trips. Batching still earns its keep alongside either.
 
 > [!draft]- Notes after the focus group
 > - drain pattern?

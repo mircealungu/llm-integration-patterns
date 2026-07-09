@@ -40,7 +40,7 @@ Run the cheap classical tool first, as a high-recall gate: invoke the LLM only w
 
 ## Known Uses
 
-- *Documented in the literature and in production search.* **[RankGPT](https://arxiv.org/abs/2304.09542)** (Sun et al., EMNLP 2023) uses BM25 (a classical keyword-ranking function) to retrieve ~100 candidates, then an LLM for listwise reranking: a classical high-recall generator with an LLM precision filter. The same *retrieve-then-rerank* shape, a high-recall first-stage search followed by a neural precision reranker, is standard in production search.
+*Documented in the literature and in production search.* **[RankGPT](https://arxiv.org/abs/2304.09542)** (Sun et al., EMNLP 2023) uses BM25 (a classical keyword-ranking function) to retrieve ~100 candidates, then an LLM for listwise reranking: a classical high-recall generator with an LLM precision filter. The same *retrieve-then-rerank* shape, a high-recall first-stage search followed by a neural precision reranker, is standard in production search.
 
 ## Notes
 
