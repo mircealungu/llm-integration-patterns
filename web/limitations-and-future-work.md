@@ -16,7 +16,9 @@ A further direction is to treat the catalogue as the seed of a *pattern language
 
 These choices are not made once. A system's pattern mix is actively revised as it scales and the provider landscape shifts: Zeeguu began by making single LLM calls and only recently added parallel, raced ones, and may later drop that approach or fold it together with per-user budgeting as usage grows. A longitudinal account of how and why a system's chosen patterns change over time would deepen the lifecycle dimension that this single-snapshot catalogue can only sketch.
 
-Finally, we expect the catalogue to be incomplete: further patterns will likely surface only through engagement with practitioners working at different scales, in different domains, and with different LLM providers.
+Finally, we expect the catalogue to be incomplete[^catalogue]: further patterns will likely surface only through engagement with practitioners working at different scales, in different domains, and with different LLM providers.
+
+[^catalogue]: The patterns in this paper are a selection from a larger, evolving catalogue maintained online at https://mircealungu.github.io/llm-integration-patterns/
 
 
 Some proto-patterns already in progress are collected under *Candidate Patterns*.
