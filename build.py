@@ -356,7 +356,7 @@ def main():
         lines.append("")
     lines += ["## The Patterns", "",
               "*★ marks the patterns in the [PLoP workshop paper](/paper.pdf); "
-              "the rest are part of the extended catalogue we are growing toward a book.*",
+              "the rest are part of the extended online catalogue.*",
               ""]
     for ctitle, pats, prose in catalogue:
         if pats:
