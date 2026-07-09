@@ -25,6 +25,7 @@ When the generator improves, how can stored artifacts be refreshed without eithe
 ## Forces
 
 When a prompt or model improves, the obvious responses each have a serious drawback:
+
 - *Regenerate everything eagerly*: expensive, floods generation queues if affected rows number in the thousands, and pays for content that may never be re-requested.
 - *Delete the stale rows*: breaks any downstream object that references them by id (history, analytics, user-visible past sessions).
 - *Leave the stale rows in place and accept future reuse*: silently propagates the old, known-suboptimal quality.
@@ -33,7 +34,7 @@ None of these are good defaults for production systems where LLM-generated artif
 
 ## Solution
 
-Mark stale rows as deprecated rather than mutating or removing them. Gate the cache-lookup / reuse path to skip deprecated rows, forcing fresh generation on next demand. Existing references to a deprecated row remain valid (the row keeps its content for historical playback), but no new consumer picks it up. Regeneration cost is paid lazily, amortized over normal access patterns, and only for content that is actually requested again.
+Mark stale rows as deprecated rather than mutating or removing them. Gate the cache-lookup / reuse path to skip deprecated rows, forcing fresh generation on next demand. Existing references to a deprecated row remain valid (the row keeps its content for historical playback), but no new consumer picks it up. For this to preserve history, key each stored artifact by its own row id, not by the source it describes, so a regenerated row produces a new file rather than overwriting the deprecated one (see the note). Regeneration cost is paid lazily, amortized over normal access patterns, and only for content that is actually requested again.
 
 ## Consequences
 
