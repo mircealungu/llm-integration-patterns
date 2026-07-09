@@ -42,7 +42,7 @@ A multi-word expression (MWE) is a group of words whose meaning is not the sum o
 
 ### Meanings and The Learner Model {#the-learner-model}
 
-A *meaning* is a single word together with the context it was seen in. Every translation a learner requests is logged as a meaning, building a model of which words they know and which they struggle with. Meanings are classified (by frequency, CEFR level, and phrase type: single word, collocation, idiom, or expression) and drive which exercises and lessons the learner sees. Vocabulary training trains *meanings*, not words. 
+A *meaning* is a word paired with one particular translation of it. A meaning is linked to the original context in which it was seen, but can also be associated with other example sentences in which the word carries that same translation. Every translation a learner requests is logged as a meaning, building a model of which meanings they know and which they struggle with, since one word can have several meanings. Meanings are classified (by frequency, CEFR level, and phrase type: single word, collocation, idiom, or expression) and drive which exercises and lessons the learner sees. Vocabulary training trains *meanings*, not words. 
 
 ### Translation
 
