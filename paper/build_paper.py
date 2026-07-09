@@ -73,12 +73,12 @@ META = {
         "rely on the system. We present a catalogue of recurring architectural "
         "patterns that address these concerns, grounded in over a year of LLM "
         "integration work on Zeeguu, an open-source language-learning platform "
-        "with several hundred monthly active users. The catalogue spans five "
-        "concerns --- cost optimization, latency and availability, lifecycle "
-        "management, data management, and quality assurance --- and is "
-        "described using the standard pattern format. The patterns are "
-        "presented as a starting point for community refinement and extension, "
-        "not as a closed taxonomy."
+        "with several hundred monthly active users. The patterns are grouped "
+        "into three themes (using the LLM efficiently, trusting its output, "
+        "and managing change over time) and described in the standard context, "
+        "forces, solution, and consequences format. They are presented as a "
+        "starting point for community refinement and extension, not as a "
+        "closed taxonomy."
     ),
 }
 

@@ -19,7 +19,7 @@ A living catalogue of the recurring patterns that come up when integrating LLMs 
 
 ### The Idea
 
-While there is growing literature on building LLM-native products (chatbots, agents, RAG systems) and on using LLMs for code generation, there is surprisingly little guidance on the **software engineering challenges of integrating LLMs as components into existing interactive applications** where real users expect fast, reliable, and trustworthy responses.
+While there is growing literature on building LLM-native products such as chatbots, agents, and retrieval-augmented generation (RAG) pipelines, and on using LLMs for code generation, there is surprisingly little guidance on the **software engineering challenges of integrating LLMs as components into existing interactive applications** where real users expect fast, reliable, and trustworthy responses.
 
 We expect this integration to become the common case: over time, more and more existing user-facing applications will adopt LLMs not as standalone chatbots but as components working behind the scenes to improve the user experience. This is why we present a set of patterns that highlight the challenges and opportunities such integrations raise. 
 
@@ -32,9 +32,9 @@ Indeed, LLMs have a unique combination of properties that create novel architect
 - imprecise (they make mistakes), and   
 - general-purpose (they can attempt almost any task described as text). 
 
-These properties demand specific engineering strategies.
+These properties demand specific engineering strategies, and they recur as the forces each pattern must balance.
 
-Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.unibe.ch/), an open-source platform for personalized language learning that helps users learn foreign languages by reading authentic online content. Through this work, we have identified a set of recurring architectural patterns for LLM integration. We believe these patterns are general and applicable beyond our specific domain.
+Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.unibe.ch/), an open-source platform for personalized language learning that helps users learn foreign languages by reading authentic online content (real articles, not textbook exercises). Through this work, we have identified a set of recurring architectural patterns for LLM integration. Because these forces are properties of the LLM itself rather than of language learning, we expect the patterns to generalise beyond our specific domain.
 
 ## Case Studies
 
