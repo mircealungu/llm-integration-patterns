@@ -1,12 +1,13 @@
 # What Makes These Patterns LLM-Specific?
 
-Some of these patterns echo general distributed systems wisdom (batching, fallback, redundant dispatch). What makes them distinctly relevant to LLM integration is the specific combination of forces:
+Some of these patterns echo general distributed systems wisdom: batching (in *Prompt Amortization*), fallback (in *Escalate to the LLM*), redundant dispatch (in the parallel translation providers). What makes them distinctly relevant to LLM integration is that each draws on forces that are properties of the LLM rather than of any domain:
 
-* **Cost structure**: per-token pricing with high fixed prompt overhead, unlike flat-rate API calls  
-* **Non-determinism**: same input can yield different outputs, necessitating verification chains  
-* **Asymmetry between generation and verification**: checking is easier than producing  
-* **General-purpose capability**: the same component can serve as prototype, primary, or fallback  
-* **Quality–cost–latency tradeoff space**: uniquely wide compared to traditional APIs
+* **Cost structure**: per-token pricing with high fixed prompt overhead, unlike flat-rate API calls (drives *Prompt Amortization*, *Escalate to the LLM*, *Anticipatory Precomputation*).
+* **Non-determinism**: the same input can yield a different, or malformed, output, so correctness must be enforced around the model (drives *Defensive Output Parsing*, *LLM-Checking-LLM*, *LLM Content Validation Tracking*).
+* **Asymmetry between generation and verification**: checking one property is easier than producing the whole output (drives *LLM-Checking-LLM*).
+* **General-purpose capability**: the same component can serve as prototype, primary, or fallback (drives *Rent, Then Build* and *Escalate to the LLM*).
+* **A rapidly evolving, vendor-controlled substrate**: models and prompts improve and are deprecated on the vendor's schedule, underneath long-lived data (drives *LLM Output Provenance* and *Soft Invalidation of LLM Artifacts*).
+* **Quality-cost-latency tradeoff space**: uniquely wide compared to traditional APIs, and what the efficiency patterns navigate.
 
 <!-- paper-skip -->
 
