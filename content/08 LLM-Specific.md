@@ -1,6 +1,6 @@
 # What Makes These Patterns LLM-Specific?
 
-Some of these patterns echo general distributed systems wisdom: batching (as in *Prompt Amortization*), fallback (as in *Escalate to the LLM*), and the redundant dispatch of Zeeguu's parallel translation providers (not catalogued here as a pattern of its own). What makes them distinctly relevant to LLM integration is that each draws on the forces named in the Introduction, in the combinations that make them architecturally distinctive:
+Some of these patterns echo general distributed systems wisdom: batching (as in *Prompt Amortization*), fallback (as in *Escalate to the LLM*), and the redundant dispatch of Zeeguu's parallel translation providers (not catalogued here as a pattern of its own). What makes them distinctly relevant to LLM integration is the combination of forces that arise when an LLM's properties meet the demands of a live system:
 
 * **Cost structure**: per-token pricing with high fixed prompt overhead, unlike flat-rate API calls (drives *Prompt Amortization*, *Escalate to the LLM*, *Anticipatory Precomputation*).
 * **Non-determinism**: the same input can yield a different, or malformed, output, so correctness must be enforced around the model (drives *Defensive Output Parsing*, *LLM-Checking-LLM*, *LLM Content Validation Tracking*).
