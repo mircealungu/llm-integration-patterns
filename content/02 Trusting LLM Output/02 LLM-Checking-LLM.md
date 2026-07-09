@@ -14,7 +14,7 @@ How can an unreliable generator's mistakes be caught, when a second generator wo
 
 ## Forces
 
-- **Verification is narrower than generation.** Checking one property (is it grammatical? does it use the intended meaning?) has a small answer space and a clear criterion, so a focused checker is more reliable on that property than the open-ended generation was. *(pushes toward adding a check)*
+- **Verification is narrower than generation.** Checking one property (is it grammatical? does it use the intended meaning?) has a small answer space and a clear criterion, so a focused checker is more reliable on that property than the open-ended generation was: the *generation-discrimination gap* measured by [Saunders et al.](https://arxiv.org/abs/2206.05802). *(pushes toward adding a check)*
 - **The checker is itself an LLM.** It can return its own false verdicts, and it costs a full extra call in tokens and latency. *(pushes toward checking only where the asymmetry is large, or where a classical check exists)*
 - **The mistakes must be checkable in isolation.** The pattern helps only for errors a targeted, differently-prompted call can catch, not for failures that need the whole generation redone.
 
@@ -38,6 +38,7 @@ Use one LLM call to generate a result, then a separate, differently-prompted LLM
 
 - Where *Defensive Output Parsing* guards that the output is well-*formed*, this guards that a well-formed output is *correct*.
 - Distinct from ensemble methods and chain-of-thought: an ensemble averages several generations and chain-of-thought elaborates one, whereas this pattern spends the second call on the cheaper *verification* task instead of more generation.
+- *Why the asymmetry holds, and where it stops.* Spending a call on verification rather than generation echoes the intuition behind NP: confirming a candidate can be far easier than producing one. The gain is empirical here, not guaranteed, and it depends on the check being a narrow, differently-prompted property. It does not extend to open-ended *intrinsic self-correction*, a model revising its own reasoning with no new signal, which shows no such gain and can even degrade accuracy (as [Huang et al.](https://arxiv.org/abs/2310.01798) and [Stechly et al.](https://arxiv.org/abs/2402.08115) find). That is why the check here asks a *different* question through a *separate* call, rather than asking the generator to reconsider.
 - *This check may be transient.* It exists because today's models are imprecise enough to need an external verifier. As models improve, or as reliable self-verification moves inside the model itself, the need for a separate checking call may shrink: the pattern answers the current generation's reliability, not a permanent architectural truth.
 
 > [!draft]- Notes after the focus group
