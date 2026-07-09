@@ -35,13 +35,13 @@ Run the cheap classical tool first, as a high-recall gate: invoke the LLM only w
 ## Consequences
 
 - **The LLM runs only where it is needed.** It fires on the fraction of inputs the classical gate flags, so the common case costs nothing extra while the LLM still makes the precision call.
-- **Two systems must be built and kept in sync.** That is real added complexity, usually justified by the saving from skipping the LLM on the common case.
+- **Two components instead of one.** The classical gate and the LLM stage are each built, tuned, and maintained separately, and the hand-off between them (what the gate flags, what the LLM is asked) has to stay correct as either evolves. That added complexity is usually justified by the saving from skipping the LLM on the common case.
 - **The gate must have high recall.** A candidate the classical stage misses never reaches the LLM, so the recall of the cheap stage caps the recall, and thus the overall quality, of the whole pipeline.
 
 ## Known Uses
 
 - **[RankGPT](https://arxiv.org/abs/2304.09542)** (Sun et al., EMNLP 2023) uses BM25 (a classical keyword-ranking function) to retrieve ~100 candidates, then an LLM for listwise reranking: a classical high-recall generator with an LLM precision filter.
-- The same *retrieve-then-rerank* shape, a high-recall first-stage search followed by a neural precision reranker, is standard in production search.
+- The same *retrieve-then-rerank* shape, a high-recall first-stage search followed by a neural precision reranker ([Nogueira and Cho](https://arxiv.org/abs/1901.04085)), is the standard two-stage architecture behind modern production search.
 
 ## Notes
 

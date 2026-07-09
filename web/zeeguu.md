@@ -8,11 +8,11 @@ permalink: /zeeguu/
 [← Home](../)
 
 
-Zeeguu is an open-source language learning platform built around the idea that learners benefit most from engaging with [comprehensible](https://sdkrashen.com/content/books/principles_and_practice.pdf) and authentic content in their target language. Rather than relying on artificial textbook texts and exercises, Zeeguu helps users find real articles (news, blog posts, and other web content) tailored to both 1\) their *level* and 2\) their *interests*. Then, based on the words they don't understand, it generates personalized vocabulary exercises and audio lessons. 
+Zeeguu is an open-source language learning platform built around the idea that learners benefit most from engaging with [comprehensible](https://sdkrashen.com/content/books/principles_and_practice.pdf) and [authentic](https://doi.org/10.1017/S0261444807004144) content in their target language. Rather than relying on artificial textbook texts and exercises, Zeeguu helps users find real articles (news, blog posts, and other web content) tailored to both 1\) their *level* and 2\) their *interests*. Then, based on the words they don't understand, it generates personalized vocabulary exercises and audio lessons. 
 
 The platform recommends articles in the learner's target language based on their proficiency and reading preferences, making it **easy to find material that is both engaging and appropriately challenging**. If a text is personally compelling but too difficult, Zeeguu simplifies it to the learner's level using LLMs. 
 
-When users encounter unfamiliar words or phrases while reading, they can get contextual translations on the fly from several translation providers, so the reading experience remains fluid and uninterrupted. One alternative, available on demand, comes from a state-of-the-art LLM offering a more contextually nuanced option (the "Ask AI" escalation described below). 
+When users encounter unfamiliar words or phrases while reading, they can get contextual translations on the fly from several translation providers, so the reading experience remains fluid and uninterrupted. One alternative, available on demand, comes from a state-of-the-art LLM offering a more contextually nuanced option (the "Ask an AI" escalation described below). 
 
 Every translation a user requests is logged by the system, which over time builds a **detailed model of the learner's vocabulary knowledge**, tracking which words they know, which ones they struggle with, and how well they've retained previously encountered vocabulary.
 
@@ -48,7 +48,7 @@ A *meaning* is a word paired with one particular translation of it. A meaning is
 
 ### Translation
 
-While reading, a learner gets an instant contextual translation that is generated with the help of multiple parallel translation APIs. If they all agree, the translation is inserted above the word. If they disagree, a popup surfaces the disagreement along with the option to escalate to an LLM through the "Ask AI" action. This is one extra, more expensive step, offered for the cases where it is unclear which of the translations is correct. 
+While reading, a learner gets an instant contextual translation that is generated with the help of multiple parallel translation APIs. If they all agree, the translation is inserted above the word. If they disagree, a popup surfaces the disagreement along with the option to escalate to an LLM through the "Ask an AI" action. This is one extra, more expensive step, offered for the cases where it is unclear which of the translations is correct. 
 
 ### Audio Lessons
 
