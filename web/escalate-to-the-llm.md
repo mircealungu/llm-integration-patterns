@@ -29,7 +29,7 @@ LLM quality is only worth its cost on the minority of requests the cheap tool ha
 
 ## Forces
 
-- **Quality on the hard cases.** Specialized tools (translation APIs, NLP pipelines, classical classifiers) are faster, cheaper, and more deterministic than an LLM for well-defined tasks, but on a minority of inputs they fail or fall short, and there only the LLM does well. *(pushes toward escalating)*
+- **Quality on the hard cases.** Specialized tools (translation APIs, NLP pipelines, classical classifiers) are faster, cheaper, and more deterministic than an LLM for well-defined tasks, but on a minority of inputs they fail or fall short, and there the LLM tends to do better. *(pushes toward escalating)*
 - **Cost, latency, and usability.** Each escalation adds the LLM's cost and, because it runs after the cheap path, doubles the wait for that request; when the trigger is a user signal, it also costs UI surface and puts the routing burden on the user. *(pushes toward escalating rarely, and automatically where possible)*
 - **The hard cases cannot be told apart up front.** The system cannot know which inputs the cheap tool will handle poorly before running it, so escalation must fire on an observable signal: the tool erroring, or the user rejecting the result.
 

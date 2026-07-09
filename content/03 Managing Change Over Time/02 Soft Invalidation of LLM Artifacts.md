@@ -30,18 +30,18 @@ Mark stale rows as deprecated rather than mutating or removing them. Gate the ca
 
 - **Cost is lazy and history stays intact.** Regeneration is paid only for content requested again, and old references keep resolving to their original artifact, so user-visible history does not break.
 - **Old versions linger until next demand.** A replay hears the old quality until something triggers regeneration, and the deprecation flag has to reach every downstream cache to be effective.
-- **It assumes artifact identity follows the row.** If the stored artifact is keyed by its source (e.g. `meaning_id`) rather than its own row id, a regenerated row overwrites the deprecated one's file (see the note).
+
 
 ## Known Uses
 
 - **[`stale-while-revalidate`](https://datatracker.ietf.org/doc/html/rfc5861)** (IETF RFC 5861) is the same mechanic in HTTP caching: keep a stale entry usable and revalidate it lazily on next demand rather than eagerly regenerating.
 - The **[soft-delete / tombstone](https://brandur.org/soft-deletion)** database idiom marks a row with a timestamp and gates every read (`WHERE deleted_at IS NULL`), so the row stays intact for existing references but drops out of the active path: structurally identical to a `deprecated_at` gate.
-- *Analogues, not exact instances.* Both capture the mechanism, but we did not find a documented LLM system that combines mark-deprecated + gate-reuse + **keep-old-rows-resolvable-for-user-history** + lazy regeneration; the history-preservation facet appears novel, so we present it as our own contribution, grounded in Zeeguu.
+
+Note that both the above are *analogues and not exact instances.* Both capture the mechanism, but we did not find a documented LLM system that combines mark-deprecated + gate-reuse + **keep-old-rows-resolvable-for-user-history** + lazy regeneration; the history-preservation facet appears novel, so we present it as our own contribution, grounded in Zeeguu.
 
 ## Notes
 
 - **The mechanism is soft-delete; the trigger is what makes it LLM-specific.** A soft-delete retires a record someone chose to remove. Here nothing is deleted and nothing is wrong: the row is retired from reuse only because the prompt or model that produced it improved, so its once-good output is now merely suboptimal. Unlike a cached database row, a stored LLM artifact goes stale on its own as its generator gets better. In Zeeguu the trigger was a prompt rewrite, the common case, since prompts change more often than models.
 - This pattern is forward-only: it gates *reuse*, not *playback*. A user replaying an old lesson hears the old (lower-quality) version. That is usually preferable to a silent content swap mid-history.
-- Works best when content has a clear "next access triggers regeneration" entry point. If consumers cache aggressively further downstream, the deprecation flag has to propagate to those layers too.
 - Composes naturally with *LLM Output Provenance*: provenance answers "which rows are stale?", soft invalidation answers "what do I do with them once I know?".
-- **Name the stored file after the row, not after what it describes.** The history guarantee needs each regeneration to produce a *new* file rather than overwrite the old one. In Zeeguu this broke at first: each lesson's audio was stored under its `meaning_id` (the vocabulary item the lesson teaches), which stays the same when the lesson is regenerated. So regenerating a deprecated lesson wrote the new audio to the same path and silently replaced the recording that old daily lessons still played. The fix was to key each file by the row's own id (`audio_lesson_meaning.id`), so every generation gets its own file and the deprecated one survives for playback. Small, but load-bearing enough that it may deserve to be a pattern of its own (working title: *artifact identity = row identity*).
+- **Name the stored file after the row, not after what it describes.** The history guarantee needs each regeneration to produce a *new* file rather than overwrite the old one. In Zeeguu this broke at first: each lesson's audio was stored under its `meaning_id` (the vocabulary item the lesson teaches), which stays the same when the lesson is regenerated. So regenerating a deprecated lesson wrote the new audio to the same path and silently replaced the recording that old daily lessons still played. The fix was to key each file by the row's own id (`audio_lesson_meaning.id`), so every generation gets its own file and the deprecated one survives for playback. 

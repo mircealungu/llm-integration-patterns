@@ -66,7 +66,7 @@ Both combine naturally with [Anticipatory Precomputation](../anticipatory-precom
 
 ## Notes
 
-- **Both directions are the same `map`, over a different axis.** Fan-in maps the prompt over inputs, e.g. `map(validate, examples)`. Fan-out maps over outputs for a fixed input, e.g. `map(level → simplify(article, level), levels)`. Either way the shared prompt is the function whose fixed setup the batch pays for once.
+- **Both directions can be conceptualized as the functional programming concept `map`, over a different axis.** Fan-in maps the prompt over inputs, e.g. `map(validate, examples)`. Fan-out maps over outputs for a fixed input, e.g. `map(level -> simplify(article, level), levels)`. Either way the shared prompt is the function whose fixed setup the batch pays for once.
 - **Two adjacent provider mechanisms are not this pattern.** *Provider batch APIs* ([OpenAI Batch](https://developers.openai.com/api/docs/guides/batch), [Anthropic Message Batches](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing)) give ~50% off large asynchronous jobs, but each request still carries and pays for its own full preamble; they amortize scheduling and rate-limit overhead, *not* the in-prompt instructional overhead this pattern targets. *Prompt caching* (e.g. DeepSeek) instead caches a repeated prompt prefix and discounts it, which *does* amortize the preamble's cost, but not its latency or the per-call overhead of many round-trips. Batching still earns its keep alongside either.
 
 
