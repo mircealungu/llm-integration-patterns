@@ -38,7 +38,8 @@ Route each report into the quality machinery: record it against the artifact (co
 
 ## Known Uses
 
-Generic thumbs-up / thumbs-down feedback on LLM output is ubiquitous (ChatGPT, GitHub Copilot, and most assistant UIs collect it). The facet this pattern adds, and that is far less common, is feedback **anchored to a position or item** and wired to **regeneration** of the flagged artifact rather than to offline model training.
+- Generic thumbs-up / thumbs-down feedback on LLM output is ubiquitous: **ChatGPT**, **GitHub Copilot**, and most assistant UIs collect it.
+- The facet this pattern adds, and that is far less common, is feedback **anchored to a position or item** and wired to **regeneration** of the flagged artifact rather than to offline model training.
 
 ## Notes
 

@@ -45,7 +45,7 @@ Use the specialized tool as the primary path and escalate to the LLM only when t
 
 ## Known Uses
 
-*The documented systems use the confidence-trigger variant.* **[FrugalGPT](https://arxiv.org/abs/2305.05176)** (Chen, Zaharia & Zou, 2023) escalates when a scorer rejects the cheap answer, and **[RouteLLM](https://arxiv.org/abs/2406.18665)** (Ong et al., 2024) trains a confidence router that sends only the hard queries to the strong model. Both fire on an *internal* signal, the model cascade discussed in the Notes below. Zeeguu is our instance of the *external*-signal trigger instead: the tool erroring, or the user rejecting the result.
+**[FrugalGPT](https://arxiv.org/abs/2305.05176)** (Chen, Zaharia & Zou, 2023) escalates when a scorer rejects the cheap answer, and **[RouteLLM](https://arxiv.org/abs/2406.18665)** (Ong et al., 2024) trains a confidence router that sends only the hard queries to the strong model. Both decide automatically from the model's own confidence, the *model cascade* variant of escalation discussed in the Notes below. The *external*-signal trigger this pattern centers on (the primary tool erroring, or the user rejecting the result) is less documented; Zeeguu is our instance of it.
 
 
 ## Notes

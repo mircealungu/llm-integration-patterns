@@ -47,7 +47,7 @@ Slow-path output is much cheaper and best-effort in timing, so only latency-inse
 
 ## Known Uses
 
-This pattern is the LLM specialization of the long-standing **batch vs. online inference** split in production ML serving: an offline, high-throughput, latency-tolerant tier running alongside a real-time serving tier. That split is the established instance-class; what is specific here is tiering the *same* task across cheaper and premium *LLM* endpoints by whether a user is waiting.
+- This pattern is the LLM specialization of the long-standing **batch vs. online inference** split in production ML serving: an offline, high-throughput, latency-tolerant tier running alongside a real-time serving tier. That split is the established instance-class; what is specific here is tiering the *same* task across cheaper and premium *LLM* endpoints by whether a user is waiting.
 
 - **[Apple Intelligence + Private Cloud Compute](https://security.apple.com/blog/private-cloud-compute/)** is a shipped tiered-inference system (an on-device model for immediate requests, a heavier model on fallback), though it tiers by *capability* rather than latency-tolerance, and inverts the economics (local is the fast path).
 - We did not find a documented LLM application that names this same-task, latency-tiered split: Zeeguu is our instance, and the batch/online ML practice its lineage.
