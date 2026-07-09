@@ -6,7 +6,7 @@ A living catalogue of recurring patterns for integrating LLMs **as components in
 
 It is a working paper, developed in the open and revised as the ideas (and the tools) mature. **Feedback and contributions are very welcome.**
 
-📖 **Read it:** https://patterns.mircealungu.com/
+📖 **Read it:** https://llm-patterns.mircealungu.com/
 
 ## Structure
 
@@ -32,4 +32,4 @@ Each pattern follows the standard format: **Example → Forces → Solution → 
 
 ## Editing workflow (maintainer)
 
-Source lives in an Obsidian vault (including this README). `sync.sh` rsyncs the vault into `_src/`, copies the README to the repo root, runs `build.py`, commits, and pushes. The site is served by GitHub Pages (cayman theme) at `patterns.mircealungu.com`.
+Source lives in an Obsidian vault (including this README). `sync.sh` rsyncs the vault into `_src/`, copies the README to the repo root, runs `build.py`, commits, and pushes. The site is served by GitHub Pages (cayman theme) at `llm-patterns.mircealungu.com`.

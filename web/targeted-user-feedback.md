@@ -61,4 +61,4 @@ Route each report into the quality machinery: record it against the artifact (co
 ---
 <div class="pattern-footer-nav"><a class="nav-prev" href="../deterministic-postprocessing/">← Deterministic Postprocessing</a><a class="nav-next" href="../llm-output-provenance/">LLM Output Provenance →</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BTargeted+User+Feedback%5D+&labels=feedback%2Ctrusting-llm-output&body=%2A%2ARe%3A%2A%2A+Targeted+User+Feedback%0A%2A%2ASection%3A%2A%2A+Trusting+LLM+Output%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Ftargeted-user-feedback%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BTargeted+User+Feedback%5D+&labels=feedback%2Ctrusting-llm-output&body=%2A%2ARe%3A%2A%2A+Targeted+User+Feedback%0A%2A%2ASection%3A%2A%2A+Trusting+LLM+Output%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Ftargeted-user-feedback%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

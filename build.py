@@ -12,7 +12,7 @@ builds web/ via .github/workflows/pages.yml.
 
 Every page carries a pre-filled "Open an issue" link (labels + title + body).
 Links between pages are RELATIVE, so the site works both at
-mircealungu.github.io/llm-integration-patterns/ and at patterns.mircealungu.com/.
+mircealungu.github.io/llm-integration-patterns/ and at llm-patterns.mircealungu.com/.
 """
 import glob
 import html
@@ -24,7 +24,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(ROOT, "content")   # chapter sources (mirror of the vault)
 OUT = os.path.join(ROOT, "web")       # Jekyll site root; generated pages go here
 REPO = "mircealungu/llm-integration-patterns"
-SITE = "https://patterns.mircealungu.com"
+SITE = "https://llm-patterns.mircealungu.com"
 TITLE = ("Architectural Patterns for Integrating LLMs "
          "into User-Facing Applications")
 SUBTITLE = "Lessons from a language-learning platform"

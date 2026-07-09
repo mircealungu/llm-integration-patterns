@@ -30,4 +30,4 @@ The recurring shape across all of these is that the gateway supplies a *mechanis
 ---
 [← All patterns](../#the-patterns)
 
-[💬 Open an issue about this section](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BWhat+Makes+These+Patterns+LLM-Specific%3F%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+What+Makes+These+Patterns+LLM-Specific%3F%0A%2A%2ASection%3A%2A%2A+What+Makes+These+Patterns+LLM-Specific%3F%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fpatterns.mircealungu.com%2Fwhat-makes-these-patterns-llm-specific%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this section](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BWhat+Makes+These+Patterns+LLM-Specific%3F%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+What+Makes+These+Patterns+LLM-Specific%3F%0A%2A%2ASection%3A%2A%2A+What+Makes+These+Patterns+LLM-Specific%3F%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fwhat-makes-these-patterns-llm-specific%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
