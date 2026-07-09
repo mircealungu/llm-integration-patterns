@@ -106,6 +106,11 @@ MANIFEST = [
 # width the Obsidian embed asks for (web/vault sizes are unaffected).
 PAPER_FIG_SCALE = 0.5
 
+# Vertical breathing room before each pattern subsection in the PDF, so patterns
+# read as distinct units and the pages are less dense. Emitted as a pandoc raw
+# LaTeX block (PDF-only; the website is built separately and is unaffected).
+PATTERN_LEADING_SPACE = "```{=latex}\n\\vspace{1cm}\n```"
+
 SYMBOL_MATH = {
     "→": r"$\rightarrow$",   # →
     "←": r"$\leftarrow$",    # ←
@@ -254,7 +259,8 @@ def assemble():
                 parts.append(t)
             for pf in [f for f in files if not os.path.basename(f).startswith("00")
                        and pattern_slug(f) in PAPER_SET]:
-                parts.append(demote(process_file(pf, acks), 1))
+                parts.append(PATTERN_LEADING_SPACE + "\n\n"
+                             + demote(process_file(pf, acks), 1))
     body = "\n\n".join(p.strip() for p in parts) + "\n"
     if acks:
         body += "\n\n# Acknowledgments\n\n" + "\n\n".join(acks) + "\n"
