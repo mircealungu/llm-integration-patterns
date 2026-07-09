@@ -18,7 +18,7 @@ An LLM is asked for output in a fixed shape (JSON, a delimited record), but form
 
 [Multi-word-expression](../zeeguu/#multi-word-expressions) detection asks the LLM for a JSON array (groups of word positions in a sentence) but refuses to blindly trust that it will get one. 
 
-- `_parse_response` first strips any markdown code fence (the model often wraps the JSON in one), tries `json.loads`, and on failure regex-extracts the last JSON array in the text (models tend to add a preamble), parses that, and distinguishes a legitimately empty result (`[]`) from a parse failure. 
+- `_parse_response` first strips any markdown code fence (a triple-backtick code block the model often wraps the JSON in), tries `json.loads`, and on failure regex-extracts the last JSON array in the text (models tend to add a preamble), parses that, and distinguishes a legitimately empty result (`[]`) from a parse failure. 
 
 - If nothing parses, it logs the raw text and returns `[]` rather than raising. 
 
@@ -32,15 +32,15 @@ How can a probabilistic formatting slip be kept from turning into a failed reque
 
 ## Forces
 
-- A fixed output format is required (JSON, a delimited record)
-- Format compliance is probabilistic 
-- A naive parse on the critical path can turn a formatting slip into a failed request
+- **Format compliance is only probabilistic, and a naive parse fails the request.** The model can always wrap the output in a code fence, add a preamble, or truncate, and the parsed result feeds downstream code, so an unhandled slip turns into a failed request.
+- **Strictness in the prompt is tempting but brittle.** Formatting failures invite ever-longer prompt instructions, which are hard to test and still only probabilistic. *(pushes toward prompt-stuffing)*
+- **Strictness in parsing code is deterministic and testable**, at the cost of code to write and maintain. *(pushes toward defensive parsing)*
 
 ## Solution
 
 Do not trust the raw output's shape. 
 
-Parse in layers: strip known wrappers, attempt a lenient parse, extract the expected structure from the surrounding text if that fails, validate the parsed shape (types, ranges, required fields), and then degrade gracefully (a default, a skip, a retry, or the next provider) instead of raising. 
+Parse in layers: strip known wrappers, attempt a lenient parse, extract the expected structure from the surrounding text if that fails, validate the parsed shape (types, ranges, required fields), and then degrade gracefully (a default, a skip, a retry, or the next provider in a fallback chain of LLM vendors) instead of raising. 
 
 Keep the strictness in code, where it is deterministic and testable, rather than in ever-longer prompt instructions.
 
@@ -59,7 +59,7 @@ Keep the strictness in code, where it is deterministic and testable, rather than
 
 - Composes with a one-shot retry and with a provider fallback chain (a parse failure can trigger the next provider).
 - Broader than repairing a specific, known formatting defect: this pattern is the stance of not trusting the structure at all.
-- *Prior art: error-tolerant parsing.* Recovering the expected structure and skipping the surrounding text is the LLM-output analogue of [island grammars](https://doi.org/10.1109/WCRE.2001.957806) and other lenient, error-tolerant parsing long used to pull structure out of irregular input.
+- *Prior art: error-tolerant parsing.* Recovering the expected structure and skipping the surrounding text is the LLM-output analogue of [island grammars](https://doi.org/10.1109/WCRE.2001.957806) (parse the fragments of interest, skip the rest) and other lenient, error-tolerant parsing long used to pull structure out of irregular input.
 - *Enablers (not instances).* Validation/repair is widely productized, [Instructor](https://python.useinstructor.com/) (Pydantic + auto-retry), [LangChain](https://python.langchain.com/api_reference/langchain/output_parsers/langchain.output_parsers.fix.OutputFixingParser.html) `OutputFixingParser`, and provider [structured-output](https://developers.openai.com/api/docs/guides/structured-outputs) modes (which still require handling truncation and refusals), but a library that *provides* validation is the mechanism, not evidence of an in-app stance.
 
 
