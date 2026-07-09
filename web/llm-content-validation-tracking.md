@@ -26,7 +26,6 @@ How can trusted and untrusted LLM-generated data be told apart after it lands in
 
 - **Unmarked data is silently trusted.** Once stored, LLM output is indistinguishable from human-verified data, so downstream features and users treat unverified output as ground truth. *(pushes toward tracking trust explicitly)*
 - **The trust state is state to maintain.** It must be set on every write and updated on every validation event, so it is real modeling and maintenance cost. *(pushes toward the coarsest granularity that suffices)*
-- **Granularity is a domain judgment.** A binary flag, an ordered trust ladder, or an N-validators agreement threshold each fit different stakes; the right one is not universal.
 
 ## Solution
 

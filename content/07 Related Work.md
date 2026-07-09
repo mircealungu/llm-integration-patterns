@@ -1,6 +1,6 @@
 # Related Work
 
-To our knowledge, no peer-reviewed work presents a catalog of architectural patterns for integrating LLMs as components into existing production systems, grounded in real deployment experience and described using the standard pattern format (context, forces, solution, consequences). The contribution is the catalogue itself, organised by three themes: using the LLM efficiently, trusting its output, and managing change over time. Some patterns apply established mechanisms (batching, precomputation, recall gates, soft-delete, distillation) to the distinctive forces of LLM integration; others, notably *LLM Output Provenance*, *LLM Content Validation Tracking*, and the external-signal trigger of *Escalate to the LLM*, appear to be new. We flag each honestly as one or the other throughout.
+To our knowledge, no peer-reviewed work presents a catalogue of architectural patterns for integrating LLMs as components into existing production systems, grounded in real deployment experience and described using the standard pattern format (context, forces, solution, consequences). The contribution is the catalogue itself, organised by three themes: using the LLM efficiently, trusting its output, and managing change over time. Some patterns apply established mechanisms (batching, precomputation, recall gates, soft-delete, distillation) to the distinctive forces of LLM integration; others, notably *LLM Output Provenance*, *LLM Content Validation Tracking*, and the external-signal trigger of *Escalate to the LLM*, appear to be new. We flag each honestly as one or the other throughout.
 
 Several practitioner-oriented resources discuss patterns for building LLM-based systems, but they operate at a different level of abstraction and lack the grounding in a specific production system that we aim to provide.
 
@@ -14,7 +14,7 @@ Andreessen Horowitz's **[Emerging Architectures for LLM Applications](https://a1
 
 Books. "**LLM Design Patterns**" (Huang, Packt, 2024\) and "LLMs in Enterprise" (Menshawy & Fahmy, Packt, 2025\) cover model-level patterns (fine-tuning, quantization, inference optimization, RAG) and enterprise deployment concerns. They do not address application-level integration patterns such as the lifecycle management (Rent, Then Build → specialized tool → Escalate to the LLM), prompt amortization, or LLM output provenance that we identify.
 
-## Academic surveys. 
+## Academic surveys
 
 There is a large body of work on **using LLMs *for* software engineering tasks**: code generation, bug repair, testing, requirements engineering (see surveys by [Fan et al., 2023](https://arxiv.org/abs/2310.03533); [Zhang et al., 2024](https://arxiv.org/abs/2312.15223)). However, these focus on LLMs as tools for developers, not on the engineering challenges of integrating LLMs as runtime components within production software. 
 

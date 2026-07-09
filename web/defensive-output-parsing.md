@@ -47,7 +47,7 @@ Keep the strictness in code, where it is deterministic and testable, rather than
 ## Consequences
 
 - A malformed response degrades a single result instead of failing the request: the layered parse recovers what it can, and a clean fallback (a default, a skip, a retry, the next provider) covers the rest.
-- The strictness lives in parsing code that is deterministic and testable, rather than in ever-longer prompt instructions.
+- The parse layer is code to write and maintain, and it has to be kept in step with the prompt and the provider as the output format drifts.
 - Provider "JSON mode" or function-calling reduces malformed output but does not remove the need to validate the shape before use.
 
 ## Known Uses
