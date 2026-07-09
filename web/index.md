@@ -36,6 +36,8 @@ These properties demand specific engineering strategies, and they recur as the f
 
 Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.org), an open-source platform for personalized language learning that helps users learn foreign languages by reading authentic online content (real articles, not textbook exercises). Through this work, we have identified a set of recurring architectural patterns for LLM integration. Because these forces are properties of the LLM itself rather than of language learning, we expect the patterns to generalise beyond our specific domain.
 
+Each pattern that follows is presented in the same format: context, example, problem, forces, solution, consequences, known uses, and notes.
+
 ## Case Studies
 
 - [Zeeguu](zeeguu/)

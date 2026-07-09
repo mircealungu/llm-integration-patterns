@@ -10,7 +10,7 @@ permalink: /prompt-amortization/
 </nav>
 
 
-<figure class="img" style="max-width:420px">
+<figure class="img" style="max-width:640px">
   <a href="/images/prompt-amortization-combined-validation.png"><img src="/images/prompt-amortization-combined-validation.png" alt="The [`COMBINED_VALIDATION_PROMPT`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L72) template: ~250 lines of validation rules, frequency/[CEFR](../zeeguu/#cefr-levels)/phrase-type taxonomies, output format, and examples, wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes."></a>
   <figcaption>The [`COMBINED_VALIDATION_PROMPT`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L72) template: ~250 lines of validation rules, frequency/[CEFR](../zeeguu/#cefr-levels)/phrase-type taxonomies, output format, and examples, wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes.</figcaption>
 </figure>
@@ -61,7 +61,7 @@ Both combine naturally with [Anticipatory Precomputation](../anticipatory-precom
 
 ## Known Uses
 
-- **[Batch prompting](https://arxiv.org/abs/2301.08721)** (Cheng, Kasai & Yu, EMNLP 2023) packs multiple independent samples under one shared instructional prompt in a single call, cutting token and time cost roughly inverse-linearly with batch size.
+- *The fan-in direction is prior art.* Packing many independent inputs under one shared prompt is the published **[batch prompting](https://arxiv.org/abs/2301.08721)** technique (Cheng, Kasai & Yu, EMNLP 2023), which cuts token and time cost roughly inverse-linearly with batch size. This pattern's contribution is to add the *fan-out* direction and to frame both as a single move: amortizing one fixed preamble.
 - The *fan-out* direction maps directly to structured-output calls that emit several keyed results at once, and to the OpenAI/Anthropic multi-output `n` parameter (which requests several completions per call).
 - *Distinguish from provider batch APIs.* The [OpenAI Batch API](https://developers.openai.com/api/docs/guides/batch) and [Anthropic Message Batches](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing) give ~50% off large asynchronous jobs, but each request still carries and pays for its own full prompt; they amortize scheduling and rate-limit overhead, *not* the in-prompt instructional overhead this pattern targets.
 
