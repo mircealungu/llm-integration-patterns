@@ -18,7 +18,9 @@ Every translation a user requests is logged by the system, which over time build
 
 Based on this evolving learner model, Zeeguu **generates interactive vocabulary exercises and audio lessons** that focus on the words that matter most for each individual learner, rather than following a generic curriculum. The exercises use the context in which the word was originally encountered, based on the assumption that if the original text was compelling to the learner, examples drawn from it will be too. 
 
-In essence, Zeeguu unifies reading, translation, learner modeling, and practice into a coherent pipeline, with the learner's own reading interests as the primary driver. 
+In essence, Zeeguu unifies reading, translation, learner modeling, and practice into a coherent pipeline, with the learner's own reading interests as the primary driver.
+
+Zeeguu also supports teacher accounts: a teacher can assign texts to a class and follow each student's reading and exercises. Because a teacher's judgement is more authoritative than an individual learner's, their corrections act as a higher-trust signal in the learner model. 
 
 ## The Pieces
 
