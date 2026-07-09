@@ -2,7 +2,7 @@
 
 *Lessons from a language-learning platform.*
 
-A living catalogue of recurring patterns for integrating LLMs **as components into existing user-facing applications** (managing their cost, latency, quality, and lifecycle), grounded in production experience with [Zeeguu](https://zeeguu.unibe.ch/).
+A living catalogue of recurring patterns for integrating LLMs **as components into existing user-facing applications** (managing their cost, latency, quality, and lifecycle), grounded in production experience with [Zeeguu](https://zeeguu.org).
 
 It is a working paper, developed in the open and revised as the ideas (and the tools) mature. **Feedback and contributions are very welcome.**
 
