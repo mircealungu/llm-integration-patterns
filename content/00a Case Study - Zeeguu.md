@@ -1,10 +1,10 @@
 # Case Study: Zeeguu
 
-Zeeguu is an open-source language learning platform built around the idea that learners benefit most from engaging with comprehensive and authentic content in their target language. Rather than relying on artificial textbook texts and exercises, Zeeguu helps users find real articles (news, blog posts, and other web content) tailored to both 1\) their *level* and 2\) their *interests*. Then based on the words they don't understand generates personalized vocabulary exercises and audio lessons. 
+Zeeguu is an open-source language learning platform built around the idea that learners benefit most from engaging with [comprehensible](https://sdkrashen.com/content/books/principles_and_practice.pdf) and authentic content in their target language. Rather than relying on artificial textbook texts and exercises, Zeeguu helps users find real articles (news, blog posts, and other web content) tailored to both 1\) their *level* and 2\) their *interests*. Then, based on the words they don't understand, it generates personalized vocabulary exercises and audio lessons. 
 
 The platform recommends articles in the learner's target language based on their proficiency and reading preferences, making it **easy to find material that is both engaging and appropriately challenging**. If a text is personally compelling but too difficult, Zeeguu simplifies it to the learner's level using LLMs. 
 
-When users encounter unfamiliar words or phrases while reading, they can get contextual translations on the fly from several translation providers, so the reading experience remains fluid and uninterrupted. One alternative is provided by a state-of-the-art LLM, offering a more contextually nuanced option. 
+When users encounter unfamiliar words or phrases while reading, they can get contextual translations on the fly from several translation providers, so the reading experience remains fluid and uninterrupted. One alternative, available on demand, comes from a state-of-the-art LLM offering a more contextually nuanced option (the "Ask AI" escalation described below). 
 
 Every translation a user requests is logged by the system, which over time builds a **detailed model of the learner's vocabulary knowledge**, tracking which words they know, which ones they struggle with, and how well they've retained previously encountered vocabulary.
 
@@ -30,23 +30,23 @@ Zeeguu builds its article recommendations by crawling news sites and blogs multi
 
 ### Multi-Word Expressions
 
-A multi-word expression (MWE) is a group of words whose meaning is not the sum of its parts, for example *break the ice*. Zeeguu detects them so a learner can translate the phrase as a unit rather than word by word. A cheap dependency-parse gate ([Stanza](https://arxiv.org/abs/2003.07082)) fires first, and an LLM confirms only the flagged sentences.
+A multi-word expression (MWE) is a group of words whose meaning is not the sum of its parts, for example *break the ice*. Zeeguu detects them so a learner can translate the phrase as a unit rather than word by word. A cheap dependency-parse gate ([Stanza](https://arxiv.org/abs/2003.07082), an open-source NLP parser) fires first, and an LLM confirms only the flagged sentences.
 
 ### Meanings and The Learner Model {#the-learner-model}
 
-Every translation a learner requests is logged, building a model of which words they know and which they struggle with. Each word-in-context is a *meaning*; meanings are classified (by frequency, CEFR level, and phrase type) and drive which exercises and lessons the learner sees. Vocabulary training trains *meanings*, not words. 
+A *meaning* is a single word together with the context it was seen in. Every translation a learner requests is logged as a meaning, building a model of which words they know and which they struggle with. Meanings are classified (by frequency, CEFR level, and phrase type: single word, collocation, idiom, or expression) and drive which exercises and lessons the learner sees. Vocabulary training trains *meanings*, not words. 
 
 ### Translation
 
-While reading, a learner gets an instant contextual translation that is generated with the help of multiple parallel translation APIs. If they all agree, the translation is inserted above the word. If they disagree a popup surfaces the disagreement, together with the choice of them to escalate to an LLM through the "Ask AI" action. That is done as one extra, more expensive way of helping the learner that is not confident in which of the translations is the correct one. 
+While reading, a learner gets an instant contextual translation that is generated with the help of multiple parallel translation APIs. If they all agree, the translation is inserted above the word. If they disagree, a popup surfaces the disagreement along with the option to escalate to an LLM through the "Ask AI" action. This is one extra, more expensive step, offered for the cases where it is unclear which of the translations is correct. 
 
 ### Audio Lessons
 
-Zeeguu generates personalized audio lessons: an LLM writes a short script built around the words a learner is studying, and text-to-speech synthesizes the audio. Both steps are slow and costly, so lessons are pre-computed for recently active learners. Once a learner choose a topic (european history) or a situation (talking to elderly neighbour on the stairway), a new lesson is generated every day, conditional to the learner having listened to the previous day's lesson. 
+Zeeguu generates personalized audio lessons: an LLM writes a short script built around the words a learner is studying, and text-to-speech synthesizes the audio. Both steps are slow and costly, so lessons are pre-computed for recently active learners. Once a learner chooses a topic (European history) or a situation (talking to an elderly neighbour on the stairway), a new lesson is generated each day, conditional on the learner having listened to the previous day's lesson. 
 
 ### Vocabulary Exercises
 
-Exercises are built from the words a learner has looked up. They use example sentences drawn from the learner's own reading where possible, and LLM-generated, then LLM-validated, sentences otherwise. Where possible, because not all contexts in which the learner has encounter words are appropriate for exercises (some context sentences are too long, others don't make sense outside of their own context).
+Exercises are built from the words a learner has looked up. They use example sentences drawn from the learner's own reading where possible, and LLM-generated, then LLM-validated, sentences otherwise. Original context is used only where possible, because not all contexts in which a learner encountered a word suit an exercise: some are too long, others do not make sense outside their original context.
 
 ## Reach
 
