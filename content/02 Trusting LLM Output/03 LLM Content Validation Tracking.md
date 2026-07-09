@@ -14,8 +14,9 @@ How can trusted and untrusted LLM-generated data be told apart after it lands in
 
 ## Forces
 
-- **Unmarked data is silently trusted.** Once stored, LLM output is indistinguishable from human-verified data, so downstream features and users treat unverified output as ground truth. *(pushes toward tracking trust explicitly)*
-- **The trust state is state to maintain.** It must be set on every write and updated on every validation event, so it is real modeling and maintenance cost. *(pushes toward the coarsest granularity that suffices)*
+- **Unmarked data is silently trusted.** Once stored, LLM output is indistinguishable from human-verified data, so without a marker downstream features treat unverified output as ground truth. *(pushes toward tracking trust at all)*
+- **Different consumers can tolerate different confidence.** Reading assistance is fine with an unverified translation; a word promoted into drills should be confirmed first. Serving both well means distinguishing levels of trust, not just verified from unverified. *(pushes toward a richer trust spectrum)*
+- **Every level is state to maintain.** Each level is another transition to model, set on write and update on every validation event, so too fine a spectrum is maintenance burden and false precision. *(pushes toward the coarsest spectrum that still supports the decisions)*
 
 ## Solution
 
@@ -25,7 +26,7 @@ Maintain an explicit, queryable validation state for all LLM-generated content i
 
 - **Each consumer can gate on trust.** Exercises use only confirmed pairs, reading assistance can fall back to auto-verified ones, and unverified output never silently becomes ground truth.
 - **The data model carries an extra state to maintain.** It must be set on every write and updated on every validation event, and the right granularity (a flag, a spectrum, or an agreement threshold: N independent users confirming before it counts as trusted) is a domain judgment.
-- **It adds the second half of the provenance picture.** Where *LLM Output Provenance* records how an artifact was made, this records whether it has been confirmed; the two together answer both questions about any stored artifact.
+- **It pairs with provenance to describe any stored artifact.** Where *LLM Output Provenance* records how an artifact was made, this records whether it has been confirmed; together they answer both questions about a stored artifact.
 
 ## Known Uses
 
