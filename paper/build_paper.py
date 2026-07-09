@@ -109,7 +109,7 @@ PAPER_FIG_SCALE = 0.5
 # Vertical breathing room before each pattern subsection in the PDF, so patterns
 # read as distinct units and the pages are less dense. Emitted as a pandoc raw
 # LaTeX block (PDF-only; the website is built separately and is unaffected).
-PATTERN_LEADING_SPACE = "```{=latex}\n\\vspace{1cm}\n```"
+PATTERN_LEADING_SPACE = "```{=latex}\n\\vspace{0.5cm}\n```"
 
 SYMBOL_MATH = {
     "→": r"$\rightarrow$",   # →
@@ -250,7 +250,15 @@ def assemble():
             parts.append(process_file(full, acks))
         elif kind == "category":
             files = sorted(glob.glob(os.path.join(full, "*.md")))
-            parts.append(f"# {title}\n")
+            # Emit the theme heading as raw LaTeX so it can be set apart from the
+            # pattern subsections: 1cm of lead-in space and a dark accent colour.
+            # The optional [title] keeps the ToC, running head, and PDF bookmark
+            # in plain text; nothing cross-references these sections by label.
+            parts.append(
+                "```{=latex}\n"
+                "\\vspace{1cm}\n"
+                "\\section[" + title + "]{\\textcolor{themecolor}{" + title + "}}\n"
+                "```")
             # A `00 …`-prefixed file is the section overview, not a pattern: keep
             # its body at section level (drop its H1); everything else is a pattern.
             for f in [f for f in files if os.path.basename(f).startswith("00")]:
@@ -297,6 +305,7 @@ def main_tex():
 \providecommand{{\passthrough}}[1]{{#1}}
 \providecommand{{\pandocbounded}}[1]{{#1}}
 \graphicspath{{{{images/}}}}
+\definecolor{{themecolor}}{{RGB}}{{31,73,125}}
 \begin{{document}}
 \title{{{m['title']}}}
 {sub}\author{{{m['author']}}}
