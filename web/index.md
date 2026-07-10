@@ -44,13 +44,13 @@ The remainder of the paper is organised as follows. Section 2 introduces Zeeguu,
 
 ## The Patterns
 
-*★ marks the patterns in the [PLoP workshop paper](/paper.pdf); the rest are part of the extended online catalogue.*
+<span style="color:#c8a415">★</span> *marks the patterns in the [PLoP workshop paper](/paper.pdf); the rest are part of the extended online catalogue.*
 
 ### [Using the LLM Efficiently](using-the-llm-efficiently/)
-- [Prompt Amortization](prompt-amortization/) ★
-- [Escalate to the LLM](escalate-to-the-llm/) ★
-- [Hybrid Classical+LLM Pipeline](hybrid-classical-llm-pipeline/) ★
-- [Anticipatory Precomputation](anticipatory-precomputation/) ★
+- [Prompt Amortization](prompt-amortization/) <span style="color:#c8a415">★</span>
+- [Escalate to the LLM](escalate-to-the-llm/) <span style="color:#c8a415">★</span>
+- [Hybrid Classical+LLM Pipeline](hybrid-classical-llm-pipeline/) <span style="color:#c8a415">★</span>
+- [Anticipatory Precomputation](anticipatory-precomputation/) <span style="color:#c8a415">★</span>
 - [Slow-Path Inference](slow-path-inference/)
 - [Hot-Path Result Caching](hot-path-result-caching/)
 - [Multiplexed Dispatch](multiplexed-dispatch/)
@@ -58,16 +58,16 @@ The remainder of the paper is organised as follows. Section 2 introduces Zeeguu,
 - [Per-User Consumption Budget](per-user-consumption-budget/)
 
 ### [Trusting LLM Output](trusting-llm-output/)
-- [Defensive Output Parsing](defensive-output-parsing/) ★
-- [LLM-Checking-LLM](llm-checking-llm/) ★
-- [LLM Content Validation Tracking](llm-content-validation-tracking/) ★
+- [Defensive Output Parsing](defensive-output-parsing/) <span style="color:#c8a415">★</span>
+- [LLM-Checking-LLM](llm-checking-llm/) <span style="color:#c8a415">★</span>
+- [LLM Content Validation Tracking](llm-content-validation-tracking/) <span style="color:#c8a415">★</span>
 - [Deterministic Postprocessing](deterministic-postprocessing/)
 - [Targeted User Feedback](targeted-user-feedback/)
 
 ### [Managing Change Over Time](managing-change-over-time/)
-- [LLM Output Provenance](llm-output-provenance/) ★
-- [Soft Invalidation of LLM Artifacts](soft-invalidation-of-llm-artifacts/) ★
-- [Rent, Then Build](rent-then-build/) ★
+- [LLM Output Provenance](llm-output-provenance/) <span style="color:#c8a415">★</span>
+- [Soft Invalidation of LLM Artifacts](soft-invalidation-of-llm-artifacts/) <span style="color:#c8a415">★</span>
+- [Rent, Then Build](rent-then-build/) <span style="color:#c8a415">★</span>
 - [Centralized Model Selection](centralized-model-selection/)
 
 ### [Candidate](candidate/)

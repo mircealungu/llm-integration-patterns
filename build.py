@@ -47,7 +47,8 @@ def _load_paper_set():
 
 
 PAPER_SET = _load_paper_set()
-PAPER_BADGE = " ★"
+STAR_COLOR = "#c8a415"   # muted gold: distinguishes the paper patterns without shouting
+PAPER_BADGE = f' <span style="color:{STAR_COLOR}">★</span>'
 
 
 def slug(s: str) -> str:
@@ -355,7 +356,7 @@ def main():
         lines += [f"- [{name}]({cs_slug}/)" for name, cs_slug, _ in case_studies]
         lines.append("")
     lines += ["## The Patterns", "",
-              "*★ marks the patterns in the [PLoP workshop paper](/paper.pdf); "
+              f'<span style="color:{STAR_COLOR}">★</span> *marks the patterns in the [PLoP workshop paper](/paper.pdf); '
               "the rest are part of the extended online catalogue.*",
               ""]
     for ctitle, pats, prose in catalogue:

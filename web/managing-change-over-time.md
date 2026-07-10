@@ -10,9 +10,9 @@ permalink: /managing-change-over-time/
 
 An LLM integration is not static: prompts and models improve, vendors retire dated snapshots on their own schedule, and the LLM's own role in a feature shifts as the system matures. The patterns in this section manage that change: stamping stored output with the model and prompt that made it so the stale can be found and regenerated, retiring stale artifacts without breaking the past, and treating the LLM as a temporary stand-in for a cheaper component still to be built. The unifying force is a fast-moving, vendor-controlled substrate sitting under long-lived data.
 
-- [LLM Output Provenance](../llm-output-provenance/) ★
-- [Soft Invalidation of LLM Artifacts](../soft-invalidation-of-llm-artifacts/) ★
-- [Rent, Then Build](../rent-then-build/) ★
+- [LLM Output Provenance](../llm-output-provenance/) <span style="color:#c8a415">★</span>
+- [Soft Invalidation of LLM Artifacts](../soft-invalidation-of-llm-artifacts/) <span style="color:#c8a415">★</span>
+- [Rent, Then Build](../rent-then-build/) <span style="color:#c8a415">★</span>
 - [Centralized Model Selection](../centralized-model-selection/)
 
 
