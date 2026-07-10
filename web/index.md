@@ -44,7 +44,7 @@ The remainder of the paper is organised as follows. Section 2 introduces Zeeguu,
 
 ## The Patterns
 
-<span style="color:#c8a415">★</span> *marks the patterns in the [PLoP workshop paper](/paper.pdf); the rest are part of the extended online catalogue.*
+<span style="color:#c8a415">★</span> *marks the patterns in the [PLoP 2026 workshop paper](/paper.pdf); the rest are part of the extended online catalogue.*
 
 ### [Using the LLM Efficiently](using-the-llm-efficiently/)
 - [Prompt Amortization](prompt-amortization/) <span style="color:#c8a415">★</span>

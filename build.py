@@ -356,7 +356,7 @@ def main():
         lines += [f"- [{name}]({cs_slug}/)" for name, cs_slug, _ in case_studies]
         lines.append("")
     lines += ["## The Patterns", "",
-              f'<span style="color:{STAR_COLOR}">★</span> *marks the patterns in the [PLoP workshop paper](/paper.pdf); '
+              f'<span style="color:{STAR_COLOR}">★</span> *marks the patterns in the [PLoP 2026 workshop paper](/paper.pdf); '
               "the rest are part of the extended online catalogue.*",
               ""]
     for ctitle, pats, prose in catalogue:
