@@ -28,6 +28,7 @@ How can an LLM-quality result reach the user's critical path without a wait for 
 
 - **Latency.** Real-time users expect an answer in about 200ms, but an LLM can take several seconds depending on the prompt and deployment, so it cannot run on the critical path. *(pushes toward precomputing)*
 - **Wasted spend on misses.** Precomputing spends tokens on results that may never be requested, so a poor predictor pays for nothing and still misses. *(pushes toward precomputing only high-probability needs)*
+- **Precomputed results must be held until they are used.** A precomputed answer has to persist from the moment it is generated to the moment it is asked for, so the working set grows with the number of users, the length of the lookahead, and the size of each result: bytes for a validated translation, megabytes for a generated audio lesson. *(pushes toward a short lookahead and a prioritized subset of users)*
 - **Predictability.** The pattern is available only where upcoming needs can be forecast from behaviour; the better the behaviour model, the more of the work can move off the critical path.
 
 ## Solution
@@ -49,6 +50,6 @@ Anticipate likely user needs and precompute LLM results offline (e.g., via cron 
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../hybrid-classical-llm-pipeline/">← Hybrid Classical+LLM Pipeline</a><a class="nav-next" href="../slow-path-inference/">Slow-Path Inference →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../high-recall-gate-precision-verdict/">← High-Recall Gate, Precision Verdict</a><a class="nav-next" href="../slow-path-inference/">Slow-Path Inference →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BAnticipatory+Precomputation%5D+&labels=feedback%2Cusing-the-llm-efficiently&body=%2A%2ARe%3A%2A%2A+Anticipatory+Precomputation%0A%2A%2ASection%3A%2A%2A+Using+the+LLM+Efficiently%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fanticipatory-precomputation%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

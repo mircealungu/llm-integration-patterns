@@ -1,4 +1,4 @@
-# Hybrid Classical+LLM Pipeline
+# High-Recall Gate, Precision Verdict
 
 ## Context
 
@@ -24,7 +24,7 @@ Run the cheap classical tool first, as a high-recall gate: invoke the LLM only w
 
 ## Consequences
 
-- **The LLM runs only where it is needed.** It fires on the fraction of inputs the classical gate flags, so the common case costs nothing extra while the LLM still makes the precision call.
+- **The LLM runs only where it is needed.** It fires on the fraction of inputs the classical gate flags, so the common case costs nothing extra while the LLM still returns the precision verdict.
 - **Two components instead of one.** The classical gate and the LLM stage are each built, tuned, and maintained separately, and the hand-off between them (what the gate flags, what the LLM is asked) has to stay correct as either evolves. That added complexity is usually justified by the saving from skipping the LLM on the common case.
 - **The gate must have high recall.** A candidate the classical stage misses never reaches the LLM, so the recall of the cheap stage caps the recall, and thus the overall quality, of the whole pipeline.
 

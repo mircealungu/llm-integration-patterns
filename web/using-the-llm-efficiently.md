@@ -12,7 +12,7 @@ An LLM call is slow and metered, so a recurring question in any integration is h
 
 - [Prompt Amortization](../prompt-amortization/) <span style="color:#c8a415">★</span>
 - [Escalate to the LLM](../escalate-to-the-llm/) <span style="color:#c8a415">★</span>
-- [Hybrid Classical+LLM Pipeline](../hybrid-classical-llm-pipeline/) <span style="color:#c8a415">★</span>
+- [High-Recall Gate, Precision Verdict](../high-recall-gate-precision-verdict/)
 - [Anticipatory Precomputation](../anticipatory-precomputation/) <span style="color:#c8a415">★</span>
 - [Slow-Path Inference](../slow-path-inference/)
 - [Hot-Path Result Caching](../hot-path-result-caching/)

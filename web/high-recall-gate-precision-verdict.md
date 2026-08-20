@@ -1,7 +1,7 @@
 ---
 layout: default
-title: "Hybrid Classical+LLM Pipeline"
-permalink: /hybrid-classical-llm-pipeline/
+title: "High-Recall Gate, Precision Verdict"
+permalink: /high-recall-gate-precision-verdict/
 ---
 
 
@@ -34,7 +34,7 @@ Run the cheap classical tool first, as a high-recall gate: invoke the LLM only w
 
 ## Consequences
 
-- **The LLM runs only where it is needed.** It fires on the fraction of inputs the classical gate flags, so the common case costs nothing extra while the LLM still makes the precision call.
+- **The LLM runs only where it is needed.** It fires on the fraction of inputs the classical gate flags, so the common case costs nothing extra while the LLM still returns the precision verdict.
 - **Two components instead of one.** The classical gate and the LLM stage are each built, tuned, and maintained separately, and the hand-off between them (what the gate flags, what the LLM is asked) has to stay correct as either evolves. That added complexity is usually justified by the saving from skipping the LLM on the common case.
 - **The gate must have high recall.** A candidate the classical stage misses never reaches the LLM, so the recall of the cheap stage caps the recall, and thus the overall quality, of the whole pipeline.
 
@@ -53,4 +53,4 @@ Run the cheap classical tool first, as a high-recall gate: invoke the LLM only w
 ---
 <div class="pattern-footer-nav"><a class="nav-prev" href="../escalate-to-the-llm/">← Escalate to the LLM</a><a class="nav-next" href="../anticipatory-precomputation/">Anticipatory Precomputation →</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHybrid+Classical%2BLLM+Pipeline%5D+&labels=feedback%2Cusing-the-llm-efficiently&body=%2A%2ARe%3A%2A%2A+Hybrid+Classical%2BLLM+Pipeline%0A%2A%2ASection%3A%2A%2A+Using+the+LLM+Efficiently%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fhybrid-classical-llm-pipeline%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BHigh-Recall+Gate%2C+Precision+Verdict%5D+&labels=feedback%2Cusing-the-llm-efficiently&body=%2A%2ARe%3A%2A%2A+High-Recall+Gate%2C+Precision+Verdict%0A%2A%2ASection%3A%2A%2A+Using+the+LLM+Efficiently%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fhigh-recall-gate-precision-verdict%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

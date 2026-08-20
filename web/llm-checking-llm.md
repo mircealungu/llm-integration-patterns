@@ -32,11 +32,14 @@ How can an unreliable generator's mistakes be caught, when a second generator wo
 
 Use one LLM call to generate a result, then a separate, differently-prompted LLM call to check one specific property of it. This escapes the paradox for two reasons. First, verifying one property (is it grammatical? does it use the intended meaning?) has a small, well-defined answer space and a clear success criterion, so an LLM does it more reliably than the open-ended generation that produced the output. Second, because the checker is prompted differently and asked a different question, its errors are largely *decorrelated* from the generator's rather than shared, so it does not simply repeat the generator's mistakes.
 
+A failed check still needs a policy, and the pattern does not fix one. Dropping the result is cheapest and fits where the item is expendable (the vocabulary sentences above are discarded and other words used instead). Regenerating recovers the item, and works better when the retry is told what went wrong: a plain retry resamples the same distribution and can fail the same way, whereas a prompt extended with the rejected output and the property it missed conditions the next attempt on the failure. Either way it multiplies calls, so it wants a bounded number of attempts rather than a loop. Where neither fits, the verdict can be recorded alongside the output instead of acted on, which is [LLM Content Validation Tracking](../llm-content-validation-tracking/). And where a failure is permanent for that input rather than incidental, recording the terminal state stops a scheduled job rediscovering it on every run.
+
 ## Consequences
 
 - **A focused check is more reliable than the generation.** Verifying one property is easier than producing the whole output, so the second call catches errors the first introduced, for the price of one extra call.
 - **It narrows the error rate, it does not remove it.** The checker is itself an LLM and can return its own false verdicts, and it adds cost and latency.
-- **It pays off only when checking is genuinely narrower than generating.** A check as open-ended as the generation buys little. The verdict composes with [LLM Content Validation Tracking](../llm-content-validation-tracking/) (record it) and [Hybrid Classical+LLM Pipeline](../hybrid-classical-llm-pipeline/) (a classical check is cheaper still, where one exists).
+- **The pair hides behind one interface, not behind a guarantee.** Generation and check can be packaged as a single call, so the rest of the application never sees the judge. That is a convenience, not a contract: the result is still best-effort, exactly as it would be from the generator alone.
+- **It pays off only when checking is genuinely narrower than generating.** A check as open-ended as the generation buys little. The verdict composes with [LLM Content Validation Tracking](../llm-content-validation-tracking/) (record it) and [High-Recall Gate, Precision Verdict](../high-recall-gate-precision-verdict/) (a classical check is cheaper still, where one exists).
 
 ## Known Uses
 

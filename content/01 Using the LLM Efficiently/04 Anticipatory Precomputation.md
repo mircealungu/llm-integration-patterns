@@ -18,6 +18,7 @@ How can an LLM-quality result reach the user's critical path without a wait for 
 
 - **Latency.** Real-time users expect an answer in about 200ms, but an LLM can take several seconds depending on the prompt and deployment, so it cannot run on the critical path. *(pushes toward precomputing)*
 - **Wasted spend on misses.** Precomputing spends tokens on results that may never be requested, so a poor predictor pays for nothing and still misses. *(pushes toward precomputing only high-probability needs)*
+- **Precomputed results must be held until they are used.** A precomputed answer has to persist from the moment it is generated to the moment it is asked for, so the working set grows with the number of users, the length of the lookahead, and the size of each result: bytes for a validated translation, megabytes for a generated audio lesson. *(pushes toward a short lookahead and a prioritized subset of users)*
 - **Predictability.** The pattern is available only where upcoming needs can be forecast from behaviour; the better the behaviour model, the more of the work can move off the critical path.
 
 ## Solution
