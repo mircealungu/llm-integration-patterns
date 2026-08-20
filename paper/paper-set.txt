@@ -2,7 +2,7 @@
 # The site shows all patterns; these get the ★ badge and go in the PDF.
 prompt-amortization
 escalate-to-the-llm
-hybrid-classical-llm-pipeline
+high-recall-gate-precision-verdict
 anticipatory-precomputation
 defensive-output-parsing
 llm-checking-llm

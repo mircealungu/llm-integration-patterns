@@ -33,6 +33,18 @@ for f in glob.glob(os.path.join(WEB, "*.md")):
         if not os.path.exists(os.path.join(WEB, "images", m.group(1))):
             errors.append(f"{name}: image /images/{m.group(1)} is missing")
 
+# --- ERRORS: every paper-set slug must name a real page ---
+# build_paper.py filters the PDF on this list, so a renamed pattern silently
+# vanishes from the paper and loses its star on the site, with no build failure.
+ps = os.path.join(ROOT, "paper", "paper-set.txt")
+if os.path.exists(ps):
+    with open(ps, encoding="utf-8") as f:
+        for ln in f:
+            slug = ln.strip()
+            if slug and not slug.startswith("#") and slug not in pages:
+                errors.append(f"paper-set.txt: '{slug}' matches no page "
+                              f"(renamed or deleted, so it is missing from the PDF)")
+
 # --- WARNINGS: voice + placeholders, on added source lines only ---
 diff = subprocess.run(["git", "diff", "--unified=0", "--", "content"],
                       cwd=ROOT, capture_output=True, text=True).stdout
