@@ -12,7 +12,7 @@ permalink: /high-recall-gate-precision-verdict/
 
 ## Context
 
-A task can be served by a fast, deterministic classical tool (a dependency parser, a POS (part-of-speech) tagger, a rule extractor) that misses edge cases, and by an LLM that handles the edge cases but is too expensive to run on every input.
+An LLM makes a judgment well but is too expensive to run on every input. A fast, deterministic classical tool (a dependency parser, a POS (part-of-speech) tagger, a lexical ranker) answers a cheaper proxy for that judgment: close enough to narrow the field to the inputs that might matter, not close enough to settle which of them do.
 
 ## Example
 
@@ -46,6 +46,7 @@ Run the cheap classical tool first, as a high-recall gate: invoke the LLM only w
 ## Notes
 
 - Close kin to [Escalate to the LLM](../escalate-to-the-llm/) and to a model cascade: all three run a cheap step first and call the LLM selectively. The difference is the trigger. Escalate uses the cheap tool's answer and reaches for the LLM only when it is inadequate (a failure, or user dissatisfaction); here the cheap tool gates on detected difficulty (a flagged candidate) and the LLM's verdict replaces it, like a cascade, but the gating signal comes from a separate classical stage rather than the model's own confidence.
+- The verdict is not one fixed operation. For multi-word expressions the LLM *filters*, rejecting the false positives the gate admitted; in RankGPT it *reorders*, since BM25 already ranks its hundred candidates and the LLM rewrites that ranking. What the two share is that the gate's proxy decides who is considered and the LLM decides the outcome, not that the second stage always does the same thing to what it receives.
 - *Enablers (not instances).* Frameworks such as [spaCy-llm](https://github.com/explosion/spacy-llm) (mixing LLM and rule-based components in one pipeline) and rerank products such as [Cohere Rerank](https://docs.cohere.com/docs/rerank-overview) make it easy to wire a classical stage to an LLM, but a library that provides the plumbing is the mechanism, not evidence of an in-app instance.
 
 

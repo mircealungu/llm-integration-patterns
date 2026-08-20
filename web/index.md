@@ -49,7 +49,7 @@ The remainder of the paper is organised as follows. Section 2 introduces Zeeguu,
 ### [Using the LLM Efficiently](using-the-llm-efficiently/)
 - [Prompt Amortization](prompt-amortization/) <span style="color:#c8a415">★</span>
 - [Escalate to the LLM](escalate-to-the-llm/) <span style="color:#c8a415">★</span>
-- [High-Recall Gate, Precision Verdict](high-recall-gate-precision-verdict/)
+- [High-Recall Gate, Precision Verdict](high-recall-gate-precision-verdict/) <span style="color:#c8a415">★</span>
 - [Anticipatory Precomputation](anticipatory-precomputation/) <span style="color:#c8a415">★</span>
 - [Slow-Path Inference](slow-path-inference/)
 - [Hot-Path Result Caching](hot-path-result-caching/)

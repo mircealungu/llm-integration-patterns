@@ -22,6 +22,7 @@ The vocabulary exercises need example sentences for each word, which an LLM gene
 
 How can an unreliable generator's mistakes be caught, when a second generator would be just as unreliable?
 
+
 ## Forces
 
 - **Verification is narrower than generation.** Checking one property (is it grammatical? does it use the intended meaning?) has a small answer space and a clear criterion, so a focused checker is more reliable on that property than the open-ended generation was: the *generation-discrimination gap* measured by [Saunders et al.](https://arxiv.org/abs/2206.05802). *(pushes toward adding a check)*
