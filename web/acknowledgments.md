@@ -8,7 +8,7 @@ permalink: /acknowledgments/
 [← All patterns](../#the-patterns)
 
 
-We thank Viktor Matovič, our PLoP shepherd, whose close reading and persistent questions improved both the structure of the paper and the precision of the individual patterns. We thank Souhaila Serbout, Oscar Nierstrasz, and Diomidis Spinellis for feedback and discussions on earlier versions of this work. We are also grateful to the participants of the EuroPLoP focus group, whose discussion sharpened several patterns, from their naming to their relationship with both older, non-LLM patterns and the emerging LLM-gateway infrastructure.
+We thank Viktor Matovič, our shepherd at PLoP, whose insistence that patterns be observed rather than asserted sent us back to the codebase to check each candidate against it. That check cost the paper two patterns, gained it one, and produced the methodology reported in Section 2. We thank Souhaila Serbout, Oscar Nierstrasz, and Diomidis Spinellis for feedback and discussions on earlier versions of this work. We are also grateful to the participants of the EuroPLoP focus group, whose discussion sharpened several patterns, from their naming to their relationship with both older, non-LLM patterns and the emerging LLM-gateway infrastructure.
 
 
 
