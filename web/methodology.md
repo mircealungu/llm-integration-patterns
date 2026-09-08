@@ -1,0 +1,28 @@
+---
+layout: default
+title: "Methodology"
+permalink: /methodology/
+---
+
+
+[← All patterns](../#the-patterns)
+
+
+The patterns come from one production system. This section states how they were found, so that a reader can judge what the evidence supports.
+
+**The corpus.** Zeeguu (Section 3) has been in continuous operation since 2017 and currently serves several hundred monthly active users across eleven languages. Between January 2025 and August 2026 we added LLM-backed functionality across roughly a dozen of its features. The patterns below draw on ten: article simplification, CEFR difficulty assessment and summarisation, grammatical correction of simplified text, topic classification, multi-word expression detection, on-demand translation escalation, audio-lesson scripting, audio-lesson topic validation, exercise sentence generation, and exercise sentence validation. Those features, and the code and commit history behind them, are the raw material.
+
+**Where the patterns came from.** We did not set out to mine patterns. The design decisions came first, made under ordinary delivery pressure as each feature was built. Only after a year and a half of this did we ask which of those decisions had been reusable: which solutions we had reached for more than once, and which we would reach for again in a different system. The patterns presented here are our answer to that question, and the conditions below are what we then required of each.
+
+**What earned a place here.** Two conditions. Inside Zeeguu, a solution had to appear in at least two features that reached it independently, rather than one copying the other; those instances are named with each pattern, and the source is public, so a reader can check them. Outside Zeeguu, we looked for the same solution in another system, a practitioner report, or published work, and each pattern states the closest evidence we found and how close it is. Applying these conditions changed what this paper contains: solutions we had expected to present did not survive them.
+
+**The evidence base for known uses.** Corroborating uses come disproportionately from grey literature: engineering blog posts, provider documentation, and open-source code, rather than peer-reviewed papers. This is deliberate, and at this point unavoidable. The practice is roughly three years old and largely industrial, and the peer-reviewed record has not caught up (Section 8). Garousi et al.'s criteria for admitting grey literature as evidence in software engineering are met here on several counts: the topic is not covered by the formal literature, practitioners are the population that holds the knowledge, and the field is moving faster than the publication cycle. We mark each known use with its source type, so a reader can weigh it.
+
+**What this is not.** This is not a systematic literature review, and not a controlled study. It is one team's reading of one system in one domain. The claim we make is that the pressures a pattern resolves come from the LLM's own cost, latency and unreliability, and from what a live application owes its users, neither of which is specific to language learning. Whether the patterns hold elsewhere is an empirical question, and Section 9 returns to it.
+
+
+
+---
+[← All patterns](../#the-patterns)
+
+[💬 Open an issue about this section](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BMethodology%5D+&labels=feedback&body=%2A%2ARe%3A%2A%2A+Methodology%0A%2A%2ASection%3A%2A%2A+Methodology%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fmethodology%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

@@ -7,3 +7,9 @@ web/_site/
 
 # local Claude Code instructions (not for the public repo)
 CLAUDE.md
+
+# local paper working files (shepherd diffs, baseline builds, scratch patches)
+paper/baseline-preshepherd/
+paper/diffwork/
+paper/response-to-shepherd.md
+session-delta.patch

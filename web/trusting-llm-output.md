@@ -15,6 +15,7 @@ An LLM's output is only probabilistically correct, and only probabilistically we
 - [LLM Content Validation Tracking](../llm-content-validation-tracking/) <span style="color:#c8a415">★</span>
 - [Deterministic Postprocessing](../deterministic-postprocessing/)
 - [Targeted User Feedback](../targeted-user-feedback/)
+- [Reject and Reprompt](../reject-and-reprompt/) <span style="color:#c8a415">★</span>
 
 
 

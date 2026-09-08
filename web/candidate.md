@@ -10,7 +10,7 @@ permalink: /candidate/
 
 - [Temperature as Task Selector](../temperature-as-task-selector/)
 - [Prompt Injection Containment](../prompt-injection-containment/)
-- [Reject and Reprompt](../reject-and-reprompt/)
+- [Soft Invalidation of LLM Artifacts](../soft-invalidation-of-llm-artifacts/)
 
 
 

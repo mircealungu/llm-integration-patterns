@@ -4,9 +4,15 @@
 
 An LLM generates content that will be used or stored, and its output is sometimes wrong in ways a targeted check could catch. Verifying a specific property (grammaticality, factual match, difficulty level) is a narrower task than the open-ended generation that produced it.
 
-## Example
+## Examples
 
 The vocabulary exercises need example sentences for each word, which an LLM generates at the learner's level, an open-ended task (the sentence must be natural, level-appropriate, and actually use the word). A generated sentence can still be wrong in a specific way: it may use the word in a *different* sense than the one being taught. For the Danish *virker* (translated as *seem*), a generated sentence might use *virker* in its other sense, *work/function*. A second, batched LLM call then asks one narrow question of each sentence, whether it uses the word in the intended [meaning](../zeeguu/#the-learner-model), and drops the ones that fail. Verifying that single property is far narrower than writing a good sentence from scratch.
+
+A second pair ran on [article simplification](../zeeguu/#article-simplification), and has since been switched off, which is what makes it worth reporting. Rewriting an article to a lower CEFR level is open-ended; whether the result is grammatical is not. A second call read each simplified title and body and returned corrections, which were applied to the text.[^check-grammar] Between December 2025 and April 2026 we measured what it caught: roughly 96% of title corrections and 72% of body corrections changed two characters or fewer. The check worked. What it found was not worth what it cost, and it is now disabled by default.
+
+The two pairs differ in what happens on failure, which the pattern deliberately leaves open: an example sentence is expendable, so it is dropped and another word used, while a simplified article is the only version at that level, so the check produced a correction instead. But the retired pair carries the sharper lesson. The asymmetry that makes verification cheaper than generation says nothing about whether the errors are worth catching. That is a separate question, and only measurement answers it.
+
+[^check-grammar]: `GrammarCorrectionService` in the `zeeguu/api` repository.
 
 ## Problem
 
@@ -30,7 +36,7 @@ A failed check still needs a policy, and the pattern does not fix one. Dropping 
 - **A focused check is more reliable than the generation.** Verifying one property is easier than producing the whole output, so the second call catches errors the first introduced, for the price of one extra call.
 - **It narrows the error rate, it does not remove it.** The checker is itself an LLM and can return its own false verdicts, and it adds cost and latency.
 - **The pair hides behind one interface, not behind a guarantee.** Generation and check can be packaged as a single call, so the rest of the application never sees the judge. That is a convenience, not a contract: the result is still best-effort, exactly as it would be from the generator alone.
-- **It pays off only when checking is genuinely narrower than generating.** A check as open-ended as the generation buys little. The verdict composes with *LLM Content Validation Tracking* (record it) and *High-Recall Gate, Precision Verdict* (a classical check is cheaper still, where one exists).
+- **It pays off only when checking is genuinely narrower than generating.** A check as open-ended as the generation buys little. The verdict composes with *LLM Content Validation Tracking* (record it), and where a classical check exists it is cheaper still.
 
 ## Known Uses
 

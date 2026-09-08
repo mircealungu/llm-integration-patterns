@@ -4,11 +4,13 @@
 
 A feature needs to work in production now, but the efficient, dedicated version of it (a fine-tuned or classical model) needs training data or engineering that does not exist yet. A general-purpose LLM can do the task immediately, if expensively.
 
-## Example
+## Examples
 
 Zeeguu estimates the difficulty level of every article with an LLM, an expensive call it makes constantly. This is also the *bootstrapping* case: those LLM-generated difficulty labels are accumulating as the training set for a cheaper classical classifier that will take the task over once enough have been gathered. The LLM ships the feature and earns its keep today, while quietly producing the data that will one day retire it. 
 
 A plainer instance without the bootstrapping twist: article topic classification runs on an LLM now, to be replaced by a dedicated topic-detection model once the taxonomy of available topics settles.
+
+The two tasks are waiting on different things, which is what determines how long each rental lasts. Difficulty assessment is waiting on *volume*, and every call it makes brings the replacement closer, so the stand-in shortens its own tenancy. Topic classification is waiting on a *decision* about the taxonomy, which no amount of LLM traffic advances. A rented capability that generates its own replacement has an end in sight; one that does not can run indefinitely without anything going visibly wrong.
 
 ## Problem
 

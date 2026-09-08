@@ -14,14 +14,20 @@ permalink: /escalate-to-the-llm/
 
 A feature can be produced two ways: a cheap, fast specialized tool (a translation API, a classical classifier) that is adequate for the common case, and a slower, costlier LLM that does better on the hard cases. Crucially, the cheap tool's shortfalls are *observable*: it either errors, or the user visibly rejects the result.
 
-## Example
+## Examples
 
 In Zeeguu, translation APIs (from Google, Azure, and DeepL) serve as the primary translation engines. When a user indicates the translation is inadequate (by choosing *Ask an AI* from the alternatives menu), the system escalates to an LLM for a more nuanced, context-aware translation. This keeps costs low and speed high in the common case while providing higher, LLM-quality results when needed. 
 
-<figure class="img" style="max-width:220px">
+<figure class="img" style="max-width:45%">
   <a href="/images/escalate-to-the-llm.png"><img src="/images/escalate-to-the-llm.png" alt="In Zeeguu, the inline [translation](../zeeguu/#translation) is the primary path; when the user wants a better rendering they escalate to an LLM on demand via the &quot;[Ask an AI](../zeeguu/#translation)&quot; option."></a>
   <figcaption>In Zeeguu, the inline [translation](../zeeguu/#translation) is the primary path; when the user wants a better rendering they escalate to an LLM on demand via the &quot;[Ask an AI](../zeeguu/#translation)&quot; option.</figcaption>
 </figure>
+
+A second escalation in the same system fires without the user. When the parts of a [multi-word expression](../zeeguu/#multi-word-expressions) are separated in a sentence (German *ich rufe dich morgen an*, where *dich morgen* splits *rufe* from *an*), the translation APIs receive a fragment that has lost its context and return a poor rendering. That separation is visible in the parse, so the system escalates to the LLM on its own, passing the whole sentence rather than the fragment.[^esc-mwe]
+
+These two escalations differ in how they are triggered, and the difference has a cost. The user-triggered one needs UI surface and puts the routing burden on the reader. The automatic one costs neither, but it is only possible because a separated expression is visible in the parse before the cheap tool has run. Where a shortfall cannot be detected in advance, the user is the only signal left.
+
+[^esc-mwe]: [`translate_separated_mwe`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/mwe_translation_service.py) in the `zeeguu/api` repository.
 
 ## Problem
 
@@ -45,13 +51,12 @@ Use the specialized tool as the primary path and escalate to the LLM only when t
 
 ## Known Uses
 
-**[FrugalGPT](https://arxiv.org/abs/2305.05176)** (Chen, Zaharia & Zou, 2023) escalates when a scorer rejects the cheap answer, and **[RouteLLM](https://arxiv.org/abs/2406.18665)** (Ong et al., 2024) trains a confidence router that sends only the hard queries to the strong model. Both decide automatically from the model's own confidence, the *model cascade* variant of escalation discussed in the Notes below. The *external*-signal trigger this pattern centers on (the primary tool erroring, or the user rejecting the result) is less documented; Zeeguu is our instance of it.
+**[FrugalGPT](https://arxiv.org/abs/2305.05176)** (Chen, Zaharia & Zou, 2023) escalates when a scorer rejects the cheap answer, and **[RouteLLM](https://arxiv.org/abs/2406.18665)** (Ong et al., 2024) trains a confidence router that sends only the hard queries to the strong model. Both decide automatically from the model's own confidence, the *model cascade* variant of escalation discussed in the Notes below. The *external*-signal trigger this pattern centers on (the primary tool erroring, the input arriving in a shape the tool handles badly, or the user rejecting the result) is less documented; the two Zeeguu escalations above are our instances of it.
 
 
 ## Notes
 
 - *Applies broadly.* Beyond translation: topic classification, named entity recognition, or any task where a cheaper tool handles the common case and the LLM handles the long tail.
-- *Distinct from High-Recall Gate, Precision Verdict.* There a classical stage runs on every input as a recall gate and the LLM runs only on what it flags; here the cheap tool is the whole answer in the common case, and the LLM is reached only when it errors or the user rejects the result.
 - *Escalation, not fallback.* Unlike a reliability fallback (where the secondary is an equal-or-lesser backup invoked when the primary fails), here the secondary is **more capable and more expensive**, invoked when the primary is not good enough. The movement is *up* in quality and cost, not *down* into degraded mode. That is why we name it escalation.
 - *Relationship to the model cascade.* This is the human-/failure-triggered cousin of the **model cascade** in ML serving, where a cheap model runs first and a confidence threshold routes hard inputs to a larger model. The shared shape is *cheap tier first, expensive tier on demand*; the difference is the trigger. A cascade escalates automatically on the model's own low confidence, whereas this pattern escalates on external signals: the primary tool erroring, or the user explicitly declaring the result inadequate. A confidence-based cascade is thus one possible escalation policy; user dissatisfaction is another, and the two can be combined.
 - *A black-box primary exposes no confidence to threshold on.* Zeeguu's translation APIs (Google, Azure, DeepL) return a translation but no calibrated per-request confidence, so the internal-confidence trigger a model cascade relies on is not even available here; the escalation signal has to come from outside the tool, its erroring or the user rejecting the result.

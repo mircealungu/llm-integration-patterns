@@ -10,23 +10,26 @@ permalink: /prompt-amortization/
 </nav>
 
 
-<figure class="img" style="max-width:640px">
-  <a href="/images/prompt-amortization-combined-validation.png"><img src="/images/prompt-amortization-combined-validation.png" alt="The [`COMBINED_VALIDATION_PROMPT`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L72) template: ~250 lines of validation rules, frequency/[CEFR](../zeeguu/#cefr-levels)/phrase-type taxonomies, output format, and examples, wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes."></a>
-  <figcaption>The [`COMBINED_VALIDATION_PROMPT`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L72) template: ~250 lines of validation rules, frequency/[CEFR](../zeeguu/#cefr-levels)/phrase-type taxonomies, output format, and examples, wrapped around just three variables (`{word}`, `{translation}`, `{context}`). Sent one pair at a time, the entire preamble is re-paid on every call. This fixed overhead is the cost the pattern amortizes.</figcaption>
-</figure>
-
-
 ## Context
 
-Many LLM calls share the same shape: a large, fixed instructional prompt (rules, taxonomies, output format, examples) wrapped around a tiny variable input (see figure). The work is offline and batchable: nobody is blocked on any single result.
+Many LLM calls share the same shape: a large, fixed instructional prompt (rules, taxonomies, output format, examples) wrapped around a tiny variable input. Across Zeeguu's fourteen LLM calls the template runs from a few hundred to several thousand characters, and it is re-sent in full on every call (Figure 1).
 
-## Example
+<figure class="img" style="max-width:85%">
+  <a href="/images/prompt-template-sizes.svg"><img src="/images/prompt-template-sizes.svg" alt="Fixed prompt-template size for the fourteen LLM calls in Zeeguu, in characters. Every call re-sends its whole template. The largest is 9,355 characters, the median 1,044, and the [`COMBINED_VALIDATION_PROMPT`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L70) discussed below is 3,065. The variable input is a word, a phrase, or a sentence, except for the two article-level calls, where it is the article itself. This fixed overhead is what the pattern amortizes."></a>
+  <figcaption>Fixed prompt-template size for the fourteen LLM calls in Zeeguu, in characters. Every call re-sends its whole template. The largest is 9,355 characters, the median 1,044, and the [`COMBINED_VALIDATION_PROMPT`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L70) discussed below is 3,065. The variable input is a word, a phrase, or a sentence, except for the two article-level calls, where it is the article itself. This fixed overhead is what the pattern amortizes.</figcaption>
+</figure>
+
+The work is offline and batchable: nobody is blocked on any single result.
+
+## Examples
 
 Several Zeeguu jobs have exactly this shape. Rather than pay the preamble once per item, they batch (i.e., pack) related items into a single call, in one of two directions: **fan-in** (many inputs, one call) or **fan-out** (one input, many outputs):
 
 - **[Meaning](../zeeguu/#the-learner-model) classification** (*fan-in*) sends ~15 word-meanings per call, sharing one frequency/CEFR-type taxonomy prompt across the whole batch.[^amort-meaning]
 - **Example-sentence validation** (*fan-in*) checks ~20 generated examples per call.[^amort-validate]
 - **[Article simplification](../zeeguu/#article-simplification)** (*fan-out*) produces every CEFR level simpler than the original in one call, one section per level, turning four or five requests into one, about 75% fewer calls for a typical article.[^amort-simplify]
+
+The three are one move seen along two axes. The first two amortize the preamble across *inputs*, the third across *outputs*, and in both directions the batch size is set by whichever ceiling binds first, which is not the same ceiling in the two directions.
 
 [^amort-meaning]: The batched meaning-classifier prompt, [`create_batch_meaning_frequency_and_type_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/meaning_frequency_classifier.py#L52-L67) in the `zeeguu/api` repository.
 [^amort-validate]: The batch example-sentence validator, [`validate_examples_batch`](https://github.com/zeeguu/api/blob/master/tools/validate_and_clean_examples.py#L186-L196) in the `zeeguu/api` repository.

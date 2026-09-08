@@ -6,7 +6,7 @@ permalink: /soft-invalidation-of-llm-artifacts/
 
 
 <nav class="pattern-nav">
-  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../managing-change-over-time/">Managing Change Over Time</a>
+  <a href="../#the-patterns">← All patterns</a> <span class="crumb-sep">‹</span> <a href="../candidate/">Candidate</a>
 </nav>
 
 
@@ -59,6 +59,6 @@ Note that both the above are *analogues and not exact instances.* Both capture t
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../llm-output-provenance/">← LLM Output Provenance</a><a class="nav-next" href="../rent-then-build/">Rent, Then Build →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../prompt-injection-containment/">← Prompt Injection Containment</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSoft+Invalidation+of+LLM+Artifacts%5D+&labels=feedback%2Cmanaging-change-over-time&body=%2A%2ARe%3A%2A%2A+Soft+Invalidation+of+LLM+Artifacts%0A%2A%2ASection%3A%2A%2A+Managing+Change+Over+Time%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fsoft-invalidation-of-llm-artifacts%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSoft+Invalidation+of+LLM+Artifacts%5D+&labels=feedback%2Ccandidate&body=%2A%2ARe%3A%2A%2A+Soft+Invalidation+of+LLM+Artifacts%0A%2A%2ASection%3A%2A%2A+Candidate+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fsoft-invalidation-of-llm-artifacts%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

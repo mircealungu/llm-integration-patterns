@@ -2,7 +2,7 @@
 
 ## Context
 
-A user-facing feature needs an LLM result, but the model takes seconds while the user expects a response in well under one, and *which* results a given user will need next is predictable from their behaviour.
+A user-facing feature needs an LLM result, but the model takes seconds while the user expects the result in real time, and *which* results a given user will need next is predictable from their behaviour.
 
 ## Example
 

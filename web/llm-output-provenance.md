@@ -14,9 +14,15 @@ permalink: /llm-output-provenance/
 
 LLM-generated artifacts (example sentences, summaries, labels) are written to persistent storage and reused for a long time, while the models and prompts that produce them keep improving. The prompt changes more often than the model, and can matter as much to output quality, sometimes more.
 
-## Example
+## Examples
 
 When the system generates example sentences for a word, it stamps each stored sentence with a `created_by` value naming the model and prompt version that produced it (for example, `claude-opus / examples-v3`). When the example-generation prompt is improved to `v4`, the stale sentences are exactly those still stamped `v3`, so a single query finds them and they are regenerated, without touching the rest of the store.
+
+The stamp is not confined to example sentences. Simplified articles and their per-level summaries, audio lessons, and meaning-frequency labels all carry it, and they carry it by pointing at a shared generator row rather than each repeating a model name in a string column of its own.[^prov-entity]
+
+That shared entity is what turns regeneration into a join. Asking which artifacts a given prompt version produced is then one lookup, answered across every kind of artifact at once. With the model name denormalized into each table it is four scans over four independently spelled strings, and each new kind of generated artifact adds a fifth.
+
+[^prov-entity]: The `AIGenerator` entity (`model_name`, `prompt_version`) and the tables referencing it in the `zeeguu/api` repository.
 
 ## Problem
 
@@ -50,9 +56,19 @@ Store the full provenance tuple alongside every LLM-generated artifact: **model 
 - *Implicit provenance* keeps model names and prompt versions as constants in code and, when the origin of a row is needed, correlates its `created_at` timestamp with git history to find which model/prompt was deployed then. This works only where a single model/prompt is active at a time. Once more than one is live at once (A/B tests, multi-model routing, or the second model of an [Escalate to the LLM](../escalate-to-the-llm/) path), the timestamp no longer identifies a unique version and provenance must be stamped explicitly. Explicit tracking also makes analysis faster and keeps the data self-describing.
 - *Gateways log calls, not artifacts.* An LLM gateway records each request and response, but selective regeneration needs the provenance to live on the stored artifact and reach the database, where a query can find the stale rows; request logs alone do not drive it.
 
+## War Story: The Nine Hundred Lessons
+
+Provenance has to capture the dimension that actually varies. Zeeguu's `audio_lesson_meaning` rows carry a `created_by` field naming the model (`"Claude-Opus-Prompt1"`), but the prompt templates were edited in place without bumping that identifier, so one value spanned two materially different prompt eras. When the ~900 lessons generated under the earlier, ambiguous prompt had to be found, no query could find them. The only route was a content regex on the generated script itself, asking whether it contained the ambiguous phrasing. A provenance field that does not move when the prompt moves is decorative, and selective regeneration degrades into forensics on the output. If prompts evolve by in-place edits, the field naming them must bump on every edit, through a versioned filename or a content hash.
+
+Finding them was half the problem. The rows were also a cache, and they were referenced from lessons learners had already listened to, so they could be neither regenerated in bulk (expensive, and wasted on content never requested again) nor deleted (old daily lessons resolve them by id). Each affected row was given a `deprecated_at` timestamp instead, and the cache lookup was gated to skip deprecated rows: new lessons regenerate under the improved prompt while existing ones keep playing what the learner heard before, and regeneration is paid lazily, one row at a time, on next demand.
+
+That fix contained a second bug. Each lesson's audio file was named after the vocabulary item it taught, which does not change when the lesson is regenerated, so the first regeneration wrote its audio over the recording the deprecated row still needed. Files had to be keyed on the row's own id. Where old artifacts must stay resolvable, every stored by-product has to be keyed by the artifact that produced it, not by the subject it is about.
+
+Both halves trace to one root: the stored artifact did not carry enough of its own history.
+
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../targeted-user-feedback/">← Targeted User Feedback</a><a class="nav-next" href="../soft-invalidation-of-llm-artifacts/">Soft Invalidation of LLM Artifacts →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../reject-and-reprompt/">← Reject and Reprompt</a><a class="nav-next" href="../rent-then-build/">Rent, Then Build →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BLLM+Output+Provenance%5D+&labels=feedback%2Cmanaging-change-over-time&body=%2A%2ARe%3A%2A%2A+LLM+Output+Provenance%0A%2A%2ASection%3A%2A%2A+Managing+Change+Over+Time%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fllm-output-provenance%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

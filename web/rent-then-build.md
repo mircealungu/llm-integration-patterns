@@ -14,11 +14,13 @@ permalink: /rent-then-build/
 
 A feature needs to work in production now, but the efficient, dedicated version of it (a fine-tuned or classical model) needs training data or engineering that does not exist yet. A general-purpose LLM can do the task immediately, if expensively.
 
-## Example
+## Examples
 
 Zeeguu estimates the difficulty level of every article with an LLM, an expensive call it makes constantly. This is also the *bootstrapping* case: those LLM-generated difficulty labels are accumulating as the training set for a cheaper classical classifier that will take the task over once enough have been gathered. The LLM ships the feature and earns its keep today, while quietly producing the data that will one day retire it. 
 
 A plainer instance without the bootstrapping twist: article topic classification runs on an LLM now, to be replaced by a dedicated topic-detection model once the taxonomy of available topics settles.
+
+The two tasks are waiting on different things, which is what determines how long each rental lasts. Difficulty assessment is waiting on *volume*, and every call it makes brings the replacement closer, so the stand-in shortens its own tenancy. Topic classification is waiting on a *decision* about the taxonomy, which no amount of LLM traffic advances. A rented capability that generates its own replacement has an end in sight; one that does not can run indefinitely without anything going visibly wrong.
 
 ## Problem
 
@@ -59,6 +61,6 @@ These are distillation and self-instruct methods from the literature; we did not
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../soft-invalidation-of-llm-artifacts/">← Soft Invalidation of LLM Artifacts</a><a class="nav-next" href="../centralized-model-selection/">Centralized Model Selection →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../llm-output-provenance/">← LLM Output Provenance</a><a class="nav-next" href="../centralized-model-selection/">Centralized Model Selection →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BRent%2C+Then+Build%5D+&labels=feedback%2Cmanaging-change-over-time&body=%2A%2ARe%3A%2A%2A+Rent%2C+Then+Build%0A%2A%2ASection%3A%2A%2A+Managing+Change+Over+Time%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Frent-then-build%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

@@ -63,24 +63,26 @@ META = {
     "keywords": "large language models, software architecture, design patterns, "
                 "LLM integration, cost, latency, quality assurance",
     "abstract": (
-        "Large Language Models are increasingly being integrated as components "
-        "into existing user-facing applications, alongside the more visible "
-        "wave of LLM-native products such as chatbots and agents. The "
-        "engineering concerns of the two cases differ: when an LLM is a "
-        "component behind an existing feature rather than the product itself, "
-        "designers must reconcile its per-token cost, multi-second latency, "
-        "non-determinism, imprecision, rapidly shifting provider landscape, "
-        "and "
-        "general-purpose capability with the expectations of users who already "
-        "rely on the system. We present a catalogue of recurring architectural "
-        "patterns that address these concerns, grounded in over a year of LLM "
-        "integration work on Zeeguu, an open-source language-learning platform "
-        "with several hundred monthly active users. The patterns are grouped "
-        "into three themes (using the LLM efficiently, trusting its output, "
-        "and managing change over time) and described in the standard context, "
-        "forces, solution, and consequences format. They are presented as a "
-        "starting point for community refinement and extension, not as a "
-        "closed taxonomy."
+        "An LLM placed behind a feature in an existing application has to meet "
+        "expectations it was not designed for: an answer in the time a user "
+        "will wait, at a cost the feature can carry, in a form the surrounding "
+        "code can consume. How to reconcile a slow, costly and "
+        "non-deterministic model with those expectations is little "
+        "documented. "
+        "Products built around the model, such as chatbots, agents and "
+        "retrieval-augmented pipelines, have taken most of the attention. "
+        "Fitting a model into an application that already exists is a "
+        "different problem. We present a catalogue of nine recurring "
+        "architectural patterns for that case, grounded in a year and a half of "
+        "LLM integration work on Zeeguu, an open-source language-learning "
+        "platform with several hundred monthly active users. The patterns are "
+        "grouped into three themes, using the LLM efficiently, trusting its "
+        "output, and managing change over time, and described in the standard "
+        "context, forces, solution, and consequences format. Each pattern names "
+        "the Zeeguu features it came from and what corroborates it elsewhere, "
+        "whether published work, a tool that ships the same mechanism, or "
+        "another team's engineering account, and says where we found no such "
+        "use outside Zeeguu."
     ),
 }
 
@@ -88,6 +90,7 @@ META = {
 # ('intro'|'prose'|'category', relpath, section_title_for_category)
 MANIFEST = [
     ("intro",    "00 Intro.md", None),
+    ("prose",    "01 Methodology.md", None),
     ("prose",    "00a Case Study - Zeeguu.md", None),
     ("category", "01 Using the LLM Efficiently", "Using the LLM Efficiently"),
     ("category", "02 Trusting LLM Output", "Trusting LLM Output"),
@@ -160,9 +163,13 @@ def convert_embeds(text):
     def repl(m):
         parts = [p.strip() for p in m.group(1).split("|")]
         fname, width, pipe_cap = parts[0], None, None
+        pct = None
         for p in parts[1:]:
+            m2 = re.match(r"^(\d+)%$", p)
             w = re.match(r"^(\d+)(?:x\d+)?$", p)
-            if w:
+            if m2:
+                pct = m2.group(1)
+            elif w:
                 width = w.group(1)
             elif p:
                 pipe_cap = p
@@ -171,8 +178,17 @@ def convert_embeds(text):
         # text and break pandoc's parse (it mangles and duplicates the caption);
         # keep the link text, drop the target.
         caption = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", caption)
-        if width:
-            w = max(1, round(int(width) * PAPER_FIG_SCALE))
+        vector = fname.lower().endswith(".svg")
+        if vector:
+            # xelatex cannot include SVG; a .pdf sibling is committed beside it.
+            fname = fname[:-4] + ".pdf"
+        if pct:
+            # A percentage means the same thing in both media: that share of the
+            # text block in the PDF, of the content column on the web. One number
+            # serves both, and PAPER_FIG_SCALE does not apply. Prefer it.
+            attr = f"{{ width={pct}% }}"
+        elif width:
+            w = int(width) if vector else max(1, round(int(width) * PAPER_FIG_SCALE))
             attr = f"{{ width={w}px }}"
         else:
             attr = ""
@@ -297,6 +313,9 @@ def main_tex():
     email2 = f"\\email{{{m['email2']}}}\n" if m.get("email2") else ""
     return rf"""\documentclass[manuscript,nonacm,screen]{{acmart}}
 \settopmatter{{printacmref=false, printccs=false, printfolios=true}}
+% pandoc emits \includegraphics[width=..,height=\textheight] with no
+% keepaspectratio, which stretches every figure to fill the text height.
+\setkeys{{Gin}}{{keepaspectratio}}
 \setcopyright{{none}}
 \providecommand{{\tightlist}}{{\setlength{{\itemsep}}{{0pt}}\setlength{{\parskip}}{{0pt}}}}
 \providecommand{{\passthrough}}[1]{{#1}}

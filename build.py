@@ -111,6 +111,9 @@ def render_embeds(text: str) -> str:
 
     ![[file.png]]            -> default-capped, centered, tap-to-zoom
     ![[file.png|220]]        -> capped at 220px (Obsidian's own width syntax)
+    ![[file.png|45%]]        -> 45% of the content column here, and 45% of
+                                \textwidth in the PDF: one medium-independent
+                                number, so a figure is not sized twice.
 
     Caption: write it as an *italic line directly under the embed* — Obsidian
     renders it, and the build folds it into the <figcaption>:
@@ -130,14 +133,17 @@ def render_embeds(text: str) -> str:
         parts = [p.strip() for p in m.group(1).split("|")]
         fname, width, pipe_cap = parts[0], None, None
         for p in parts[1:]:
+            pct = re.match(r"^(\d+)%$", p)
             w = re.match(r"^(\d+)(?:x\d+)?$", p)
-            if w:
-                width = w.group(1)
+            if pct:
+                width = pct.group(1) + "%"
+            elif w:
+                width = w.group(1) + "px"
             elif p:
                 pipe_cap = p
         caption = (m.group(2) or pipe_cap or "").strip()
         src = f"/images/{fname}"
-        style = f' style="max-width:{width}px"' if width else ""
+        style = f' style="max-width:{width}"' if width else ""
         alt = html.escape(caption or fname.rsplit(".", 1)[0].replace("-", " "))
         cap = (f"\n  <figcaption>{html.escape(caption)}</figcaption>"
                if caption else "")

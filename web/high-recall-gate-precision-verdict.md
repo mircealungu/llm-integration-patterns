@@ -16,7 +16,7 @@ An LLM makes a judgment well but is too expensive to run on every input. A fast,
 
 ## Example
 
-[Multi-word expression (MWE) detection](../zeeguu/#multi-word-expressions) runs [Stanza](https://arxiv.org/abs/2003.07082) (a classical NLP library) first, as a cheap *high-recall* gate: it catches every possible candidate, tolerating false positives. If Stanza flags no candidate in a sentence, the LLM is never called. When it does flag one, an LLM re-analyzes the whole sentence and makes the *precision* call, rejecting the false positives; its verdict is used even when it overrides Stanza and finds no expression. The LLM therefore runs on only the fraction of sentences that might contain an expression, rather than on every sentence.
+[Multi-word expression (MWE) detection](../zeeguu/#multi-word-expressions) ran this way in Zeeguu until the LLM stage was switched off (see the note on its retirement below). [Stanza](https://arxiv.org/abs/2003.07082) (a classical NLP library) runs first, as a cheap *high-recall* gate: it catches every possible candidate, tolerating false positives. If Stanza flags no candidate in a sentence, the LLM is never called. When it does flag one, an LLM re-analyzes the whole sentence and makes the *precision* call, rejecting the false positives; its verdict is used even when it overrides Stanza and finds no expression. The LLM therefore runs on only the fraction of sentences that might contain an expression, rather than on every sentence.
 
 ## Problem
 
@@ -45,7 +45,10 @@ Run the cheap classical tool first, as a high-recall gate: invoke the LLM only w
 
 ## Notes
 
+- *Retired in Zeeguu, and why.* The MWE gate ran with LLM confirmation for the Germanic languages and Greek, then was measured and switched off: the LLM stage cost five to fifteen seconds per article, and the parser on its own was close enough in quality that the precision verdict did not pay for itself. The pattern is kept here because the shape recurs elsewhere, but our own instance is evidence for the tradeoff rather than for the benefit, which is why it is not among the patterns in the workshop paper.
+
 - Close kin to [Escalate to the LLM](../escalate-to-the-llm/) and to a model cascade: all three run a cheap step first and call the LLM selectively. The difference is the trigger. Escalate uses the cheap tool's answer and reaches for the LLM only when it is inadequate (a failure, or user dissatisfaction); here the cheap tool gates on detected difficulty (a flagged candidate) and the LLM's verdict replaces it, like a cascade, but the gating signal comes from a separate classical stage rather than the model's own confidence.
+- The gate comes in two shapes. Stanza either flags a candidate or does not, a yes/no gate with no dial on it; BM25 scores every document, and the cut at a hundred candidates is a threshold. Where the gate is scored, that threshold is where the first two forces meet: loosening it recovers candidates that would otherwise be lost before the LLM sees them, and pays for each one with a call.
 - The verdict is not one fixed operation. For multi-word expressions the LLM *filters*, rejecting the false positives the gate admitted; in RankGPT it *reorders*, since BM25 already ranks its hundred candidates and the LLM rewrites that ranking. What the two share is that the gate's proxy decides who is considered and the LLM decides the outcome, not that the second stage always does the same thing to what it receives.
 - *Enablers (not instances).* Frameworks such as [spaCy-llm](https://github.com/explosion/spacy-llm) (mixing LLM and rule-based components in one pipeline) and rerank products such as [Cohere Rerank](https://docs.cohere.com/docs/rerank-overview) make it easy to wire a classical stage to an LLM, but a library that provides the plumbing is the mechanism, not evidence of an in-app instance.
 
