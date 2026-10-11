@@ -1,0 +1,20 @@
+% Shared look for the per-pattern diagrams. Copied from the IATEFL LTSIG talk
+% (talks/doubly-personalised-language-learning/figures/llm-patterns.tex).
+\usepackage{amssymb}
+\usepackage{fontspec}
+\setmainfont{Helvetica Neue}
+\usetikzlibrary{arrows.meta,positioning,calc,fit}
+\definecolor{ink}{HTML}{23373B}
+\definecolor{hlc}{HTML}{C2410C}
+\definecolor{okc}{HTML}{2E7D32}
+\definecolor{badc}{HTML}{B91C1C}
+\tikzset{
+  mini/.style={rounded corners=2pt, minimum height=7mm, align=center,
+               font=\small\color{ink}, fill=white, draw=ink!70, line width=0.6pt, inner sep=3pt},
+  minillm/.style={mini, fill=hlc, draw=hlc, font=\small\bfseries\color{white}},
+  fixed/.style={mini, fill=ink!12},                 % the fixed part of a prompt
+  sarr/.style={-{Stealth[length=2mm]}, ink, line width=0.8pt},
+  lbl/.style={font=\footnotesize\itshape\color{ink!75}},
+  ok/.style={font=\small\bfseries\color{okc}},
+  bad/.style={font=\small\bfseries\color{badc}},
+}

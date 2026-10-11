@@ -1,0 +1,31 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+% Prompt Amortization: one fixed preamble, paid once per batch.
+% Fan-in packs many inputs into one call; fan-out asks for many outputs at once.
+\begin{document}
+\begin{tikzpicture}[cell/.style={mini, minimum width=7mm, inner sep=1pt}]
+% fan-in
+\node[lbl, anchor=east] at (-0.2,0) {fan-in};
+\node[fixed, minimum width=22mm] (p1) at (1.1,0) {preamble};
+\node[cell, right=0pt of p1] (i1) {w\textsubscript{1}};
+\node[cell, right=0pt of i1] (i2) {w\textsubscript{2}};
+\node[cell, right=0pt of i2] (i3) {w\textsubscript{3}};
+\node[minillm, minimum width=14mm, ] (l1) at (5.9,0) {LLM};
+\node[cell, right=8mm of l1] (o1) {r\textsubscript{1}};
+\node[cell, right=0pt of o1] (o2) {r\textsubscript{2}};
+\node[cell, right=0pt of o2] (o3) {r\textsubscript{3}};
+\draw[sarr] (i3) -- (l1); \draw[sarr] (l1) -- (o1);
+
+% fan-out
+\node[lbl, anchor=east] at (-0.2,-1.3) {fan-out};
+\node[fixed, minimum width=22mm] (p2) at (1.1,-1.3) {preamble};
+\node[cell, right=0pt of p2, minimum width=21mm] (a) {article};
+\node[minillm, minimum width=14mm, ] (l2) at (5.9,-1.3) {LLM};
+\node[cell, right=8mm of l2] (b1) {A2};
+\node[cell, right=0pt of b1] (b2) {B1};
+\node[cell, right=0pt of b2] (b3) {B2};
+\draw[sarr] (a) -- (l2); \draw[sarr] (l2) -- (b1);
+
+\node[lbl, below=1mm of p2] {paid once per call};
+\end{tikzpicture}
+\end{document}

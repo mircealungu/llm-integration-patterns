@@ -54,6 +54,11 @@ At its core, this is `map` for LLM calls: apply one shared, expensive prompt acr
 - ***Fan-in* batching** packs many independent inputs into one prompt, spreading a large instructional preamble across the whole batch.
 - ***Fan-out* batching** produces many outputs from a single input, emitting one section per output and collapsing several requests into one.
 
+<figure class="img" style="max-width:75%">
+  <a href="/images/prompt-amortization-diagram.svg"><img src="/images/prompt-amortization-diagram.svg" alt="Fan-in packs many inputs behind one preamble; fan-out asks for many outputs (here, one simplified article per CEFR level) from one. Either way the preamble is paid once per call."></a>
+  <figcaption>Fan-in packs many inputs behind one preamble; fan-out asks for many outputs (here, one simplified article per CEFR level) from one. Either way the preamble is paid once per call.</figcaption>
+</figure>
+
 Both combine naturally with [Anticipatory Precomputation](../anticipatory-precomputation/) (computing likely-needed results ahead of time): because results are computed offline, there is the luxury of batching.
 
 ## Consequences
