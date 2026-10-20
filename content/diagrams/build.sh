@@ -20,5 +20,8 @@ for name in "${names[@]}"; do
       || { tail -20 "$tmp/$name.log"; exit 1; }
     pdftocairo -svg "$tmp/$name.pdf" "../images/$name.svg"
     cp "$tmp/$name.pdf" "$pdf"
+    # the paper's text block is 15.2 cm; a wider diagram runs into the margin
+    w=$(pdfinfo "$pdf" | awk '/Page size/ {printf "%.1f", $3/72*2.54}')
+    awk -v w="$w" 'BEGIN { exit !(w > 15.0) }' && echo "  WARNING: $name is $w cm wide (max 15.0)" || true
   fi
 done

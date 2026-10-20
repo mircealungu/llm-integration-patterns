@@ -1,0 +1,20 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+% LLM-Checking-LLM, drawn like Escher's Drawing Hands: generator and verifier
+% feed each other. The output goes over the top arc; a failed check sends the
+% reason back along the bottom arc. A pass leaves the circle.
+\begin{document}
+\begin{tikzpicture}
+\node[minillm, minimum width=24mm, multi] (gen) at (0,0) {LLM\\[-1pt]{\footnotesize\mdseries generate}};
+\node[minillm, minimum width=24mm, multi, fill=hlc!12, draw=hlc, line width=0.9pt, font=\small\bfseries, text=hlc]
+  (chk) at (4.6,0) {LLM\\[-1pt]{\footnotesize\mdseries verify}};
+
+\draw[sarr] (gen.north) to[bend left=55] node[above, data] {output} (chk.north);
+\draw[sarr, color=badc] (chk.south) to[bend left=55] node[below, badcond] {fail: the reason} (gen.south);
+
+\node[mini] (in) at (-3.0,0) {input};
+\draw[sarr] (in) -- (gen);
+\node[ok, anchor=west] (use) at (7.6,0) {\checkmark\ use it};
+\draw[sarr, color=okc] (chk) -- node[above, okcond] {pass} (use);
+\end{tikzpicture}
+\end{document}

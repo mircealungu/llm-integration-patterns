@@ -1,0 +1,24 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+% Reject and Reprompt: a cheap classical check downstream of the LLM. A rejected
+% output is not repaired: it goes back, with the property it broke, into an
+% extended prompt. Attempts are bounded; when they run out, a terminal state is
+% recorded so a scheduled job does not rediscover the same dead end.
+\begin{document}
+\begin{tikzpicture}
+\node[mini] (p) at (0,0) {prompt};
+\node[minillm, minimum width=16mm] (gen) at (2.4,0) {LLM};
+\node[mini, minimum width=30mm, multi] (chk) at (6.6,0) {classical check\\[-1pt]{\footnotesize e.g.\ language detector}};
+\draw[sarr] (p) -- (gen);
+\draw[sarr] (gen) -- node[above, data] {output} (chk);
+\node[ok, anchor=west] (use) at (9.6,0) {\checkmark\ use it};
+\draw[sarr, color=okc] (chk) -- node[above, okcond] {pass} (use);
+
+\node[mini, multi, minimum width=36mm] (ext) at (2.4,-2.0) {extended prompt\\[-1pt]{\footnotesize + rejected output + broken property}};
+\draw[sarr, color=badc] ([xshift=-6mm]chk.south) |- node[pos=0.25, left, badcond] {reject} (ext.east);
+\draw[sarr] (ext) -- (gen);
+
+\draw[sarr, color=badc] ([xshift=6mm]chk.south) |- node[pos=0.75, above, badcond] {after n tries} (9.6,-1.2);
+\node[bad, anchor=west, align=left] at (9.6,-1.2) {give up,\\don't retry this input};
+\end{tikzpicture}
+\end{document}

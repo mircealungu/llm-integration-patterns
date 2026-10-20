@@ -32,6 +32,11 @@ A plain retry against a non-deterministic generator carries roughly the same fai
 
 Validate generated output with a cheap classical check placed downstream of the LLM. On rejection, regenerate rather than repair, extending the prompt with the rejected output and the property it violated, so the next attempt is conditioned on the failure. Bound the number of attempts, and record a terminal state when they run out. Some failures are permanent for a given input rather than incidental: a model that declines a topic on policy grounds declines it again tomorrow, and a generator that never produces output gives the check nothing to reject. Without a record, a scheduled job rediscovers the same dead end on every run.
 
+<figure class="img">
+  <a href="/images/reject-and-reprompt-diagram.svg"><img src="/images/reject-and-reprompt-diagram.svg" alt="A cheap classical check sits downstream of the LLM. A rejected output is not repaired: it goes back into an extended prompt, together with the property it broke, so the next attempt is conditioned on the failure. After a bounded number of tries the system records that this input will not get a result, so a scheduled job does not try it again."></a>
+  <figcaption>A cheap classical check sits downstream of the LLM. A rejected output is not repaired: it goes back into an extended prompt, together with the property it broke, so the next attempt is conditioned on the failure. After a bounded number of tries the system records that this input will not get a result, so a scheduled job does not try it again.</figcaption>
+</figure>
+
 ## Known Uses
 
 - **Zeeguu** validates generated [audio lesson](../zeeguu/#audio-lessons) scripts with a classical language detector and regenerates with an extended prompt when the detector rejects a script. The same loop carries the terminal case: when the model refuses a topic outright, judging the example offensive, the loop stops and the word is marked as one no lesson will be generated for, so the nightly job does not retry it indefinitely. *Added in 2026, and too recent to report how often the second attempt succeeds.*

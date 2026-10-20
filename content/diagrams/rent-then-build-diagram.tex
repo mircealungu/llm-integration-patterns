@@ -1,0 +1,24 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+% Rent, Then Build: the rented LLM serves the feature now; a dedicated model
+% takes it over later. In the bootstrapping variant the LLM's answers are the
+% training data for the model that will replace it.
+\begin{document}
+\begin{tikzpicture}[lane/.style={lbl, anchor=south west, inner xsep=0pt}]
+\node[mini, minimum width=20mm] (r1) at (1.0,0) {request};
+\node[minillm, multi, minimum width=26mm] (llm) at (4.4,0) {LLM\\[-1pt]{\footnotesize\mdseries rented, per call}};
+\node[ok, anchor=west] (a1) at (7.3,0) {\checkmark\ answer};
+\draw[sarr] (r1) -- (llm); \draw[sarr] (llm) -- (a1);
+\node[lane] at ([yshift=1mm]r1.north west) {now: rent};
+
+\node[fixed, minimum width=26mm] (data) at (4.4,-1.55) {training data};
+\draw[sarr] (llm) -- node[right, data] {its answers, as labels} (data);
+
+\node[mini, minimum width=20mm] (r2) at (1.0,-3.1) {request};
+\node[mini, multi, minimum width=26mm] (own) at (4.4,-3.1) {dedicated model\\[-1pt]{\footnotesize cheap, owned}};
+\node[ok, anchor=west] (a2) at (7.3,-3.1) {\checkmark\ answer};
+\draw[sarr] (r2) -- (own); \draw[sarr] (own) -- (a2);
+\draw[sarr] (data) -- node[right, data] {trains} (own);
+\node[lane] at ([yshift=1mm]r2.north west) {later: build};
+\end{tikzpicture}
+\end{document}

@@ -38,6 +38,11 @@ Use the LLM to perform a task in production while building a more efficient repl
 
 **Bootstrapping variant:** In the strongest form, the LLM *generates the training data for its own replacement* (as with the difficulty labels above): the rented capability directly produces the labeled data the dedicated successor is trained on, so running the stand-in funds and enables the build.
 
+<figure class="img">
+  <a href="/images/rent-then-build-diagram.svg"><img src="/images/rent-then-build-diagram.svg" alt="Now, a rented LLM serves the feature, paid per call. Later, a cheaper dedicated model owned by the system takes the task over. In the bootstrapping variant drawn here, the LLM&#x27;s answers become the training data for the model that replaces it."></a>
+  <figcaption>Now, a rented LLM serves the feature, paid per call. Later, a cheaper dedicated model owned by the system takes the task over. In the bootstrapping variant drawn here, the LLM&#x27;s answers become the training data for the model that replaces it.</figcaption>
+</figure>
+
 ## Consequences
 
 - **The feature is live from day one.** It gathers real usage and feedback immediately, with the LLM standing in for a component that does not exist yet.

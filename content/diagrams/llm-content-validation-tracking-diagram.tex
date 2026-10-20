@@ -1,0 +1,29 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+% LLM Content Validation Tracking: every stored LLM-generated record carries a
+% trust level. Events raise it (above); each consumer reads only the levels it
+% can tolerate (brackets below). A state, not a flow, so no arrows.
+\begin{document}
+\begin{tikzpicture}[
+  lvl/.style={mini, rounded corners=0pt, minimum width=29mm, inner sep=2pt},
+  ev/.style={lbl, anchor=south, yshift=0.5mm},
+  span/.style={ink, line width=0.8pt, |-|},
+  use/.style={font=\small\color{ink}, anchor=east, align=right}]
+\node[lvl, fill=okc!6]  (a) at (0,0)   {unverified};
+\node[lvl, fill=okc!16] (b) at (2.9,0) {auto-verified};
+\node[lvl, fill=okc!28] (c) at (5.8,0) {accepted};
+\node[lvl, fill=okc!42] (d) at (8.7,0) {confirmed};
+\node[ev] at (a.north) {generated};
+\node[ev] at (b.north) {LLM check passes};
+\node[ev] at (c.north) {used, no complaint};
+\node[ev] at (d.north) {trusted user confirms};
+\node[use, anchor=east] at (-1.5,0) {trust level\\[-2pt]of each record};
+
+\draw[span] (a.west |- 0,-1.0) -- node[above, lbl] {any level} (d.east |- 0,-1.0);
+\node[use] at (-1.5,-1.0) {low-stakes use\\[-2pt]{\footnotesize\color{ink!70} e.g.\ reading aid}};
+\draw[span] (d.west |- 0,-1.9) -- node[above, lbl] {confirmed only} (d.east |- 0,-1.9);
+\node[use] at (-1.5,-1.9) {high-stakes use\\[-2pt]{\footnotesize\color{ink!70} e.g.\ exercises}};
+\draw[ink!25, dotted] (-1.4,-1.9) -- (d.west |- 0,-1.9);
+\draw[ink!25, dotted] (-1.4,-1.0) -- (a.west |- 0,-1.0);
+\end{tikzpicture}
+\end{document}

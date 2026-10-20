@@ -47,7 +47,7 @@ In both cases, check in code what the schema cannot guarantee: that the response
 
 Keep the strictness in code, where it is deterministic and testable, rather than in ever-longer prompt instructions. The question here is only whether code can consume the output; whether consumable output is *correct* is the concern of [Reject and Reprompt](../reject-and-reprompt/) and [LLM-Checking-LLM](../llm-checking-llm/).
 
-<figure class="img" style="max-width:80%">
+<figure class="img">
   <a href="/images/defensive-output-parsing-diagram.svg"><img src="/images/defensive-output-parsing-diagram.svg" alt="A provider that enforces a schema sends JSON straight to the check; output from one that does not has its syntax repaired in code first. Either way, code checks what no schema guarantees (the response is complete, not a refusal, and its indices point into the input), and a response that fails degrades to a fallback instead of raising."></a>
   <figcaption>A provider that enforces a schema sends JSON straight to the check; output from one that does not has its syntax repaired in code first. Either way, code checks what no schema guarantees (the response is complete, not a refusal, and its indices point into the input), and a response that fails degrades to a fallback instead of raising.</figcaption>
 </figure>

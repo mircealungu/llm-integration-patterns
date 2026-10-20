@@ -12,6 +12,6 @@
 \node[minillm, minimum width=16mm] (llm) at (6.6,-1.4) {LLM};
 \node[ok, anchor=west, right=6mm of llm] (better) {\checkmark\ better answer};
 \draw[sarr] (llm) -- (better);
-\draw[sarr, color=badc] (tool.south) |- node[pos=0.72, above, font=\footnotesize\color{badc}] {error, or user rejects} (llm.west);
+\draw[sarr, color=badc] (tool.south) |- node[pos=0.25, right, badcond] {error, or user rejects} (llm.west);
 \end{tikzpicture}
 \end{document}

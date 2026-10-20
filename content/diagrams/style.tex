@@ -9,12 +9,20 @@
 \definecolor{okc}{HTML}{2E7D32}
 \definecolor{badc}{HTML}{B91C1C}
 \tikzset{
-  mini/.style={rounded corners=2pt, minimum height=7mm, align=center,
-               font=\small\color{ink}, fill=white, draw=ink!70, line width=0.6pt, inner sep=3pt},
+  mini/.style={rounded corners=2pt, minimum height=8.5mm, align=center,
+               font=\small\color{ink}, fill=white, draw=ink!70, line width=0.6pt, inner xsep=6pt, inner ysep=4pt},
   minillm/.style={mini, fill=hlc, draw=hlc, font=\small\bfseries\color{white}},
   fixed/.style={mini, fill=ink!12},                 % the fixed part of a prompt
+  multi/.style={align=center, inner ysep=7pt},      % a box with a two- or three-line label
   sarr/.style={-{Stealth[length=2mm]}, ink, line width=0.8pt},
-  lbl/.style={font=\footnotesize\itshape\color{ink!75}},
-  ok/.style={font=\small\bfseries\color{okc}},
-  bad/.style={font=\small\bfseries\color{badc}},
+  % Text roles. Two sizes only: small in a box or at the end of a path,
+  % footnotesize on an arrow or in the margin. No italics. A label on an arrow
+  % has its arrow's colour (data names regular, conditions bold); gray only
+  % for labels attached to no arrow.
+  lbl/.style={font=\footnotesize, text=ink!70},                  % lane / margin label
+  data/.style={font=\footnotesize, text=ink},                    % what flows on an (ink) arrow
+  okcond/.style={font=\footnotesize\bfseries, text=okc},       % branch condition, good path
+  badcond/.style={font=\footnotesize\bfseries, text=badc},     % branch condition, failure path
+  ok/.style={font=\small\bfseries, text=okc},                  % outcome, success (with a check mark)
+  bad/.style={font=\small\bfseries, text=badc},                % outcome, fallback
 }

@@ -1,0 +1,40 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+% LLM Output Provenance, as Zeeguu stores it: each artifact row points at a
+% shared generator row (model + prompt version) instead of repeating them, and
+% carries its own timestamp. The lines are references (foreign keys), not data
+% flow, so they have no arrowheads.
+\begin{document}
+\begin{tikzpicture}[
+  cell/.style={mini, rounded corners=0pt, minimum height=6.2mm, inner ysep=1pt, inner xsep=3pt, font=\small},
+  head/.style={fill=ink!12, font=\footnotesize, text=ink!70},
+  tname/.style={font=\small\bfseries, text=ink},
+  ref/.style={ink!60, line width=0.7pt, -{Circle[length=1.4mm]}}]
+\node[tname, anchor=south west, inner xsep=0pt] at (0.00,0.05) {example\_sentence};
+\node[cell, head, minimum width=31mm] (Lh0) at (1.550,-0.310) {sentence};
+\node[cell, minimum width=31mm] (L00) at (1.550,-0.930) {Mein Hamster lügt.};
+\node[cell, minimum width=31mm] (L10) at (1.550,-1.550) {Die Katze kündigt.};
+\node[cell, minimum width=31mm] (L20) at (1.550,-2.170) {Das Brot ist müde.};
+\node[cell, head, minimum width=20mm] (Lh1) at (4.100,-0.310) {created\_at};
+\node[cell, minimum width=20mm] (L01) at (4.100,-0.930) {2026-03-02};
+\node[cell, minimum width=20mm] (L11) at (4.100,-1.550) {2026-03-02};
+\node[cell, minimum width=20mm] (L21) at (4.100,-2.170) {2026-05-10};
+\node[cell, head, minimum width=27mm] (Lh2) at (6.450,-0.310) {ai\_generator\_id};
+\node[cell, minimum width=27mm] (L02) at (6.450,-0.930) {7};
+\node[cell, minimum width=27mm] (L12) at (6.450,-1.550) {7};
+\node[cell, minimum width=27mm] (L22) at (6.450,-2.170) {9};
+\node[tname, anchor=south west, inner xsep=0pt] at (8.90,-0.26) {ai\_generator};
+\node[cell, head, minimum width=9mm] (Rh0) at (9.350,-0.620) {id};
+\node[cell, minimum width=9mm] (R00) at (9.350,-1.240) {7};
+\node[cell, minimum width=9mm] (R10) at (9.350,-1.860) {9};
+\node[cell, head, minimum width=20mm] (Rh1) at (10.800,-0.620) {model\_name};
+\node[cell, minimum width=20mm] (R01) at (10.800,-1.240) {opus-4.5};
+\node[cell, minimum width=20mm] (R11) at (10.800,-1.860) {opus-4.5};
+\node[cell, head, minimum width=27mm] (Rh2) at (13.150,-0.620) {prompt\_version};
+\node[cell, minimum width=27mm] (R02) at (13.150,-1.240) {example-gen-v3};
+\node[cell, minimum width=27mm] (R12) at (13.150,-1.860) {example-gen-v4};
+\draw[ref] (L02.east) -- (R00.west);
+\draw[ref] (L12.east) -- (R00.west);
+\draw[ref] (L22.east) -- (R10.west);
+\end{tikzpicture}
+\end{document}

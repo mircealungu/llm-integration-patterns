@@ -28,6 +28,9 @@ When a prompt or model improves, how can exactly the stale artifacts be found an
 
 Store the full provenance tuple alongside every LLM-generated artifact: **model version, prompt version, generated output, timestamp**. This turns regeneration into a targeted query, as broad as *"re-run everything produced by prompt v2 with the improved v3"* or as narrow as a single *(model, prompt)* pair, so when a prompt does well on one model and poorly on another, only that combination is redone.
 
+![[llm-output-provenance-diagram.svg]]
+*Provenance as Zeeguu stores it. Each generated example sentence keeps its own timestamp and points at a shared `ai_generator` row naming the model and prompt version that produced it, rather than repeating them in every row. Finding what a given prompt produced is then a join on one table.*
+
 ## Consequences
 
 - **Selective regeneration becomes a query.** Re-run everything a given prompt or model produced and leave the rest, and the same record doubles as a quality-audit trail.

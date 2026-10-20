@@ -38,6 +38,11 @@ How can trusted and untrusted LLM-generated data be told apart after it lands in
 
 Maintain an explicit, queryable validation state for all LLM-generated content in the data model. Never let LLM-generated content silently become trusted data. The validation state may be a simple flag, but more often it is a spectrum or state machine reflecting different levels of trust (e.g., unverified → auto-verified → implicitly accepted → explicitly confirmed by a trusted user; alternatively, one could track the number of users that have validated a given content).
 
+<figure class="img">
+  <a href="/images/llm-content-validation-tracking-diagram.svg"><img src="/images/llm-content-validation-tracking-diagram.svg" alt="Every stored LLM-generated record carries a trust level, raised by the events above it. Each use reads only the levels it can tolerate: a low-stakes use accepts any level, a high-stakes one only confirmed records."></a>
+  <figcaption>Every stored LLM-generated record carries a trust level, raised by the events above it. Each use reads only the levels it can tolerate: a low-stakes use accepts any level, a high-stakes one only confirmed records.</figcaption>
+</figure>
+
 ## Consequences
 
 - **Each consumer can gate on trust.** Exercises use only confirmed pairs, reading assistance can fall back to auto-verified ones, and unverified output never silently becomes ground truth.
