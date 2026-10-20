@@ -1,0 +1,17 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+% Escalate to the LLM: the cheap specialised tool serves the common case;
+% the LLM runs only when that tool fails or the user rejects its result.
+\begin{document}
+\begin{tikzpicture}
+\node[mini] (in) at (0,0) {input};
+\node[mini, minimum width=26mm] (tool) at (2.9,0) {specialized tool};
+\node[ok, anchor=west] (use) at (5.4,0) {\checkmark\ use it};
+\draw[sarr] (in) -- (tool); \draw[sarr] (tool) -- (use);
+
+\node[minillm, minimum width=16mm] (llm) at (6.6,-1.4) {LLM};
+\node[ok, anchor=west, right=6mm of llm] (better) {\checkmark\ better answer};
+\draw[sarr] (llm) -- (better);
+\draw[sarr, color=badc] (tool.south) |- node[pos=0.72, above, font=\footnotesize\color{badc}] {error, or user rejects} (llm.west);
+\end{tikzpicture}
+\end{document}

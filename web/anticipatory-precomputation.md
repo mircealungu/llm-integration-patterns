@@ -35,6 +35,11 @@ How can an LLM-quality result reach the user's critical path without a wait for 
 
 Anticipate likely user needs and precompute LLM results offline (e.g., via cron jobs), so results are available instantly when needed. The system designer should model user behaviour in order to predict their LLM needs. Keep an on-demand path for cold or mispredicted requests, so a miss degrades to a normal wait rather than a failure.
 
+<figure class="img" style="max-width:75%">
+  <a href="/images/anticipatory-precomputation-diagram.svg"><img src="/images/anticipatory-precomputation-diagram.svg" alt="Ahead of time, the LLM answers the requests the system predicts and the answers are stored. A predicted request is then served from the store with no LLM call; an unpredicted one falls back to an on-demand call, a normal wait rather than a failure."></a>
+  <figcaption>Ahead of time, the LLM answers the requests the system predicts and the answers are stored. A predicted request is then served from the store with no LLM call; an unpredicted one falls back to an on-demand call, a normal wait rather than a failure.</figcaption>
+</figure>
+
 ## Consequences
 
 - **Zero latency at request time.** The LLM's cost and multi-second latency are paid entirely off the critical path; when the user acts, the result is already waiting.

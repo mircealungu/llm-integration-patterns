@@ -31,6 +31,9 @@ LLM quality is only worth its cost on the minority of requests the cheap tool ha
 
 Use the specialized tool as the primary path and escalate to the LLM only when the primary fails or the user signals dissatisfaction. The LLM receives the original input, and (where it helps) the specialized tool's output and the user's feedback alongside it, so the escalation refines rather than restarts.
 
+![[escalate-to-the-llm-diagram.svg|70%]]
+*The specialized tool serves the common case. The LLM runs only on an observable shortfall: the tool errors, or the user rejects its result.*
+
 ## Consequences
 
 - **Cheap in the common case.** The LLM runs only on failure or dissatisfaction, so the vast majority of requests never incur its cost or latency.

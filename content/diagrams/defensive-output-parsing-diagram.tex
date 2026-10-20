@@ -1,0 +1,29 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+\usetikzlibrary{backgrounds}
+% Defensive Output Parsing: a provider that enforces a schema sends JSON straight
+% to the check; one that does not needs its syntax repaired in code first. Either
+% way code checks what no schema guarantees (complete, not refused, indices in
+% range), and degrades to a fallback instead of raising.
+\begin{document}
+\begin{tikzpicture}[two/.style={align=center, font=\small\bfseries\color{white}}]
+\node[minillm, minimum width=26mm, two] (l1) at (0,0) {LLM\\[-1pt]{\footnotesize\mdseries schema enforced}};
+\node[minillm, minimum width=26mm, two] (l2) at (0,-1.6) {LLM\\[-1pt]{\footnotesize\mdseries no schema}};
+
+\node[mini, minimum width=30mm, align=center] (fix) at (4.1,-1.6) {repair syntax\\[-1pt]{\footnotesize strip fence, find JSON}};
+\node[mini, minimum width=30mm, align=center] (chk) at (8.0,0) {usable by code?\\[-1pt]{\footnotesize complete, not refused,}\\[-3pt]{\footnotesize indices in range}};
+\draw[sarr] (l1) -- node[above, lbl] {JSON} (chk);
+\draw[sarr] (l2) -- node[above, lbl] {raw text} (fix);
+\draw[sarr] (fix.east) -| ([xshift=-5mm]chk.south);
+
+\node[ok, anchor=west] (use) at (10.4,0) {\checkmark\ use it};
+\draw[sarr] (chk) -- node[above, font=\footnotesize\color{okc}] {yes} (use);
+\draw[sarr, color=badc] ([xshift=5mm]chk.south) |- node[pos=0.75, below, font=\footnotesize\color{badc}] {no} (10.4,-1.6);
+\node[anchor=west, font=\small\color{ink}] at (10.4,-1.6) {fallback: default, skip, retry};
+
+\begin{scope}[on background layer]
+\node[fill=ink!7, rounded corners=6pt, inner sep=2.5mm, fit=(fix)(chk)] (code) {};
+\end{scope}
+\node[lbl, anchor=south west] at (code.north west) {application code: deterministic, testable};
+\end{tikzpicture}
+\end{document}

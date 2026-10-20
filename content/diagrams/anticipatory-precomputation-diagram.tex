@@ -1,0 +1,28 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+% Anticipatory Precomputation: ahead of time the LLM fills a store of answers
+% for predicted requests. When a user asks, a stored answer is instant; an
+% unpredicted request falls back to an on-demand call, a normal wait.
+\begin{document}
+\begin{tikzpicture}[side/.style={lbl, anchor=east, align=right}]
+\node[side] at (-0.2,0) {ahead of time\\(e.g.\ nightly)};
+\node[mini, minimum width=26mm] (p) at (1.3,0) {predicted requests};
+\node[minillm, minimum width=14mm] (l1) at (4.0,0) {LLM};
+\node[mini, minimum width=24mm] (s) at (6.6,0) {stored answers};
+\draw[sarr] (p) -- (l1); \draw[sarr] (l1) -- (s);
+
+\draw[ink!35, dashed, line width=0.6pt] (-2.6,-0.75) -- (11.6,-0.75);
+
+\node[side] at (-0.2,-1.5) {user asks};
+\node[mini, minimum width=26mm] (r) at (1.3,-1.5) {request};
+\node[mini, minimum width=24mm] (q) at (6.6,-1.5) {already stored?};
+\draw[sarr] (r) -- (q);
+\draw[sarr] (s) -- (q);
+\node[ok, anchor=west] (yes) at (8.6,-1.5) {\checkmark\ instant answer};
+\draw[sarr, color=okc] (q) -- node[above, font=\footnotesize\color{okc}] {yes} (yes);
+\node[minillm, minimum width=14mm] (l2) at (6.6,-2.7) {LLM};
+\draw[sarr, color=badc] (q) -- node[right, font=\footnotesize\color{badc}] {no} (l2);
+\node[ok, anchor=west] (wait) at (8.6,-2.7) {\checkmark\ answer, after a normal wait};
+\draw[sarr] (l2) -- (wait);
+\end{tikzpicture}
+\end{document}
