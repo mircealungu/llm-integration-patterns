@@ -1,67 +1,70 @@
 # Prompt Amortization
 
+*Batch many items into one call, so the fixed prompt is paid once.*
+
 ## Context
 
-Many LLM calls share the same shape: a large, fixed instructional prompt (rules, taxonomies, output format, examples) wrapped around a tiny variable input. Across Zeeguu's fourteen LLM calls the template runs from a few hundred to several thousand characters, and it is re-sent in full on every call (Figure 1).
+Many LLM calls share the same shape: a large, fixed instructional prompt (rules, output format, examples) wrapped around a tiny variable input, and re-sent in full on every call.
 
-![[prompt-template-sizes.svg|85%]]
-*Fixed prompt-template size for the fourteen LLM calls in Zeeguu, in characters. Every call re-sends its whole template. The largest is 9,355 characters, the median 1,044, and the [`COMBINED_VALIDATION_PROMPT`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L70) discussed below is 3,065. The variable input is a word, a phrase, or a sentence, except for the two article-level calls, where it is the article itself. This fixed overhead is what the pattern amortizes.*
-
-The work is offline and batchable: nobody is blocked on any single result.
-
-## Examples
-
-Several Zeeguu jobs have exactly this shape. Rather than pay the preamble once per item, they batch (i.e., pack) related items into a single call, in one of two directions: **fan-in** (many inputs, one call) or **fan-out** (one input, many outputs):
-
-- **[Meaning](../zeeguu/#the-learner-model) classification** (*fan-in*) sends ~15 word-meanings per call, sharing one frequency/CEFR-type taxonomy prompt across the whole batch.[^amort-meaning]
-- **Example-sentence validation** (*fan-in*) checks ~20 generated examples per call.[^amort-validate]
-- **[Article simplification](../zeeguu/#article-simplification)** (*fan-out*) produces every CEFR level simpler than the original in one call, one section per level, turning four or five requests into one, about 75% fewer calls for a typical article.[^amort-simplify]
-
-The three are one move seen along two axes. The first two amortize the preamble across *inputs*, the third across *outputs*, and in both directions the batch size is set by whichever ceiling binds first, which is not the same ceiling in the two directions.
-
-[^amort-meaning]: The batched meaning-classifier prompt, [`create_batch_meaning_frequency_and_type_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/meaning_frequency_classifier.py#L52-L67) in the `zeeguu/api` repository.
-[^amort-validate]: The batch example-sentence validator, [`validate_examples_batch`](https://github.com/zeeguu/api/blob/master/tools/validate_and_clean_examples.py#L186-L196) in the `zeeguu/api` repository.
-[^amort-simplify]: The multi-level simplification prompt, [`get_adaptive_simplification_prompt`](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/prompts/article_simplification.py#L8-L14) in the `zeeguu/api` repository.
-
-
+The work is offline and nobody is blocked on any single result, so an item can wait for others to join it.
 
 ## Problem
 
-Sent one item at a time, that fixed preamble is re-paid on every call and dominates token cost and latency. How can it be paid once instead of once per item, without blowing past the model's quality or context limits?
+Many calls send a prompt far bigger than the item it carries, and send it again for every item, so most of what is paid for is the same instructions, repeated. How can a system keep its detailed prompt without paying for it once per item?
+
+## Problem in Zeeguu
+
+Zeeguu makes twenty-one kinds of LLM call. In most of them, a fixed template of a few hundred to several thousand characters wraps an input many times smaller (Figure 1). The [translation-validation prompt](https://github.com/zeeguu/api/blob/c853d767/zeeguu/core/llm_services/prompts/translation_validator.py#L8-L94), for example, wraps 5,096 characters of rules around a word, its translation and the sentence it came from. The templates also keep growing as rules are added: all four in the figure are longer than their first version (marked by the vertical tick). 
+
+![[prompt-template-sizes.svg|85%]]
+*Fixed prompt template (blue) and typical input (yellow), in characters, for four of Zeeguu's LLM calls at commit [`c853d76`](https://github.com/zeeguu/api/tree/c853d767) (October 2026). The black tick marks each template's size at its first version.*
 
 ## Forces
 
-- **Preamble overhead.** The preamble is large by necessity: detailed rules, taxonomies, and examples are what make the output accurate and consistent, so quality pulls it up, and it cannot be trimmed without losing quality. Sent one item at a time, that fixed preamble is re-paid on every call, in tokens, cost, and latency. The only lever left is to amortize it. *(pushes toward bigger batches)*
-- **Quality ceiling.** Accuracy and consistency degrade as more items share one call; past ~15–20 small items some models start dropping or muddling entries. *(pushes toward smaller batches)*
-- **Context ceiling.** Input *and* output must fit the context window; for fan-out the output side binds first, since each result is full-length.
+- **Detailed prompts work better.** The more precisely the rules describe the task, the more accurate and consistent the output. *(pulls toward big prompts)*
+- **Cost follows the tokens sent.** Providers charge per token, and locally hosted LLMs use energy in proportion to the tokens they process. Every call sends its whole prompt again, so a big prompt is paid for once per item. *(pulls toward sending fewer tokens)*
+- **Quality risk.** The more items one call handles, the worse the model can handle each one: it might skip some, mix them up, or shorten its answers. With many small inputs this starts after about 15 to 20 items, long before the context window is full; with full-length outputs, after only a few. How much depends on the model and the task, and only measuring tells. *(pulls toward small calls)*
 
 ## Solution
 
-At its core, this is `map` for LLM calls: apply one shared, expensive prompt across a batch so its setup is paid once, not once per item. It takes two forms:
+Put several items into one call, so the prompt is paid once per call instead of once per item,[^amort-cache] and stop adding items before the quality of the answers drops. There are two ways to do it:
 
 - ***Fan-in* batching** packs many independent inputs into one prompt, spreading a large instructional preamble across the whole batch.
 - ***Fan-out* batching** produces many outputs from a single input, emitting one section per output and collapsing several requests into one.
 
 ![[prompt-amortization-diagram.svg]]
-*Fan-in packs many inputs behind one preamble; fan-out asks for many outputs (here, one simplified article per CEFR level) from one. Either way the preamble is paid once per call.*
+*Fan-in packs many inputs behind one preamble; fan-out asks for many outputs (here, several example sentences for one word) from one. Either way the preamble is paid once per call.*
 
-Both combine naturally with *Anticipatory Precomputation* (computing likely-needed results ahead of time): because results are computed offline, there is the luxury of batching.
+## Solution in Zeeguu
+
+Zeeguu uses both forms, on two of the calls in Figure 1:
+
+- **Fan-in: meaning-frequency and idiom-tagging.** Zeeguu stores each word a learner saves together with its translation, a pair it calls a [*meaning*](../zeeguu/#the-learner-model). An offline job sends about 15 of them per call and gets back for each one how common it is and whether the phrase is worth studying as a unit: an idiom such as *break the ice* is, a random pair such as *doctor for* is not.[^amort-meaning]
+- **Fan-out: example-sentence generation.** One call asks for three example sentences for a word, so its template is paid once for all three.[^amort-examples]
+
+Fan-out also has a case where Zeeguu went back to one call per item. It used to ask for an article to be [simplified](../zeeguu/#article-simplification) to several levels in a single call: a B2 article came back at B1, A2 and A1 at once. Writing several versions in one answer, the model shortened them and merged paragraphs. An evaluation showed that one call per level simplifies much better, so Zeeguu now pays for the extra calls.[^amort-simplify] For that task, the batch size that works is one.
+
+[^amort-meaning]: The batched tagging prompt, [`create_batch_meaning_frequency_and_type_prompt`](https://github.com/zeeguu/api/blob/c853d767/zeeguu/core/llm_services/prompts/meaning_frequency_classifier.py#L52-L67) in the `zeeguu/api` repository, run by [`tools/reclassify_unclassified_phrases.py`](https://github.com/zeeguu/api/blob/c853d767/tools/reclassify_unclassified_phrases.py).
+[^amort-examples]: The example-generation prompt, [`format_prompt`](https://github.com/zeeguu/api/blob/c853d767/zeeguu/core/llm_services/prompts/example_generation.py#L223-L236) in the `zeeguu/api` repository, called with `count=3`.
+[^amort-simplify]: The old multi-level prompt, [`get_adaptive_simplification_prompt`](https://github.com/zeeguu/api/blob/c853d767/zeeguu/core/llm_services/prompts/article_simplification.py#L28), is now reached only from a manual tool, `tools/simplify_article.py`. The split, its evaluation and its cost are in [zeeguu/api#773](https://github.com/zeeguu/api/pull/773).
+[^amort-cache]: Two provider features sound similar but do something else. *Batch APIs* ([OpenAI Batch](https://developers.openai.com/api/docs/guides/batch), [Anthropic Message Batches](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing)) discount large asynchronous jobs, but every request in the job still pays for its full prompt. *Prompt caching* does discount a prompt that repeats across calls, but each item still makes its own call and waits for its own answer. It also works only under conditions: the cached prompt expires if no call reuses it soon enough (five minutes by default on Anthropic), and short prompts are not cached at all. As of October 2026 Anthropic's minimum is 512 tokens, about 2,000 characters, so the meaning-frequency and idiom-tagging template (about 1,000) is too short.
 
 ## Consequences
 
 - **Cost and latency amortize with batch size.** The fixed preamble is paid once per call instead of once per item, so per-item token cost *and* wall-clock latency fall roughly inversely with the batch size.
-- **Batch size is capped by the tightest ceiling, and which ceiling binds flips by direction.** For fan-in (many small items) the *quality* ceiling binds first (~15–20 items before the model drops or muddles entries), far below what the token window allows; for fan-out (full-length outputs) the *token* ceiling binds first, on the output side, since each result is full-length. So the workable batch size is workload-specific and must be tuned, not maximized.
-- **Applies only to deferrable work.** Fan-in must wait to accumulate items, so the pattern fits offline / pre-computed paths (composes with *Anticipatory Precomputation*) and is unavailable when a user is blocked on a single result.
+- **A batch size to tune, and to tune again.** The size that works depends on the model, the prompt and the items, and only measuring finds it. Nothing signals when a new model or a longer prompt has moved it, so it has to be measured again after each change.
+- **Outputs have to be matched back to their items.** A batched answer can skip an item or stop short, so the code checks which items got a usable output, rather than assuming they line up, and sends the rest again (*Defensive Output Parsing*).
+- **Fan-in adds a wait.** Items sit until a batch fills, so each result arrives later than it would on its own. This is why the pattern needs work that nobody is waiting on.
 
 ## Known Uses
 
 - *The fan-in direction is prior art.* Packing many independent inputs under one shared prompt is the published **[batch prompting](https://arxiv.org/abs/2301.08721)** technique (Cheng, Kasai & Yu, EMNLP 2023), which cuts token and time cost roughly inverse-linearly with batch size. This pattern's contribution is to add the *fan-out* direction and to frame both as a single move: amortizing one fixed preamble.
 - The *fan-out* direction maps directly to structured-output calls that emit several keyed results at once, and to the OpenAI/Anthropic multi-output `n` parameter (which requests several completions per call).
 
-## Notes
+## Related Patterns
 
-- **Both directions can be conceptualized as the functional programming concept `map`, over a different axis.** Fan-in maps the prompt over inputs, e.g. `map(validate, examples)`. Fan-out maps over outputs for a fixed input, e.g. `map(level -> simplify(article, level), levels)`. Either way the shared prompt is the function whose fixed setup the batch pays for once.
-- **Two adjacent provider mechanisms are not this pattern.** *Provider batch APIs* ([OpenAI Batch](https://developers.openai.com/api/docs/guides/batch), [Anthropic Message Batches](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing)) give ~50% off large asynchronous jobs, but each request still carries and pays for its own full preamble; they amortize scheduling and rate-limit overhead, *not* the in-prompt instructional overhead this pattern targets. *Prompt caching* (e.g. DeepSeek) instead caches a repeated prompt prefix and discounts it, which *does* amortize the preamble's cost, but not its latency or the per-call overhead of many round-trips. Batching still earns its keep alongside either.
+*Anticipatory Precomputation* (computing likely-needed results ahead of time) makes work offline, and offline work can wait for a batch to fill. *Task Fusion* is the mirror image: it shares one input across many tasks, where this pattern shares one set of instructions across many items.
 
 > [!draft]- Notes after the focus group
 > - drain pattern?
+> - Both directions are a `map` over a different axis. Fan-in maps the prompt over inputs, e.g. `map(validate, examples)`. Fan-out maps over outputs for a fixed input, e.g. `map(i -> example_sentence(word), 1..3)`. The shared prompt is the function whose fixed setup the batch pays for once.

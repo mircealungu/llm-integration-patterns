@@ -19,11 +19,11 @@
 % fan-out
 \node[lbl, anchor=east] at (-0.2,-1.3) {fan-out};
 \node[fixed, minimum width=22mm] (p2) at (1.1,-1.3) {preamble};
-\node[cell, right=0pt of p2, minimum width=21mm] (a) {article};
+\node[cell, right=0pt of p2, minimum width=10mm] (a) {word};
 \node[minillm, minimum width=14mm, ] (l2) at (5.9,-1.3) {LLM};
-\node[cell, right=8mm of l2] (b1) {A2};
-\node[cell, right=0pt of b1] (b2) {B1};
-\node[cell, right=0pt of b2] (b3) {B2};
+\node[cell, right=8mm of l2] (b1) {s\textsubscript{1}};
+\node[cell, right=0pt of b1] (b2) {s\textsubscript{2}};
+\node[cell, right=0pt of b2] (b3) {s\textsubscript{3}};
 \draw[sarr] (a) -- (l2); \draw[sarr] (l2) -- (b1);
 
 \node[lbl, below=1mm of p2] {paid once per call};

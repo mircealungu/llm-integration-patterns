@@ -2,7 +2,9 @@
 % (talks/doubly-personalised-language-learning/figures/llm-patterns.tex).
 \usepackage{amssymb}
 \usepackage{fontspec}
-\setmainfont{Helvetica Neue}
+% Linux Biolinum, the paper's caption font: at \small it matches the caption,
+% so a figure adds no third text size to the page.
+\setmainfont{LinBiolinum_R.otf}[BoldFont=LinBiolinum_RB.otf, ItalicFont=LinBiolinum_RI.otf]
 \usetikzlibrary{arrows.meta,positioning,calc,fit}
 \definecolor{ink}{HTML}{23373B}
 \definecolor{hlc}{HTML}{C2410C}

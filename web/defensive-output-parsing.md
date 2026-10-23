@@ -10,6 +10,8 @@ permalink: /defensive-output-parsing/
 </nav>
 
 
+*Check the shape of every LLM response in code, and repair it if needed.*
+
 ## Context
 
 An LLM is asked for output in a fixed shape (JSON, a delimited record), and the parsed result feeds code on the critical path. Some providers can enforce a schema and some cannot, and even an enforced schema does not guarantee a response the code can consume.

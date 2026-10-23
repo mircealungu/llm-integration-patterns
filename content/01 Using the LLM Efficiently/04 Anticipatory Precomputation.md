@@ -1,5 +1,7 @@
 # Anticipatory Precomputation
 
+*Generate the LLM results users will likely need before they ask.*
+
 ## Context
 
 A user-facing feature needs an LLM result, but the model takes seconds while the user expects the result in real time, and *which* results a given user will need next is predictable from their behaviour.

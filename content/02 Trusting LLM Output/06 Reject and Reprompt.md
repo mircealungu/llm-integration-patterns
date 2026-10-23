@@ -1,5 +1,7 @@
 # Reject and Reprompt
 
+*Regenerate a rejected output instead of repairing it, and tell the model what was wrong.*
+
 ## Examples
 
 Audio lesson scripts are generated at a high temperature so the dialogues sound natural, and the same freedom occasionally lets a dialogue drift into the wrong language. A cheap classical language detector checks each generated script. When it rejects one, the script is neither repaired nor silently dropped: it is regenerated with a prompt extended by the rejected output and the constraint it broke. The detector costs almost nothing next to the generation, and the second attempt is conditioned on the specific failure rather than resampling the same distribution.

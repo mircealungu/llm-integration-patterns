@@ -1,5 +1,7 @@
 # LLM-Checking-LLM
 
+*Check an LLM's output with a second LLM call that verifies one property, a narrower task than generating it.*
+
 ## Context
 
 An LLM generates content that will be used or stored, and its output is sometimes wrong in ways a targeted check could catch. Verifying a specific property (grammaticality, factual match, difficulty level) is a narrower task than the open-ended generation that produced it.

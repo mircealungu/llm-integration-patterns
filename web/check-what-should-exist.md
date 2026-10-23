@@ -65,6 +65,6 @@ We have not found a documented LLM system that monitors the domain output of its
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../one-wish-per-genie/">← One Wish per Genie</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../one-wish-per-genie/">← One Wish per Genie</a><a class="nav-next" href="../task-fusion/">Task Fusion →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BCheck+What+Should+Exist%5D+&labels=feedback%2Ccandidate&body=%2A%2ARe%3A%2A%2A+Check+What+Should+Exist%0A%2A%2ASection%3A%2A%2A+Candidate+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fcheck-what-should-exist%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

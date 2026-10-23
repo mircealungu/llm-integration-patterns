@@ -1,0 +1,747 @@
+{
+ "903a85f0596d66d052da12be6f1fd69c4a203186": {
+  "date": "2025-01-28",
+  "sizes": {}
+ },
+ "86b4e24a5b322c0d4075adad73a6839bc1622d72": {
+  "date": "2025-02-28",
+  "sizes": {}
+ },
+ "f8bdbedd4d896200d7ef20f5cb9341739c497563": {
+  "date": "2025-03-25",
+  "sizes": {}
+ },
+ "4bb1a0a1a78d6d65fbaa85aa5ec1251d4f94e6fa": {
+  "date": "2025-04-30",
+  "sizes": {}
+ },
+ "4454e2d2b7ece615df1c9f3a0029c4ee724069f7": {
+  "date": "2025-05-28",
+  "sizes": {}
+ },
+ "153027337d0a6782547fee5d893347df2de83ea1": {
+  "date": "2025-06-30",
+  "sizes": {}
+ },
+ "0f548621d475731a9bf396c3bf2aa37fc320b73f": {
+  "date": "2025-07-31",
+  "sizes": {
+   "Word lesson script": {
+    "template": 2202,
+    "input": 42
+   }
+  }
+ },
+ "aec7bd9b5570c775decd36b361e1a2d4ca1b3633": {
+  "date": "2025-08-29",
+  "sizes": {
+   "Meaning-frequency and idiom-tagging": {
+    "template": 752,
+    "input": 26
+   },
+   "Example-sentence generation": {
+    "template": 2091,
+    "input": 85
+   },
+   "Simplification, all levels": {
+    "template": 4523,
+    "input": 4060
+   },
+   "Word lesson script": {
+    "template": 2202,
+    "input": 42
+   }
+  }
+ },
+ "227037bc8e089290aa68ef095aba73eaacb242bc": {
+  "date": "2025-09-30",
+  "sizes": {
+   "Meaning-frequency and idiom-tagging": {
+    "template": 752,
+    "input": 26
+   },
+   "Example-sentence generation": {
+    "template": 2091,
+    "input": 85
+   },
+   "Simplification, all levels": {
+    "template": 4523,
+    "input": 4060
+   },
+   "Word lesson script": {
+    "template": 2202,
+    "input": 42
+   }
+  }
+ },
+ "add4d5b30db9e90c4e125606cc20078bbda1b970": {
+  "date": "2025-10-29",
+  "sizes": {
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Example-sentence generation": {
+    "template": 2091,
+    "input": 85
+   },
+   "Simplification, all levels": {
+    "template": 5691,
+    "input": 4060
+   },
+   "Word lesson script": {
+    "template": 2202,
+    "input": 42
+   }
+  }
+ },
+ "e0adc5771f7cd79576ee4fa354822678d6850f7c": {
+  "date": "2025-11-30",
+  "sizes": {
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Example-sentence generation": {
+    "template": 2091,
+    "input": 85
+   },
+   "Simplification, all levels": {
+    "template": 5795,
+    "input": 4060
+   },
+   "Word lesson script": {
+    "template": 2202,
+    "input": 42
+   }
+  }
+ },
+ "88d4b0e386baa1269e1dcb1d851c151ffe556a7b": {
+  "date": "2025-12-29",
+  "sizes": {
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Example-sentence generation": {
+    "template": 2091,
+    "input": 85
+   },
+   "Simplification, all levels": {
+    "template": 6632,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 2202,
+    "input": 42
+   }
+  }
+ },
+ "f7ab76b807279633686635eff4197d84c86ab8bc": {
+  "date": "2026-01-30",
+  "sizes": {
+   "Multi-word expression translation": {
+    "template": 364,
+    "input": 84,
+    "batch": 197
+   },
+   "Multi-word expression detection": {
+    "template": 944,
+    "input": 178,
+    "batch": 957
+   },
+   "Translation validation": {
+    "template": 2560,
+    "input": 124
+   },
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Example-sentence generation": {
+    "template": 2091,
+    "input": 85
+   },
+   "Simplification, all levels": {
+    "template": 6945,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 2213,
+    "input": 42
+   }
+  }
+ },
+ "20884f2b7ead568f586673648a7704e61c1ead54": {
+  "date": "2026-02-26",
+  "sizes": {
+   "Multi-word expression translation": {
+    "template": 364,
+    "input": 84,
+    "batch": 197
+   },
+   "Multi-word expression detection": {
+    "template": 944,
+    "input": 178,
+    "batch": 957
+   },
+   "Translation validation": {
+    "template": 2953,
+    "input": 124
+   },
+   "Semantic equivalence": {
+    "template": 363,
+    "input": 39
+   },
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Learning-card generation": {
+    "template": 2969,
+    "input": 235
+   },
+   "Example-sentence generation": {
+    "template": 2792,
+    "input": 99
+   },
+   "Simplification, all levels": {
+    "template": 6982,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 2227,
+    "input": 125
+   }
+  }
+ },
+ "fcd74a18721935de157119e77f46c292e9251282": {
+  "date": "2026-03-31",
+  "sizes": {
+   "Multi-word expression translation": {
+    "template": 364,
+    "input": 84,
+    "batch": 197
+   },
+   "Multi-word expression detection": {
+    "template": 944,
+    "input": 178,
+    "batch": 957
+   },
+   "Translation validation": {
+    "template": 2953,
+    "input": 124
+   },
+   "Semantic equivalence": {
+    "template": 363,
+    "input": 39
+   },
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Learning-card generation": {
+    "template": 2969,
+    "input": 235
+   },
+   "Example-sentence generation": {
+    "template": 2792,
+    "input": 99
+   },
+   "Simplification, all levels": {
+    "template": 6982,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 2227,
+    "input": 125
+   }
+  }
+ },
+ "81850b0a151cbdfa514d2fcd2a2aa76e02b49612": {
+  "date": "2026-04-19",
+  "sizes": {
+   "Word translation in context": {
+    "template": 344,
+    "input": 91
+   },
+   "Multi-word expression translation": {
+    "template": 364,
+    "input": 84,
+    "batch": 197
+   },
+   "Multi-word expression detection": {
+    "template": 944,
+    "input": 178,
+    "batch": 957
+   },
+   "Translation validation": {
+    "template": 2953,
+    "input": 124
+   },
+   "Semantic equivalence": {
+    "template": 363,
+    "input": 39
+   },
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Learning-card generation": {
+    "template": 2969,
+    "input": 235
+   },
+   "Example-sentence generation": {
+    "template": 2792,
+    "input": 99
+   },
+   "Simplification, all levels": {
+    "template": 7552,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 4134,
+    "input": 206
+   },
+   "Topic dialogue script": {
+    "template": 3850,
+    "input": 192
+   },
+   "Topic validation": {
+    "template": 2568,
+    "input": 62
+   }
+  }
+ },
+ "ba9b6f18a6a03bf992737f9ad2e0580f051b7c4b": {
+  "date": "2026-05-31",
+  "sizes": {
+   "Word translation in context": {
+    "template": 344,
+    "input": 91
+   },
+   "Multi-word expression translation": {
+    "template": 364,
+    "input": 84,
+    "batch": 197
+   },
+   "Multi-word expression detection": {
+    "template": 944,
+    "input": 178,
+    "batch": 957
+   },
+   "Translation validation": {
+    "template": 2953,
+    "input": 124
+   },
+   "Semantic equivalence": {
+    "template": 363,
+    "input": 39
+   },
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Learning-card generation": {
+    "template": 2969,
+    "input": 235
+   },
+   "Example-sentence generation": {
+    "template": 2792,
+    "input": 99
+   },
+   "Simplification, all levels": {
+    "template": 7552,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 4134,
+    "input": 206
+   },
+   "Topic dialogue script": {
+    "template": 3850,
+    "input": 192
+   },
+   "Topic validation": {
+    "template": 2568,
+    "input": 62
+   }
+  }
+ },
+ "eb9290b9ee2a8de7c915deea565f6978c5ec645f": {
+  "date": "2026-06-18",
+  "sizes": {
+   "Word translation in context": {
+    "template": 344,
+    "input": 91
+   },
+   "Multi-word expression translation": {
+    "template": 364,
+    "input": 84,
+    "batch": 197
+   },
+   "Multi-word expression detection": {
+    "template": 944,
+    "input": 178,
+    "batch": 957
+   },
+   "Translation validation": {
+    "template": 2953,
+    "input": 124
+   },
+   "Semantic equivalence": {
+    "template": 363,
+    "input": 39
+   },
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Learning-card generation": {
+    "template": 2969,
+    "input": 235
+   },
+   "Example-sentence generation": {
+    "template": 2792,
+    "input": 99
+   },
+   "Simplification, all levels": {
+    "template": 7552,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 4134,
+    "input": 206
+   },
+   "Topic dialogue script": {
+    "template": 3850,
+    "input": 192
+   },
+   "Topic validation": {
+    "template": 2568,
+    "input": 62
+   }
+  }
+ },
+ "f67d9229ca2867db54536b7c34cef3bcd67fd4b0": {
+  "date": "2026-07-31",
+  "sizes": {
+   "Word translation in context": {
+    "template": 344,
+    "input": 91
+   },
+   "Multi-word expression translation": {
+    "template": 364,
+    "input": 84,
+    "batch": 197
+   },
+   "Multi-word expression detection": {
+    "template": 944,
+    "input": 178,
+    "batch": 957
+   },
+   "Translation validation": {
+    "template": 2953,
+    "input": 124
+   },
+   "Semantic equivalence": {
+    "template": 363,
+    "input": 39
+   },
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Learning-card generation": {
+    "template": 2969,
+    "input": 235
+   },
+   "Example-sentence generation": {
+    "template": 2792,
+    "input": 99
+   },
+   "Simplification, all levels": {
+    "template": 9157,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 4134,
+    "input": 206
+   },
+   "Topic dialogue script": {
+    "template": 3850,
+    "input": 192
+   },
+   "Topic validation": {
+    "template": 2568,
+    "input": 62
+   }
+  }
+ },
+ "2c0b7130cdcf972aa5ea6e9dd8833f13e8e2d9c4": {
+  "date": "2026-08-31",
+  "sizes": {
+   "Word translation in context": {
+    "template": 344,
+    "input": 91
+   },
+   "Multi-word expression translation": {
+    "template": 364,
+    "input": 84,
+    "batch": 197
+   },
+   "Multi-word expression detection": {
+    "template": 944,
+    "input": 178,
+    "batch": 957
+   },
+   "Translation validation": {
+    "template": 2953,
+    "input": 124
+   },
+   "Semantic equivalence": {
+    "template": 363,
+    "input": 39
+   },
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Learning-card generation": {
+    "template": 2969,
+    "input": 235
+   },
+   "Example-sentence generation": {
+    "template": 2792,
+    "input": 99
+   },
+   "CEFR assessment + summary": {
+    "template": 7621,
+    "input": 4060
+   },
+   "Simplification, all levels": {
+    "template": 9383,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 4852,
+    "input": 225
+   },
+   "Topic dialogue script": {
+    "template": 4568,
+    "input": 211
+   },
+   "Topic validation": {
+    "template": 2568,
+    "input": 62
+   }
+  }
+ },
+ "f6fd12f2ff95a901d052e3161d4aa3d35097c14c": {
+  "date": "2026-09-30",
+  "sizes": {
+   "Word translation in context": {
+    "template": 344,
+    "input": 91
+   },
+   "Multi-word expression translation": {
+    "template": 364,
+    "input": 84,
+    "batch": 197
+   },
+   "Multi-word expression detection": {
+    "template": 944,
+    "input": 178,
+    "batch": 957
+   },
+   "Word explanation": {
+    "template": 664,
+    "input": 94
+   },
+   "Translation validation": {
+    "template": 2953,
+    "input": 124
+   },
+   "Semantic equivalence": {
+    "template": 363,
+    "input": 39
+   },
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Learning-card generation": {
+    "template": 2969,
+    "input": 235
+   },
+   "Example-sentence generation": {
+    "template": 2792,
+    "input": 99
+   },
+   "CEFR assessment + summary": {
+    "template": 7621,
+    "input": 4060
+   },
+   "Simplification, all levels": {
+    "template": 9383,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 4852,
+    "input": 225
+   },
+   "Topic dialogue script": {
+    "template": 4568,
+    "input": 211
+   },
+   "Topic validation": {
+    "template": 2568,
+    "input": 62
+   }
+  }
+ },
+ "c853d7677e99fd83d4067fc244638ba78511f7da": {
+  "date": "2026-10-22",
+  "sizes": {
+   "Word translation in context": {
+    "template": 344,
+    "input": 91
+   },
+   "Multi-word expression translation": {
+    "template": 364,
+    "input": 84,
+    "batch": 197
+   },
+   "Multi-word expression detection": {
+    "template": 944,
+    "input": 178,
+    "batch": 957
+   },
+   "Word explanation": {
+    "template": 664,
+    "input": 94
+   },
+   "Translation validation": {
+    "template": 5096,
+    "input": 165
+   },
+   "Semantic equivalence": {
+    "template": 363,
+    "input": 39
+   },
+   "Meaning-frequency and idiom-tagging": {
+    "template": 974,
+    "input": 26,
+    "batch": 1020
+   },
+   "Learning-card generation": {
+    "template": 2969,
+    "input": 235
+   },
+   "Example-sentence generation": {
+    "template": 3523,
+    "input": 120
+   },
+   "Cloze answer judge": {
+    "template": 1608,
+    "input": 172
+   },
+   "Translation answer judge": {
+    "template": 1701,
+    "input": 204
+   },
+   "CEFR assessment + summary": {
+    "template": 7856,
+    "input": 4060
+   },
+   "Simplification, one level": {
+    "template": 4198,
+    "input": 4060
+   },
+   "Simplification, all levels": {
+    "template": 9618,
+    "input": 4060
+   },
+   "Grammar correction": {
+    "template": 1019,
+    "input": 4260
+   },
+   "Word lesson script": {
+    "template": 6452,
+    "input": 412
+   },
+   "Topic dialogue script": {
+    "template": 4568,
+    "input": 211
+   },
+   "Beginner dialogue script": {
+    "template": 7133,
+    "input": 160
+   },
+   "Lesson word extraction": {
+    "template": 926,
+    "input": 2526
+   },
+   "Lesson correctness check": {
+    "template": 2660,
+    "input": 2710
+   },
+   "Topic validation": {
+    "template": 2568,
+    "input": 62
+   }
+  }
+ }
+}

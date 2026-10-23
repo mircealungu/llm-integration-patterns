@@ -1,5 +1,6 @@
 # Defensive Output Parsing
 
+*Check the shape of every LLM response in code, and repair it if needed.*
 
 ## Context
 

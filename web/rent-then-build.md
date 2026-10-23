@@ -10,6 +10,8 @@ permalink: /rent-then-build/
 </nav>
 
 
+*Ship a feature on an LLM now, while building the cheaper component that will replace it.*
+
 ## Context
 
 A feature needs to work in production now, but the efficient, dedicated version of it (a fine-tuned or classical model) needs training data or engineering that does not exist yet. A general-purpose LLM can do the task immediately, if expensively.

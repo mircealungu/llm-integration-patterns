@@ -10,6 +10,8 @@ permalink: /llm-output-provenance/
 </nav>
 
 
+*Tag every stored LLM artifact with the model and prompt that made it.*
+
 ## Context
 
 LLM-generated artifacts (example sentences, summaries, labels) are written to persistent storage and reused for a long time, while the models and prompts that produce them keep improving. The prompt changes more often than the model, and can matter as much to output quality, sometimes more.

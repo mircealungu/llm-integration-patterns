@@ -15,7 +15,7 @@ Zeeguu runs the pattern in two places.
 
 Same task, two model tiers, selected by latency-sensitivity rather than by the task itself.
 
-**An owned machine as the slow path.** Zeeguu's latency-insensitive LLM work (CEFR assessment, translation validation, [meaning](../zeeguu/#the-learner-model)-frequency classification, ahead-of-time example generation) all bills against metered APIs, yet none of it is on a user's critical path. A single owned machine (a Mac Studio running Ollama) drains that entire queue overnight on a local model at zero per-token cost, with the cloud API as a deadline-bound fallback for whatever is not done by morning. It moves a whole category of spend off the metered bill onto hardware that already sits idle at night.
+**An owned machine as the slow path.** Zeeguu's latency-insensitive LLM work (CEFR assessment, translation validation, [meaning](../zeeguu/#the-learner-model)-frequency and idiom-tagging, ahead-of-time example generation) all bills against metered APIs, yet none of it is on a user's critical path. A single owned machine (a Mac Studio running Ollama) drains that entire queue overnight on a local model at zero per-token cost, with the cloud API as a deadline-bound fallback for whatever is not done by morning. It moves a whole category of spend off the metered bill onto hardware that already sits idle at night.
 
 ## Problem
 

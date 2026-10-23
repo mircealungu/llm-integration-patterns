@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 307" width="620" height="307" font-family="Charter, Georgia, serif" role="img" aria-label="Instructions for each task in Zeeguu's article-assessment call at commit c853d76, next to the article all of them read">
+<style>
+  .bar  { fill:#2a78d6; }
+  .shr  { fill:#a3a29c; }
+  .inp  { fill:#f2c230; }
+  .lbl  { font-size:13px; fill:#0b0b0b; }
+  .val,.leg  { font-size:11.5px; fill:#52514e; }
+  .tick { font-size:11px; fill:#52514e; }
+  .axis { font-size:11.5px; fill:#52514e; }
+  .grid { stroke:#d8d7d2; stroke-width:0.6; }
+  @media (prefers-color-scheme: dark) {
+    .bar { fill:#3987e5; } .shr { fill:#6b6a64; } .lbl { fill:#ffffff; }
+    .val,.leg,.tick,.axis { fill:#c3c2b7; } .grid { stroke:#3a3a38; }
+  }
+</style>
+<rect class="inp" x="150" y="14" width="13" height="11" rx="1.5"/><text class="leg" x="168" y="24">shared input</text><rect class="bar" x="270" y="14" width="13" height="11" rx="1.5"/><text class="leg" x="288" y="24">instructions for one task</text><rect class="shr" x="450" y="14" width="13" height="11" rx="1.5"/><text class="leg" x="468" y="24">instructions for all tasks</text>
+<line class="grid" x1="270.0" y1="42" x2="270.0" y2="265"/>
+<text class="tick" x="270.0" y="280" text-anchor="middle">0</text>
+<line class="grid" x1="340.0" y1="42" x2="340.0" y2="265"/>
+<text class="tick" x="340.0" y="280" text-anchor="middle">1k</text>
+<line class="grid" x1="410.0" y1="42" x2="410.0" y2="265"/>
+<text class="tick" x="410.0" y="280" text-anchor="middle">2k</text>
+<line class="grid" x1="480.0" y1="42" x2="480.0" y2="265"/>
+<text class="tick" x="480.0" y="280" text-anchor="middle">3k</text>
+<line class="grid" x1="550.0" y1="42" x2="550.0" y2="265"/>
+<text class="tick" x="550.0" y="280" text-anchor="middle">4k</text>
+<text class="axis" x="410.0" y="296" text-anchor="middle">characters</text>
+<text class="lbl" x="262" y="62.0" text-anchor="end">The article (read by every task)</text>
+<rect class="inp" x="270" y="49" width="280.0" height="17" rx="1.5"/>
+<text class="val" x="554.0" y="61.5">4,000</text>
+<text class="lbl" x="262" y="95.0" text-anchor="end">Titles and summaries at simpler levels</text>
+<rect class="bar" x="270" y="82" width="118.9" height="17" rx="1.5"/>
+<text class="val" x="392.9" y="94.5">1,699</text>
+<text class="lbl" x="262" y="118.0" text-anchor="end">Summary</text>
+<rect class="bar" x="270" y="105" width="78.1" height="17" rx="1.5"/>
+<text class="val" x="352.1" y="117.5">1,115</text>
+<text class="lbl" x="262" y="141.0" text-anchor="end">Disturbing-content check</text>
+<rect class="bar" x="270" y="128" width="74.6" height="17" rx="1.5"/>
+<text class="val" x="348.6" y="140.5">1,065</text>
+<text class="lbl" x="262" y="164.0" text-anchor="end">Paywall check</text>
+<rect class="bar" x="270" y="151" width="71.3" height="17" rx="1.5"/>
+<text class="val" x="345.3" y="163.5">1,019</text>
+<text class="lbl" x="262" y="187.0" text-anchor="end">Advertorial check</text>
+<rect class="bar" x="270" y="174" width="69.4" height="17" rx="1.5"/>
+<text class="val" x="343.4" y="186.5">991</text>
+<text class="lbl" x="262" y="210.0" text-anchor="end">CEFR level</text>
+<rect class="bar" x="270" y="197" width="40.6" height="17" rx="1.5"/>
+<text class="val" x="314.6" y="209.5">580</text>
+<text class="lbl" x="262" y="233.0" text-anchor="end">News or evergreen</text>
+<rect class="bar" x="270" y="220" width="25.6" height="17" rx="1.5"/>
+<text class="val" x="299.6" y="232.5">366</text>
+<text class="lbl" x="262" y="256.0" text-anchor="end">Shared instructions</text>
+<rect class="shr" x="270" y="243" width="68.8" height="17" rx="1.5"/>
+<text class="val" x="342.8" y="255.5">983</text>
+</svg>

@@ -1,5 +1,7 @@
 # LLM Content Validation Tracking
 
+*Tag every stored LLM output with its verification state.*
+
 ## Context
 
 LLM-generated content is written into persistent storage alongside human-verified data, and downstream features and users will read it. Some of it has been checked, most has not, and once stored the two look identical.
@@ -43,7 +45,7 @@ Maintain an explicit, queryable validation state for all LLM-generated content i
 - **[Label Studio](https://docs.humansignal.com/guide/ground_truths)**, another annotation tool, flags each item as ground truth or not and records whether it has been reviewed, so human-verified "gold" data stays clearly separate from unreviewed model predictions.
 - **[Snorkel](https://arxiv.org/abs/1711.10160)** (Ratner et al., VLDB 2017) attaches probabilistic confidence to programmatically generated labels rather than treating them as ground truth: a confidence spectrum rather than a discrete state machine.
 
-Together the three bracket the granularity this pattern turns on: a multi-state lifecycle (Argilla), a binary gold/not-gold flag (Label Studio), and a probabilistic score (Snorkel).
+The three tools show the range of options for how finely trust is recorded: a lifecycle with several states (Argilla), a yes/no "gold" flag (Label Studio), and a probability score (Snorkel).
 
 *Note.* The examples above are data-labeling platforms; a documented, in-product *LLM-output* trust-state lifecycle (as opposed to human-annotation state) remains thinly evidenced: one reason we keep this among the less-settled patterns.
 

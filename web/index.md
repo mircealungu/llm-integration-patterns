@@ -75,6 +75,8 @@ The remainder of the paper is organised as follows. Section 2 describes how the 
 - [Soft Invalidation of LLM Artifacts](soft-invalidation-of-llm-artifacts/)
 - [One Wish per Genie](one-wish-per-genie/)
 - [Check What Should Exist](check-what-should-exist/)
+- [Task Fusion](task-fusion/)
+- [Regression Set per LLM Task](regression-set-per-llm-task/)
 
 ## More
 
