@@ -13,3 +13,4 @@ paper/baseline-preshepherd/
 paper/diffwork/
 paper/response-to-shepherd.md
 session-delta.patch
+__pycache__/
