@@ -127,11 +127,19 @@ PATTERN_NEW_PAGE = "```{=latex}\n\\newpage\n```"
 
 # A small centred ornament closing each pattern (rule, diamond, rule, in the
 # theme colour), so a pattern that ends mid-page ends visibly rather than just
-# stopping. \nopagebreak keeps it on the pattern's last page.
-PATTERN_END = ("```{=latex}\n\\nopagebreak\\par\\bigskip\n\\begin{center}"
-               "\\textcolor{themecolor!80}{\\rule[0.6ex]{1.5cm}{0.4pt}\\enspace"
-               "{\\scriptsize ◆}\\enspace\\rule[0.6ex]{1.5cm}{0.4pt}}"
-               "\\end{center}\n```")
+# stopping. While every pattern starts on a new page, it sits centred in the
+# white space left below the pattern; otherwise three blank lines set it apart
+# from the last paragraph. If the pattern fills its last page, the ornament is
+# left out rather than set alone on a new page.
+PATTERN_ORNAMENT = ("\\centerline{"
+                    "\\textcolor{themecolor!80}{\\rule[0.6ex]{1.5cm}{0.4pt}\\enspace"
+                    "{\\scriptsize ◆}\\enspace\\rule[0.6ex]{1.5cm}{0.4pt}}}")
+PATTERN_GAP = "\\vspace*{\\fill}" if DRAFT_NEW_PAGE_EACH else "\\vspace{3\\baselineskip}"
+PATTERN_END = ("```{=latex}\n\\par\\ifdim\\dimexpr\\pagegoal-\\pagetotal\\relax"
+               "<4\\baselineskip\\else\\nopagebreak" + PATTERN_GAP + "\n"
+               + PATTERN_ORNAMENT + "\n"
+               + ("\\vspace*{\\fill}\\newpage" if DRAFT_NEW_PAGE_EACH else "")
+               + "\\fi\n```")
 
 # A pill naming the pattern's theme, set right after each pattern's title,
 # so patterns (and their theme) stand out when skimming the PDF. It is raw
