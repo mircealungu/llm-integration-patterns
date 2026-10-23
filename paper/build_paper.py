@@ -357,8 +357,32 @@ def tex_escape_meta(s):
     return s  # META strings are pre-escaped (use --- for em-dash etc.)
 
 
+HL_STYLE = "tango"
+
+
+def highlighting_macros():
+    """The LaTeX macros pandoc's highlighted code needs, taken from pandoc's own
+    standalone output so they always match the pandoc that writes body.tex.
+    Adjusted to match the plain code blocks: caption size, indented 1.5em, and
+    no grey box behind the code."""
+    r = subprocess.run(["pandoc", "-s", "-t", "latex",
+                        f"--syntax-highlighting={HL_STYLE}"],
+                       input="```python\nx = 1\n```\n",
+                       capture_output=True, text=True, check=True)
+    m = re.search(r"\\usepackage\{color\}.*?\\newcommand\{\\WarningTok\}[^\n]*\n",
+                  r.stdout, re.S)
+    if not m:
+        sys.exit("could not find pandoc's highlighting macros")
+    macros = m.group(0).replace(
+        r"{Highlighting}{Verbatim}{commandchars=\\\{\}}",
+        r"{Highlighting}{Verbatim}{commandchars=\\\{\},fontsize=\small,xleftmargin=1.5em,baselinestretch=1}")
+    return re.sub(r"\\newenvironment\{Shaded\}[^\n]*\n",
+                  lambda _: "\\newenvironment{Shaded}{}{}\n", macros)
+
+
 def main_tex():
     m = META
+    hl = highlighting_macros()
     sub = f"\\subtitle{{{m['subtitle']}}}\n" if m.get("subtitle") else ""
     email2 = f"\\email{{{m['email2']}}}\n" if m.get("email2") else ""
     return rf"""\documentclass[manuscript,nonacm,screen]{{acmart}}
@@ -373,9 +397,12 @@ def main_tex():
 \usepackage{{float}}
 \makeatletter\def\fps@figure{{H}}\makeatother
 \setcopyright{{none}}
-% Code blocks at caption size (\small), so code adds no third text size.
-\makeatletter\g@addto@macro\@verbatim\small\makeatother
-\providecommand{{\tightlist}}{{\setlength{{\itemsep}}{{0pt}}\setlength{{\parskip}}{{0pt}}}}
+% Code blocks at caption size (\small), so code adds no third text size, and
+% indented so they sit inside the text (a fixed 1.5em: verbatim has already
+% set \parindent to zero by the time this runs).
+\makeatletter\g@addto@macro\@verbatim{{\small\advance\leftskip 1.5em}}\makeatother
+% Highlighted code (a code block with a language) goes through fancyvrb instead.
+{hl}\providecommand{{\tightlist}}{{\setlength{{\itemsep}}{{0pt}}\setlength{{\parskip}}{{0pt}}}}
 \providecommand{{\passthrough}}[1]{{#1}}
 \providecommand{{\pandocbounded}}[1]{{#1}}
 \graphicspath{{{{images/}}}}
@@ -438,9 +465,9 @@ def main():
     r = run(["pandoc", body_md, "-f",
              "markdown+tex_math_dollars+footnotes+pipe_tables",
              "-t", "latex", "--natbib", "--wrap=preserve",
-             # plain verbatim for code blocks: highlighting emits a Shaded
-             # environment that main.tex does not define
-             "--syntax-highlighting=none",
+             # main.tex defines the Shaded/Highlighting macros this emits
+             # (see highlighting_macros)
+             f"--syntax-highlighting={HL_STYLE}",
              "--lua-filter", lua_filter,
              "-o", os.path.join(OUT, "body.tex")])
     if r.returncode:
