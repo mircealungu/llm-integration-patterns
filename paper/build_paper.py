@@ -116,6 +116,26 @@ PAPER_FIG_SCALE = 0.5
 # LaTeX block (PDF-only; the website is built separately and is unaffected).
 PATTERN_LEADING_SPACE = "```{=latex}\n\\vspace{0.5cm}\n```"
 
+# Patterns (by slug) that start on a new page in the PDF instead of after the
+# leading space.
+NEW_PAGE_BEFORE = {"prompt-amortization"}
+# While drafting, every pattern starts on a new page, so each one can be read,
+# printed and annotated as a unit. Set to False for the submitted paper, where
+# only NEW_PAGE_BEFORE does.
+DRAFT_NEW_PAGE_EACH = True
+PATTERN_NEW_PAGE = "```{=latex}\n\\newpage\n```"
+
+# A pill naming the pattern's theme, set right after each pattern's title,
+# so patterns (and their theme) stand out when skimming the PDF. It is raw
+# inline LaTeX closing the heading, which pandoc leaves out of the label and the
+# PDF bookmark. \patternpill is defined in main_tex().
+PATTERN_TAG = r"`\quad\patternpill{THEME PATTERN}`{=latex}"
+THEME_TAGS = {
+    "Using the LLM Efficiently": "EFFICIENCY",
+    "Trusting LLM Output": "TRUSTING OUTPUT",
+    "Managing Change Over Time": "MANAGING CHANGE",
+}
+
 SYMBOL_MATH = {
     "→": r"$\rightarrow$",   # →
     "←": r"$\leftarrow$",    # ←
@@ -282,8 +302,15 @@ def assemble():
                 parts.append(t)
             for pf in [f for f in files if not os.path.basename(f).startswith("00")
                        and pattern_slug(f) in PAPER_SET]:
-                parts.append(PATTERN_LEADING_SPACE + "\n\n"
-                             + demote(process_file(pf), 1))
+                t = demote(process_file(pf), 1)
+                tag = PATTERN_TAG.replace("THEME", THEME_TAGS[title])
+                t = re.sub(r"^## (.*)$",
+                           lambda m: f"## {m.group(1)} {tag}",
+                           t, count=1, flags=re.M)
+                lead = (PATTERN_NEW_PAGE
+                        if DRAFT_NEW_PAGE_EACH or pattern_slug(pf) in NEW_PAGE_BEFORE
+                        else PATTERN_LEADING_SPACE)
+                parts.append(lead + "\n\n" + t)
     body = "\n\n".join(p.strip() for p in parts) + "\n"
     body = linkify_citations(body, load_bib_urls(BIB))
     for sym, rep in SYMBOL_MATH.items():
@@ -316,12 +343,26 @@ def main_tex():
 % pandoc emits \includegraphics[width=..,height=\textheight] with no
 % keepaspectratio, which stretches every figure to fill the text height.
 \setkeys{{Gin}}{{keepaspectratio}}
+% pandoc emits a bare \begin{{figure}}; pin every figure where it is in the text
+% ([H], float package) so it stays in its section. [h!] is not enough: a figure
+% that does not fit in what is left of the page floats to the next page's top,
+% past the following subsections.
+\usepackage{{float}}
+\makeatletter\def\fps@figure{{H}}\makeatother
 \setcopyright{{none}}
 \providecommand{{\tightlist}}{{\setlength{{\itemsep}}{{0pt}}\setlength{{\parskip}}{{0pt}}}}
 \providecommand{{\passthrough}}[1]{{#1}}
 \providecommand{{\pandocbounded}}[1]{{#1}}
 \graphicspath{{{{images/}}}}
 \definecolor{{themecolor}}{{RGB}}{{31,73,125}}
+\usepackage{{tikz}}
+% Theme pill on pattern titles (see PATTERN_TAG). A TikZ node because a
+% \colorbox cannot round its corners; robust so it survives inside \subsection.
+% A pale tint rather than a solid fill, so it labels without drawing the eye;
+% its text sits on the title's baseline.
+\DeclareRobustCommand{{\patternpill}}[1]{{\tikz[baseline=(t.base)]
+  \node(t)[fill=themecolor!12,text=themecolor,rounded corners=3.5pt,inner xsep=4pt,
+  inner ysep=1.8pt]{{\sffamily\scriptsize\bfseries #1}};}}
 \begin{{document}}
 \title{{{m['title']}}}
 {sub}\author{{{m['author']}}}
