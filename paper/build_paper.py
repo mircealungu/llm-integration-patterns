@@ -125,6 +125,14 @@ NEW_PAGE_BEFORE = {"prompt-amortization"}
 DRAFT_NEW_PAGE_EACH = True
 PATTERN_NEW_PAGE = "```{=latex}\n\\newpage\n```"
 
+# A small centred ornament closing each pattern (rule, diamond, rule, in the
+# theme colour), so a pattern that ends mid-page ends visibly rather than just
+# stopping. \nopagebreak keeps it on the pattern's last page.
+PATTERN_END = ("```{=latex}\n\\nopagebreak\\par\\bigskip\n\\begin{center}"
+               "\\textcolor{themecolor!80}{\\rule[0.6ex]{1.5cm}{0.4pt}\\enspace"
+               "{\\scriptsize ◆}\\enspace\\rule[0.6ex]{1.5cm}{0.4pt}}"
+               "\\end{center}\n```")
+
 # A pill naming the pattern's theme, set right after each pattern's title,
 # so patterns (and their theme) stand out when skimming the PDF. It is raw
 # inline LaTeX closing the heading, which pandoc leaves out of the label and the
@@ -310,7 +318,7 @@ def assemble():
                 lead = (PATTERN_NEW_PAGE
                         if DRAFT_NEW_PAGE_EACH or pattern_slug(pf) in NEW_PAGE_BEFORE
                         else PATTERN_LEADING_SPACE)
-                parts.append(lead + "\n\n" + t)
+                parts.append(lead + "\n\n" + t.strip() + "\n\n" + PATTERN_END)
     body = "\n\n".join(p.strip() for p in parts) + "\n"
     body = linkify_citations(body, load_bib_urls(BIB))
     for sym, rep in SYMBOL_MATH.items():
