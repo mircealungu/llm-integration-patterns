@@ -23,7 +23,7 @@ Zeeguu makes twenty-one kinds of LLM call. In most of them, a fixed template of 
 
 - **Detailed prompts work better.** The more precisely the rules describe the task, the more accurate and consistent the output. *(pulls toward big prompts)*
 - **Cost follows the tokens sent.** Providers charge per token, and locally hosted LLMs use energy in proportion to the tokens they process. Every call sends its whole prompt again, so a big prompt is paid for once per item. *(pulls toward sending fewer tokens)*
-- **Quality risk.** The more items one call handles, the worse the model can handle each one: it might skip some, mix them up, or shorten its answers. With many small inputs this starts after about 15 to 20 items, long before the context window is full; with full-length outputs, after only a few. How much depends on the model and the task, and only measuring tells. *(pulls toward small calls)*
+- **Quality drops with more items per call.** The more items one call handles, the worse the model can handle each one: it might skip some, mix them up, or shorten its answers. With many small inputs this starts after about 15 to 20 items, long before the context window is full; with full-length outputs, after only a few. How much depends on the model and the task, and only measuring tells. *(pulls toward small calls)*
 
 ## Solution
 
