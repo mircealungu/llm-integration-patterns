@@ -305,9 +305,13 @@ def assemble():
             # pattern subsections: 1cm of lead-in space and a dark accent colour.
             # The optional [title] keeps the ToC, running head, and PDF bookmark
             # in plain text; nothing cross-references these sections by label.
+            # While every pattern starts on a new page, the theme heading and its
+            # overview get a page of their own, set a little above the middle
+            # (as a part page), instead of sitting alone at the top of a page.
+            lead = ("\\newpage\\vspace*{\\fill}\n" if DRAFT_NEW_PAGE_EACH
+                    else "\\vspace{1cm}\n")
             parts.append(
-                "```{=latex}\n"
-                "\\vspace{1cm}\n"
+                "```{=latex}\n" + lead +
                 "\\section[" + title + "]{\\textcolor{themecolor}{" + title + "}}\n"
                 "```")
             # A `00 …`-prefixed file is the section overview, not a pattern: keep
@@ -316,6 +320,9 @@ def assemble():
                 t = re.sub(r"^#\s+.*$", "", process_file(f), count=1,
                            flags=re.M).strip()
                 parts.append(t)
+            if DRAFT_NEW_PAGE_EACH:
+                # written out: 1.5\fill would keep only the fixed part, 0pt
+                parts.append("```{=latex}\n\\vspace*{0pt plus 1.5fill}\n```")
             for pf in [f for f in files if not os.path.basename(f).startswith("00")
                        and pattern_slug(f) in PAPER_SET]:
                 t = demote(process_file(pf), 1)
