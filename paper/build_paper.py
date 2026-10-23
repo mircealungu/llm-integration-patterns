@@ -366,6 +366,8 @@ def main_tex():
 \usepackage{{float}}
 \makeatletter\def\fps@figure{{H}}\makeatother
 \setcopyright{{none}}
+% Code blocks at caption size (\small), so code adds no third text size.
+\makeatletter\g@addto@macro\@verbatim\small\makeatother
 \providecommand{{\tightlist}}{{\setlength{{\itemsep}}{{0pt}}\setlength{{\parskip}}{{0pt}}}}
 \providecommand{{\passthrough}}[1]{{#1}}
 \providecommand{{\pandocbounded}}[1]{{#1}}
@@ -429,6 +431,9 @@ def main():
     r = run(["pandoc", body_md, "-f",
              "markdown+tex_math_dollars+footnotes+pipe_tables",
              "-t", "latex", "--natbib", "--wrap=preserve",
+             # plain verbatim for code blocks: highlighting emits a Shaded
+             # environment that main.tex does not define
+             "--syntax-highlighting=none",
              "--lua-filter", lua_filter,
              "-o", os.path.join(OUT, "body.tex")])
     if r.returncode:
@@ -445,7 +450,9 @@ def main():
     for cmd in (tex, ["bibtex", "main"], tex, tex):
         r = run(cmd, cwd=OUT, capture_output=True, text=True)
     pdf = os.path.join(OUT, "main.pdf")
-    if not os.path.exists(pdf):
+    # -halt-on-error still leaves a PDF of the pages before the error, so a
+    # failed last pass must fail the build, or a cut-off paper gets published.
+    if r.returncode or not os.path.exists(pdf):
         # surface the last ~40 lines of the log for debugging
         log = os.path.join(OUT, "main.log")
         if os.path.exists(log):
