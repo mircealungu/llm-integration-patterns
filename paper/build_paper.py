@@ -363,8 +363,9 @@ HL_STYLE = "tango"
 def highlighting_macros():
     """The LaTeX macros pandoc's highlighted code needs, taken from pandoc's own
     standalone output so they always match the pandoc that writes body.tex.
-    Adjusted to match the plain code blocks: caption size, single-spaced, and
-    no grey box behind the code."""
+    Adjusted to match the plain code blocks: caption size and single-spaced,
+    on a very light grey box that stays inside the text width. A code block
+    without a language can opt into the box with ```text."""
     r = subprocess.run(["pandoc", "-s", "-t", "latex",
                         f"--syntax-highlighting={HL_STYLE}"],
                        input="```python\nx = 1\n```\n",
@@ -376,8 +377,14 @@ def highlighting_macros():
     macros = m.group(0).replace(
         r"{Highlighting}{Verbatim}{commandchars=\\\{\}}",
         r"{Highlighting}{Verbatim}{commandchars=\\\{\},fontsize=\small,baselinestretch=1}")
-    return re.sub(r"\\newenvironment\{Shaded\}[^\n]*\n",
-                  lambda _: "\\newenvironment{Shaded}{}{}\n", macros)
+    macros = re.sub(r"\\definecolor\{shadecolor\}[^\n]*\n",
+                    lambda _: "\\definecolor{shadecolor}{RGB}{246,246,246}\n", macros)
+    # framed's `shaded`, but shrunk by its own padding so the box does not
+    # stick out into the margins the way `shaded` does
+    shaded = (r"\newenvironment{Shaded}{\def\FrameCommand{\fboxsep=5pt"
+              r"\colorbox{shadecolor}}\MakeFramed{\advance\hsize-\width"
+              r"\FrameRestore}}{\endMakeFramed}" "\n")
+    return re.sub(r"\\newenvironment\{Shaded\}[^\n]*\n", lambda _: shaded, macros)
 
 
 def main_tex():
