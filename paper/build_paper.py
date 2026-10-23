@@ -363,7 +363,7 @@ HL_STYLE = "tango"
 def highlighting_macros():
     """The LaTeX macros pandoc's highlighted code needs, taken from pandoc's own
     standalone output so they always match the pandoc that writes body.tex.
-    Adjusted to match the plain code blocks: caption size, indented 1.5em, and
+    Adjusted to match the plain code blocks: caption size, single-spaced, and
     no grey box behind the code."""
     r = subprocess.run(["pandoc", "-s", "-t", "latex",
                         f"--syntax-highlighting={HL_STYLE}"],
@@ -375,7 +375,7 @@ def highlighting_macros():
         sys.exit("could not find pandoc's highlighting macros")
     macros = m.group(0).replace(
         r"{Highlighting}{Verbatim}{commandchars=\\\{\}}",
-        r"{Highlighting}{Verbatim}{commandchars=\\\{\},fontsize=\small,xleftmargin=1.5em,baselinestretch=1}")
+        r"{Highlighting}{Verbatim}{commandchars=\\\{\},fontsize=\small,baselinestretch=1}")
     return re.sub(r"\\newenvironment\{Shaded\}[^\n]*\n",
                   lambda _: "\\newenvironment{Shaded}{}{}\n", macros)
 
@@ -397,10 +397,9 @@ def main_tex():
 \usepackage{{float}}
 \makeatletter\def\fps@figure{{H}}\makeatother
 \setcopyright{{none}}
-% Code blocks at caption size (\small), so code adds no third text size, and
-% indented so they sit inside the text (a fixed 1.5em: verbatim has already
-% set \parindent to zero by the time this runs).
-\makeatletter\g@addto@macro\@verbatim{{\small\advance\leftskip 1.5em}}\makeatother
+% Code blocks at caption size (\small), so code adds no third text size. Not
+% indented: a block that should sit in from the margin carries its own spaces.
+\makeatletter\g@addto@macro\@verbatim\small\makeatother
 % Highlighted code (a code block with a language) goes through fancyvrb instead.
 {hl}\providecommand{{\tightlist}}{{\setlength{{\itemsep}}{{0pt}}\setlength{{\parskip}}{{0pt}}}}
 \providecommand{{\passthrough}}[1]{{#1}}
