@@ -363,7 +363,7 @@ def main():
         lines.append("")
     lines += ["## The Patterns", "",
               f'<span style="color:{STAR_COLOR}">★</span> *marks the patterns in the [PLoP 2026 workshop paper](/paper.pdf); '
-              "the rest are part of the extended online catalogue.*",
+              "the rest are part of the extended online catalog.*",
               ""]
     for ctitle, pats, prose in catalogue:
         if pats:

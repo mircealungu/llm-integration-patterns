@@ -72,7 +72,7 @@ META = {
         "Products built around the model, such as chatbots, agents and "
         "retrieval-augmented pipelines, have taken most of the attention. "
         "Fitting a model into an application that already exists is a "
-        "different problem. We present a catalogue of nine recurring "
+        "different problem. We present a catalog of nine recurring "
         "architectural patterns for that case, grounded in a year and a half of "
         "LLM integration work on Zeeguu, an open-source language-learning "
         "platform with several hundred monthly active users. The patterns are "
