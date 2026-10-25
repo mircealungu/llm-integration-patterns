@@ -6,7 +6,7 @@ Some of these patterns echo general distributed systems wisdom: batching (as in 
 * **Non-determinism**: the same input can yield a different, or malformed, output, so correctness must be enforced around the model (drives *Defensive Output Parsing*, *LLM-Checking-LLM*, *LLM Content Validation Tracking*).
 * **Asymmetry between generation and verification**: answering one narrow question about an output is easier than producing it (drives *LLM-Checking-LLM*).
 * **General-purpose capability**: the same component can serve as prototype, primary, or fallback (drives *Rent, Then Build* and *Escalate to the LLM*).
-* **A rapidly evolving, vendor-controlled substrate**: models and prompts improve and are deprecated on the vendor's schedule, underneath long-lived data (drives *LLM Output Provenance*).
+* **A rapidly evolving, vendor-controlled substrate**: models and prompts improve and are deprecated on the vendor's schedule, underneath long-lived data (drives *Track Output Provenance*).
 * **Quality-cost-latency tradeoff space**: uniquely wide compared to traditional APIs, and what the efficiency patterns navigate.
 
 <!-- paper-skip -->

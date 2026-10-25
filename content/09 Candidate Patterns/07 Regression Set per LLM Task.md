@@ -39,7 +39,7 @@ No change to a task's prompt, model or request settings merges without a run on 
 ## Relation to other patterns
 
 - *One Wish per Genie* admits a fallback only after evaluating it on recorded production inputs. That is one occasion for this set; this pattern makes the set permanent and per task, so the evaluation is there for every change, not built for the one at hand.
-- *LLM Output Provenance* records which prompt version and model produced each stored output; together with a regression set it lets a past run be replayed against a new prompt.
+- *Track Output Provenance* records which prompt version and model produced each stored output; together with a regression set it lets a past run be replayed against a new prompt.
 
 ## Known Uses
 

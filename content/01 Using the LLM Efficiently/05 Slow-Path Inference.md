@@ -47,7 +47,7 @@ Same task, two model tiers, selected by latency-sensitivity rather than by the t
 
 ## Consequences
 
-Slow-path output is much cheaper and best-effort in timing, so only latency-insensitive work is eligible, and the fast path (or cloud) stays as a deadline-bound fallback (composes with *Fail-Fast Provider Chain* and *Escalate to the LLM*). The slow path targets the same quality as the fast one, only more cheaply, so it is not a quality compromise. Results carry a different model identity and should be recorded as such (composes with *LLM Output Provenance*); untrusted slow-path output may need validation (composes with *LLM Content Validation Tracking*). Which model runs on which path should live in one place (composes with *Centralized Model Selection*), so re-tiering a feature is a one-line change.
+Slow-path output is much cheaper and best-effort in timing, so only latency-insensitive work is eligible, and the fast path (or cloud) stays as a deadline-bound fallback (composes with *Fail-Fast Provider Chain* and *Escalate to the LLM*). The slow path targets the same quality as the fast one, only more cheaply, so it is not a quality compromise. Results carry a different model identity and should be recorded as such (composes with *Track Output Provenance*); untrusted slow-path output may need validation (composes with *LLM Content Validation Tracking*). Which model runs on which path should live in one place (composes with *Centralized Model Selection*), so re-tiering a feature is a one-line change.
 
 ## Known Uses
 

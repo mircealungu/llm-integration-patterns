@@ -76,7 +76,7 @@ These are distillation methods from the literature. We did not find a first-hand
 
 [Escalate to the LLM](../escalate-to-the-llm/) is where this pattern often ends. A system starts with the LLM as the only path, builds a dedicated model, and then keeps the LLM for the inputs the dedicated model cannot handle.
 
-[LLM Output Provenance](../llm-output-provenance/) lets the bootstrapping variant choose its training data. Labels from a prompt or model version later found to be noisy can be left out.
+[Track Output Provenance](../track-output-provenance/) lets the bootstrapping variant choose its training data. Labels from a prompt or model version later found to be noisy can be left out.
 
 [LLM Content Validation Tracking](../llm-content-validation-tracking/) lets the replacement train only on labels that were checked, not on every guess of the LLM.
 
@@ -85,6 +85,6 @@ These are distillation methods from the literature. We did not find a first-hand
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../llm-output-provenance/">← LLM Output Provenance</a><a class="nav-next" href="../centralized-model-selection/">Centralized Model Selection →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../track-output-provenance/">← Track Output Provenance</a><a class="nav-next" href="../centralized-model-selection/">Centralized Model Selection →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BRent%2C+Then+Build%5D+&labels=feedback%2Cmanaging-change-over-time&body=%2A%2ARe%3A%2A%2A+Rent%2C+Then+Build%0A%2A%2ASection%3A%2A%2A+Managing+Change+Over+Time%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Frent-then-build%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

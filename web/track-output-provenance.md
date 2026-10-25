@@ -1,7 +1,8 @@
 ---
 layout: default
-title: "LLM Output Provenance"
-permalink: /llm-output-provenance/
+title: "Track Output Provenance"
+redirect_from: /llm-output-provenance/
+permalink: /track-output-provenance/
 ---
 
 
@@ -113,4 +114,4 @@ Care alone had not kept the versions honest, so the check moved into the build. 
 ---
 <div class="pattern-footer-nav"><a class="nav-prev" href="../reject-and-reprompt/">← Reject and Reprompt</a><a class="nav-next" href="../rent-then-build/">Rent, Then Build →</a></div>
 
-[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BLLM+Output+Provenance%5D+&labels=feedback%2Cmanaging-change-over-time&body=%2A%2ARe%3A%2A%2A+LLM+Output+Provenance%0A%2A%2ASection%3A%2A%2A+Managing+Change+Over+Time%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fllm-output-provenance%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)
+[💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BTrack+Output+Provenance%5D+&labels=feedback%2Cmanaging-change-over-time&body=%2A%2ARe%3A%2A%2A+Track+Output+Provenance%0A%2A%2ASection%3A%2A%2A+Managing+Change+Over+Time%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Ftrack-output-provenance%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

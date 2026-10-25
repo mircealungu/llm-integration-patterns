@@ -64,7 +64,7 @@ These are distillation methods from the literature. We did not find a first-hand
 
 *Escalate to the LLM* is where this pattern often ends. A system starts with the LLM as the only path, builds a dedicated model, and then keeps the LLM for the inputs the dedicated model cannot handle.
 
-*LLM Output Provenance* lets the bootstrapping variant choose its training data. Labels from a prompt or model version later found to be noisy can be left out.
+*Track Output Provenance* lets the bootstrapping variant choose its training data. Labels from a prompt or model version later found to be noisy can be left out.
 
 *LLM Content Validation Tracking* lets the replacement train only on labels that were checked, not on every guess of the LLM.
 

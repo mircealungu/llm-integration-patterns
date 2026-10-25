@@ -37,11 +37,11 @@ To avoid this happening again in the future, Zeeguu now keeps every model identi
 
 - **A retirement is a one-line edit.** Surviving a deprecation, or re-pointing a feature to a cheaper or faster tier, changes one line in a module that shows the whole model landscape on one screen, rather than a hunt across call sites.
 - **The registry only helps if nothing bypasses it.** It adds one layer of indirection, and a single stray hardcoded ID reintroduces the exact failure the pattern prevents, so the discipline has to hold everywhere.
-- **One constant keeps selection and provenance in sync.** Because the same central constant both selects the model and stamps it onto output, the two cannot drift (composes with *LLM Output Provenance*); it also names which model each entry of a *Fail-Fast Provider Chain* uses.
+- **One constant keeps selection and provenance in sync.** Because the same central constant both selects the model and stamps it onto output, the two cannot drift (composes with *Track Output Provenance*); it also names which model each entry of a *Fail-Fast Provider Chain* uses.
 
 ## War Story
 
-The same commit that repaired the retirement uncovered a second casualty of the identical disease. Simplified articles were being stamped `ai_model="claude-3-5-sonnet"` while the simplifier had long since moved to Haiku. The provenance field named a model that was no longer even in the pipeline (see *LLM Output Provenance*). Same root cause as the retirement: a model identifier duplicated into a place nobody remembers to update, silently going stale. Centralizing selection lets the provenance stamp and the call-time choice read from the same constant, so they cannot disagree.
+The same commit that repaired the retirement uncovered a second casualty of the identical disease. Simplified articles were being stamped `ai_model="claude-3-5-sonnet"` while the simplifier had long since moved to Haiku. The provenance field named a model that was no longer even in the pipeline (see *Track Output Provenance*). Same root cause as the retirement: a model identifier duplicated into a place nobody remembers to update, silently going stale. Centralizing selection lets the provenance stamp and the call-time choice read from the same constant, so they cannot disagree.
 
 ## Known Uses
 

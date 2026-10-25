@@ -63,7 +63,7 @@ The three tools show the range of options for how finely trust is recorded: a li
 
 ## Related Patterns
 
-[LLM Output Provenance](../llm-output-provenance/) records how an artifact was made; this pattern records whether it has been confirmed. Together they answer both questions about a stored artifact. [LLM-Checking-LLM](../llm-checking-llm/) is one way to check an output, and its verdict is what this pattern stores.
+[Track Output Provenance](../track-output-provenance/) records how an artifact was made; this pattern records whether it has been confirmed. Together they answer both questions about a stored artifact. [LLM-Checking-LLM](../llm-checking-llm/) is one way to check an output, and its verdict is what this pattern stores.
 
 
 

@@ -23,7 +23,7 @@ Zeeguu generates audio lessons and example sentences with an LLM, and learners a
 
 Give users a low-friction way to flag LLM-generated output, and capture enough context to act on it. Match the report's anchor to the shape of the content: for **continuous** content, anchor to the user's current position (the point in the script); for **discrete** content, attach a per-item report control so the flagged unit is unambiguous.
 
-Route each report into the quality machinery: record it against the artifact (composes with *LLM Content Validation Tracking*), let it trigger regeneration (composes with *Soft Invalidation of LLM Artifacts*), and use *LLM Output Provenance* to identify the prompt and model that produced the flagged output.
+Route each report into the quality machinery: record it against the artifact (composes with *LLM Content Validation Tracking*), let it trigger regeneration (composes with *Soft Invalidation of LLM Artifacts*), and use *Track Output Provenance* to identify the prompt and model that produced the flagged output.
 
 ## Solution in Zeeguu
 

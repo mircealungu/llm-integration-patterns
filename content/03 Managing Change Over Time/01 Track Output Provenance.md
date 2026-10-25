@@ -1,4 +1,4 @@
-# LLM Output Provenance
+# Track Output Provenance
 
 *Tag every stored LLM artifact with the model and prompt that made it.*
 

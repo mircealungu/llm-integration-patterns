@@ -65,7 +65,7 @@ The remainder of the paper is organized as follows. Section 2 describes how the 
 - [Reject and Reprompt](reject-and-reprompt/) <span style="color:#c8a415">★</span>
 
 ### [Managing Change Over Time](managing-change-over-time/)
-- [LLM Output Provenance](llm-output-provenance/) <span style="color:#c8a415">★</span>
+- [Track Output Provenance](track-output-provenance/) <span style="color:#c8a415">★</span>
 - [Rent, Then Build](rent-then-build/) <span style="color:#c8a415">★</span>
 - [Centralized Model Selection](centralized-model-selection/)
 
