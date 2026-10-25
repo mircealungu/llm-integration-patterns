@@ -16,7 +16,7 @@ An application has several LLM tasks: features that each send a prompt and act o
 
 ## Problem
 
-How do you change a tuned prompt, for any reason, without silently undoing what earlier tuning fixed?
+How can a tuned prompt be changed, for any reason, without silently undoing what earlier tuning fixed?
 
 ## Problem in Zeeguu
 

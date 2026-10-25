@@ -33,11 +33,11 @@ Switch once the replacement agrees well enough with the LLM. Measure the agreeme
 
 ## Solution in Zeeguu
 
-Zeeguu built the replacement, but has not switched to it.
+Zeeguu built the replacement and uses it where a fast estimate is critical.
 
 From the start, an LLM estimated the level of every crawled article, and Zeeguu stored the level with the article. By October 2025 these stored levels were enough to train a replacement. Zeeguu trained one small classifier per language (a random forest), on twelve features of the text that are cheap to compute, such as sentence length, word length and how varied the vocabulary is.[^rtb-ml]
 
-On articles held out from training, the classifier gave the same level as the LLM 86% of the time, against 24% for the old readability formula. It answers in milliseconds and costs nothing per call. The crawler still asks the LLM for the level of every article. The classifier runs only on texts that do not come from the crawler, those that teachers upload and web pages that learners open with the browser extension, as a second opinion next to the LLM. When the two differ by one level, Zeeguu shows both, for example B1/B2.
+The classifier answers in milliseconds and costs nothing per call. That makes it the right tool where the level is needed in real time. When a teacher edits a text for a class, Zeeguu shows the text's level and updates it as the teacher types. An LLM call would take seconds for every change. The crawler, which has no one waiting, still asks the LLM.
 
 [^rtb-ml]: `zeeguu/core/language/ml_cefr_classifier.py` and the evaluation in `zeeguu/core/language/EVALUATION_SUMMARY.md`, in the `zeeguu/api` repository.
 
@@ -51,8 +51,6 @@ On articles held out from training, the classifier gave the same level as the LL
 ## War Story: The Rent That Never Ended
 
 The replacement was built, but the LLM was not retired. The crawler still asks the LLM for the level of every article. The same call also writes the article's summaries and flags paywalled and disturbing articles: one call does several tasks (*Prompt Amortization*), so the level costs almost nothing extra. Moving it to the classifier would save little, and the call would run anyway.
-
-The classifier also did worse in production than in its evaluation. It learned from crawled news articles, but the texts it now judges are uploads and web pages. On those texts, the classifier and the LLM gave the same level only about half the time, though they were within one level of each other nine times in ten.
 
 ## Known Uses
 
