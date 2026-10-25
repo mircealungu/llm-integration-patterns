@@ -59,7 +59,7 @@ fi
 if [ "$BASE" != "$(git rev-parse HEAD)" ]; then
     rsync -a -u \
         --backup --backup-dir="$AIPAT_REPO/.sync-backups/reverse-$(date +%Y%m%d-%H%M%S)" \
-        --exclude='.DS_Store' --exclude='sync.sh' \
+        --exclude='.DS_Store' --exclude='sync.sh' --exclude='CLAUDE.md' \
         "$AIPAT_REPO/content/" "$AIPAT_VAULT"
     echo "Reverse-imported merged PR edits into the vault."
 fi
@@ -73,6 +73,7 @@ rsync -a --delete \
     --exclude='sync.sh' \
     --exclude='(Design_)*' \
     --exclude='_*' \
+    --exclude='CLAUDE.md' \
     "$AIPAT_VAULT" "$AIPAT_REPO/content/"
 
 # The README is edited in the vault but lives at the repo root (it's the
