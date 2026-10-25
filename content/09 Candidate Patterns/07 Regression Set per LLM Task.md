@@ -4,15 +4,15 @@
 
 An application has several LLM tasks: features that each send a prompt and act on the answer (validate a translation, assess an article, generate example sentences). The prompts get tuned in production, often after an incident, and each wording is the one that worked on the cases someone looked at then. Later something forces the prompt to change for a reason that has nothing to do with its output: a cost optimization, a model upgrade, a new field in the reply, a fix to a neighboring rule.
 
-## Example
+## Problem
+
+How do you change a tuned prompt, for any reason, without silently undoing what earlier tuning fixed?
+
+## Problem in Zeeguu
 
 In October 2026 we looked at turning on prompt caching for Zeeguu's Anthropic calls. Caching only reuses an identical prefix of the prompt, and every Zeeguu prompt starts with its variable part: the translation validator opens with the highlighted word, the sentence and the two languages, and only then gives about 1,100 tokens of fixed instructions. Caching it means moving the instructions to the front, a change meant to alter nothing the model decides.
 
 The change stopped there. The validator prompt had been tuned case by case (the "to understand" form rule, the dictionary case, the "noget af" context-only gloss), each fix checked on the cases at hand, and none of those cases had been kept. Re-evaluating meant first rebuilding an input set from production and deciding, again, what the right verdicts were. Zeeguu had done that work before, more than once: `eval_haiku_models.py` sampled 200 articles to admit Haiku 5.5, the validator comments cite "50 prod cases" and "max 266 on 50 prod cases", audits sampled stored output. Each evaluation was built for its occasion and thrown away with it.
-
-## Problem
-
-How do you change a tuned prompt, for any reason, without silently undoing what earlier tuning fixed?
 
 ## Forces
 

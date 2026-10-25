@@ -14,13 +14,13 @@ permalink: /high-recall-gate-precision-verdict/
 
 An LLM makes a judgment well but is too expensive to run on every input. A fast, deterministic classical tool (a dependency parser, a POS (part-of-speech) tagger, a lexical ranker) answers a cheaper proxy for that judgment: close enough to narrow the field to the inputs that might matter, not close enough to settle which of them do.
 
-## Example
-
-[Multi-word expression detection](../zeeguu/#multi-word-expressions) ran this way in Zeeguu until the LLM stage was switched off (see the note on its retirement below). [Stanza](https://arxiv.org/abs/2003.07082) (a classical NLP library) runs first, as a cheap *high-recall* gate: it catches every possible candidate, tolerating false positives. If Stanza flags no candidate in a sentence, the LLM is never called. When it does flag one, an LLM re-analyzes the whole sentence and makes the *precision* call, rejecting the false positives; its verdict is used even when it overrides Stanza and finds no expression. The LLM therefore runs on only the fraction of sentences that might contain an expression, rather than on every sentence.
-
 ## Problem
 
 How can both high recall and high precision be reached without paying LLM cost on every input?
+
+## Problem in Zeeguu
+
+Zeeguu detects [multi-word expressions](../zeeguu/#multi-word-expressions) in the articles learners read: phrases a learner might want translated as a unit. An LLM can tell a real expression from a false one, but asking it about every sentence of every article costs a call per sentence, and most sentences contain no expression at all.
 
 ## Forces
 
@@ -31,6 +31,10 @@ How can both high recall and high precision be reached without paying LLM cost o
 ## Solution
 
 Run the cheap classical tool first, as a high-recall gate: invoke the LLM only when the classical stage fires, and skip it otherwise (the common case, and the main cost saving). When it fires, let the LLM make the precision decision. The two are not alternatives: the classical stage controls *when* the LLM runs; the LLM controls *what counts*.
+
+## Solution in Zeeguu
+
+[Multi-word expression detection](../zeeguu/#multi-word-expressions) ran this way in Zeeguu until the LLM stage was switched off (see the note on its retirement below). [Stanza](https://arxiv.org/abs/2003.07082) (a classical NLP library) runs first, as a cheap *high-recall* gate: it catches every possible candidate, tolerating false positives. If Stanza flags no candidate in a sentence, the LLM is never called. When it does flag one, an LLM re-analyzes the whole sentence and makes the *precision* call, rejecting the false positives; its verdict is used even when it overrides Stanza and finds no expression. The LLM therefore runs on only the fraction of sentences that might contain an expression, rather than on every sentence.
 
 ## Consequences
 

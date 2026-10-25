@@ -14,13 +14,13 @@ permalink: /soft-invalidation-of-llm-artifacts/
 
 An LLM-generated artifact has been stored and is reused as a cache, and it is also referenced from user-visible history. Then the prompt or model that produced it improves, so the stored version is now known to be suboptimal while old references still point at it.
 
-## Example
-
-When the prompt that generates [audio lesson](../zeeguu/#audio-lessons) scripts was improved, the ~900 stored `audio_lesson_meaning` rows (each caching one vocabulary item's generated audio) produced under the previous prompt were neither regenerated eagerly nor deleted: a learner who had already listened to one should not have its content change underneath them. Instead, each affected row received a `deprecated_at` timestamp, and the cache-lookup helper (`AudioLessonMeaning.find()`) was gated to skip deprecated rows. New daily lessons request a fresh row and trigger regeneration under the new prompt; existing daily lessons that already reference a deprecated row keep playing their old audio without breaking.
-
 ## Problem
 
 When the generator improves, how can stored artifacts be refreshed without either paying to regenerate everything up front or breaking the past references that still point at the old ones?
+
+## Problem in Zeeguu
+
+When the prompt that generates [audio lesson](../zeeguu/#audio-lessons) scripts was improved, about 900 stored `audio_lesson_meaning` rows (each caching one vocabulary item's generated audio) had been produced under the previous prompt. Learners had already listened to some of them, and their content should not change underneath them.
 
 ## Forces
 
@@ -35,6 +35,10 @@ None of these are good defaults for production systems where LLM-generated artif
 ## Solution
 
 Mark stale rows as deprecated rather than mutating or removing them. Gate the cache-lookup / reuse path to skip deprecated rows, forcing fresh generation on next demand. Existing references to a deprecated row remain valid (the row keeps its content for historical playback), but no new consumer picks it up. For this to preserve history, key each stored artifact by its own row id, not by the source it describes, so a regenerated row produces a new file rather than overwriting the deprecated one (see the note). Regeneration cost is paid lazily, amortized over normal access patterns, and only for content that is actually requested again.
+
+## Solution in Zeeguu
+
+The rows were neither regenerated eagerly nor deleted. Instead, each affected row received a `deprecated_at` timestamp, and the cache-lookup helper (`AudioLessonMeaning.find()`) was gated to skip deprecated rows. New daily lessons request a fresh row and trigger regeneration under the new prompt; existing daily lessons that already reference a deprecated row keep playing their old audio without breaking.
 
 ## Consequences
 

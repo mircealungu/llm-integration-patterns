@@ -14,13 +14,13 @@ permalink: /deterministic-postprocessing/
 
 LLM output carries a deterministic formatting defect (a stable trailing string, a known preamble, leaked markdown in a plain-text field), the same defect shows up on every call, and it is already present in rows written to the database.
 
-## Example
-
-LLM-simplified article summaries consistently ended with a Unicode ellipsis (`…`), making every home-card preview read as an unfinished sentence. One option was to add a "do not end with ellipsis" instruction to the [simplification](../zeeguu/#article-simplification) prompt; the chosen option was a five-line regex stripping any trailing `…` or `..+` at serialization time. Because it runs as each summary is served, not on the stored row, it fixes every case at 100%, including the ~60k rows already in the database, with no backfill and no row ever rewritten.
-
 ## Problem
 
 Should a deterministic defect be fixed by instructing the model, or in code?
+
+## Problem in Zeeguu
+
+LLM-simplified article summaries consistently ended with a Unicode ellipsis (`…`), making every home-card preview read as an unfinished sentence.
 
 ## Forces
 
@@ -33,6 +33,10 @@ When LLM output has a deterministic formatting defect (a stable trailing string,
 ## Solution
 
 Enforce deterministic constraints in code, at the post-processing or serialization boundary. Reserve prompt instructions for things that genuinely require model judgment.
+
+## Solution in Zeeguu
+
+One option was to add a "do not end with ellipsis" instruction to the [simplification](../zeeguu/#article-simplification) prompt; the chosen option was a five-line regex stripping any trailing `…` or `..+` at serialization time. Because it runs as each summary is served, not on the stored row, it fixes every case at 100%, including the ~60k rows already in the database, with no backfill and no row ever rewritten.
 
 ## Consequences
 

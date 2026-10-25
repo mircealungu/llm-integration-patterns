@@ -28,7 +28,7 @@ Contributions come in two forms:
 - **An instance.** Have you seen one of these patterns in another system? Say so, with a counter-example or a force we missed. This is the lightest and most useful contribution: each extra instance strengthens the pattern. Use the pre-filled "Open an issue" link on any pattern page, or a pull request against [`_src/`](_src/).
 - **A case study.** Is your production system a rich example from a *different* domain? It can become its own case study page alongside Zeeguu (add a `# Case Study: <name>` file under [`_src/`](_src/); the build lists it automatically). Good candidates are real systems that exhibit several of the patterns.
 
-Each pattern follows the standard format: **Example → Forces → Solution → Notes/Tradeoffs**. Contributors who substantively shape or add a pattern or case study receive **named credit** on the paper and the site.
+Each pattern follows the same format: **Context → Problem → Problem in Zeeguu → Forces → Solution → Solution in Zeeguu → Consequences → War Story (optional) → Known Uses → Related Patterns**. Contributors who substantively shape or add a pattern or case study receive **named credit** on the paper and the site.
 
 ## Editing workflow (maintainer)
 

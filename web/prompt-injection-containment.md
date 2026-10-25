@@ -10,13 +10,9 @@ permalink: /prompt-injection-containment/
 </nav>
 
 
-## Example
+## Problem in Zeeguu
 
-Two Zeeguu surfaces feed *untrusted text* into a prompt, and they contain it with very different strength.
-
-**Audio-lesson suggestions (strong containment).** A user types a free-text topic or situation for a listening lesson, which then drives an expensive multi-step generation pipeline (script → text-to-speech → stored artifact). `suggestion_validator` contains the input in layers: hard length caps (2–80 characters) reject oversized payloads before any model runs; then a cheap, temperature-0 LLM *gatekeeper* classifies the input (`invalid` / `niche` / `general`) **and canonicalizes it to a short 2–5 word normalized topic** in the user's native language. The downstream generator consumes the *canonical form*, not the raw text, so an injected instruction ("ignore your rules and…") is either rejected as `invalid` or collapsed into a 2–5 word topic, and never reaches the generator verbatim.
-
-**On-demand "Ask AI" translation (light containment).** The learner's clicked word and the surrounding article sentence are inserted into the prompt. The context here is third-party web content the app ingested, so it is *also* untrusted. Containment is implicit rather than explicit: the task is deliberately narrow ("translate the word in context, 1–3 words"), the expected output is tightly constrained, and [Defensive Output Parsing](../defensive-output-parsing/) rejects anything that is not a short translation. This bounds the blast radius rather than sanitizing the input.
+Two Zeeguu surfaces feed *untrusted text* into a prompt: the free-text topic a learner types for an audio lesson, and the article sentence around a word that a learner asks the AI to translate.
 
 ## Forces
 
@@ -35,6 +31,14 @@ Never let raw untrusted text flow into a consequential prompt as-is. Contain it 
 - **Fail safe**: on validator error, degrade to the most restrictive behavior the feature can tolerate, never to "pass the raw text through."
 
 Match containment strength to consequence: the audio pipeline (multi-step, persists artifacts, real cost) earns a dedicated gatekeeper call; a throwaway inline translation leans on scoping and output validation.
+
+## Solution in Zeeguu
+
+Zeeguu contains the two with very different strength.
+
+**Audio-lesson suggestions (strong containment).** A user types a free-text topic or situation for a listening lesson, which then drives an expensive multi-step generation pipeline (script → text-to-speech → stored artifact). `suggestion_validator` contains the input in layers: hard length caps (2–80 characters) reject oversized payloads before any model runs; then a cheap, temperature-0 LLM *gatekeeper* classifies the input (`invalid` / `niche` / `general`) **and canonicalizes it to a short 2–5 word normalized topic** in the user's native language. The downstream generator consumes the *canonical form*, not the raw text, so an injected instruction ("ignore your rules and…") is either rejected as `invalid` or collapsed into a 2–5 word topic, and never reaches the generator verbatim.
+
+**On-demand "Ask AI" translation (light containment).** The learner's clicked word and the surrounding article sentence are inserted into the prompt. The context here is third-party web content the app ingested, so it is *also* untrusted. Containment is implicit rather than explicit: the task is deliberately narrow ("translate the word in context, 1–3 words"), the expected output is tightly constrained, and [Defensive Output Parsing](../defensive-output-parsing/) rejects anything that is not a short translation. This bounds the blast radius rather than sanitizing the input.
 
 ## Relationship to LLM Gateways
 

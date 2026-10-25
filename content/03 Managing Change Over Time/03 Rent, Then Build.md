@@ -4,51 +4,70 @@
 
 ## Context
 
-A feature needs to work in production now, but the efficient, dedicated version of it (a fine-tuned or classical model) needs training data or engineering that does not exist yet. A general-purpose LLM can do the task immediately, if expensively.
-
-## Examples
-
-Zeeguu estimates the difficulty level of every article with an LLM, an expensive call it makes constantly. This is also the *bootstrapping* case: those LLM-generated difficulty labels are accumulating as the training set for a cheaper classical classifier that will take the task over once enough have been gathered. The LLM ships the feature and earns its keep today, while quietly producing the data that will one day retire it. 
-
-A plainer instance without the bootstrapping twist: article topic classification runs on an LLM now, to be replaced by a dedicated topic-detection model once the taxonomy of available topics settles.
-
-The two tasks are waiting on different things, which is what determines how long each rental lasts. Difficulty assessment is waiting on *volume*, and every call it makes brings the replacement closer, so the stand-in shortens its own tenancy. Topic classification is waiting on a *decision* about the taxonomy, which no amount of LLM traffic advances. A rented capability that generates its own replacement has an end in sight; one that does not can run indefinitely without anything going visibly wrong.
+A feature needs a task done on every item that flows through the system, such as labeling each article or each message. A small dedicated model could do the task cheaply, but it would have to be trained on labeled examples, and there are none yet. A general-purpose LLM can do the task today, from a prompt.
 
 ## Problem
 
 How can a feature ship and start earning its keep before the cheaper, dedicated version that will eventually run it has been built?
 
+## Problem in Zeeguu
+
+Zeeguu recommends news articles at the learner's level, so every article it crawls needs a level, from A1 (beginner) to C2 (near native). That is tens of thousands of articles a month, in more than ten languages. No collection of articles labeled with their level existed for most of these languages. The readability formula Zeeguu used before, which counts words and syllables per sentence, could not tell the levels apart. An LLM could estimate the level of an article, but at the price of a call, and several seconds, per article.
+
 ## Forces
 
-- **Shipping now captures the feature and its usage immediately.** A general-purpose LLM can do the task the day it is needed, before any dedicated version exists. *(pushes toward renting)*
+- **Shipping now gets the feature, and its usage, immediately.** A general-purpose LLM can do the task the day it is needed, before any replacement exists. *(pushes toward renting)*
 - **Running the LLM indefinitely is costly and cedes control.** The feature keeps paying per call, and a core capability stays rented from a vendor who prices and deprecates on their own schedule. *(pushes toward building a replacement)*
-- **The replacement cannot be built yet.** A fine-tuned or classical version needs training data or engineering that does not exist at the outset; only running the LLM produces it.
+- **The replacement cannot be built yet.** A dedicated model needs training data that does not exist at the outset. *(pushes toward relying on the LLM for now)*
 
 ## Solution
 
-Use the LLM to perform a task in production while building a more efficient replacement. The arc is rent, then build: the LLM's general capability is *rented* (paid per call, costly but available immediately) to ship the feature now, while a cheaper, dedicated implementation is *built* to eventually own the task. The rented LLM is convincing to users and good for early beta-testing and feedback, but intended to be temporary.
+Use the LLM to perform the task in production while building a more efficient replacement. The LLM's general capability is *rented*: paid per call, costly, but available immediately. A cheaper replacement is *built* to take the task over later. The rented LLM is good enough for users and for early feedback, but it is meant to be temporary.
 
-**Bootstrapping variant:** In the strongest form, the LLM *generates the training data for its own replacement* (as with the difficulty labels above): the rented capability directly produces the labeled data the dedicated successor is trained on, so running the stand-in funds and enables the build.
+Switch once the replacement agrees well enough with the LLM. Measure the agreement on the kind of inputs the replacement will judge in production, not only on those it was trained from.
+
+**Bootstrapping variant:** in the strongest form, the LLM *generates the training data for its own replacement*. Every answer it gives in production is a labeled example, so running the LLM also produces what the replacement is trained on.
 
 ![[rent-then-build-diagram.svg]]
 *Now, a rented LLM serves the feature, paid per call. Later, a cheaper dedicated model owned by the system takes the task over. In the bootstrapping variant drawn here, the LLM's answers become the training data for the model that replaces it.*
 
+## Solution in Zeeguu
+
+Zeeguu built the replacement, but has not switched to it.
+
+From the start, an LLM estimated the level of every crawled article, and Zeeguu stored the level with the article. By October 2025 these stored levels were enough to train a replacement. Zeeguu trained one small classifier per language (a random forest), on twelve features of the text that are cheap to compute, such as sentence length, word length and how varied the vocabulary is.[^rtb-ml]
+
+On articles held out from training, the classifier gave the same level as the LLM 86% of the time, against 24% for the old readability formula. It answers in milliseconds and costs nothing per call. The crawler still asks the LLM for the level of every article. The classifier runs only on texts that do not come from the crawler, those that teachers upload and web pages that learners open with the browser extension, as a second opinion next to the LLM. When the two differ by one level, Zeeguu shows both, for example B1/B2.
+
+[^rtb-ml]: `zeeguu/core/language/ml_cefr_classifier.py` and the evaluation in `zeeguu/core/language/EVALUATION_SUMMARY.md`, in the `zeeguu/api` repository.
+
 ## Consequences
 
-- **The feature is live from day one.** It gathers real usage and feedback immediately, with the LLM standing in for a component that does not exist yet.
-- **Running the stand-in funds its successor.** The LLM's inputs and outputs accumulate as the labeled data the dedicated replacement needs, so the temporary solution also produces the training set for the permanent one (the bootstrapping variant).
-- **The stand-in is expensive, and "temporary" can stick.** Until the replacement ships, the feature runs at LLM cost and latency, the replacement is a second system to build and validate, and the intended-temporary LLM can quietly become permanent.
+- **The feature is live from day one.** It gathers real usage and feedback immediately, with the LLM doing the work of a component that does not exist yet.
+- **The replacement learns the LLM's mistakes.** A replacement trained on the LLM's labels is measured against those same labels. Its accuracy says how well it copies the LLM, not how often it is right.
+- **"Temporary" can stick.** Until the replacement takes over, the feature runs at LLM cost and latency.
+- **There are two systems to maintain.** The replacement has to be built, validated and kept up to date next to the LLM.
+
+## War Story: The Rent That Never Ended
+
+The replacement was built, but the LLM was not retired. The crawler still asks the LLM for the level of every article. The same call also writes the article's summaries and flags paywalled and disturbing articles: one call does several tasks (*Prompt Amortization*), so the level costs almost nothing extra. Moving it to the classifier would save little, and the call would run anyway.
+
+The classifier also did worse in production than in its evaluation. It learned from crawled news articles, but the texts it now judges are uploads and web pages. On those texts, the classifier and the LLM gave the same level only about half the time, though they were within one level of each other nine times in ten.
 
 ## Known Uses
 
-- **[OpenAI Model Distillation](https://openai.com/index/api-model-distillation/)** (Stored Completions) captures a large model's production input–output pairs and fine-tunes a smaller model as a drop-in replacement: the pattern shipped as a product feature.
+- **[OpenAI Model Distillation](https://openai.com/index/api-model-distillation/)** (Stored Completions) captures a large model's production input and output pairs and fine-tunes a smaller model as a drop-in replacement: the pattern shipped as a product feature.
 - **[Self-Instruct / Alpaca](https://github.com/tatsu-lab/stanford_alpaca)** (Wang et al.; Taori et al., 2023) use a strong LLM to generate the instruction data that fine-tunes a small replacement: the bootstrapping variant.
 - **[Distilling Step-by-Step](https://arxiv.org/abs/2305.02301)** (Hsieh et al., ACL Findings 2023) trains task-specific models up to 700× smaller from LLM-generated rationales.
 
-These are distillation and self-instruct methods from the literature; we did not find a first-hand account of a production feature completing the full rent-then-build arc, and Zeeguu's own replacement is still in progress.
+These are distillation methods from the literature. We did not find a first-hand account of a production feature that completed the full arc.
 
-## Notes
+## Related Patterns
 
-- This pattern has a lifecycle relationship with *Escalate to the LLM*: a system may start with the LLM as primary (renting it), migrate to a specialized tool as primary, and then keep the LLM as the escalation path, completing a full cycle from LLM-first to LLM-on-demand.
-- *Depends on LLM Output Provenance* for the bootstrapping variant: because the replacement trains on the rented LLM's own outputs, those labels must be filterable by the prompt and model version that produced them, so labels from a prompt version later found noisy or biased can be excluded from the training set.
-- *Composes with LLM Content Validation Tracking* in the bootstrapping variant: gating the training set to validated outputs (confirmed, not merely generated) lets the dedicated successor learn from checked labels rather than the stand-in's unverified guesses.
+*Escalate to the LLM* is where this pattern often ends. A system starts with the LLM as the only path, builds a dedicated model, and then keeps the LLM for the inputs the dedicated model cannot handle.
+
+*LLM Output Provenance* lets the bootstrapping variant choose its training data. Labels from a prompt or model version later found to be noisy can be left out.
+
+*LLM Content Validation Tracking* lets the replacement train only on labels that were checked, not on every guess of the LLM.
+
+*Prompt Amortization* can keep the rent going. When one call already does several tasks, moving one of them to a dedicated model saves little.

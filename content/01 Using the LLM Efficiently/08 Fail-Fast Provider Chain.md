@@ -4,13 +4,13 @@
 
 A request is served by one of several LLM providers on the user's critical path, and any provider can intermittently error, rate-limit, or spike in latency. The providers are interchangeable for this request: a valid answer from any of them is acceptable, even if their quality varies slightly, because availability matters more than which one served.
 
-## Example
-
-(Zeeguu): The app uses a unified LLM service proxy which tries Anthropic first; on any error (timeout, rate limit, API error), it immediately switches to DeepSeek without retry. This keeps worst-case latency bounded while maintaining availability.
-
 ## Problem
 
 How can the request keep succeeding within its latency budget when a provider fails, without burning that budget on retries?
+
+## Problem in Zeeguu
+
+Zeeguu calls LLMs from two providers, Anthropic and DeepSeek. Any call can fail with a timeout, a rate limit or an API error, and a learner may be waiting for the answer.
 
 ## Forces
 
@@ -19,6 +19,10 @@ LLM providers experience outages, rate limits, and latency spikes. Retry logic i
 ## Solution
 
 Configure a chain of LLM providers with no retries. On any failure, immediately fall back to the next provider in the chain. Prioritize speed over exhausting retry budgets.
+
+## Solution in Zeeguu
+
+Zeeguu uses a unified LLM service proxy which tries Anthropic first; on any error (timeout, rate limit, API error), it immediately switches to DeepSeek without retry. This keeps worst-case latency bounded while maintaining availability.
 
 ## Consequences
 

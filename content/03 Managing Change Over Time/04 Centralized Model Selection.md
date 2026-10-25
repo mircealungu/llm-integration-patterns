@@ -4,7 +4,11 @@
 
 A single LLM model identifier is referenced from many call sites across a codebase. Providers retire dated model snapshots on their own schedule, so an ID that is valid today can start returning 404 at a future date with no change to the code.
 
-## Example
+## Problem
+
+How can a provider's model retirement be survived without hunting down every hardcoded model ID scattered across the codebase?
+
+## Problem in Zeeguu
 
 Zeeguu's reader has an on-demand "[Ask AI](../zeeguu/#translation)" translation action. Its model ID, `claude-sonnet-4-20250514`, was hardcoded at three call sites in the translation service and two more in the [multi-word expression](../zeeguu/#multi-word-expressions) detector. Anthropic retired that snapshot; every call began returning `404 not_found_error`. The error was swallowed one layer down (the helper returns `None` on any exception), so the endpoint returned a generic `404 "LLM translation failed"` and the reader silently degraded to an "**Ask AI, try again**" button that could never succeed.
 
@@ -13,13 +17,7 @@ Zeeguu's reader has an on-demand "[Ask AI](../zeeguu/#translation)" translation 
 Nothing in the code had changed; a date had passed. The error started showing up. 
 
 
-The fix itself was mechanical: swap to the live snapshot the rest of the codebase already used. But finding it took a dig through production logs, and the swap had to be repeated at five sites. 
-
-To avoid this happening again in the future, Zeeguu now keeps every model identifier in [one module](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/models.py), keyed by *role*, the job a model does in a feature (`WORD_TRANSLATION`, `MWE_DETECTION`, `SIMPLIFICATION`, …), and each resolving to a canonical vendor ID declared once; a feature asks for `models.WORD_TRANSLATION` and never names a snapshot, so the next retirement is a one-line edit.
-
-## Problem
-
-How can a provider's model retirement be survived without hunting down every hardcoded model ID scattered across the codebase?
+The fix itself was mechanical: swap to the live snapshot the rest of the codebase already used. But finding it took a dig through production logs, and the swap had to be repeated at five sites.
 
 ## Forces
 
@@ -30,6 +28,10 @@ How can a provider's model retirement be survived without hunting down every har
 ## Solution
 
 Keep every model identifier in one central module. Declare the canonical vendor IDs once, then expose *role-based aliases* (one per use: translation, classification, [simplification](../zeeguu/#article-simplification)…) that resolve to them. Call sites import the role, never the raw string. Surviving a vendor retirement, or moving one feature to a cheaper or faster tier, becomes a one-line change in a file that documents the whole model landscape on one screen.
+
+## Solution in Zeeguu
+
+To avoid this happening again in the future, Zeeguu now keeps every model identifier in [one module](https://github.com/zeeguu/api/blob/master/zeeguu/core/llm_services/models.py), keyed by *role*, the job a model does in a feature (`WORD_TRANSLATION`, `MWE_DETECTION`, `SIMPLIFICATION`, …), and each resolving to a canonical vendor ID declared once; a feature asks for `models.WORD_TRANSLATION` and never names a snapshot, so the next retirement is a one-line edit.
 
 ## Consequences
 

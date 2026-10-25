@@ -4,16 +4,13 @@
 
 Several models or providers can produce the same result at different and individually *variable* latencies, and the request sits on the user's critical path where a slow tail hurts the experience.
 
-## Example
-
-Zeeguu races calls where the latency tail hurts a waiting user and a second attempt is cheap.
-
-- **"Ask AI" translation.** When the inline Google translation reads poorly and a reader taps **Ask AI**, the request is dispatched to two LLMs at once; the first response is shown, and the slower one is kept as an alternative rendering the reader can switch to. This is the ideal place to race: the call is small, the reader is waiting for this one answer, and it fires only on demand rather than on every word, so a second call costs almost nothing. Racing collapses the latency tail, and doubles as failover when one provider is slow or down.
-- **Inline translation.** The instant, every-word translation is likewise raced across several providers (Google, Azure, DeepL); the first response is used and the rest are surfaced as alternatives. Racing on every word is affordable here because the providers themselves are cheap.
-
 ## Problem
 
 How can worst-case latency stay low when any single provider can be intermittently slow?
+
+## Problem in Zeeguu
+
+Zeeguu's readers wait for translations: an instant one for every word they tap, and an LLM one when they ask for it. A slow provider makes the reader wait, and any provider is sometimes slow.
 
 ## Forces
 
@@ -24,6 +21,13 @@ Multiple LLM providers offer similar capabilities but with varying latency. When
 Dispatch the same request to multiple providers simultaneously and use the first response that arrives. To cap the redundant cost, race only the few providers that have historically been fastest rather than all of them.
 
 This composes with **live retrieval**: when a user is unsure of a translation and asks for alternatives, the UI shows the already-raced cached results immediately, then fetches more on demand, streaming them in as they arrive.
+
+## Solution in Zeeguu
+
+Zeeguu races calls where the latency tail hurts a waiting user and a second attempt is cheap.
+
+- **"Ask AI" translation.** When the inline Google translation reads poorly and a reader taps **Ask AI**, the request is dispatched to two LLMs at once; the first response is shown, and the slower one is kept as an alternative rendering the reader can switch to. This is the ideal place to race: the call is small, the reader is waiting for this one answer, and it fires only on demand rather than on every word, so a second call costs almost nothing. Racing collapses the latency tail, and doubles as failover when one provider is slow or down.
+- **Inline translation.** The instant, every-word translation is likewise raced across several providers (Google, Azure, DeepL); the first response is used and the rest are surfaced as alternatives. Racing on every word is affordable here because the providers themselves are cheap.
 
 ## Consequences
 

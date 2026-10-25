@@ -14,21 +14,17 @@ permalink: /one-wish-per-genie/
 
 A feature can be served by more than one LLM provider, for availability, cost, or both. Its prompt was written and tuned while one of those providers served it, and the others answer the same API shape, so switching looks like a change of endpoint and key. The output feeds decisions downstream (a classification, a gate, a parsed field), not only text a person reads.
 
-## Example
+## Problem
+
+How can a feature fall back to another model without silently changing what the feature does?
+
+## Problem in Zeeguu
 
 Zeeguu's crawler assesses every new article with one LLM call: its [CEFR](../zeeguu/#cefr-levels) level, a summary per level, and two rejection signals for paywalled and promotional articles ([crawling](../zeeguu/#crawling)). The call could go to Anthropic or to DeepSeek through the same function.
 
 In August 2026 DeepSeek rejected 90 to 100% of articles as paywalled. It was read as a DeepSeek regression and the crawler was pinned to Anthropic. The cause was the prompt. Its only way to reject an article was to answer with the bare word `unfinished`, which also let a model end the whole answer in one word. Anthropic's model used it as intended; DeepSeek took it as an exit. On six complete Danish articles, DeepSeek answered every one with 10 characters in about a second. The swap had changed the feature's behavior, and nothing in the code had flagged it.
 
 The pin then cost more than the misdiagnosis. With one provider left, Anthropic's monthly spend cap stopped assessment in every language, and the 664 most recent Danish articles went without a level or a summary for over a week.
-
-Turning the rejection signals into fields (`INCOMPLETE_ARTICLE: YES/NO`, which a model must fill in and cannot end on) made DeepSeek usable: on the same articles, 6 of 6 complete ones were assessed and 6 of 6 truncated copies rejected. The second divergence came with the fixed prompt. The prompt says that fewer than three paragraphs probably means an incomplete article. DeepSeek applied that rule literally and rejected 19% of a Danish backfill, against the 2 to 3% the old prompt had rejected on Anthropic. The rejected articles averaged 190 words against 598, so DeepSeek was arguably the more correct of the two, but it was a different pipeline, and a coverage alarm calibrated on Anthropic's numbers would have misfired on it.
-
-When provider failover was later added, its first draft took the obvious form ("on a provider outage, retry on the other provider") and so carried the first failure onto a second path: the full-simplification prompt still had the bare-word exit, so an Anthropic outage there would send its articles into DeepSeek's escape hatch and mark them paywalled. The final version declares, per feature, its tasks: which models may serve it, each with which prompt ([`_TASKS`](https://github.com/zeeguu/api/pull/850)). The assessment feature lists DeepSeek and Anthropic's Haiku with the same prompt, which Haiku had run on 200 stored production articles with no parse failures; full simplification lists Anthropic only, until its prompt has a wording that DeepSeek grants as intended.
-
-## Problem
-
-How can a feature fall back to another model without silently changing what the feature does?
 
 ## Forces
 
@@ -45,6 +41,12 @@ Make the unit of fallback a *task*: a genie (a model that may serve the feature)
 A task declared without a wish of its own gets the wish of the task before it, so the common case (one prompt that several models read alike) costs a single line. The default is a convenience, not a claim of equivalence: the shared wish still deserves an evaluation on each new genie, and a task gets a wish worded for its genie as soon as that genie reads the shared one differently.
 
 A failover walks the declared list and nothing else. A feature with no evaluated second task has no fallback, and its outage is reported rather than papered over by an untested substitute.
+
+## Solution in Zeeguu
+
+Turning the rejection signals into fields (`INCOMPLETE_ARTICLE: YES/NO`, which a model must fill in and cannot end on) made DeepSeek usable: on the same articles, 6 of 6 complete ones were assessed and 6 of 6 truncated copies rejected. The second divergence came with the fixed prompt. The prompt says that fewer than three paragraphs probably means an incomplete article. DeepSeek applied that rule literally and rejected 19% of a Danish backfill, against the 2 to 3% the old prompt had rejected on Anthropic. The rejected articles averaged 190 words against 598, so DeepSeek was arguably the more correct of the two, but it was a different pipeline, and a coverage alarm calibrated on Anthropic's numbers would have misfired on it.
+
+When provider failover was later added, its first draft took the obvious form ("on a provider outage, retry on the other provider") and so carried the first failure onto a second path: the full-simplification prompt still had the bare-word exit, so an Anthropic outage there would send its articles into DeepSeek's escape hatch and mark them paywalled. The final version declares, per feature, its tasks: which models may serve it, each with which prompt ([`_TASKS`](https://github.com/zeeguu/api/pull/850)). The assessment feature lists DeepSeek and Anthropic's Haiku with the same prompt, which Haiku had run on 200 stored production articles with no parse failures; full simplification lists Anthropic only, until its prompt has a wording that DeepSeek grants as intended.
 
 ## Consequences
 

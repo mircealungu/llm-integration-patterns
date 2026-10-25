@@ -14,17 +14,13 @@ permalink: /per-user-consumption-budget/
 
 Some LLM-backed features are triggered directly by a user's action and bill a shared provider account the instant the user acts. Consumption is therefore driven by user behavior, unbounded from the system's side, and can be extremely uneven across users.
 
-## Example
-
-Several of Zeeguu's LLM actions are triggered *directly by a user's click* and charge a shared provider account the instant the user acts: on-demand "[Ask AI](../zeeguu/#translation)" translation, on-demand [article simplification](../zeeguu/#article-simplification), and [audio-lesson](../zeeguu/#audio-lessons) generation (LLM script + text-to-speech). Because the spend is attached to individual user behavior, a single enthusiastic user (or a buggy client, or a script) can run up the bill or exhaust shared rate limits for everyone.
-
-Of all the above, the one that Zeeguu protects against is multiple lesson generations in parallel, because this is the most expensive operation. Audio-lesson generation allows **only one active generation per user at a time**: `AudioLessonGenerationProgress.create_for_user` deletes any existing record and `find_active_for_user` gates new requests. That is a per-user *concurrency* budget of exactly one, the cheapest possible bound, chosen precisely because the audio pipeline is among the most expensive actions in the system. On top of that, each user can generate only one audio lesson per day, a second, count-based budget. 
-
-The general pattern extends this idea to any LLM-backed resource: cap each user's consumption over a time window, denominated in whatever proxy is cheap to measure and *good enough*: number of on-demand translations per day, characters simplified per week, generations per hour, or, at the precise end, actual token cost.
-
 ## Problem
 
 How can one user, or a buggy client, be stopped from running up the shared bill or exhausting shared rate limits for everyone?
+
+## Problem in Zeeguu
+
+Several of Zeeguu's LLM actions are triggered *directly by a user's click* and charge a shared provider account the instant the user acts: on-demand "[Ask AI](../zeeguu/#translation)" translation, on-demand [article simplification](../zeeguu/#article-simplification), and [audio-lesson](../zeeguu/#audio-lessons) generation (LLM script + text-to-speech). Because the spend is attached to individual user behavior, a single enthusiastic user (or a buggy client, or a script) can run up the bill or exhaust shared rate limits for everyone.
 
 ## Forces
 
@@ -45,6 +41,12 @@ Give each user a budget on an LLM-backed resource and refuse or degrade once it 
 When a budget is exhausted, **degrade rather than fail** where possible: fall back to the cheaper non-LLM path (serve the Google Translate result and simply stop escalating to the LLM; see [Escalate to the LLM](../escalate-to-the-llm/)), queue the request, or show a friendly "try again later."
 
 **The precise variant, per-user cost attribution.** At the accurate end, meter every LLM call as `(user, feature, model, provider, input_tokens, output_tokens, timestamp)`, store **tokens** (provider-neutral) and derive **cost** through a central price table, and aggregate per user. This is the most accurate budget denomination and doubles as observability: it answers *which users and which features drive the bill*. It also composes with [Centralized Model Selection](../centralized-model-selection/) (price table keyed by the same model constants) and [LLM Output Provenance](../llm-output-provenance/) (the per-artifact provenance record is the natural place to also stamp token counts: provenance says *how was it made*, this adds *what did it cost, and to whom*). Prefer a coarse proxy unless this precision is genuinely needed.
+
+For any LLM-backed resource, cap each user's consumption over a time window, denominated in whatever proxy is cheap to measure and *good enough*: number of on-demand translations per day, characters simplified per week, generations per hour, or, at the precise end, actual token cost.
+
+## Solution in Zeeguu
+
+Of these actions, the one that Zeeguu protects against is multiple lesson generations in parallel, because this is the most expensive operation. Audio-lesson generation allows **only one active generation per user at a time**: `AudioLessonGenerationProgress.create_for_user` deletes any existing record and `find_active_for_user` gates new requests. That is a per-user *concurrency* budget of exactly one, the cheapest possible bound, chosen precisely because the audio pipeline is among the most expensive actions in the system. On top of that, each user can generate only one audio lesson per day, a second, count-based budget.
 
 ## Consequences
 

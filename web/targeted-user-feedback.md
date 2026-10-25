@@ -14,18 +14,13 @@ permalink: /targeted-user-feedback/
 
 An LLM generates content that users consume directly (a lesson script, example sentences, a translation). Automated validation catches many errors, but some still reach users, and the users reading the output are the best-placed detectors of what slipped through.
 
-## Example
-
-Zeeguu lets learners flag LLM-generated content as wrong, in the form that fits each surface:
-
-- **Audio lessons (continuous content).** A lesson script is delivered as audio. When a listener notices a mistake, a **Report** button captures the exact position in the script they were at, so the report points at the specific line rather than the whole lesson.
-- **Example sentences (discrete content).** Each generated sentence carries its own report control, so a learner flags the individual sentence that is wrong.
-
-Either way the report says *which* piece of output is wrong, not merely *that* something is.
-
 ## Problem
 
 How can errors that slip past automated checks be caught and pinpointed, using the users who are already reading the output?
+
+## Problem in Zeeguu
+
+Zeeguu generates audio lessons and example sentences with an LLM, and learners are often the first to notice when one is wrong. A report that only says *something* is wrong leaves a maintainer to search a whole lesson for the mistake.
 
 ## Forces
 
@@ -39,6 +34,15 @@ How can errors that slip past automated checks be caught and pinpointed, using t
 Give users a low-friction way to flag LLM-generated output, and capture enough context to act on it. Match the report's anchor to the shape of the content: for **continuous** content, anchor to the user's current position (the point in the script); for **discrete** content, attach a per-item report control so the flagged unit is unambiguous.
 
 Route each report into the quality machinery: record it against the artifact (composes with [LLM Content Validation Tracking](../llm-content-validation-tracking/)), let it trigger regeneration (composes with [Soft Invalidation of LLM Artifacts](../soft-invalidation-of-llm-artifacts/)), and use [LLM Output Provenance](../llm-output-provenance/) to identify the prompt and model that produced the flagged output.
+
+## Solution in Zeeguu
+
+Zeeguu lets learners flag LLM-generated content as wrong, in the form that fits each surface:
+
+- **Audio lessons (continuous content).** A lesson script is delivered as audio. When a listener notices a mistake, a **Report** button captures the exact position in the script they were at, so the report points at the specific line rather than the whole lesson.
+- **Example sentences (discrete content).** Each generated sentence carries its own report control, so a learner flags the individual sentence that is wrong.
+
+Either way the report says *which* piece of output is wrong, not merely *that* something is.
 
 ## Consequences
 

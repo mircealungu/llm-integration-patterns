@@ -6,16 +6,16 @@
 
 Several features need different answers about the same input: its level, a summary, a classification, a yes/no check. The input is large compared to each question, for example a whole article, or a word with the sentence it appeared in. Each answer needs the whole input to be read.
 
-## Example
+## Problem
+
+How can several answers about one input be obtained without paying for the input once per answer?
+
+## Problem in Zeeguu
 
 When Zeeguu's crawler finds a new article, it needs seven things from it: its [CEFR level](../zeeguu/#cefr-levels), a summary, a title and summary at each simpler level, whether it is news or evergreen, and whether it is disturbing, cut off by a paywall, or advertising. Each task needs the whole article, and each task's instructions are much shorter than the article (Figure 1). Asked one at a time, the article would be sent and read seven times.
 
 ![[task-fusion-sizes.svg|85%]]
 *Instructions for each task in Zeeguu's article-assessment call, in characters, next to a typical article (about 600 words), at commit [`c853d76`](https://github.com/zeeguu/api/tree/c853d767). Every task reads the whole article.*
-
-## Problem
-
-How can several answers about one input be obtained without paying for the input once per answer?
 
 ## Forces
 
@@ -27,7 +27,7 @@ How can several answers about one input be obtained without paying for the input
 
 Ask for all the answers about one input in one call, each in its own named field, so the input is sent once. Keep together the tasks that need the same reading of the input, and split a task off when it needs a different model, changes often, or makes the other answers worse.
 
-## Example Resolved
+## Solution in Zeeguu
 
 - **Article assessment.** One call returns all seven answers about a new article, each in its own field, so the article is sent once instead of seven times.[^fusion-assess]
 - **Translation validation.** When a learner saves a word, one call both checks the translation (and corrects it if needed) and fills in everything the flashcard needs: how common the meaning is, its CEFR level, whether it is a single word, a collocation or an idiom, a short explanation, and the dictionary form.[^fusion-validate]

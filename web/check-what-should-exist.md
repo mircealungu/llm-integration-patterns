@@ -14,17 +14,13 @@ permalink: /check-what-should-exist/
 
 An LLM call sits inside a pipeline that is supposed to leave something behind: a level and a summary on every new article, a lesson script in the learner's language, a verdict on every translation. The pipeline is monitored the usual way, by watching the calls: errors, timeouts, failover events, latency. The things it leaves behind are read later, by users or by other features, and nobody reads all of them.
 
-## Example
-
-Zeeguu's crawler assesses every new article with one LLM call, which gives it a [CEFR](../zeeguu/#cefr-levels) level and a summary per level ([crawling](../zeeguu/#crawling)). In August 2026 Anthropic's monthly spend cap stopped that call. The errors were in the crawler's logs, but they looked like the occasional failed call that logs always contain, and the crawl itself kept running and saving articles. Over the following week the share of new articles that got assessed went 0, 0, 15, 38, 37, 4 and 4%, against 95 to 99% on a normal day. The 664 most recent Danish articles went without a level or a summary, and the feed, which needs the level to place an article, quietly had less to offer.
-
-The fix for the cause was provider failover ([One Wish per Genie](../one-wish-per-genie/)), with an email the first time a run fails over. The fix for the symptom was a separate check that ignores the LLM calls entirely and asks the database what the crawler should have produced: of the original articles crawled in the last 24 hours, how many have a level? It runs from cron, outside the crawler, every six hours, and alarms below 80%, overall and per language, with a minimum volume so a quiet language on a quiet day does not trip it ([`feed_delivery_health_check.py`](https://github.com/zeeguu/api/pull/887)). Replayed over August, it would have fired on the first day.
-
-Zeeguu had already learned the same lesson once. On 18 August 2026 the check that verifies a summary is written in the article's language was passing on every call, while the prompt asked for the wrong language on every first attempt; 55 English summaries reached storage before anyone looked. A nightly audit now reads stored summaries back and checks their language, independently of generation. Its crontab entry states the reason: *a check that runs inside the thing it is checking cannot catch the case where that thing was never called.*
-
 ## Problem
 
 How do you find out that an LLM-backed pipeline has stopped doing its job, when each call either succeeded, failed in a way that looked routine, or was never made?
+
+## Problem in Zeeguu
+
+Zeeguu's crawler assesses every new article with one LLM call, which gives it a [CEFR](../zeeguu/#cefr-levels) level and a summary per level ([crawling](../zeeguu/#crawling)). In August 2026 Anthropic's monthly spend cap stopped that call. The errors were in the crawler's logs, but they looked like the occasional failed call that logs always contain, and the crawl itself kept running and saving articles. Over the following week the share of new articles that got assessed went 0, 0, 15, 38, 37, 4 and 4%, against 95 to 99% on a normal day. The 664 most recent Danish articles went without a level or a summary, and the feed, which needs the level to place an article, quietly had less to offer.
 
 ## Forces
 
@@ -41,6 +37,12 @@ State, in domain terms, what the pipeline should have produced over a window, an
 Calibrate the threshold on recorded healthy days and on a recorded failure, if there is one, and give it a minimum volume, so that small numbers do not fire it. Count intended exclusions back in, or out, explicitly: an article the LLM rejected as paywalled was handled, not missed.
 
 Keep the call-level monitoring as well. The two answer different questions: the outcome check says that something is wrong and how much, the call-level counts say which genie and why.
+
+## Solution in Zeeguu
+
+The fix for the cause was provider failover ([One Wish per Genie](../one-wish-per-genie/)), with an email the first time a run fails over. The fix for the symptom was a separate check that ignores the LLM calls entirely and asks the database what the crawler should have produced: of the original articles crawled in the last 24 hours, how many have a level? It runs from cron, outside the crawler, every six hours, and alarms below 80%, overall and per language, with a minimum volume so a quiet language on a quiet day does not trip it ([`feed_delivery_health_check.py`](https://github.com/zeeguu/api/pull/887)). Replayed over August, it would have fired on the first day.
+
+Zeeguu had already learned the same lesson once. On 18 August 2026 the check that verifies a summary is written in the article's language was passing on every call, while the prompt asked for the wrong language on every first attempt; 55 English summaries reached storage before anyone looked. A nightly audit now reads stored summaries back and checks their language, independently of generation. Its crontab entry states the reason: *a check that runs inside the thing it is checking cannot catch the case where that thing was never called.*
 
 ## Consequences
 

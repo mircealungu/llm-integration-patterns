@@ -14,13 +14,13 @@ permalink: /hot-path-result-caching/
 
 The same or near-identical LLM request recurs within a short window (many users hitting the same content, or one user re-requesting) but *which* requests recur is unpredictable, so they cannot be precomputed ahead of time.
 
-## Example
-
-Any expensive LLM call whose inputs recur can be cached in memory, keyed on those inputs, so every repeat after the first is near-free. Zeeguu does this for [Multi-word expression](../zeeguu/#multi-word-expressions) detection, which finds the phrases in an article a learner might want translated as a unit (for example *break the ice*). In its hybrid mode it runs an LLM, gated by a cheap [Stanza](https://arxiv.org/abs/2003.07082) (an NLP library) pass (see [High-Recall Gate, Precision Verdict](../high-recall-gate-precision-verdict/)), and the LLM call is the expensive part. That mode is currently disabled in favor of the parser alone, so the cache described here is dormant rather than removed. The detector keeps a 500-entry in-memory cache keyed on the article's sentences (dropping its oldest entries when full), so when many users read the same article, the analysis computed for the first reader is served instantly to the rest. Hit rates are highest for popular articles read by many learners in the same window. Only LLM results are cached: when the LLM is unavailable and the detector falls back to Stanza, those weaker results are deliberately not stored.
-
 ## Problem
 
 How can the same expensive LLM call be avoided when it recurs unpredictably within a short window?
+
+## Problem in Zeeguu
+
+Zeeguu runs [multi-word expression](../zeeguu/#multi-word-expressions) detection, which finds the phrases in an article a learner might want translated as a unit (for example *break the ice*). In its hybrid mode it runs an LLM, gated by a cheap [Stanza](https://arxiv.org/abs/2003.07082) (an NLP library) pass (see [High-Recall Gate, Precision Verdict](../high-recall-gate-precision-verdict/)), and the LLM call is the expensive part. Many learners read the same popular articles, so the same sentences are analyzed again and again.
 
 ## Forces
 
@@ -29,6 +29,10 @@ Pre-computation handles predictable needs, but some LLM queries are repeated unp
 ## Solution
 
 Maintain an in-memory cache for recent LLM results, keyed on the call's inputs. Bound it by capacity and evict the oldest entries when full (the example above caps the cache at 500 entries). No time-based expiry is needed where the cached result is a pure function of its inputs.
+
+## Solution in Zeeguu
+
+The detector keeps a 500-entry in-memory cache keyed on the article's sentences (dropping its oldest entries when full), so when many users read the same article, the analysis computed for the first reader is served instantly to the rest. Hit rates are highest for popular articles read by many learners in the same window. Only LLM results are cached: when the LLM is unavailable and the detector falls back to Stanza, those weaker results are deliberately not stored. The hybrid mode is currently disabled in favor of the parser alone, so the cache described here is dormant rather than removed.
 
 ## Consequences
 
