@@ -1,41 +1,83 @@
 # Reject and Reprompt
 
-*Regenerate a rejected output instead of repairing it, and tell the model what was wrong.*
+*Regenerate a rejected output instead of repairing it, and tell the model what was wrong. Record a refusal instead of retrying it.*
 
-## Examples
+## Context
 
-Audio lesson scripts are generated at a high temperature so the dialogues sound natural, and the same freedom occasionally lets a dialogue drift into the wrong language. A cheap classical language detector checks each generated script. When it rejects one, the script is neither repaired nor silently dropped: it is regenerated with a prompt extended by the rejected output and the constraint it broke. The detector costs almost nothing next to the generation, and the second attempt is conditioned on the specific failure rather than resampling the same distribution.
+A check inspects each LLM output after it is generated. Code can fix some of the defects it finds. The check rejects the rest, and the only way to a correct result is to generate the output again.
 
-The same loop runs over [article simplification](../zeeguu/#article-simplification), where a stored summary or a simplified level occasionally comes back in the article's original language instead of the target one. It was extracted into a shared helper once a third call site needed it, and the helper deliberately refuses to decide what happens when the attempts run out, because the three call sites disagree: the assessment-and-summary path drops the summary and keeps the assessment, simplification fails the run or drops the offending CEFR level and keeps the rest, and the provider services return nothing and let their caller decide.[^rr-helper]
+## Problem
 
-What varies is not the check or the retry but the exhaustion policy, and it varies with how much of the result survives partial failure. Where the output is a bundle of independently droppable pieces, the loop can give up on one and keep the others; where it is a single artifact, giving up means losing all of it.
+How can a second attempt do better than the output the check rejected, and when should the system not try again at all?
 
-[^rr-helper]: [`generate_in_language`](https://github.com/zeeguu/api/blob/master/zeeguu/core/language/generate_in_language.py) in the `zeeguu/api` repository.
+## Problem in Zeeguu
+
+Zeeguu generates [audio lessons](../zeeguu/#audio-lessons): dialogues in the language being learned, with a teacher who explains in the learner's own language. The model writes each lesson as a script that labels every line with its voice, and text-to-speech reads it out. An excerpt from a lesson that teaches *sobre* (*about*):
+
+```text
+Teacher: In the following conversation, you will hear the word: [0.2 seconds]
+TeacherL2: sobre [0.5 seconds]
+Teacher: With the meaning [0.2 seconds]
+Teacher: about. [1 seconds]
+
+Man: ¿Qué piensas sobre este libro? [1 seconds]
+Woman: Es muy bueno. Es un libro sobre animales. [1 seconds]
+Man: ¿Sobre animales? Me gusta ese tema. [1 seconds]
+
+Teacher: How would you say, what do you think about this book? [5 seconds]
+Man: ¿Qué piensas sobre este libro? [3 seconds]
+```
+
+`TeacherL2` is the teacher speaking the language being learned, and the brackets are pauses. The prompt leaves the model room to write natural dialogue. It names the language, but cannot enforce it. In August 2026 a learner's daily lesson arrived with the whole script, dialogue included, in English instead of the language being learned. Nothing had checked it, and no code could have turned it into the right language.
+
+That same month, five other lessons went wrong differently: the model did not write a dialogue at all.
 
 ## Forces
 
-A validator can be cheap and classical even when the thing it validates can only be produced by an LLM, so the check costs a fraction of the generation and can afford to run on every output.
-
-Some defects cannot be repaired in place. A stray trailing ellipsis has a deterministic fix; a dialogue in the wrong language does not, and the only route to a correct result is another generation.
-
-A plain retry against a non-deterministic generator carries roughly the same failure probability as the first attempt, so a retry that does not say what went wrong buys another sample rather than a better one.
+- **Every retry costs another call.** Each new attempt adds a generation and its latency, and an output that keeps failing can use up many calls. *(pushes toward giving up after the first rejection)*
+- **A plain retry fails the same way.** Asking again with the same prompt draws from the same distribution as the first attempt, so the second output is about as likely to fail. *(pushes toward changing the prompt for a second attempt)*
+- **Persistence pays.** Another attempt might succeed where the first one drifted. But some rejected replies are refusals the model was right to make. *(pushes toward telling refusals apart from bad outputs)*
 
 ## Solution
 
-Validate generated output with a cheap classical check placed downstream of the LLM. On rejection, regenerate rather than repair, extending the prompt with the rejected output and the property it violated, so the next attempt is conditioned on the failure. Bound the number of attempts, and record a terminal state when they run out. Some failures are permanent for a given input rather than incidental: a model that declines a topic on policy grounds declines it again tomorrow, and a generator that never produces output gives the check nothing to reject. Without a record, a scheduled job rediscovers the same dead end on every run.
+Check each output after the LLM returns it. When the check rejects an output, regenerate it with a prompt that also says what was wrong, so the model knows what to avoid. The check can be cheap and need no LLM. The loop works the same with any check, including another LLM. 
+
+Bound the number of attempts. If they all fail, log the failure and go on without the output, when the application can do without it.
+
+A refusal is different. It is a reply that is not an output at all: the model declines, or objects to the request, for example by pointing out a wrong input. It often comes back as text in place of the output, so the check must tell it apart from a bad output, for example by requiring a structure that a refusal lacks. Do not retry a refusal, not even with a note added to the prompt: the model will decline again, and it might be right to do so. Record it with the prompt version instead, so that the system does not ask again until someone changes the prompt, and so that a person can read why the model declined. 
 
 ![[reject-and-reprompt-diagram.svg]]
-*A cheap classical check sits downstream of the LLM. A rejected output is not repaired: it goes back into an extended prompt, together with the property it broke, so the next attempt is conditioned on the failure. After a bounded number of tries the system records that this input will not get a result, so a scheduled job does not try it again.*
+*A check sits downstream of the LLM. The system does not repair a rejected output. It adds what was wrong to the prompt and generates again. After a bounded number of tries the system gives up. If the model refused, the system records it and skips that input until the prompt changes.*
+
+## Solution in Zeeguu
+
+A language detector checks every generated audio lesson script. When it finds lines in the wrong language, the system generates the script again and adds a note to the prompt: *"Your previous attempt used the wrong language: [the lines in the wrong language]. Write it again. The Man, Woman and TeacherL2 lines MUST be in Spanish. The Teacher lines MUST be in English."* After three attempts the lesson fails for that night. Lessons are generated by a nightly job (*Anticipatory Precomputation*), so a failed lesson is tried again on the next run.
+
+Each lesson teaches one word. Once the language check passes, a second loop asks an LLM whether the lesson teaches its word correctly. If not, the system generates the script once more and adds the LLM findings to the prompt.[^rr-loops]
+
+A refusal can arrive looking like output. Audio lesson scripts are free text, so a refusal is still valid text. The five lessons held a one-line refusal or a correction of the request instead of a dialogue. Text-to-speech had no dialogue lines to voice, so the lessons were silent. The check now requires lines in the voices that speak the language being learned (`Man`, `Woman` or `TeacherL2`), not only the teacher's. A reply without them is not a script. A dialogue in the wrong language still goes to the language loop.
+
+In all five replies the model was right. Twice it pointed out that Zeeguu had supplied a wrong translation (*amenaza* means *threat*, not *hot*). Three times it declined words it was right to decline. Now a reply that is not a script ends the attempt. The system records it with the prompt version and generates no lesson for that word until the prompt changes or someone fixes the translation.[^rr-notascript]
+
+[^rr-loops]: `generate_script_in_languages` and `generate_lesson_script` in `zeeguu/core/audio_lessons/script_generator.py` in the `zeeguu/api` repository.
+[^rr-notascript]: `NotAScript` and `_is_a_script` in [`zeeguu/core/audio_lessons/script_generator.py`](https://github.com/zeeguu/api/blob/c853d767/zeeguu/core/audio_lessons/script_generator.py), added in commit `8f8743f`, and `AudioLessonRefusal`, in the `zeeguu/api` repository.
+
+## Consequences
+
+- **The second attempt knows what went wrong.** Naming the failure usually works better than repeating the original instruction. The rest of the system only ever sees outputs that passed the check.
+- **The loop hides how often the model fails.** Every rejection costs another call and its latency, which is why the attempts are bounded. But retries that succeed look like success, so a model or prompt change that makes first attempts fail more often shows up only as extra calls. Track how often first attempts are rejected, per task, not only the final failures.
+- **Refusals must be told apart from bad outputs.** A loop that retries a refusal pushes the model to produce what it declined to produce.
+
+## War Story: The Retry That Argued With a Refusal
+
+The first fix for the silent lessons was a retry. When a reply came back as prose instead of a dialogue, the system asked again and added to the prompt: "*Do not explain, apologize, or comment on the request. Reply with the script only.*" The note treated a refusal as a formatting slip and tried to force the model past it. One of the words was related to child abuse, and the retry pressed the model to write the lesson it had declined. The model refused again, and it was right to. The current system respects the refusal and records it, so that the maintainers can see why the model declined.
 
 ## Known Uses
 
-- **Zeeguu** validates generated [audio lesson](../zeeguu/#audio-lessons) scripts with a classical language detector and regenerates with an extended prompt when the detector rejects a script. The same loop carries the terminal case: when the model refuses a topic outright, judging the example offensive, the loop stops and the word is marked as one no lesson will be generated for, so the nightly job does not retry it indefinitely. *Added in 2026, and too recent to report how often the second attempt succeeds.*
-- **[Instructor](https://python.useinstructor.com/)** feeds the Pydantic validation error back into the prompt and reasks the model: the same loop with a schema validator in place of the language check.
+- **[Instructor](https://python.useinstructor.com/)** feeds the Pydantic validation error back into the prompt and asks the model again. This is the same loop, with a schema validator as the check.
 
-## Notes
+## Related Patterns
 
-- Distinct from its neighbours in *Trusting LLM Output*. *Defensive Output Parsing* handles output that is malformed rather than wrong, and recovers what it can from the response in hand. A stable, well-understood defect is better fixed in place, with no second call at all. *LLM-Checking-LLM* spends a second LLM call on the check, whereas here the check is classical and nearly free.
-- The error-informed retry is the part that generalizes beyond a classical checker: the same move applies whenever a check of any kind rejects a generation, which is why *LLM-Checking-LLM* now names it as one of its failure policies.
-- The terminal record is not *LLM Content Validation Tracking*. That pattern tracks the trust level of content that exists; this records that content will never exist for a given input, so the work is not attempted again. It matters most under *Anticipatory Precomputation*, where a scheduled job would otherwise rediscover the same refusal on every run.
-- A refusal and a rejected generation are not the same event. The check fires on output the generator produced; a refusal means there is no output to check. The trigger differs, the terminal branch is the same.
-- *Maturity.* Four call sites across three Zeeguu features (assessment and summary, article simplification, audio lesson scripts), each with its own policy for what happens when the attempts run out, plus one productized enabler in Instructor. The retry loop was extracted into a shared helper, `generate_in_language`, once a third call site needed it; the helper deliberately does not decide the exhaustion policy, because the call sites disagree about it.
+*Defensive Output Parsing* handles output that is malformed rather than wrong. It recovers what it can from the reply in hand, and fixes a stable, well-understood defect in place, with no second call. *LLM-Checking-LLM* spends a second LLM call on the check, and names this loop as one way to act on a failed check.
+
+*LLM Content Validation Tracking* records the checks run on stored content. The refusal record does a different job: it keeps the system from attempting the work again. It matters most under *Anticipatory Precomputation*, where a scheduled job would otherwise rediscover the same refusal on every run.

@@ -18,7 +18,7 @@ A feature can be served by more than one LLM provider, for availability, cost, o
 
 Zeeguu's crawler assesses every new article with one LLM call: its [CEFR](../zeeguu/#cefr-levels) level, a summary per level, and two rejection signals for paywalled and promotional articles ([crawling](../zeeguu/#crawling)). The call could go to Anthropic or to DeepSeek through the same function.
 
-In August 2026 DeepSeek rejected 90 to 100% of articles as paywalled. It was read as a DeepSeek regression and the crawler was pinned to Anthropic. The cause was the prompt. Its only way to reject an article was to answer with the bare word `unfinished`, which also let a model end the whole answer in one word. Anthropic's model used it as intended; DeepSeek took it as an exit. On six complete Danish articles, DeepSeek answered every one with 10 characters in about a second. The swap had changed the feature's behaviour, and nothing in the code had flagged it.
+In August 2026 DeepSeek rejected 90 to 100% of articles as paywalled. It was read as a DeepSeek regression and the crawler was pinned to Anthropic. The cause was the prompt. Its only way to reject an article was to answer with the bare word `unfinished`, which also let a model end the whole answer in one word. Anthropic's model used it as intended; DeepSeek took it as an exit. On six complete Danish articles, DeepSeek answered every one with 10 characters in about a second. The swap had changed the feature's behavior, and nothing in the code had flagged it.
 
 The pin then cost more than the misdiagnosis. With one provider left, Anthropic's monthly spend cap stopped assessment in every language, and the 664 most recent Danish articles went without a level or a summary for over a week.
 
@@ -48,11 +48,11 @@ A failover walks the declared list and nothing else. A feature with no evaluated
 
 ## Consequences
 
-- **A fallback does the same job as the primary.** Behavioural drift is found once, in an evaluation, rather than in production during an outage. Divergences that are acceptable (DeepSeek's stricter rejection) become known and calibrated for, rather than discovered.
+- **A fallback does the same job as the primary.** Behavioral drift is found once, in an evaluation, rather than in production during an outage. Divergences that are acceptable (DeepSeek's stricter rejection) become known and calibrated for, rather than discovered.
 - **The default keeps the cost down, and hides what was not checked.** Reusing the previous wish makes a new task cheap to declare, but one declared that way looks the same whether its wish was evaluated on its genie or not. Recording the evaluation next to the declaration (a comment, a link to the result) keeps that visible.
 - **Upkeep grows with the list.** Each task brings a wish to maintain and to re-evaluate whenever that model is upgraded, so a second one is worth declaring only for features where an outage matters. A recorded input set and a comparison script make re-evaluation cheap enough to repeat on every model upgrade.
 - **Scope.** The pattern matters most where the output drives a decision (a gate, a label, a parsed field). For free text read by a person, a slightly different style from the fallback is usually tolerable, and the declaration can be as short as "any model, same prompt".
-- **It sharpens neighbouring patterns.** [Fail-Fast Provider Chain](../fail-fast-provider-chain/) decides *when* to move to the next provider; this decides *what* the next provider is allowed to be. [Centralized Model Selection](../centralized-model-selection/) maps a role to a model; here the role maps to a list of tasks, each a genie with an evaluated wish. [LLM Output Provenance](../llm-output-provenance/) should record the model that actually served, so output from a fallback stays attributable after the outage is over.
+- **It sharpens neighboring patterns.** [Fail-Fast Provider Chain](../fail-fast-provider-chain/) decides *when* to move to the next provider; this decides *what* the next provider is allowed to be. [Centralized Model Selection](../centralized-model-selection/) maps a role to a model; here the role maps to a list of tasks, each a genie with an evaluated wish. [LLM Output Provenance](../llm-output-provenance/) should record the model that actually served, so output from a fallback stays attributable after the outage is over.
 
 ## Known Uses
 

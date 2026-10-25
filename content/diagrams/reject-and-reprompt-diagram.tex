@@ -14,7 +14,7 @@
 \node[ok, anchor=west] (use) at (9.6,0) {\checkmark\ use it};
 \draw[sarr, color=okc] (chk) -- node[above, okcond] {pass} (use);
 
-\node[mini, multi, minimum width=36mm] (ext) at (2.4,-2.0) {extended prompt\\[-1pt]{\footnotesize + rejected output + broken property}};
+\node[mini, multi, minimum width=36mm] (ext) at (2.4,-2.0) {extended prompt\\[-1pt]{\footnotesize + what was wrong}};
 \draw[sarr, color=badc] ([xshift=-6mm]chk.south) |- node[pos=0.25, left, badcond] {reject} (ext.east);
 \draw[sarr] (ext) -- (gen);
 

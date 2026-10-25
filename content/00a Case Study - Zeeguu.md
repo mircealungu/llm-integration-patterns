@@ -12,7 +12,7 @@ Based on this evolving learner model, Zeeguu **generates interactive vocabulary 
 
 In essence, Zeeguu unifies reading, translation, learner modeling, and practice into a coherent pipeline, with the learner's own reading interests as the primary driver.
 
-Zeeguu also supports teacher accounts: a teacher can assign texts to a class and follow each student's reading and exercises. Because a teacher's judgement is more authoritative than an individual learner's, their corrections act as a higher-trust signal in the learner model. 
+Zeeguu also supports teacher accounts: a teacher can assign texts to a class and follow each student's reading and exercises. Because a teacher's judgment is more authoritative than an individual learner's, their corrections act as a higher-trust signal in the learner model. 
 
 ## The Pieces
 
@@ -34,6 +34,9 @@ Zeeguu builds its article recommendations by crawling news sites and blogs multi
 
 A multi-word expression is a group of words whose meaning is not the sum of its parts, for example *break the ice*. Zeeguu detects them so a learner can translate the phrase as a unit rather than word by word. Detection runs on a dependency parse ([Stanza](https://arxiv.org/abs/2003.07082), an open-source NLP parser). An LLM is called for one narrower case: translating an expression whose parts are separated in the sentence.
 
+![[multi-word-expressions.png|35%]]
+*Zeeguu's reader marks two multi-word expressions whose parts are apart in the sentence: können … ausprobieren (can try out) and bietet … an (offers). Both parts of an expression share one color and one translation. Stanza finds the expressions; an LLM translates them.*
+
 ### Meanings and The Learner Model {#the-learner-model}
 
 A *meaning* is a word paired with one particular translation of it. A meaning is linked to the original context in which it was seen, but can also be associated with other example sentences in which the word carries that same translation. Every translation a learner requests is logged as a meaning, building a model of which meanings they know and which they struggle with, since one word can have several meanings. Meanings are classified (by frequency, CEFR level, and phrase type: single word, collocation, idiom, or expression) and drive which exercises and lessons the learner sees. Vocabulary training trains *meanings*, not words. 
@@ -44,7 +47,7 @@ While reading, a learner gets an instant contextual translation that is generate
 
 ### Audio Lessons
 
-Zeeguu generates personalized audio lessons: an LLM writes a short script built around the words a learner is studying, and text-to-speech synthesizes the audio. Both steps are slow and costly, so lessons are pre-computed for recently active learners. Once a learner chooses a topic (European history) or a situation (talking to an elderly neighbour on the stairway), a new lesson is generated each day, conditional on the learner having listened to the previous day's lesson. 
+Zeeguu generates personalized audio lessons: an LLM writes a short script built around the words a learner is studying, and text-to-speech synthesizes the audio. Both steps are slow and costly, so lessons are pre-computed for recently active learners. Once a learner chooses a topic (European history) or a situation (talking to an elderly neighbor on the stairway), a new lesson is generated each day, conditional on the learner having listened to the previous day's lesson. 
 
 ### Vocabulary Exercises
 

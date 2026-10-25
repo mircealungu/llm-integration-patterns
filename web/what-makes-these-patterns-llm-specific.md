@@ -8,11 +8,11 @@ permalink: /what-makes-these-patterns-llm-specific/
 [← All patterns](../#the-patterns)
 
 
-Some of these patterns echo general distributed systems wisdom: batching (as in [Prompt Amortization](../prompt-amortization/)), tiered service, a cheap tier first and a costly one on demand (as in [Escalate to the LLM](../escalate-to-the-llm/)), and the redundant dispatch of Zeeguu's parallel translation providers (not catalogued here as a pattern of its own). What makes them distinctly relevant to LLM integration is the combination of forces that arise when an LLM's properties meet the demands of a live system:
+Some of these patterns echo general distributed systems wisdom: batching (as in [Prompt Amortization](../prompt-amortization/)), tiered service, a cheap tier first and a costly one on demand (as in [Escalate to the LLM](../escalate-to-the-llm/)), and the redundant dispatch of Zeeguu's parallel translation providers (not cataloged here as a pattern of its own). What makes them distinctly relevant to LLM integration is the combination of forces that arise when an LLM's properties meet the demands of a live system:
 
 * **Cost structure**: per-token pricing with high fixed prompt overhead, unlike flat-rate API calls (drives [Prompt Amortization](../prompt-amortization/), [Escalate to the LLM](../escalate-to-the-llm/), [Anticipatory Precomputation](../anticipatory-precomputation/)).
 * **Non-determinism**: the same input can yield a different, or malformed, output, so correctness must be enforced around the model (drives [Defensive Output Parsing](../defensive-output-parsing/), [LLM-Checking-LLM](../llm-checking-llm/), [LLM Content Validation Tracking](../llm-content-validation-tracking/)).
-* **Asymmetry between generation and verification**: checking one property is easier than producing the whole output (drives [LLM-Checking-LLM](../llm-checking-llm/)).
+* **Asymmetry between generation and verification**: answering one narrow question about an output is easier than producing it (drives [LLM-Checking-LLM](../llm-checking-llm/)).
 * **General-purpose capability**: the same component can serve as prototype, primary, or fallback (drives [Rent, Then Build](../rent-then-build/) and [Escalate to the LLM](../escalate-to-the-llm/)).
 * **A rapidly evolving, vendor-controlled substrate**: models and prompts improve and are deprecated on the vendor's schedule, underneath long-lived data (drives [LLM Output Provenance](../llm-output-provenance/)).
 * **Quality-cost-latency tradeoff space**: uniquely wide compared to traditional APIs, and what the efficiency patterns navigate.

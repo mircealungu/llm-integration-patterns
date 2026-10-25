@@ -24,7 +24,7 @@ The user expects the result at once. How can a feature use LLM results without m
 
 The vocabulary exercises a learner practices are built from the words they looked up while reading, each paired with a machine translation. At reading time an imperfect translation is low-stakes: the reader is only making sense of the text, and can pick a better option from the alternatives menu. But once the platform selects a word for the learner to *learn*, they will drill that word-translation pair over many days, so its correctness suddenly matters: a learner should not drill a wrong translation. Checking with an LLM whether a word–translation pair is correct and worth learning takes seconds that an exercise screen would rather not wait for.
 
-Generating an [audio lesson](../zeeguu/#audio-lessons) takes much longer than checking a translation. The LLM writes a long lesson script, from a long prompt: so that a recurring topic, a "talking to a neighbour" lesson the learner has had before, comes back fresh rather than repeated, the prompt tells the model what the learner has already heard in past lessons. Text-to-speech then turns the script into audio. Together this takes many seconds, far more than a learner should wait.
+Generating an [audio lesson](../zeeguu/#audio-lessons) takes much longer than checking a translation. The LLM writes a long lesson script, from a long prompt: so that a recurring topic, a "talking to a neighbor" lesson the learner has had before, comes back fresh rather than repeated, the prompt tells the model what the learner has already heard in past lessons. Text-to-speech then turns the script into audio. Together this takes many seconds, far more than a learner should wait.
 
 ## Forces
 

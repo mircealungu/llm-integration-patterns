@@ -2,7 +2,7 @@
 
 ## Context
 
-An application has several LLM tasks: features that each send a prompt and act on the answer (validate a translation, assess an article, generate example sentences). The prompts get tuned in production, often after an incident, and each wording is the one that worked on the cases someone looked at then. Later something forces the prompt to change for a reason that has nothing to do with its output: a cost optimization, a model upgrade, a new field in the reply, a fix to a neighbouring rule.
+An application has several LLM tasks: features that each send a prompt and act on the answer (validate a translation, assess an article, generate example sentences). The prompts get tuned in production, often after an incident, and each wording is the one that worked on the cases someone looked at then. Later something forces the prompt to change for a reason that has nothing to do with its output: a cost optimization, a model upgrade, a new field in the reply, a fix to a neighboring rule.
 
 ## Example
 
@@ -16,9 +16,9 @@ How do you change a tuned prompt, for any reason, without silently undoing what 
 
 ## Forces
 
-- **Prompts are code without tests.** A change to a prompt is a change to behaviour, but nothing fails when it regresses; the regression shows up later, in stored output, as a share of wrong verdicts.
+- **Prompts are code without tests.** A change to a prompt is a change to behavior, but nothing fails when it regresses; the regression shows up later, in stored output, as a share of wrong verdicts.
 - **The cases that shaped a prompt are its specification.** Each fix was made for a concrete input; once that input is lost, so is the reason for the wording, and the next edit can undo it.
-- **Rebuilding an evaluation costs more than keeping one.** Sampling production, labelling the right answers and writing a comparison script is a day of work; repeating it for every change means small, cheap changes (reordering for caching) do not get made at all.
+- **Rebuilding an evaluation costs more than keeping one.** Sampling production, labeling the right answers and writing a comparison script is a day of work; repeating it for every change means small, cheap changes (reordering for caching) do not get made at all.
 - **Many changes are meant to be neutral.** Reordering, a model upgrade, a provider switch, a schema change: the question is not "is it better" but "did anything move", which a recorded set answers cheaply.
 - **Running a set costs money.** Every evaluation run spends tokens, so the set has to stay small enough to run on every change, and the run needs its own caching and batching.
 

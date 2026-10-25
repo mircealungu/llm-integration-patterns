@@ -2,11 +2,11 @@
 
 ## Context
 
-Some LLM-backed features are triggered directly by a user's action and bill a shared provider account the instant the user acts. Consumption is therefore driven by user behaviour, unbounded from the system's side, and can be extremely uneven across users.
+Some LLM-backed features are triggered directly by a user's action and bill a shared provider account the instant the user acts. Consumption is therefore driven by user behavior, unbounded from the system's side, and can be extremely uneven across users.
 
 ## Example
 
-Several of Zeeguu's LLM actions are triggered *directly by a user's click* and charge a shared provider account the instant the user acts: on-demand "[Ask AI](../zeeguu/#translation)" translation, on-demand [article simplification](../zeeguu/#article-simplification), and [audio-lesson](../zeeguu/#audio-lessons) generation (LLM script + text-to-speech). Because the spend is attached to individual user behaviour, a single enthusiastic user (or a buggy client, or a script) can run up the bill or exhaust shared rate limits for everyone.
+Several of Zeeguu's LLM actions are triggered *directly by a user's click* and charge a shared provider account the instant the user acts: on-demand "[Ask AI](../zeeguu/#translation)" translation, on-demand [article simplification](../zeeguu/#article-simplification), and [audio-lesson](../zeeguu/#audio-lessons) generation (LLM script + text-to-speech). Because the spend is attached to individual user behavior, a single enthusiastic user (or a buggy client, or a script) can run up the bill or exhaust shared rate limits for everyone.
 
 Of all the above, the one that Zeeguu protects against is multiple lesson generations in parallel, because this is the most expensive operation. Audio-lesson generation allows **only one active generation per user at a time**: `AudioLessonGenerationProgress.create_for_user` deletes any existing record and `find_active_for_user` gates new requests. That is a per-user *concurrency* budget of exactly one, the cheapest possible bound, chosen precisely because the audio pipeline is among the most expensive actions in the system. On top of that, each user can generate only one audio lesson per day, a second, count-based budget. 
 
@@ -18,7 +18,7 @@ How can one user, or a buggy client, be stopped from running up the shared bill 
 
 ## Forces
 
-- On-demand LLM actions cost real money and latency per invocation, and, unlike a pre-computed or cached feature, they are driven by user behaviour, so from the system's side consumption is unbounded.
+- On-demand LLM actions cost real money and latency per invocation, and, unlike a pre-computed or cached feature, they are driven by user behavior, so from the system's side consumption is unbounded.
 - Consumption can be wildly uneven across users. A small number of heavy users, an abusive script, or a runaway client can dominate cost and exhaust the shared provider's rate limits, degrading service for everyone.
 - The bound must be per *user* (the entity the spend is attached to), not global, or one user's overuse silently taxes the rest.
 - Exact cost accounting is precise but comparatively expensive to build (capture token usage, maintain a current price table). Often a coarse proxy (a count, a concurrency cap, a time budget) is far cheaper and adequately bounds the failure that actually matters.
