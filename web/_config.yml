@@ -4,3 +4,5 @@ theme: jekyll-theme-cayman
 # Jekyll builds only this web/ folder (see .github/workflows/pages.yml), so the
 # root-level tooling (build.py, sync.sh, README, paper/) is out of scope and
 # needs no exclude list.
+plugins:
+  - jekyll-redirect-from

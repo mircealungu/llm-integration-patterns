@@ -6,6 +6,6 @@ anticipatory-precomputation
 defensive-output-parsing
 llm-checking-llm
 llm-content-validation-tracking
-llm-output-provenance
+track-output-provenance
 rent-then-build
 reject-and-reprompt

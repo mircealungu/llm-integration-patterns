@@ -153,6 +153,13 @@ def render_embeds(text: str) -> str:
     return embed.sub(repl, text)
 
 
+# Old URLs of renamed pages, so links made before a rename keep working
+# (jekyll-redirect-from, which GitHub Pages ships). Keyed by the new permalink.
+REDIRECT_FROM = {
+    "/track-output-provenance/": ["/llm-output-provenance/"],  # renamed 2026-10-25
+}
+
+
 def front_matter(title: str, permalink: str, description: str = None,
                  subtitle: str = None, subtitle_url: str = None) -> str:
     safe = title.replace('"', "'")
@@ -163,6 +170,8 @@ def front_matter(title: str, permalink: str, description: str = None,
         fm += f'subtitle: "{subtitle}"\n'
     if subtitle_url:
         fm += f'subtitle_url: "{subtitle_url}"\n'
+    for old in REDIRECT_FROM.get(permalink, []):
+        fm += f"redirect_from: {old}\n"
     return fm + f"permalink: {permalink}\n---\n"
 
 
