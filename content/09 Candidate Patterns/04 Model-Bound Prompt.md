@@ -2,6 +2,8 @@
 
 *"Fiecare pasăre pe limba ei piere."* (Romanian proverb: every bird dies by its own tongue)
 
+*Version each prompt together with the model it was written for.*
+
 ## Context
 
 A feature can be served by more than one LLM provider, for availability, cost, or both. Its prompt was written and tuned while one of those providers served it, and the others answer the same API shape, so switching looks like a change of endpoint and key. The output feeds decisions downstream (a classification, a gate, a parsed field), not only text a person reads.
