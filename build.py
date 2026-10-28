@@ -16,6 +16,7 @@ mircealungu.github.io/llm-integration-patterns/ and at llm-patterns.mircealungu.
 """
 import glob
 import html
+import json
 import os
 import re
 import urllib.parse
@@ -151,6 +152,17 @@ def render_embeds(text: str) -> str:
         alt = html.escape(caption or fname.rsplit(".", 1)[0].replace("-", " "))
         cap = (f"\n  <figcaption>{html.escape(caption)}</figcaption>"
                if caption else "")
+        # A diagram with clickable labels (diagrams/links.py wrote a
+        # .links.json beside it) is embedded as an <object>: links inside an
+        # <img> SVG do not work. Its own links replace tap-to-zoom.
+        links = os.path.join(ROOT, "content", "images",
+                             fname.rsplit(".", 1)[0] + ".links.json")
+        if fname.lower().endswith(".svg") and os.path.exists(links):
+            aspect = json.load(open(links))["aspect"]
+            return (f'<figure class="img"{style}>\n'
+                    f'  <object type="image/svg+xml" data="{src}" aria-label="{alt}" '
+                    f'style="aspect-ratio:{aspect}"><img src="{src}" alt="{alt}"></object>{cap}\n'
+                    f"</figure>")
         return (f'<figure class="img"{style}>\n'
                 f'  <a href="{src}"><img src="{src}" alt="{alt}"></a>{cap}\n'
                 f"</figure>")

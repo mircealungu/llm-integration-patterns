@@ -23,6 +23,7 @@ Pipeline:  vault .md  ->  assemble one body.md  ->  pandoc -t latex  ->
            wrap in acmart main.tex  ->  xelatex x2  ->  paper.pdf
 """
 import glob
+import json
 import os
 import re
 import shutil
@@ -390,6 +391,40 @@ def highlighting_macros():
     return re.sub(r"\\newenvironment\{Shaded\}[^\n]*\n", lambda _: shaded, macros)
 
 
+SITE_URL = "https://llm-patterns.mircealungu.com"
+
+
+def link_figures(tex):
+    """Lay hyperlinks over a figure whose labels are links (diagrams/links.py
+    wrote images/<name>.links.json beside it). A link to a pattern in this
+    paper jumps to its section; any other pattern opens its page on the site.
+    The image becomes a TikZ node, and each link a \linkbox placed by its
+    fractions of the image, so the links follow the image at any scale."""
+    def repl(m):
+        name = m.group(2)
+        path = os.path.join(SRC, "images", name + ".links.json")
+        if not os.path.exists(path):
+            return m.group(0)
+        boxes = []
+        for l in json.load(open(path))["links"]:
+            slug = l["slug"]
+            action = (rf"/A << /S/GoTo /D (\getrefbykeydefault{{{slug}}}{{anchor}}{{}}) >>"
+                      if rf"\label{{{slug}}}" in tex
+                      else rf"/A << /S/URI /URI ({SITE_URL}/{slug}/) >>")
+            boxes.append(
+                rf"\path let \p1=({l['x0']},{round(1 - l['y1'], 5)}), "
+                rf"\p2=({l['x1']},{round(1 - l['y0'], 5)}) in"
+                rf" node[anchor=south west, inner sep=0pt] at (\p1)"
+                rf" {{\linkbox{{\the\dimexpr\x2-\x1\relax}}{{\the\dimexpr\y2-\y1\relax}}{{{action}}}}};")
+        return ("\\begin{tikzpicture}\n"
+                rf"\node[anchor=south west, inner sep=0pt] (linkedimg) at (0,0) {{{m.group(0)}}};" "\n"
+                r"\begin{scope}[x={(linkedimg.south east)}, y={(linkedimg.north west)}]" "\n"
+                + "\n".join(boxes) +
+                "\n\\end{scope}\n\\end{tikzpicture}")
+    return re.sub(r"\\includegraphics(\[(?:[^\[\]{}]|\{[^{}]*\})*\])?"
+                  r"\{images/([^}]+?)\.pdf\}", repl, tex)
+
+
 def main_tex():
     m = META
     hl = highlighting_macros()
@@ -417,6 +452,13 @@ def main_tex():
 \graphicspath{{{{images/}}}}
 \definecolor{{themecolor}}{{RGB}}{{31,73,125}}
 \usepackage{{tikz}}
+\usetikzlibrary{{calc}}
+% A link area of a given size, for the clickable labels laid over a figure
+% (see link_figures). An explicit pdf:ann, because xdvipdfmx sizes a \href
+% to the glyphs inside it, and these areas have none.
+\usepackage{{refcount}}
+\newcommand\linkbox[3]{{\hbox to #1{{\special{{pdf:ann width #1 height #2 depth 0pt
+  << /Type/Annot /Subtype/Link /Border[0 0 0] #3 >>}}\vrule width 0pt height #2\hfil}}}}
 % Theme pill on pattern titles (see PATTERN_TAG). A TikZ node because a
 % \colorbox cannot round its corners; robust so it survives inside \subsection.
 % A pale tint rather than a solid fill, so it labels without drawing the eye;
@@ -481,6 +523,9 @@ def main():
              "-o", os.path.join(OUT, "body.tex")])
     if r.returncode:
         sys.exit("pandoc failed")
+    body_tex = os.path.join(OUT, "body.tex")
+    tex = open(body_tex, encoding="utf-8").read()
+    open(body_tex, "w", encoding="utf-8").write(link_figures(tex))
 
     open(os.path.join(OUT, "main.tex"), "w", encoding="utf-8").write(main_tex())
     if os.path.exists(BIB):

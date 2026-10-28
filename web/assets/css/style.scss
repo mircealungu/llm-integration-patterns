@@ -113,6 +113,13 @@ body.home .main-content h3 {
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.18);
 }
 
+.main-content figure.img object {
+  display: block;
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.18);
+}
+
 .main-content figure.img figcaption {
   margin-top: 0.5rem;
   font-size: 0.9rem;
