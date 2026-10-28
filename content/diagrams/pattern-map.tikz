@@ -57,7 +57,7 @@
 \node[patx, anchor=north, align=center] at (7.75,-0.45) {Deterministic\\Postprocessing};
 \draw[sarr] (parser.east) -- node[below, data, pos=0.6] {output} (post.west);
 \draw[sarr] (4.5,0) |- (check.west);
-\draw[sarr, color=okc] (check.east) -| node[pos=0.25, above, okcond] {pass} (6.85,0.05);
+\draw[sarr, color=okc] (check.east) -| node[pos=0.7, right, okcond] {pass} (6.85,0.05);
 \draw[sarr, color=badc] (check.north) |- (prompt.east);
 \node[badcond, anchor=west] at (5.75,2.25) {reject};
 \node[data, text=badc, anchor=south west] at (4.2,2.72) {+ what was wrong};

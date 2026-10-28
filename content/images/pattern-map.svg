@@ -765,10 +765,10 @@
 <path fill="none" stroke-width="0.79701" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(18.03894%, 49.01886%, 19.607544%)" stroke-opacity="1" stroke-miterlimit="10" d="M 184.55285 39.686674 L 194.174729 39.686674 L 194.174729 4.916439 " transform="matrix(0.998295, 0, 0, -0.998295, 16.531422, 116.583835)"/>
 <path fill-rule="nonzero" fill="rgb(18.03894%, 49.01886%, 19.607544%)" fill-opacity="1" stroke-width="0.79701" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(18.03894%, 49.01886%, 19.607544%)" stroke-opacity="1" stroke-miterlimit="10" d="M 4.533727 -0.00108147 L 1.286001 1.231489 L 2.369881 -0.00108147 L 1.286001 -1.229739 Z M 4.533727 -0.00108147 " transform="matrix(0, 0.998295, 0.998295, 0, 210.37608, 109.509161)"/>
 <g fill="rgb(17.999268%, 48.999023%, 19.599915%)" fill-opacity="1">
-<use xlink:href="#glyph-2-10" x="197.858654" y="71.384052"/>
-<use xlink:href="#glyph-2-12" x="202.513211" y="71.384052"/>
-<use xlink:href="#glyph-2-4" x="206.618768" y="71.384052"/>
-<use xlink:href="#glyph-2-4" x="209.952545" y="71.384052"/>
+<use xlink:href="#glyph-2-10" x="214.088927" y="93.059024"/>
+<use xlink:href="#glyph-2-12" x="218.743484" y="93.059024"/>
+<use xlink:href="#glyph-2-4" x="222.849042" y="93.059024"/>
+<use xlink:href="#glyph-2-4" x="226.182818" y="93.059024"/>
 </g>
 <path fill="none" stroke-width="0.79701" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(72.549438%, 10.978699%, 10.978699%)" stroke-opacity="1" stroke-miterlimit="10" d="M 161.576165 52.031947 L 161.576165 76.534672 L 114.351095 76.534672 " transform="matrix(0.998295, 0, 0, -0.998295, 16.531422, 116.583835)"/>
 <path fill-rule="nonzero" fill="rgb(72.549438%, 10.978699%, 10.978699%)" fill-opacity="1" stroke-width="0.79701" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(72.549438%, 10.978699%, 10.978699%)" stroke-opacity="1" stroke-miterlimit="10" d="M 4.53309 0.00161806 L 1.285364 1.230276 L 2.369244 0.00161806 L 1.285364 -1.230953 Z M 4.53309 0.00161806 " transform="matrix(-0.998295, 0, 0, 0.998295, 132.853485, 40.178072)"/>
