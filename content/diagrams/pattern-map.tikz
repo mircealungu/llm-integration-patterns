@@ -1,0 +1,87 @@
+% Pattern map: where the patterns sit around one LLM task. Shared body of
+% pattern-map.tex (with candidates) and pattern-map-core.tex (without).
+% Not a .tex file, so build.sh does not build it on its own; after changing
+% it, run ./build.sh pattern-map pattern-map-core.
+%
+% Left: the model and its prompt (with the parser that reads its answer),
+% versioned as one pair. Outside it, one central table maps each task to its
+% models (main, then backup); the model only references it (a dot-ended line,
+% as in the provenance diagram: not data flow). With candidates, the pair sits
+% in a task box together with the task's tests: every model for a task passes
+% the same set.
+% Middle: its output is used as is or checked first, then cleaned up. Right: the stored row,
+% its stamp and its validation state. Below: the user, and the
+% feedback that lowers the state; the user's next request runs the task again.
+% Pattern names are navy: bold if the pattern is in the PDF (paper/paper-set.txt),
+% italic if it is not. Candidate boxes are dashed.
+\definecolor{navy}{HTML}{1E3A8A}
+\begin{tikzpicture}[
+  cand/.style={dashed},
+  pat/.style={font=\footnotesize\bfseries, text=navy},   % pattern in the paper
+  patx/.style={font=\footnotesize\itshape, text=navy},   % pattern not in the paper
+  cell/.style={mini, rounded corners=0pt, minimum height=6.2mm, inner ysep=1pt, inner xsep=3pt, minimum width=13mm},
+  tname/.style={font=\small\bfseries, text=ink},
+  box/.style={draw=ink!50, line width=0.6pt, rounded corners=4pt, inner sep=6pt},
+  ref/.style={ink!60, line width=0.7pt, -{Circle[length=1.4mm]}}]
+
+% --- the model and its prompt (and, with candidates, the task around them)
+\node[mini, minimum width=18mm] (prompt) at (3.0,2.7) {prompt v3};
+\node[minillm, minimum width=18mm] (llm) at (3.0,1.35) {LLM};
+\node[mini, minimum width=18mm] (parser) at (3.0,0) {parser};
+\draw[sarr] (prompt) -- (llm);
+\draw[sarr] (llm) -- (parser);
+\node[pat, anchor=east, align=right] at (1.85,0) {Defensive\\Output Parsing};
+\ifcandidates
+  \node[box, inner sep=3pt, rounded corners=3pt, fit={(prompt)(parser)}] (pair) {};
+  \node[mini, cand, minimum width=18mm] (tests) at (3.0,-1.35) {tests};
+  \node[patx, anchor=east, align=right] at (1.85,-1.35) {Regression Set\\per LLM Task};
+  \node[box, fit={(pair)(tests)}] (task) {};
+  \node[lbl, anchor=south west, inner xsep=0pt] at (task.north west) {task: model + prompt ({\color{navy}\itshape Model-Bound Prompt}), and tests};
+  \def\outer{task}
+\else
+  \node[box, fit={(prompt)(parser)}] (pair) {};
+  \node[lbl, anchor=south west, inner xsep=0pt] at (pair.north west) {model + prompt, versioned as one};
+  \def\outer{pair}
+\fi
+\node[mini, multi, minimum width=15mm] (models) at (0.7,1.35) {task $\to$ model\\[-1pt]{\footnotesize main, backup}};
+\node[patx, anchor=south, align=center] at (0.7,1.9) {Centralized\\Model Selection};
+\draw[ref] (llm.west) -- (models.east);
+
+% --- used as is, or checked first; both cleaned up before they are stored
+\node[mini, minimum width=16mm] (check) at (5.7,1.4) {check};
+\node[pat, anchor=north, align=center] at (5.7,0.95) {LLM-Checking-\\LLM};
+\node[mini, minimum width=14mm] (post) at (7.75,0) {clean up};
+\node[patx, anchor=north, align=center] at (7.75,-0.45) {Deterministic\\Postprocessing};
+\draw[sarr] (parser.east) -- node[below, data, pos=0.6] {output} (post.west);
+\draw[sarr] (4.5,0) |- (check.west);
+\draw[sarr, color=okc] (check.east) -| node[pos=0.25, above, okcond] {pass} (6.85,0.05);
+\draw[sarr, color=badc] (check.north) |- (prompt.east);
+\node[badcond, anchor=west] at (5.75,2.25) {reject};
+\node[data, text=badc, anchor=south west] at (4.2,2.72) {+ what was wrong};
+\node[pat, anchor=west] at (6.4,2.9) {Reject and Reprompt};
+
+% --- the stored row
+\node[cell] (content) at (9.3,0) {content};
+\node[cell] (stamp) at (10.6,0) {stamp};
+\node[cell] (state) at (11.9,0) {state};
+\draw[sarr] (post) -- (content);
+\node[pat, anchor=south, align=center] at (10.5,0.4) {Track\\Output\\Provenance};
+\node[pat, anchor=south, align=center] at (12.05,0.4) {LLM Content\\Validation\\Tracking};
+\ifcandidates
+  \node[mini, cand, minimum width=11mm] (watch) at (13.5,0) {count};
+  \draw[sarr] (state.east) -- (watch.west);
+  \node[patx, anchor=north, align=center] at (13.5,-0.45) {Check What\\Should\\Exist};
+\fi
+
+% --- serving and the user
+\node[mini, minimum width=16mm] (user) at (9.3,-2.4) {user};
+\draw[sarr] (content.south) -- (user);
+\node[mini, minimum width=16mm] (report) at (11.9,-2.4) {report};
+\node[patx, anchor=north, align=center] at (11.9,-2.85) {Targeted\\User Feedback};
+\draw[sarr] (user) -- node[above, data] {flag} (report);
+\draw[sarr] (report) -- node[right, data] {lowers} (state.south);
+\ifcandidates
+  \node[patx, anchor=east, align=right] at (11.7,-1.2) {Soft Invalidation\\of LLM Artifacts};
+\fi
+\draw[sarr] (user.west) -| node[pos=0.25, above, data] {next request} (\outer.south);
+\end{tikzpicture}
