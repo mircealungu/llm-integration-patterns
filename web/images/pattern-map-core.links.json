@@ -1,0 +1,89 @@
+{
+ "aspect": 1.54311,
+ "links": [
+  {
+   "slug": "defensive-output-parsing",
+   "x0": 0.01634,
+   "y0": 0.39903,
+   "x1": 0.17552,
+   "y1": 0.49334
+  },
+  {
+   "slug": "centralized-model-selection",
+   "x0": 0.01915,
+   "y0": 0.14719,
+   "x1": 0.16568,
+   "y1": 0.23431
+  },
+  {
+   "slug": "llm-checking-llm",
+   "x0": 0.37224,
+   "y0": 0.34025,
+   "x1": 0.53524,
+   "y1": 0.42716
+  },
+  {
+   "slug": "deterministic-postprocessing",
+   "x0": 0.53393,
+   "y0": 0.49637,
+   "x1": 0.66985,
+   "y1": 0.58917
+  },
+  {
+   "slug": "reject-and-reprompt",
+   "x0": 0.50433,
+   "y0": 0.09432,
+   "x1": 0.71902,
+   "y1": 0.15127
+  },
+  {
+   "slug": "track-output-provenance",
+   "x0": 0.73764,
+   "y0": 0.27722,
+   "x1": 0.8636,
+   "y1": 0.40158
+  },
+  {
+   "slug": "llm-content-validation-tracking",
+   "x0": 0.84234,
+   "y0": 0.2713,
+   "x1": 0.98291,
+   "y1": 0.40158
+  },
+  {
+   "slug": "targeted-user-feedback",
+   "x0": 0.83489,
+   "y0": 0.80303,
+   "x1": 0.96869,
+   "y1": 0.89019
+  },
+  {
+   "slug": "prompt-amortization",
+   "x0": 0.01601,
+   "y0": 0.71001,
+   "x1": 0.15745,
+   "y1": 0.79569
+  },
+  {
+   "slug": "escalate-to-the-llm",
+   "x0": 0.45555,
+   "y0": 0.80861,
+   "x1": 0.57479,
+   "y1": 0.89573
+  },
+  {
+   "slug": "anticipatory-precomputation",
+   "x0": 0.29307,
+   "y0": 0.87338,
+   "x1": 0.46004,
+   "y1": 0.96687
+  },
+  {
+   "slug": "rent-then-build",
+   "x0": 0.81475,
+   "y0": 0.02038,
+   "x1": 0.98883,
+   "y1": 0.07532
+  }
+ ]
+}

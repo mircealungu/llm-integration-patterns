@@ -1,0 +1,117 @@
+{
+ "aspect": 1.65751,
+ "links": [
+  {
+   "slug": "defensive-output-parsing",
+   "x0": 0.01509,
+   "y0": 0.40363,
+   "x1": 0.16215,
+   "y1": 0.49722
+  },
+  {
+   "slug": "regression-set-per-llm-task",
+   "x0": 0.0388,
+   "y0": 0.55371,
+   "x1": 0.16215,
+   "y1": 0.64592
+  },
+  {
+   "slug": "model-bound-prompt",
+   "x0": 0.33375,
+   "y0": 0.01509,
+   "x1": 0.49612,
+   "y1": 0.0716
+  },
+  {
+   "slug": "centralized-model-selection",
+   "x0": 0.01769,
+   "y0": 0.15371,
+   "x1": 0.15306,
+   "y1": 0.24017
+  },
+  {
+   "slug": "llm-checking-llm",
+   "x0": 0.3439,
+   "y0": 0.3453,
+   "x1": 0.49449,
+   "y1": 0.43154
+  },
+  {
+   "slug": "deterministic-postprocessing",
+   "x0": 0.49327,
+   "y0": 0.50022,
+   "x1": 0.61884,
+   "y1": 0.59231
+  },
+  {
+   "slug": "reject-and-reprompt",
+   "x0": 0.46593,
+   "y0": 0.10125,
+   "x1": 0.66427,
+   "y1": 0.15776
+  },
+  {
+   "slug": "track-output-provenance",
+   "x0": 0.68147,
+   "y0": 0.28275,
+   "x1": 0.79784,
+   "y1": 0.40616
+  },
+  {
+   "slug": "llm-content-validation-tracking",
+   "x0": 0.7782,
+   "y0": 0.27687,
+   "x1": 0.90807,
+   "y1": 0.40616
+  },
+  {
+   "slug": "check-what-should-exist",
+   "x0": 0.88213,
+   "y0": 0.75474,
+   "x1": 0.99108,
+   "y1": 0.8412
+  },
+  {
+   "slug": "targeted-user-feedback",
+   "x0": 0.77132,
+   "y0": 0.80454,
+   "x1": 0.89493,
+   "y1": 0.89103
+  },
+  {
+   "slug": "soft-invalidation-of-llm-artifacts",
+   "x0": 0.68003,
+   "y0": 0.54762,
+   "x1": 0.81977,
+   "y1": 0.64095
+  },
+  {
+   "slug": "prompt-amortization",
+   "x0": 0.01479,
+   "y0": 0.71223,
+   "x1": 0.14546,
+   "y1": 0.79726
+  },
+  {
+   "slug": "escalate-to-the-llm",
+   "x0": 0.42086,
+   "y0": 0.81007,
+   "x1": 0.53102,
+   "y1": 0.89653
+  },
+  {
+   "slug": "anticipatory-precomputation",
+   "x0": 0.27076,
+   "y0": 0.87435,
+   "x1": 0.42501,
+   "y1": 0.96712
+  },
+  {
+   "slug": "rent-then-build",
+   "x0": 0.75271,
+   "y0": 0.02788,
+   "x1": 0.91353,
+   "y1": 0.0824
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="392.25pt" height="254.2pt" viewBox="0 0 392.25 254.2">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 392.25 254.2">
 <defs>
 <g>
 <g id="glyph-0-0">
@@ -1163,5 +1163,19 @@
 <use xlink:href="#glyph-3-14" x="265.342977" y="50.919749"/>
 <use xlink:href="#glyph-3-8" x="269.164569" y="50.919749"/>
 <use xlink:href="#glyph-3-14" x="271.865901" y="50.919749"/>
+</g>
+<g id="links">
+<a xlink:href="/defensive-output-parsing/" target="_top"><rect x="6.41" y="101.43" width="62.44" height="23.97" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/centralized-model-selection/" target="_top"><rect x="7.51" y="37.42" width="57.48" height="22.15" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/llm-checking-llm/" target="_top"><rect x="146.01" y="86.49" width="63.94" height="22.09" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/deterministic-postprocessing/" target="_top"><rect x="209.43" y="126.18" width="53.31" height="23.59" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/reject-and-reprompt/" target="_top"><rect x="197.82" y="23.98" width="84.21" height="14.48" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/track-output-provenance/" target="_top"><rect x="289.34" y="70.47" width="49.41" height="31.61" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/llm-content-validation-tracking/" target="_top"><rect x="330.41" y="68.96" width="55.14" height="33.12" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/targeted-user-feedback/" target="_top"><rect x="327.49" y="204.13" width="52.48" height="22.16" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/prompt-amortization/" target="_top"><rect x="6.28" y="180.48" width="55.48" height="21.78" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/escalate-to-the-llm/" target="_top"><rect x="178.69" y="205.55" width="46.77" height="22.15" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/anticipatory-precomputation/" target="_top"><rect x="114.96" y="222.01" width="65.49" height="23.77" fill="transparent" style="cursor:pointer"/></a>
+<a xlink:href="/rent-then-build/" target="_top"><rect x="319.59" y="5.18" width="68.28" height="13.97" fill="transparent" style="cursor:pointer"/></a>
 </g>
 </svg>

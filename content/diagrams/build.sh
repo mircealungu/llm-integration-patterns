@@ -19,6 +19,9 @@ for name in "${names[@]}"; do
     xelatex -interaction=nonstopmode -halt-on-error -output-directory="$tmp" "$name.tex" > "$tmp/$name.log" \
       || { tail -20 "$tmp/$name.log"; exit 1; }
     pdftocairo -svg "$tmp/$name.pdf" "../images/$name.svg"
+    # a diagram with link=<slug> labels: clickable areas in the SVG, and a
+    # .links.json for the paper build (see links.py)
+    [ -f "$tmp/$name.links" ] && python3 links.py "$tmp/$name.links" "../images/$name.svg" "../images/$name.links.json"
     cp "$tmp/$name.pdf" "$pdf"
     # the paper's text block is 15.2 cm; a wider diagram runs into the margin
     w=$(pdfinfo "$pdf" | awk '/Page size/ {printf "%.1f", $3/72*2.54}')

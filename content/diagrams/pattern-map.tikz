@@ -18,7 +18,23 @@
 % Pattern names are navy: bold if the pattern is in the PDF (paper/paper-set.txt),
 % italic if it is not. Candidate boxes are dashed.
 \definecolor{navy}{HTML}{1E3A8A}
+% Links: each pattern label has link=<slug>. Its box goes to <jobname>.links
+% (in pt, picture coordinates, plus the picture's bounding box), which
+% links.py turns into clickable areas: in the SVG for the site, and over the
+% included PDF in the paper.
+\newwrite\linksout
+\immediate\openout\linksout=\jobname.links
+\def\writelink#1{%
+  \pgfpointanchor{\tikzlastnode}{south west}\pgfgetlastxy\lx\ly
+  \pgfpointanchor{\tikzlastnode}{north east}\pgfgetlastxy\ux\uy
+  \immediate\write\linksout{link #1 \lx\space\ly\space\ux\space\uy}}
+\def\writebbox{%
+  \pgfpointanchor{current bounding box}{south west}\pgfgetlastxy\lx\ly
+  \pgfpointanchor{current bounding box}{north east}\pgfgetlastxy\ux\uy
+  \immediate\write\linksout{bbox \lx\space\ly\space\ux\space\uy}}
 \begin{tikzpicture}[
+  execute at end picture={\writebbox},
+  link/.style={append after command={\pgfextra{\writelink{#1}}}},
   cand/.style={dashed},
   pat/.style={font=\footnotesize\bfseries, text=navy},   % pattern in the paper
   patx/.style={font=\footnotesize\itshape, text=navy},   % pattern not in the paper
@@ -33,13 +49,15 @@
 \node[mini, minimum width=18mm] (parser) at (3.0,0) {parser};
 \draw[sarr] (prompt) -- (llm);
 \draw[sarr] (llm) -- (parser);
-\node[pat, anchor=east, align=right] at (1.85,0) {Defensive\\Output Parsing};
+\node[pat, link=defensive-output-parsing, anchor=east, align=right] at (1.85,0) {Defensive\\Output Parsing};
 \ifcandidates
   \node[box, inner sep=3pt, rounded corners=3pt, fit={(prompt)(parser)}] (pair) {};
   \node[mini, cand, minimum width=18mm] (tests) at (3.0,-1.35) {tests};
-  \node[patx, anchor=east, align=right] at (1.85,-1.35) {Regression Set\\per LLM Task};
+  \node[patx, link=regression-set-per-llm-task, anchor=east, align=right] at (1.85,-1.35) {Regression Set\\per LLM Task};
   \node[box, fit={(pair)(tests)}] (task) {};
-  \node[lbl, anchor=south west, inner xsep=0pt] at (task.north west) {task: model + prompt ({\color{navy}\itshape Model-Bound Prompt}), and tests};
+  \node[lbl, anchor=base west, inner xsep=0pt] (t1) at ([yshift=4pt]task.north west) {task: model + prompt (};
+  \node[patx, link=model-bound-prompt, anchor=base west, inner xsep=0pt] (t2) at (t1.base east) {Model-Bound Prompt};
+  \node[lbl, anchor=base west, inner xsep=0pt] at (t2.base east) {), and tests};
   \def\outer{task}
 \else
   \node[box, fit={(prompt)(parser)}] (pair) {};
@@ -47,34 +65,34 @@
   \def\outer{pair}
 \fi
 \node[mini, multi, minimum width=15mm] (models) at (0.7,1.35) {task $\to$ model\\[-1pt]{\footnotesize main, backup}};
-\node[patx, anchor=south, align=center] at (0.7,1.9) {Centralized\\Model Selection};
+\node[patx, link=centralized-model-selection, anchor=south, align=center] at (0.7,1.9) {Centralized\\Model Selection};
 \draw[ref] (llm.west) -- (models.east);
 
 % --- used as is, or checked first; both cleaned up before they are stored
 \node[mini, minimum width=16mm] (check) at (5.7,1.4) {check};
-\node[pat, anchor=north, align=center] at (5.7,0.95) {LLM-Checking-\\LLM};
+\node[pat, link=llm-checking-llm, anchor=north, align=center] at (5.7,0.95) {LLM-Checking-\\LLM};
 \node[mini, minimum width=14mm] (post) at (7.75,0) {clean up};
-\node[patx, anchor=north, align=center] at (7.75,-0.45) {Deterministic\\Postprocessing};
+\node[patx, link=deterministic-postprocessing, anchor=north, align=center] at (7.75,-0.45) {Deterministic\\Postprocessing};
 \draw[sarr] (parser.east) -- node[below, data, pos=0.6] {output} (post.west);
 \draw[sarr] (4.5,0) |- (check.west);
 \draw[sarr, color=okc] (check.east) -| node[pos=0.7, right, okcond] {pass} (6.85,0.05);
 \draw[sarr, color=badc] (check.north) |- (prompt.east);
 \node[badcond, anchor=west] at (5.75,2.25) {reject};
 \node[data, text=badc, anchor=south west] at (4.2,2.72) {+ what was wrong};
-\node[pat, anchor=west] at (6.4,2.9) {Reject and Reprompt};
+\node[pat, link=reject-and-reprompt, anchor=west] at (6.4,2.9) {Reject and Reprompt};
 
 % --- the stored row
 \node[cell] (content) at (9.3,0) {content};
 \node[cell] (stamp) at (10.6,0) {stamp};
 \node[cell] (state) at (11.9,0) {state};
 \draw[sarr] (post) -- (content);
-\node[pat, anchor=south, align=center] at (10.5,0.4) {Track\\Output\\Provenance};
-\node[pat, anchor=south, align=center] at (12.05,0.4) {LLM Content\\Validation\\Tracking};
+\node[pat, link=track-output-provenance, anchor=south, align=center] at (10.5,0.4) {Track\\Output\\Provenance};
+\node[pat, link=llm-content-validation-tracking, anchor=south, align=center] at (12.05,0.4) {LLM Content\\Validation\\Tracking};
 \ifcandidates
   % reads the stored rows (not their state) and compares with what should exist
   \node[mini, cand] (watch) at (13.45,-1.15) {monitor};
   \draw[sarr] (state.east) -| node[pos=0.25, above, data] {rows} (watch.north);
-  \node[patx, anchor=north, align=center] at (13.45,-2.75) {Check What\\Should Exist};
+  \node[patx, link=check-what-should-exist, anchor=north, align=center] at (13.45,-2.75) {Check What\\Should Exist};
   \draw[sarr, color=badc] (watch.south) -- node[left, badcond] {too few} (13.45,-2.3);
   \node[bad, anchor=north] at (13.45,-2.3) {alert};
 \fi
@@ -83,25 +101,26 @@
 \node[mini, minimum width=16mm] (user) at (9.3,-2.75) {user};
 \draw[sarr] (content.south) -- (user);
 \node[mini, minimum width=16mm] (report) at (11.9,-2.75) {report};
-\node[patx, anchor=north, align=center] at (11.9,-3.2) {Targeted\\User Feedback};
+\node[patx, link=targeted-user-feedback, anchor=north, align=center] at (11.9,-3.2) {Targeted\\User Feedback};
 \draw[sarr] (user) -- node[above, data] {flag} (report);
 \draw[sarr] (report) -- node[right, data] {lowers} (state.south);
 \ifcandidates
-  \node[patx, anchor=east, align=right] at (11.7,-1.3) {Soft Invalidation\\of LLM Artifacts};
+  \node[patx, link=soft-invalidation-of-llm-artifacts, anchor=east, align=right] at (11.7,-1.3) {Soft Invalidation\\of LLM Artifacts};
 \fi
 
 % --- the cost patterns, around the pipeline: what reaches the task, and when
 \node[mini, multi, minimum width=16mm] (batch) at (2.6,-2.75) {batch\\[-1pt]{\footnotesize n per call}};
-\node[pat, anchor=east, align=right] at (1.6,-2.75) {Prompt\\Amortization};
+\node[pat, link=prompt-amortization, anchor=east, align=right] at (1.6,-2.75) {Prompt\\Amortization};
 \draw[sarr] (batch.north) -- (batch.north |- \outer.south);
 \node[mini, multi, minimum width=18mm] (cheap) at (6.55,-2.75) {cheap tool\\[-1pt]{\footnotesize answers first}};
-\node[pat, anchor=north, align=center] at (6.55,-3.25) {Escalate\\to the LLM};
+\node[pat, link=escalate-to-the-llm, anchor=north, align=center] at (6.55,-3.25) {Escalate\\to the LLM};
 \draw[sarr] (user) -- node[above, data] {request} (cheap);
 \draw[sarr] (cheap.west) -| node[pos=0.3, above, data] {escalates} ([xshift=8mm]\outer.south);
 \node[mini, multi, minimum width=16mm] (sched) at (2.6,-4.25) {scheduled\\[-1pt]{\footnotesize predicted}};
-\node[pat, anchor=west, align=left] at (sched.east) {Anticipatory\\Precomputation};
+\node[pat, link=anticipatory-precomputation, anchor=west, align=left] at (sched.east) {Anticipatory\\Precomputation};
 \draw[sarr] (sched) -- (batch);
 \node[mini, multi, minimum width=18mm] (own) at (11.9,2.75) {own model\\[-1pt]{\footnotesize replaces the LLM}};
-\node[pat, anchor=south] at (own.north) {Rent, Then Build};
+\node[pat, link=rent-then-build, anchor=south] at (own.north) {Rent, Then Build};
 \draw[sarr] (content.north) |- node[pos=0.4, left, data] {training data} (own.west);
 \end{tikzpicture}
+\immediate\closeout\linksout
