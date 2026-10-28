@@ -11,7 +11,7 @@ permalink: /candidate/
 - [Temperature as Task Selector](../temperature-as-task-selector/)
 - [Prompt Injection Containment](../prompt-injection-containment/)
 - [Soft Invalidation of LLM Artifacts](../soft-invalidation-of-llm-artifacts/)
-- [One Wish per Genie](../one-wish-per-genie/)
+- [Model-Bound Prompt](../model-bound-prompt/)
 - [Check What Should Exist](../check-what-should-exist/)
 - [Task Fusion](../task-fusion/)
 - [Regression Set per LLM Task](../regression-set-per-llm-task/)

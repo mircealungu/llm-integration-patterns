@@ -50,7 +50,7 @@ Ask for all the answers about one input in one call, each in its own named field
 ## Consequences
 
 - **The input is paid for once.** Cost and latency no longer grow with the number of questions asked about it.
-- **The tasks fail together.** One malformed field, or a model that ends its answer early, loses every answer at once. Zeeguu's assessment prompt let a model reject an article with a single word, and one provider used that exit for almost every article, so no article got a level or a summary either (see [One Wish per Genie](../one-wish-per-genie/)).
+- **The tasks fail together.** One malformed field, or a model that ends its answer early, loses every answer at once. Zeeguu's assessment prompt let a model reject an article with a single word, and one provider used that exit for almost every article, so no article got a level or a summary either (see [Model-Bound Prompt](../model-bound-prompt/)).
 - **The tasks change together.** Editing the prompt for one answer means re-checking all of them, and all of them run on the same model.
 - **The number of tasks is capped by quality.** Zeeguu once assessed an article and simplified it to every level in the same call, and split this into an assessment call and one call per level when the simplifications came out shortened and merged.
 
@@ -62,7 +62,7 @@ Ask for all the answers about one input in one call, each in its own named field
 
 ## Related Patterns
 
-[Prompt Amortization](../prompt-amortization/) shares one set of instructions across many items; *Task Fusion* shares one input across many tasks. Both put more into one call, and both carry the same quality risk. [One Wish per Genie](../one-wish-per-genie/) describes how a fused prompt's early exit behaved differently across providers.
+[Prompt Amortization](../prompt-amortization/) shares one set of instructions across many items; *Task Fusion* shares one input across many tasks. Both put more into one call, and both carry the same quality risk. [Model-Bound Prompt](../model-bound-prompt/) describes how a fused prompt's early exit behaved differently across providers.
 
 
 

@@ -63,6 +63,6 @@ Note that both the above are *analogues and not exact instances.* Both capture t
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../prompt-injection-containment/">← Prompt Injection Containment</a><a class="nav-next" href="../one-wish-per-genie/">One Wish per Genie →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../prompt-injection-containment/">← Prompt Injection Containment</a><a class="nav-next" href="../model-bound-prompt/">Model-Bound Prompt →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BSoft+Invalidation+of+LLM+Artifacts%5D+&labels=feedback%2Ccandidate&body=%2A%2ARe%3A%2A%2A+Soft+Invalidation+of+LLM+Artifacts%0A%2A%2ASection%3A%2A%2A+Candidate+Patterns%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fsoft-invalidation-of-llm-artifacts%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

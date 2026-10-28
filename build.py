@@ -157,6 +157,7 @@ def render_embeds(text: str) -> str:
 # (jekyll-redirect-from, which GitHub Pages ships). Keyed by the new permalink.
 REDIRECT_FROM = {
     "/track-output-provenance/": ["/llm-output-provenance/"],  # renamed 2026-10-25
+    "/model-bound-prompt/": ["/one-wish-per-genie/"],  # renamed 2026-10-28
 }
 
 

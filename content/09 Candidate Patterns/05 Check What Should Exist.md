@@ -14,7 +14,7 @@ Zeeguu's crawler assesses every new article with one LLM call, which gives it a 
 
 ## Forces
 
-- **Call-level monitoring answers "did the genie work?", not "do we have what we need?".** A failed call is visible; a call that was skipped, answered something well-formed but wrong, or was made by code that no longer runs is not.
+- **Call-level monitoring answers "did the model work?", not "do we have what we need?".** A failed call is visible; a call that was skipped, answered something well-formed but wrong, or was made by code that no longer runs is not.
 - **LLM failures are partial and plausible.** A spend cap, a rate limit, or a prompt a model reads differently produces a share of missing or odd outputs, not a crash. Logs keep moving, and a 40% failure rate looks like noise in a log.
 - **The output is read late and by few.** An article without a level is simply not shown; nobody reports what they never saw. The gap shows up as a feed that feels thin, days later.
 - **Every check in the pipeline shares the pipeline's assumptions.** A check written in the same code path is skipped when that path is skipped, and is wrong when the prompt it checks against is wrong.
@@ -26,11 +26,11 @@ State, in domain terms, what the pipeline should have produced over a window, an
 
 Calibrate the threshold on recorded healthy days and on a recorded failure, if there is one, and give it a minimum volume, so that small numbers do not fire it. Count intended exclusions back in, or out, explicitly: an article the LLM rejected as paywalled was handled, not missed.
 
-Keep the call-level monitoring as well. The two answer different questions: the outcome check says that something is wrong and how much, the call-level counts say which genie and why.
+Keep the call-level monitoring as well. The two answer different questions: the outcome check says that something is wrong and how much, the call-level counts say which model and why.
 
 ## Solution in Zeeguu
 
-The fix for the cause was provider failover (*One Wish per Genie*), with an email the first time a run fails over. The fix for the symptom was a separate check that ignores the LLM calls entirely and asks the database what the crawler should have produced: of the original articles crawled in the last 24 hours, how many have a level? It runs from cron, outside the crawler, every six hours, and alarms below 80%, overall and per language, with a minimum volume so a quiet language on a quiet day does not trip it ([`feed_delivery_health_check.py`](https://github.com/zeeguu/api/pull/887)). Replayed over August, it would have fired on the first day.
+The fix for the cause was provider failover (*Model-Bound Prompt*), with an email the first time a run fails over. The fix for the symptom was a separate check that ignores the LLM calls entirely and asks the database what the crawler should have produced: of the original articles crawled in the last 24 hours, how many have a level? It runs from cron, outside the crawler, every six hours, and alarms below 80%, overall and per language, with a minimum volume so a quiet language on a quiet day does not trip it ([`feed_delivery_health_check.py`](https://github.com/zeeguu/api/pull/887)). Replayed over August, it would have fired on the first day.
 
 Zeeguu had already learned the same lesson once. On 18 August 2026 the check that verifies a summary is written in the article's language was passing on every call, while the prompt asked for the wrong language on every first attempt; 55 English summaries reached storage before anyone looked. A nightly audit now reads stored summaries back and checks their language, independently of generation. Its crontab entry states the reason: *a check that runs inside the thing it is checking cannot catch the case where that thing was never called.*
 
@@ -39,7 +39,7 @@ Zeeguu had already learned the same lesson once. On 18 August 2026 the check tha
 - **It catches causes nobody has thought of yet.** The check fires on a spend cap, a broken deploy, a skipped code path or a prompt regression alike, because it does not model any of them.
 - **It is slow and coarse by design.** A 24-hour window run every six hours finds an outage hours after it starts, and says only that output is missing. Diagnosis still needs the call-level view.
 - **It encodes a domain fact that has to be maintained.** When the domain changes (Zeeguu dropped its 100-word minimum for assessment), the expectation changes with it, and a stale expectation fires falsely or not at all.
-- **It does not see wrong output that looks right.** A ratio of rows with a level says nothing about whether the levels are right. A model that rejects too many articles as paywalled removes them from the denominator and leaves the ratio healthy; that divergence is caught by evaluating the wish on each genie (*One Wish per Genie*), or by a check on the rejection rate.
+- **It does not see wrong output that looks right.** A ratio of rows with a level says nothing about whether the levels are right. A model that rejects too many articles as paywalled removes them from the denominator and leaves the ratio healthy; that divergence is caught by evaluating the prompt on each model (*Model-Bound Prompt*), or by a check on the rejection rate.
 - **It adds a job to run and to keep quiet.** Each outcome check is one more alarm, and alarms that fire on noise get ignored; the calibration step is what keeps it worth reading.
 
 ## Known Uses

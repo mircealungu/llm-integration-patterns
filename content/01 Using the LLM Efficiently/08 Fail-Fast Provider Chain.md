@@ -28,7 +28,7 @@ Zeeguu uses a unified LLM service proxy which tries Anthropic first; on any erro
 
 - **The request survives an outage, and latency stays bounded.** A dead or slow provider no longer fails the request, and skipping retries keeps the worst case tight.
 - **It shines on real-time paths, less so offline.** Where a user waits, spending the budget on a retry against a failing provider is the wrong move. For offline or batched work nobody is waiting, so retry-and-backoff, even retrying the cheaper provider first, is more affordable.
-- **Interchangeable is a claim to check, not an assumption.** A prompt tuned on one provider can mean something different to the next one, and the difference arrives as well-formed but different answers. Which models may stand in for each other, and with which prompt, is declared and evaluated per feature (*One Wish per Genie*).
+- **Interchangeable is a claim to check, not an assumption.** A prompt tuned on one provider can mean something different to the next one, and the difference arrives as well-formed but different answers. Which models may stand in for each other, and with which prompt, is declared and evaluated per feature (*Model-Bound Prompt*).
 - **Cost attribution shifts to whoever served.** A fallback changes which provider is billed and at what rate (composes with *Per-User Consumption Budget* and *Centralized Model Selection*).
 
 ## Known Uses
