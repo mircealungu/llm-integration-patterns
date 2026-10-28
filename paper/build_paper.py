@@ -15,7 +15,8 @@ This script adds only a thin, paper-only layer on top:
                     `13 Acknowledgments.md` prose section in the MANIFEST, not a
                     hoisted callout.)
   - `<!-- paper-skip -->…<!-- /paper-skip -->` regions are dropped (website-only
-    framing such as the "What is this?" intro).
+    framing such as the "What is this?" intro). `<!-- site-skip -->` regions
+    are the mirror: kept here, dropped from the website.
   - Obsidian `![[img|width]]` embeds -> pandoc figures.
 
 Pipeline:  vault .md  ->  assemble one body.md  ->  pandoc -t latex  ->
@@ -163,6 +164,8 @@ SYMBOL_MATH = {
 
 
 def strip_paper_skip(text):
+    # <!-- site-skip --> marks PDF-only content: keep it, drop the markers.
+    text = re.sub(r"<!--\s*/?site-skip\s*-->", "", text)
     return re.sub(r"<!--\s*paper-skip\s*-->.*?<!--\s*/paper-skip\s*-->",
                   "", text, flags=re.S)
 

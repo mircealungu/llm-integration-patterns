@@ -102,7 +102,11 @@ def process_callouts(text: str) -> str:
 
 def strip_paper_skip(text: str) -> str:
     """Drop <!-- paper-skip -->…<!-- /paper-skip --> only marks paper-only cuts;
-    the site keeps that content, so here we just remove the marker comments."""
+    the site keeps that content, so here we just remove the marker comments.
+    <!-- site-skip -->…<!-- /site-skip --> is the mirror: PDF-only content
+    (such as the core pattern map), dropped from the site."""
+    text = re.sub(r"<!--\s*site-skip\s*-->.*?<!--\s*/site-skip\s*-->",
+                  "", text, flags=re.S)
     return re.sub(r"<!--\s*/?paper-skip\s*-->", "", text)
 
 
