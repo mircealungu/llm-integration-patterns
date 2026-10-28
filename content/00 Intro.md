@@ -31,3 +31,16 @@ Putting a component with these properties into a live, user-facing system pulls 
 Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.org), an open-source platform for personalized language learning that helps users learn foreign languages by enabling them to read authentic online content (real articles, not textbook exercises). Through this work, we have identified a set of architectural patterns for LLM integration, several of them corroborated by documented use in other systems. Because these pressures come from the LLM itself and from the ordinary demands of a live application, not from anything specific to language learning, we expect them, and the patterns that resolve them, to recur wherever LLMs are integrated into user-facing systems.
 
 The remainder of the paper is organized as follows. Section 2 describes how the patterns were identified and how the resulting claims were checked. Section 3 introduces Zeeguu, the platform that grounds every example. The catalog then follows in three themes, using the LLM efficiently (Section 4), trusting its output (Section 5), and managing change over time (Section 6), each pattern given in the same format: context, problem, forces, solution, consequences, known uses and related patterns. The Zeeguu case follows the problem and again the solution, and some patterns end with a war story, a Zeeguu experience that cautions. Section 7 asks what makes these patterns specific to LLMs, and the paper closes with related work, limitations, and conclusions.
+
+### How the Patterns Fit Together
+
+The patterns are not independent. Most of them sit along the path of one LLM task, from the request that reaches the model to the stored output that a user reads and flags.
+
+<!-- paper-skip -->
+![[pattern-map.svg]]
+*How the patterns fit around one LLM task. A model and its prompt are versioned as one pair. Their output may be checked, is cleaned up, and is stored with a stamp and a validation state, which a user's flag can lower. A monitor compares what was stored with what should exist. The cost patterns sit around this pipeline, not in it: they decide what reaches the model, in what batches, ahead of time or on demand, and what will one day replace it. Names in bold are in the PLoP paper. Dashed boxes are candidate patterns.*
+<!-- /paper-skip -->
+<!-- site-skip -->
+![[pattern-map-core.svg]]
+*How the patterns fit around one LLM task. A model and its prompt are versioned as one pair. Their output may be checked, is cleaned up, and is stored with a stamp and a validation state, which a user's flag can lower. The cost patterns sit around this pipeline, not in it: they decide what reaches the model, in what batches, ahead of time or on demand, and what will one day replace it. Names in bold are patterns in this paper; names in italics are described on the companion website.*
+<!-- /site-skip -->

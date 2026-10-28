@@ -37,6 +37,16 @@ Over the past year, we have been integrating LLMs into [Zeeguu](https://zeeguu.o
 
 The remainder of the paper is organized as follows. Section 2 describes how the patterns were identified and how the resulting claims were checked. Section 3 introduces Zeeguu, the platform that grounds every example. The catalog then follows in three themes, using the LLM efficiently (Section 4), trusting its output (Section 5), and managing change over time (Section 6), each pattern given in the same format: context, problem, forces, solution, consequences, known uses and related patterns. The Zeeguu case follows the problem and again the solution, and some patterns end with a war story, a Zeeguu experience that cautions. Section 7 asks what makes these patterns specific to LLMs, and the paper closes with related work, limitations, and conclusions.
 
+### How the Patterns Fit Together
+
+The patterns are not independent. Most of them sit along the path of one LLM task, from the request that reaches the model to the stored output that a user reads and flags.
+
+
+<figure class="img">
+  <a href="/images/pattern-map.svg"><img src="/images/pattern-map.svg" alt="How the patterns fit around one LLM task. A model and its prompt are versioned as one pair. Their output may be checked, is cleaned up, and is stored with a stamp and a validation state, which a user&#x27;s flag can lower. A monitor compares what was stored with what should exist. The cost patterns sit around this pipeline, not in it: they decide what reaches the model, in what batches, ahead of time or on demand, and what will one day replace it. Names in bold are in the PLoP paper. Dashed boxes are candidate patterns."></a>
+  <figcaption>How the patterns fit around one LLM task. A model and its prompt are versioned as one pair. Their output may be checked, is cleaned up, and is stored with a stamp and a validation state, which a user&#x27;s flag can lower. A monitor compares what was stored with what should exist. The cost patterns sit around this pipeline, not in it: they decide what reaches the model, in what batches, ahead of time or on demand, and what will one day replace it. Names in bold are in the PLoP paper. Dashed boxes are candidate patterns.</figcaption>
+</figure>
+
 ## Case Studies
 
 - [Zeeguu](zeeguu/)

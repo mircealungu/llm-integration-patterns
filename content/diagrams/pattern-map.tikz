@@ -11,7 +11,10 @@
 % the same set.
 % Middle: its output is used as is or checked first, then cleaned up. Right: the stored row,
 % its stamp and its validation state. Below: the user, and the
-% feedback that lowers the state; the user's next request runs the task again.
+% feedback that lowers the state. Around it, the cost patterns: a request goes
+% to a cheap tool first and escalates to the task on demand (one item, a user
+% waiting: no batch); a scheduled job's predicted items are batched
+% into the task, and the stored rows train the model that later replaces it.
 % Pattern names are navy: bold if the pattern is in the PDF (paper/paper-set.txt),
 % italic if it is not. Candidate boxes are dashed.
 \definecolor{navy}{HTML}{1E3A8A}
@@ -68,20 +71,37 @@
 \node[pat, anchor=south, align=center] at (10.5,0.4) {Track\\Output\\Provenance};
 \node[pat, anchor=south, align=center] at (12.05,0.4) {LLM Content\\Validation\\Tracking};
 \ifcandidates
-  \node[mini, cand, minimum width=11mm] (watch) at (13.5,0) {count};
-  \draw[sarr] (state.east) -- (watch.west);
-  \node[patx, anchor=north, align=center] at (13.5,-0.45) {Check What\\Should\\Exist};
+  % reads the stored rows (not their state) and compares with what should exist
+  \node[mini, cand] (watch) at (13.45,-1.15) {monitor};
+  \draw[sarr] (state.east) -| node[pos=0.25, above, data] {rows} (watch.north);
+  \node[patx, anchor=north, align=center] at (13.45,-2.75) {Check What\\Should Exist};
+  \draw[sarr, color=badc] (watch.south) -- node[left, badcond] {too few} (13.45,-2.3);
+  \node[bad, anchor=north] at (13.45,-2.3) {alert};
 \fi
 
 % --- serving and the user
-\node[mini, minimum width=16mm] (user) at (9.3,-2.4) {user};
+\node[mini, minimum width=16mm] (user) at (9.3,-2.75) {user};
 \draw[sarr] (content.south) -- (user);
-\node[mini, minimum width=16mm] (report) at (11.9,-2.4) {report};
-\node[patx, anchor=north, align=center] at (11.9,-2.85) {Targeted\\User Feedback};
+\node[mini, minimum width=16mm] (report) at (11.9,-2.75) {report};
+\node[patx, anchor=north, align=center] at (11.9,-3.2) {Targeted\\User Feedback};
 \draw[sarr] (user) -- node[above, data] {flag} (report);
 \draw[sarr] (report) -- node[right, data] {lowers} (state.south);
 \ifcandidates
-  \node[patx, anchor=east, align=right] at (11.7,-1.2) {Soft Invalidation\\of LLM Artifacts};
+  \node[patx, anchor=east, align=right] at (11.7,-1.3) {Soft Invalidation\\of LLM Artifacts};
 \fi
-\draw[sarr] (user.west) -| node[pos=0.25, above, data] {next request} (\outer.south);
+
+% --- the cost patterns, around the pipeline: what reaches the task, and when
+\node[mini, multi, minimum width=16mm] (batch) at (2.6,-2.75) {batch\\[-1pt]{\footnotesize n per call}};
+\node[pat, anchor=east, align=right] at (1.6,-2.75) {Prompt\\Amortization};
+\draw[sarr] (batch.north) -- (batch.north |- \outer.south);
+\node[mini, multi, minimum width=18mm] (cheap) at (6.55,-2.75) {cheap tool\\[-1pt]{\footnotesize answers first}};
+\node[pat, anchor=north, align=center] at (6.55,-3.25) {Escalate\\to the LLM};
+\draw[sarr] (user) -- node[above, data] {request} (cheap);
+\draw[sarr] (cheap.west) -| node[pos=0.3, above, data] {escalates} ([xshift=8mm]\outer.south);
+\node[mini, multi, minimum width=16mm] (sched) at (2.6,-4.25) {scheduled\\[-1pt]{\footnotesize predicted}};
+\node[pat, anchor=west, align=left] at (sched.east) {Anticipatory\\Precomputation};
+\draw[sarr] (sched) -- (batch);
+\node[mini, multi, minimum width=18mm] (own) at (11.9,2.75) {own model\\[-1pt]{\footnotesize replaces the LLM}};
+\node[pat, anchor=south] at (own.north) {Rent, Then Build};
+\draw[sarr] (content.north) |- node[pos=0.4, left, data] {training data} (own.west);
 \end{tikzpicture}
