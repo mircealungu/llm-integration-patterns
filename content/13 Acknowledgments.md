@@ -1,3 +1,5 @@
 # Acknowledgments
 
 We thank Viktor Matovič, our shepherd at PLoP, for feedback that strengthened the paper throughout, and above all for his insistence that patterns be observed rather than asserted, which improved our methodology and ultimately changed the catalog itself. We thank Souhaila Serbout, Oscar Nierstrasz, and Diomidis Spinellis for feedback and discussions on earlier versions of this work. We are also grateful to the participants of the EuroPLoP focus group, whose discussion sharpened several patterns, from their naming to their relationship with both older, non-LLM patterns and the emerging LLM-gateway infrastructure.
+
+This work was supported by Villum Fonden through the Villum Experiment grant *Hyper-Personalized Learning Paths Through the Internet: A Sustainable Approach to Accelerating Language Education* (project no. 58881).

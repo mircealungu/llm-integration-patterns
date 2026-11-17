@@ -1,7 +1,7 @@
 \documentclass[tikz,border=4pt]{standalone}
 \input{style}
 \usetikzlibrary{backgrounds}
-% Defensive Output Parsing: a provider that enforces a schema sends JSON straight
+% Treat LLM Output as Untrusted Input: a provider that enforces a schema sends JSON straight
 % to the check; one that does not needs its syntax repaired in code first. Either
 % way code checks what no schema guarantees (complete, not refused, indices in
 % range), and degrades to a fallback instead of raising.
@@ -19,7 +19,7 @@
 \node[ok, anchor=west] (use) at (10.3,0) {\checkmark\ use it};
 \draw[sarr, color=okc] (chk) -- node[above, okcond] {yes} (use);
 \draw[sarr, color=badc] ([xshift=5mm]chk.south) |- node[pos=0.75, below, badcond] {no} (10.3,-1.6);
-\node[bad, anchor=west, align=left] at (10.3,-1.6) {fallback:\\default, skip, retry};
+\node[bad, anchor=west, align=left] at (10.3,-1.6) {fallback:\\safe default, skip,\\retry; log it};
 
 \begin{scope}[on background layer]
 \node[fill=ink!7, rounded corners=6pt, inner sep=2.5mm, fit=(fix)(chk)] (code) {};

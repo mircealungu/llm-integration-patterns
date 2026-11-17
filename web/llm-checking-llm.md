@@ -70,7 +70,7 @@ A check that works can still not be worth what it costs. Zeeguu ran a second cal
 
 ## Related Patterns
 
-[Defensive Output Parsing](../defensive-output-parsing/) checks that an output is well-*formed*; this pattern checks that a well-formed output is *correct*. A failed check can feed [Reject and Reprompt](../reject-and-reprompt/). Whatever happens on a failure, the verdict itself, pass or fail, can be stored with the output by [LLM Content Validation Tracking](../llm-content-validation-tracking/), so later code knows what was checked.
+[Treat LLM Output as Untrusted Input](../treat-llm-output-as-untrusted-input/) checks in code what code can decide, such as the format, the language, or whether a word is present; this pattern asks a model what code cannot decide, such as whether the word is used in the right sense. The cheap check in code runs first. A failed check can feed [Reject and Reprompt](../reject-and-reprompt/). Whatever happens on a failure, the verdict itself, pass or fail, can be stored with the output by [LLM Content Validation Tracking](../llm-content-validation-tracking/), so later code knows what was checked.
 
 The second call is not more generation. An ensemble averages several generations, and chain-of-thought elaborates one; this pattern spends the call on verification instead. Nor is it self-correction: a model asked to revise its own reasoning with no new signal shows no such gain and can even get worse ([Huang et al.](https://arxiv.org/abs/2310.01798), [Stechly et al.](https://arxiv.org/abs/2402.08115)). The check works because it asks a *different* question in a *separate* call, much as checking a proposed answer is often easier than finding one.
 
@@ -79,6 +79,6 @@ The second call is not more generation. An ensemble averages several generations
 
 
 ---
-<div class="pattern-footer-nav"><a class="nav-prev" href="../defensive-output-parsing/">← Defensive Output Parsing</a><a class="nav-next" href="../llm-content-validation-tracking/">LLM Content Validation Tracking →</a></div>
+<div class="pattern-footer-nav"><a class="nav-prev" href="../treat-llm-output-as-untrusted-input/">← Treat LLM Output as Untrusted Input</a><a class="nav-next" href="../llm-content-validation-tracking/">LLM Content Validation Tracking →</a></div>
 
 [💬 Open an issue about this pattern](https://github.com/mircealungu/llm-integration-patterns/issues/new?title=%5BLLM-Checking-LLM%5D+&labels=feedback%2Ctrusting-llm-output&body=%2A%2ARe%3A%2A%2A+LLM-Checking-LLM%0A%2A%2ASection%3A%2A%2A+Trusting+LLM+Output%0A%2A%2APage%3A%2A%2A+https%3A%2F%2Fllm-patterns.mircealungu.com%2Fllm-checking-llm%2F%0A%0A%3C%21--+Your+feedback%2C+example%2C+or+counter-example+goes+here.+--%3E)

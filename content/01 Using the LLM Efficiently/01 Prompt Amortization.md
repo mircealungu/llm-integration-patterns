@@ -53,7 +53,7 @@ Fan-out also has a case where Zeeguu went back to one call per item. It used to 
 
 - **Cost and latency amortize with batch size.** The fixed preamble is paid once per call instead of once per item, so per-item token cost *and* wall-clock latency fall roughly inversely with the batch size.
 - **A batch size to tune, and to tune again.** The size that works depends on the model, the prompt and the items, and only measuring finds it. Nothing signals when a new model or a longer prompt has moved it, so it has to be measured again after each change.
-- **Outputs have to be matched back to their items.** A batched answer can skip an item or stop short, so the code checks which items got a usable output, rather than assuming they line up, and sends the rest again (*Defensive Output Parsing*).
+- **Outputs have to be matched back to their items.** A batched answer can skip an item or stop short, so the code checks which items got a usable output, rather than assuming they line up, and sends the rest again (*Treat LLM Output as Untrusted Input*).
 - **Fan-in adds a wait.** Items sit until a batch fills, so each result arrives later than it would on its own. This is why the pattern needs work that nobody is waiting on.
 
 ## Known Uses

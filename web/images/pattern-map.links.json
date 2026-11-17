@@ -2,11 +2,11 @@
  "aspect": 1.65751,
  "links": [
   {
-   "slug": "defensive-output-parsing",
-   "x0": 0.01509,
-   "y0": 0.40363,
+   "slug": "treat-llm-output-as-untrusted-input",
+   "x0": 0.00903,
+   "y0": 0.38592,
    "x1": 0.16215,
-   "y1": 0.49722
+   "y1": 0.51493
   },
   {
    "slug": "regression-set-per-llm-task",
@@ -17,9 +17,9 @@
   },
   {
    "slug": "model-bound-prompt",
-   "x0": 0.33375,
+   "x0": 0.33183,
    "y0": 0.01509,
-   "x1": 0.49612,
+   "x1": 0.4942,
    "y1": 0.0716
   },
   {

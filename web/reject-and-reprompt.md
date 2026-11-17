@@ -14,7 +14,7 @@ permalink: /reject-and-reprompt/
 
 ## Context
 
-A check inspects each LLM output after it is generated. Code can fix some of the defects it finds. The check rejects the rest, and the only way to a correct result is to generate the output again.
+A check inspects each LLM output after it is generated: code, as in [Treat LLM Output as Untrusted Input](../treat-llm-output-as-untrusted-input/), or a second model, as in [LLM-Checking-LLM](../llm-checking-llm/). Code can fix some of the defects the check finds. The check rejects the rest, and the only way to a correct result is to generate the output again.
 
 ## Problem
 
@@ -90,7 +90,7 @@ The first fix for the silent lessons was a retry. When a reply came back as pros
 
 ## Related Patterns
 
-[Defensive Output Parsing](../defensive-output-parsing/) handles output that is malformed rather than wrong. It recovers what it can from the reply in hand, and fixes a stable, well-understood defect in place, with no second call. [LLM-Checking-LLM](../llm-checking-llm/) spends a second LLM call on the check, and names this loop as one way to act on a failed check.
+This pattern owns no check of its own; it decides what happens when a check fails. The check comes from [Treat LLM Output as Untrusted Input](../treat-llm-output-as-untrusted-input/), which decides in code what code can decide and repairs known formatting errors in place, with no second call, or from [LLM-Checking-LLM](../llm-checking-llm/), which spends a second LLM call on what code cannot decide. Both name this loop as one way to act on a failed check.
 
 [LLM Content Validation Tracking](../llm-content-validation-tracking/) records the checks run on stored content. The refusal record does a different job: it keeps the system from attempting the work again. It matters most under [Anticipatory Precomputation](../anticipatory-precomputation/), where a scheduled job would otherwise rediscover the same refusal on every run.
 

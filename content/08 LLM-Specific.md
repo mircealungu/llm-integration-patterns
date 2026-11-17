@@ -3,7 +3,7 @@
 Some of these patterns echo general distributed systems wisdom: batching (as in *Prompt Amortization*), tiered service, a cheap tier first and a costly one on demand (as in *Escalate to the LLM*), and the redundant dispatch of Zeeguu's parallel translation providers (not cataloged here as a pattern of its own). What makes them distinctly relevant to LLM integration is the combination of forces that arise when an LLM's properties meet the demands of a live system:
 
 * **Cost structure**: per-token pricing with high fixed prompt overhead, unlike flat-rate API calls (drives *Prompt Amortization*, *Escalate to the LLM*, *Anticipatory Precomputation*).
-* **Non-determinism**: the same input can yield a different, or malformed, output, so correctness must be enforced around the model (drives *Defensive Output Parsing*, *LLM-Checking-LLM*, *LLM Content Validation Tracking*).
+* **Non-determinism**: the same input can yield a different, or malformed, output, so correctness must be enforced around the model (drives *Treat LLM Output as Untrusted Input*, *LLM-Checking-LLM*, *LLM Content Validation Tracking*).
 * **Asymmetry between generation and verification**: answering one narrow question about an output is easier than producing it (drives *LLM-Checking-LLM*).
 * **General-purpose capability**: the same component can serve as prototype, primary, or fallback (drives *Rent, Then Build* and *Escalate to the LLM*).
 * **A rapidly evolving, vendor-controlled substrate**: models and prompts improve and are deprecated on the vendor's schedule, underneath long-lived data (drives *Track Output Provenance*).

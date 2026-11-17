@@ -2,11 +2,11 @@
  "aspect": 1.54311,
  "links": [
   {
-   "slug": "defensive-output-parsing",
-   "x0": 0.01634,
-   "y0": 0.39903,
+   "slug": "treat-llm-output-as-untrusted-input",
+   "x0": 0.00977,
+   "y0": 0.38119,
    "x1": 0.17552,
-   "y1": 0.49334
+   "y1": 0.51119
   },
   {
    "slug": "centralized-model-selection",

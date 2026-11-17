@@ -3,7 +3,7 @@
 % Not a .tex file, so build.sh does not build it on its own; after changing
 % it, run ./build.sh pattern-map pattern-map-core.
 %
-% Left: the model and its prompt (with the parser that reads its answer),
+% Left: the model and its prompt (with the code check that reads its answer),
 % versioned as one pair. Outside it, one central table maps each task to its
 % models (main, then backup); the model only references it (a dot-ended line,
 % as in the provenance diagram: not data flow). With candidates, the pair sits
@@ -46,10 +46,10 @@
 % --- the model and its prompt (and, with candidates, the task around them)
 \node[mini, minimum width=18mm] (prompt) at (3.0,2.7) {prompt v3};
 \node[minillm, minimum width=18mm] (llm) at (3.0,1.35) {LLM};
-\node[mini, minimum width=18mm] (parser) at (3.0,0) {parser};
+\node[mini, minimum width=18mm] (parser) at (3.0,0) {code check};
 \draw[sarr] (prompt) -- (llm);
 \draw[sarr] (llm) -- (parser);
-\node[pat, link=defensive-output-parsing, anchor=east, align=right] at (1.85,0) {Defensive\\Output Parsing};
+\node[pat, link=treat-llm-output-as-untrusted-input, anchor=east, align=right] at (1.85,0) {Treat LLM\\Output as\\Untrusted Input};
 \ifcandidates
   \node[box, inner sep=3pt, rounded corners=3pt, fit={(prompt)(parser)}] (pair) {};
   \node[mini, cand, minimum width=18mm] (tests) at (3.0,-1.35) {tests};
@@ -74,7 +74,9 @@
 \node[mini, minimum width=14mm] (post) at (7.75,0) {clean up};
 \node[patx, link=deterministic-postprocessing, anchor=north, align=center] at (7.75,-0.45) {Deterministic\\Postprocessing};
 \draw[sarr] (parser.east) -- node[below, data, pos=0.6] {output} (post.west);
-\draw[sarr] (4.5,0) |- (check.west);
+\draw[sarr] (4.75,0) |- (check.west);
+% the code check rejects too: its red line joins the reject arrow back to the prompt
+\draw[color=badc, line width=0.8pt] ([yshift=1.6mm]parser.east) -| (4.3,2.7);
 \draw[sarr, color=okc] (check.east) -| node[pos=0.7, right, okcond] {pass} (6.85,0.05);
 \draw[sarr, color=badc] (check.north) |- (prompt.east);
 \node[badcond, anchor=west] at (5.75,2.25) {reject};

@@ -62,7 +62,7 @@ A check that works can still not be worth what it costs. Zeeguu ran a second cal
 
 ## Related Patterns
 
-*Defensive Output Parsing* checks that an output is well-*formed*; this pattern checks that a well-formed output is *correct*. A failed check can feed *Reject and Reprompt*. Whatever happens on a failure, the verdict itself, pass or fail, can be stored with the output by *LLM Content Validation Tracking*, so later code knows what was checked.
+*Treat LLM Output as Untrusted Input* checks in code what code can decide, such as the format, the language, or whether a word is present; this pattern asks a model what code cannot decide, such as whether the word is used in the right sense. The cheap check in code runs first. A failed check can feed *Reject and Reprompt*. Whatever happens on a failure, the verdict itself, pass or fail, can be stored with the output by *LLM Content Validation Tracking*, so later code knows what was checked.
 
 The second call is not more generation. An ensemble averages several generations, and chain-of-thought elaborates one; this pattern spends the call on verification instead. Nor is it self-correction: a model asked to revise its own reasoning with no new signal shows no such gain and can even get worse ([Huang et al.](https://arxiv.org/abs/2310.01798), [Stechly et al.](https://arxiv.org/abs/2402.08115)). The check works because it asks a *different* question in a *separate* call, much as checking a proposed answer is often easier than finding one.
 

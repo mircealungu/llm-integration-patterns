@@ -67,7 +67,7 @@ The patterns are not independent. Most of them sit along the path of one LLM tas
 - [Per-User Consumption Budget](per-user-consumption-budget/)
 
 ### [Trusting LLM Output](trusting-llm-output/)
-- [Defensive Output Parsing](defensive-output-parsing/) <span style="color:#c8a415">★</span>
+- [Treat LLM Output as Untrusted Input](treat-llm-output-as-untrusted-input/) <span style="color:#c8a415">★</span>
 - [LLM-Checking-LLM](llm-checking-llm/) <span style="color:#c8a415">★</span>
 - [LLM Content Validation Tracking](llm-content-validation-tracking/) <span style="color:#c8a415">★</span>
 - [Deterministic Postprocessing](deterministic-postprocessing/)

@@ -35,7 +35,7 @@ The pin then cost more than the misdiagnosis. With one provider left, Anthropic'
 
 - **Every model reads the same prompt its own way.** Like a genie that grants a wish exactly as worded, each model acts on the words as it reads them, and models differ in how they read them: ambiguous instructions, formatting habits, readiness to stop early. A prompt iterated on one model ends up worded for that model, without anyone deciding so.
 - **Provider APIs look interchangeable.** The request shape is the same (messages in, text out), so the switch is one line, and the type checker and tests have nothing to say about it.
-- **Divergence arrives as plausible data, not as errors.** A model that rejects 19% of articles instead of 3% returns well-formed answers. [Defensive Output Parsing](../defensive-output-parsing/) catches a malformed answer; it cannot catch a well-formed answer to a slightly different question.
+- **Divergence arrives as plausible data, not as errors.** A model that rejects 19% of articles instead of 3% returns well-formed answers. [Treat LLM Output as Untrusted Input](../treat-llm-output-as-untrusted-input/) catches a malformed answer; it cannot catch a well-formed answer to a slightly different question.
 - **Fallback paths run rarely.** A path taken only during an outage is the least exercised code in the system, and it runs exactly when nobody is watching the output closely.
 - **Variants cost upkeep.** A prompt per model per feature multiplies the prompts to maintain and re-check whenever a model changes.
 

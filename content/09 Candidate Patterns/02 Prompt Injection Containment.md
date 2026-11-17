@@ -17,7 +17,7 @@ Never let raw untrusted text flow into a consequential prompt as-is. Contain it 
 
 - **Structural caps first**: length / character limits reject obvious payloads before any model runs (free, deterministic).
 - **Gate-and-canonicalize**: a cheap, low-temperature classifier (LLM or classical) validates the input *and replaces it with a short normalized canonical form*; downstream prompts consume the canonical form, not the original. Reducing untrusted free text to a 2–5 word token is itself a strong injection defense: there is almost no room left to smuggle instructions.
-- **Narrow the task and constrain the output**: a prompt that can only emit a 1–3 word translation, validated by *Defensive Output Parsing*, bounds what a successful injection achieves even without sanitizing the input.
+- **Narrow the task and constrain the output**: a prompt that can only emit a 1–3 word translation, checked in code as in *Treat LLM Output as Untrusted Input*, bounds what a successful injection achieves even without sanitizing the input.
 - **Fail safe**: on validator error, degrade to the most restrictive behavior the feature can tolerate, never to "pass the raw text through."
 
 Match containment strength to consequence: the audio pipeline (multi-step, persists artifacts, real cost) earns a dedicated gatekeeper call; a throwaway inline translation leans on scoping and output validation.
@@ -28,7 +28,7 @@ Zeeguu contains the two with very different strength.
 
 **Audio-lesson suggestions (strong containment).** A user types a free-text topic or situation for a listening lesson, which then drives an expensive multi-step generation pipeline (script → text-to-speech → stored artifact). `suggestion_validator` contains the input in layers: hard length caps (2–80 characters) reject oversized payloads before any model runs; then a cheap, temperature-0 LLM *gatekeeper* classifies the input (`invalid` / `niche` / `general`) **and canonicalizes it to a short 2–5 word normalized topic** in the user's native language. The downstream generator consumes the *canonical form*, not the raw text, so an injected instruction ("ignore your rules and…") is either rejected as `invalid` or collapsed into a 2–5 word topic, and never reaches the generator verbatim.
 
-**On-demand "Ask AI" translation (light containment).** The learner's clicked word and the surrounding article sentence are inserted into the prompt. The context here is third-party web content the app ingested, so it is *also* untrusted. Containment is implicit rather than explicit: the task is deliberately narrow ("translate the word in context, 1–3 words"), the expected output is tightly constrained, and *Defensive Output Parsing* rejects anything that is not a short translation. This bounds the blast radius rather than sanitizing the input.
+**On-demand "Ask AI" translation (light containment).** The learner's clicked word and the surrounding article sentence are inserted into the prompt. The context here is third-party web content the app ingested, so it is *also* untrusted. Containment is implicit rather than explicit: the task is deliberately narrow ("translate the word in context, 1–3 words"), the expected output is tightly constrained, and *Treat LLM Output as Untrusted Input* rejects anything that is not a short translation. This bounds the blast radius rather than sanitizing the input.
 
 ## Relationship to LLM Gateways
 
@@ -36,7 +36,7 @@ Some gateways offer prompt-injection / content guardrails (Portkey guardrails, L
 
 ## Status
 
-Partly implemented: the audio-lesson suggestion validator is a full instance; translation relies on task-narrowing plus defensive parsing; the third-party article-context vector is only partially addressed. Included as a candidate to discuss the boundary with *Defensive Output Parsing* and *LLM-Checking-LLM*: whether "contain untrusted input" and "validate untrusted output" are two halves of one pattern or two.
+Partly implemented: the audio-lesson suggestion validator is a full instance; translation relies on task-narrowing plus checks in code; the third-party article-context vector is only partially addressed. Included as a candidate to discuss the boundary with *Treat LLM Output as Untrusted Input* and *LLM-Checking-LLM*: whether "contain untrusted input" and "validate untrusted output" are two halves of one pattern or two.
 
 ## Known Uses
 
@@ -46,6 +46,6 @@ Partly implemented: the audio-lesson suggestion validator is a full instance; tr
 
 ## Notes
 
-- Composes with *Defensive Output Parsing*, constraining and validating the *output* is the second half of containment: limit what goes in *and* what can come out. It also composes with *LLM-Checking-LLM*: the gatekeeper is a checker specialized for safety rather than quality.
+- Composes with *Treat LLM Output as Untrusted Input*, constraining and validating the *output* is the second half of containment: limit what goes in *and* what can come out. It also composes with *LLM-Checking-LLM*: the gatekeeper is a checker specialized for safety rather than quality.
 - **Honest gap:** the article-context vector is only *partially* contained. Article text is third-party and could carry injection; today's defense there is task-narrowing plus output constraint, not context sanitization. We flag this rather than claim full coverage.
 - **Fail-open vs. fail-closed:** `suggestion_validator` deliberately *fails open*: on LLM error it lets the suggestion through with only basic sanitization, trading safety for availability on a low-stakes feature. A higher-stakes surface should fail *closed*. Making that choice explicit per feature is part of the pattern.
