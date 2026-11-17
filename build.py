@@ -174,6 +174,7 @@ def render_embeds(text: str) -> str:
 REDIRECT_FROM = {
     "/track-output-provenance/": ["/llm-output-provenance/"],  # renamed 2026-10-25
     "/model-bound-prompt/": ["/one-wish-per-genie/"],  # renamed 2026-10-28
+    "/treat-llm-output-as-untrusted-input/": ["/defensive-output-parsing/"],  # renamed 2026-11-05
 }
 
 

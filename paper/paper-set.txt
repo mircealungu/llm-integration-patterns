@@ -3,7 +3,7 @@
 prompt-amortization
 escalate-to-the-llm
 anticipatory-precomputation
-defensive-output-parsing
+treat-llm-output-as-untrusted-input
 llm-checking-llm
 llm-content-validation-tracking
 track-output-provenance
